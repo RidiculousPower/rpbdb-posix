@@ -1,0 +1,5 @@
+RPDB is an object-oriented database environment built on top of Oracle's Berkeley Database. 
+This is the C-level implementation of the library, which primarily functions as an
+object-oriented wrapper for BDB's C library. While it can be used directly, its intended
+design is to be used via native RPBD Ruby or Cocoa bindings, which wrap the RPBD C library's
+object-oriented design in actual object-oriented language. 
