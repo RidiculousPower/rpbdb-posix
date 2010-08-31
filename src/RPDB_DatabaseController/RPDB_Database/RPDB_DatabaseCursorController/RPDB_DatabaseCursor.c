@@ -860,6 +860,27 @@ RPDB_Record* RPDB_DatabaseCursor_retrieveCurrent( RPDB_DatabaseCursor* database_
 }
 
 /****************
+*  setToFirst  *
+****************/
+
+//	DB_FIRST				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_get.html
+BOOL RPDB_DatabaseCursor_setToFirst( RPDB_DatabaseCursor* database_cursor )	{
+	RPDB_Record*	first_record	=	RPDB_Record_new( database_cursor->parent_database_cursor_controller->parent_database );
+	
+	RPDB_DatabaseCursor_internal_retrieveFirst(	database_cursor,
+																							first_record );
+	
+	BOOL has_record	=	FALSE;
+	if ( first_record->result )	{
+		has_record	=	TRUE;
+	}
+
+	RPDB_Record_free( & first_record );
+
+	return has_record;
+}
+
+/****************
 *  first  *
 ****************/
 
@@ -1067,7 +1088,13 @@ RPDB_Record* RPDB_DatabaseCursor_iterate(	RPDB_DatabaseCursor*	database_cursor,
 																					RPDB_Record*					record )	{
 
 	RPDB_DatabaseCursor_internal_ensureOpen( database_cursor );
-
+	
+	//	if we have a null record, instantiate it
+	//	caller responsible for freeing
+	if ( record == NULL )	{
+		record = RPDB_Record_new( database_cursor->parent_database_cursor_controller->parent_database );
+	}
+	
 	//	Args:
 	//	0 args: intelligent iteration
 	//	1 arg: if true - force iterate all 
@@ -1106,6 +1133,12 @@ RPDB_Record* RPDB_DatabaseCursor_iterateDuplicates( RPDB_DatabaseCursor*	databas
 	
 	RPDB_DatabaseCursor_internal_ensureOpen( database_cursor );
 
+	//	if we have a null record, instantiate it
+	//	caller responsible for freeing
+	if ( record == NULL )	{
+		record = RPDB_Record_new( database_cursor->parent_database_cursor_controller->parent_database );
+	}
+
 	if ( database_cursor->duplicate_iteration_started == FALSE )	{
 		RPDB_DatabaseCursor_internal_retrieveCurrent( database_cursor,
 																									record );
@@ -1138,6 +1171,12 @@ RPDB_Record* RPDB_DatabaseCursor_iterateKeys( RPDB_DatabaseCursor* database_curs
 																							RPDB_Record*					record  )	{
 	
 	RPDB_DatabaseCursor_internal_ensureOpen( database_cursor );
+
+	//	if we have a null record, instantiate it
+	//	caller responsible for freeing
+	if ( record == NULL )	{
+		record = RPDB_Record_new( database_cursor->parent_database_cursor_controller->parent_database );
+	}
 
 	if ( database_cursor->iteration_started == FALSE )	{
 		RPDB_DatabaseCursor_internal_retrieveCurrent( database_cursor,
@@ -1490,6 +1529,10 @@ RPDB_Record* RPDB_DatabaseCursor_internal_retrieveRecord(	RPDB_DatabaseCursor*		
 				return NULL;
 			}
 		}
+		else {
+			record->result = TRUE;
+		}
+
 	}
 	//	Otherwise we are retrieving a primary key/data pair
 	else	{
@@ -1516,9 +1559,24 @@ RPDB_Record* RPDB_DatabaseCursor_internal_retrieveRecord(	RPDB_DatabaseCursor*		
 				return NULL;
 			}
 		}
+		else {
+			record->result = TRUE;
+		}
 	}
 	
 	return record;
+}
+
+/********************
+*  retrieveFirst  *
+********************/
+
+RPDB_Record* RPDB_DatabaseCursor_internal_retrieveFirst(	RPDB_DatabaseCursor*	cursor,
+																													RPDB_Record*					record )	{
+	
+	return RPDB_DatabaseCursor_internal_retrieveRecord(	cursor,
+																											DB_FIRST,
+																											record );
 }
 
 /********************

@@ -35,6 +35,8 @@ RPDB_Record* RPDB_DatabaseCursor_internal_retrieveRecord(	RPDB_DatabaseCursor*		
 															uint32_t					flags, 
 															RPDB_Record*				record);
 
+RPDB_Record* RPDB_DatabaseCursor_internal_retrieveFirst(	RPDB_DatabaseCursor*	cursor,
+																													RPDB_Record*					record );
 RPDB_Record* RPDB_DatabaseCursor_internal_retrieveCurrent(	RPDB_DatabaseCursor*	cursor,
 																														RPDB_Record*					record );
 RPDB_Record* RPDB_DatabaseCursor_internal_retrieveNext(	RPDB_DatabaseCursor*	cursor,

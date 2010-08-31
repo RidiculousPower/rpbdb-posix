@@ -122,6 +122,7 @@ BOOL RPDB_DatabaseCursor_isOpen( RPDB_DatabaseCursor* database_cursor );
 																		void*										raw_data,
 																		uint32_t									data_size );
 	RPDB_Record* RPDB_DatabaseCursor_retrieveCurrent( RPDB_DatabaseCursor* database_cursor );
+	BOOL RPDB_DatabaseCursor_setToFirst( RPDB_DatabaseCursor* database_cursor );
 	RPDB_Record* RPDB_DatabaseCursor_retrieveFirst( RPDB_DatabaseCursor* database_cursor );
 	RPDB_Record* RPDB_DatabaseCursor_retrieveLast( RPDB_DatabaseCursor* database_cursor );
 	RPDB_Record* RPDB_DatabaseCursor_retrieveNext( RPDB_DatabaseCursor* database_cursor );

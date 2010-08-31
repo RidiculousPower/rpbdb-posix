@@ -53,7 +53,7 @@ RPDB_DatabaseCursorController* RPDB_DatabaseCursorController_new( RPDB_Database*
 	//	We can add database_name.database_address, which identifies both which database, and which database instance
 	//	The address alone would be sufficient, but the name makes it readable for debugging.
 
-	RPDB_RuntimeStorageController*	runtime_storage_controller;
+	RPDB_RuntimeStorageController*	runtime_storage_controller	=	RPDB_RuntimeStorageController_sharedInstance();
 	RPDB_DatabaseController*	database_controller	=	RPDB_Environment_databaseController(	runtime_storage_controller->runtime_environment );
 	RPDB_Database*	runtime_storage_database	=	RPDB_Database_new(	database_controller,
 																																	"database_cursor_controller" );

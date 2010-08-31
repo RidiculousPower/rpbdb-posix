@@ -19,6 +19,7 @@
 
 #include "RPDB_DatabaseController.h"
 #include "RPDB_DatabaseController_internal.h"
+#include "RPDB_DatabaseCursorController_internal.h"
 #include "RPDB_DatabaseJoinController.h"
 #include "RPDB_DatabaseCursorController.h"
 #include "RPDB_DatabaseCursor.h"
@@ -1963,6 +1964,9 @@ RPDB_Record* RPDB_Database_internal_retrieveRecord(	RPDB_Database*		database,
 																											"RPDB_Database_internal_retrieveRecord" );
 			}
 		}
+		else {
+			record->result = TRUE;
+		}
 	}
 	//	Otherwise we are retrieving a primary key/data pair
 	else	{
@@ -1989,6 +1993,9 @@ RPDB_Record* RPDB_Database_internal_retrieveRecord(	RPDB_Database*		database,
 																											connection_error, 
 																											"RPDB_Database_internal_retrieveRecord" );
 			}
+		}
+		else {
+			record->result = TRUE;
 		}
 	}
 		
@@ -2072,6 +2079,12 @@ RPDB_Database* RPDB_Database_internal_initForRuntimeStorage(	RPDB_Database*		run
 	//	Set the database type - BTree
 	RPDB_DatabaseTypeSettingsController_setTypeToQueue( database_type_settings_controller );	
 
+	RPDB_DatabaseFixedRecordSettingsController*	database_fixed_record_settings_controller	=	RPDB_DatabaseSettingsController_fixedRecordSettingsController( database_settings_controller );
+
+	//	set fixed record length to store pointer addresses
+	RPDB_DatabaseFixedRecordSettingsController_setRecordLength(	database_fixed_record_settings_controller,
+																															sizeof( uintptr_t ) );
+
 	//	Open the database with our settings
 	RPDB_Database_internal_openWithoutRuntimeStorage( runtime_storage_database );
 	
@@ -2110,18 +2123,20 @@ void RPDB_Database_internal_freeStoredRuntimeAddress(	RPDB_Database*	runtime_dat
 void RPDB_Database_internal_closeAllStoredRuntimeAddresses(	RPDB_Database*	runtime_database,
 																														void *close_function( void* )	)	{
 
-	RPDB_DatabaseCursorController*	cursor_controller	=	RPDB_Database_cursorController( runtime_database );
-	RPDB_DatabaseCursor*						cursor						=	RPDB_DatabaseCursorController_cursor( cursor_controller );
+	RPDB_DatabaseCursorController*	cursor_controller	=	RPDB_DatabaseCursorController_internal_newWithoutRuntimeStorage( runtime_database );
+	RPDB_DatabaseCursor*						cursor						=	RPDB_DatabaseCursor_new( cursor_controller );
 	
-	RPDB_DatabaseCursor_retrieveFirst( cursor );
+	if ( RPDB_DatabaseCursor_setToFirst( cursor )	)	{
 	
-	RPDB_Record*	record	=	NULL;
-	while ( RPDB_DatabaseCursor_iterate( cursor, record ) )	{
-		void**	rpdb_instance	=	RPDB_Record_rawData( record );
-		//	call the RPDB free function specified
-		close_function( *rpdb_instance );
+		RPDB_Record*	record	=	NULL;
+		while ( RPDB_DatabaseCursor_iterate( cursor, record ) )	{
+			void**	rpdb_instance	=	RPDB_Record_rawData( record );
+			//	call the RPDB free function specified
+			close_function( *rpdb_instance );
+		}
+		RPDB_Record_free( & record );
 	}
-	RPDB_Record_free( & record );
+	
 	RPDB_DatabaseCursor_free( & cursor );
 }
 

@@ -41,7 +41,7 @@ RPDB_DatabaseController* RPDB_DatabaseController_new( RPDB_Environment* parent_e
 
 	RPDB_DatabaseController*		database_controller		=	RPDB_DatabaseController_internal_newWithoutRuntimeStorage( parent_environment );
 
-	RPDB_RuntimeStorageController*	runtime_storage_controller;
+	RPDB_RuntimeStorageController*	runtime_storage_controller	=	RPDB_RuntimeStorageController_sharedInstance();
 	RPDB_DatabaseController*	runtime_database_controller	=	RPDB_Environment_databaseController(	runtime_storage_controller->runtime_environment );
 	RPDB_Database*	runtime_storage_database	=	RPDB_Database_new(	runtime_database_controller,
 																																	"database_controller" );

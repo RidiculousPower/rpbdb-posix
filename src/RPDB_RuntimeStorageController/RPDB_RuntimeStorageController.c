@@ -291,13 +291,6 @@ void RPDB_RuntimeStorageController_internal_initRuntimeStoragesDatabases(	RPDB_R
 	runtime_storage_controller->runtime_storages_database			=	RPDB_Database_new(	database_controller,
 																																									"runtime_storages" );
 	
-	/*------------------*
-	*  Database Cursor  *
-	*------------------*/
-	
-	//	Init database_cursor for runtime iteration
-	RPDB_RuntimeStorageController_internal_initRuntimeStoragesCursors( runtime_storage_controller );
-	
 }
 
 /************************
@@ -318,27 +311,6 @@ void RPDB_RuntimeStorageController_internal_initEnvironmentAndDatabaseReferenceD
 	
 	RPDB_Database_internal_openWithoutRuntimeStorage( runtime_storage_controller->environment_reference_database );	
 	RPDB_Database_internal_openWithoutRuntimeStorage( runtime_storage_controller->database_reference_database );	
-}
-
-/*****************************
-*  initRuntimeStorageCursor  *
-*****************************/
-
-void RPDB_RuntimeStorageController_internal_initRuntimeStoragesCursors(	RPDB_RuntimeStorageController*		runtime_storage_controller )	{
-	
-	//	We need to initialize the cursor controller here without runtime storage so we don't loop
-	runtime_storage_controller->runtime_storages_database->cursor_controller	=	RPDB_DatabaseCursorController_internal_newWithoutRuntimeStorage( runtime_storage_controller->runtime_storages_database );
-	
-	//	Create a database_cursor to deal with runtime database activity
-	runtime_storage_controller->database_cursor	=	RPDB_DatabaseCursor_new( RPDB_Database_cursorController( runtime_storage_controller->runtime_storages_database ) );
-	
-	RPDB_DatabaseCursorSettingsController*						database_cursor_settings_controller	=	RPDB_DatabaseCursor_settingsController( runtime_storage_controller->database_cursor );
-	RPDB_DatabaseCursorReadWriteSettingsController*		database_cursor_read_write_settings_controller	=	RPDB_DatabaseCursorSettingsController_readWriteSettingsController( database_cursor_settings_controller );
-	//	We want to be able to use the database_cursor for writing data
-	RPDB_DatabaseCursorReadWriteSettingsController_turnPermitWriteOn(	database_cursor_read_write_settings_controller );
-	
-	//	Now open the database_cursor
-	RPDB_DatabaseCursor_open( runtime_storage_controller->database_cursor );	
 }
 
 /*******************************************************************************************************************************************************************************************
