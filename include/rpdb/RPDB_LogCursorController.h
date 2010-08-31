@@ -19,13 +19,6 @@
 	RPDB_LogSettingsController*	RPDB_LogCursorController_settingsController(	RPDB_LogCursorController* log_cursor_controller );
 	RPDB_Environment*			RPDB_LogCursorController_parentEnvironment(	RPDB_LogCursorController* log_cursor_controller );
 
-	RPDB_LogCursor*				RPDB_LogCursorController_cursorForName(			RPDB_LogCursorController*		cursor_controller,
-	 								   													char*							cursor_name );
-	RPDB_LogCursor*				RPDB_LogCursorController_closeCursorForName(		RPDB_LogCursorController*		cursor_controller,
-	 								   													char*							cursor_name );
-	void							RPDB_LogCursorController_freeCursorForName(		RPDB_LogCursorController*		cursor_controller,
-	 								   													char*							cursor_name );
-	RPDB_LogCursor**				RPDB_LogCursorController_allCursors( 				RPDB_LogCursorController*		cursor_controller );
 	void							RPDB_LogCursorController_closeAllCursors(			RPDB_LogCursorController*		cursor_controller );
 	void							RPDB_LogCursorController_freeAllCursors(			RPDB_LogCursorController*		cursor_controller );
 

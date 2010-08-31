@@ -16,6 +16,7 @@
 #include "RPDB_DatabaseCursor.h"
 
 #include "RPDB_Database.h"
+#include "RPDB_Database_internal.h"
 
 #include "RPDB_Environment.h"
 
@@ -53,19 +54,11 @@ RPDB_DatabaseCursorController* RPDB_DatabaseCursorController_new( RPDB_Database*
 	//	We can add database_name.database_address, which identifies both which database, and which database instance
 	//	The address alone would be sufficient, but the name makes it readable for debugging.
 
-	char*	database_cursor_controller_runtime_storage_name	=	RPDB_DatabaseCursorController_internal_uniqueIdentifier( database_cursor_controller );
-
-	RPDB_Environment*	parent_environment	=	parent_database->parent_database_controller->parent_environment;
-
-	//	Initialize our runtime storage for the database_cursor_controller
-	database_cursor_controller->runtime_storage		=	RPDB_RuntimeStorageController_runtimeStorageInEnvironmentWithName(	RPDB_RuntimeStorageController_sharedInstance(),
-																																parent_environment,
-																																database_cursor_controller_runtime_storage_name );
-	database_cursor_controller->auto_name_count	=	0;
-	
-	//	our string got copied by RPDB_RuntimeStorageController_runtimeStorageInEnvironmentWithName, not stored
-	//	so we need to free it now
-	free( database_cursor_controller_runtime_storage_name );
+	RPDB_RuntimeStorageController*	runtime_storage_controller;
+	RPDB_DatabaseController*	database_controller	=	RPDB_Environment_databaseController(	runtime_storage_controller->runtime_environment );
+	RPDB_Database*	runtime_storage_database	=	RPDB_Database_new(	database_controller,
+																																	"database_cursor_controller" );
+	database_cursor_controller->runtime_storage_database	=	RPDB_Database_internal_initForRuntimeStorage(	runtime_storage_database );
 	
  	return database_cursor_controller;
 }
@@ -78,13 +71,13 @@ void RPDB_DatabaseCursorController_free( RPDB_DatabaseCursorController** databas
 
 	//	if we have a runtime storage, close and free any cursors
 	//	if we don't have a runtime storage, we are a runtime storage and the cursor is freed manually
-	if ( ( *database_cursor_controller )->runtime_storage != NULL )	{
+	if ( ( *database_cursor_controller )->runtime_storage_database != NULL )	{
 		RPDB_DatabaseCursorController_freeAllCursors( *database_cursor_controller );
 	}
 	
 	//	free runtime storage
-	if ( ( *database_cursor_controller )->runtime_storage != NULL )	{
-		RPDB_RuntimeStorage_free( & ( ( *database_cursor_controller )->runtime_storage ) );
+	if ( ( *database_cursor_controller )->runtime_storage_database != NULL )	{
+		RPDB_Database_free( & ( ( *database_cursor_controller )->runtime_storage_database ) );
 	}
 
 	//	free self
@@ -113,47 +106,6 @@ RPDB_Database* RPDB_DatabaseCursorController_parentDatabase(	RPDB_DatabaseCursor
 	return database_cursor_controller->parent_database;
 }
 
-/********************
-*  cursorForName  *
-********************/
-
-RPDB_DatabaseCursor* RPDB_DatabaseCursorController_cursorForName(	RPDB_DatabaseCursorController*		cursor_controller,
-																																	char*															cursor_name )	{
-
-	RPDB_DatabaseCursor*	database_cursor	=	NULL;
-	
-	int	cursor_name_size	=	( strlen( cursor_name) + 1 ) * sizeof( char );
-
-	//	Check and see if cursor_name exists in runtime storage
-	//	If it doesn't, we need to create it and store it
-	if ( RPDB_RuntimeStorage_rawKeyExists(	cursor_controller->runtime_storage,
-																					cursor_name,
-																					cursor_name_size ) )	{
-
-		//	we already checked if data exists so it's safe to dereference
-		database_cursor	=	(RPDB_DatabaseCursor*) *(uintptr_t*) RPDB_Record_rawData(	RPDB_RuntimeStorage_retrieveRawKey(	cursor_controller->runtime_storage,
-																																								cursor_name,
-																																								cursor_name_size ) );
-	}
-	else	{
-	
-		//	Create a database_cursor for parent database
-		database_cursor				=	RPDB_DatabaseCursor_new( cursor_controller );
-		database_cursor->name		=	strdup( cursor_name );
-		
-		uintptr_t		new_cursor_address	=	(uintptr_t) database_cursor;
-		
-		//	Store pointer to database_cursor in runtime storage
-		RPDB_RuntimeStorage_insertRawKeyDataPair(	cursor_controller->runtime_storage,
-																							cursor_name,
-																							cursor_name_size,
-																							& new_cursor_address,
-																							sizeof( uintptr_t ) );
-	}
-	
-	return database_cursor;
-}
-
 /***********
 *  cursor  *
 ***********/
@@ -161,75 +113,15 @@ RPDB_DatabaseCursor* RPDB_DatabaseCursorController_cursorForName(	RPDB_DatabaseC
 //	shorthand function to get a cursor without having to name the name
 RPDB_DatabaseCursor* RPDB_DatabaseCursorController_cursor( RPDB_DatabaseCursorController*		cursor_controller )	{
 	
-	//	generate cursor name - RPDB_DATABASE_CURSOR_DEFAULT_HANDLE + "_" + cursor_controller->auto_name_count
-	char*	cursor_name	=	calloc( strlen( RPDB_DATABASE_CURSOR_DEFAULT_HANDLE ) + strlen( RPDB_DATABASE_CURSOR_HANDLE_DELIMETER ) + 6, sizeof( char ) );
-
-	sprintf( cursor_name, "%s%s%i",	RPDB_DATABASE_CURSOR_DEFAULT_HANDLE, 
-																	RPDB_DATABASE_CURSOR_HANDLE_DELIMETER,
-																	++cursor_controller->auto_name_count  );
-
-	//	open a new cursor with name
-	RPDB_DatabaseCursor*	return_cursor	=	RPDB_DatabaseCursorController_cursorForName(	cursor_controller,
-																																											cursor_name );
-
-	free( cursor_name );
-
-	return return_cursor;
-}
-
-/*************************
-*  closeCursorForName  *
-*************************/
-
-RPDB_DatabaseCursorController* RPDB_DatabaseCursorController_closeCursorForName(	RPDB_DatabaseCursorController*		cursor_controller,
-																																									char*															cursor_name )	{
+	RPDB_DatabaseCursor*	cursor	=	RPDB_DatabaseCursor_new( cursor_controller );
 	
-	RPDB_DatabaseCursor*	database_cursor	=	RPDB_DatabaseCursorController_cursorForName(	cursor_controller,
-																																												cursor_name );
-	RPDB_DatabaseCursor_close( database_cursor );
+	uintptr_t	cursor_address	=	(uintptr_t) cursor;
 	
-	return cursor_controller;															
-}
+	RPDB_Database_appendRawData(	cursor_controller->runtime_storage_database,
+																& cursor_address,
+																sizeof( uintptr_t ) );
 
-/************************
-*  freeCursorForName  *
-************************/
-
-void RPDB_DatabaseCursorController_freeCursorForName(	RPDB_DatabaseCursorController*		cursor_controller,
-																											char*															cursor_name )	{
-
-	RPDB_DatabaseCursor*	database_cursor	=	RPDB_DatabaseCursorController_cursorForName(	cursor_controller,
-																																												cursor_name );
-	RPDB_DatabaseCursor_free( & database_cursor );
-	
-	RPDB_RuntimeStorage_deleteRecordForRawKey(	cursor_controller->runtime_storage,
-																							cursor_name,
-																							( strlen( cursor_name ) + 1 ) * sizeof( char ) );
-}
-
-/***************
-*  allCursors  *
-***************/
-
-//	Return a list of database names that have been created and stored in this controller
-RPDB_DatabaseCursor** RPDB_DatabaseCursorController_allCursors( RPDB_DatabaseCursorController* cursor_controller )	{
-
-	RPDB_RuntimeStorage_countRecords( cursor_controller->runtime_storage );
-	
-	RPDB_DatabaseCursor*	this_cursor;
-	
-	RPDB_DatabaseCursor**	cursor_array	=	calloc(	cursor_controller->runtime_storage->record_count, sizeof( RPDB_DatabaseCursor ) );
-	
-	int				which_cursor	=	0;
-	
-	while ( ( this_cursor = (RPDB_DatabaseCursor*) *(uintptr_t*) RPDB_Record_rawData( RPDB_RuntimeStorage_nextRecord( cursor_controller->runtime_storage ) ) ) )	{
-		
-		cursor_array[ which_cursor ] = this_cursor;
-		
-		which_cursor++;
-	}
-	
-	return cursor_array;
+	return cursor;
 }
 
 /********************
@@ -239,20 +131,25 @@ RPDB_DatabaseCursor** RPDB_DatabaseCursorController_allCursors( RPDB_DatabaseCur
 void RPDB_DatabaseCursorController_closeAllCursors( RPDB_DatabaseCursorController* cursor_controller )	{
 
 	//	our cursor controller in runtime storage doesn't have runtime storage, cursors are closed manually
-	if (	cursor_controller 
-		&&	cursor_controller->runtime_storage )	{
+	if (		cursor_controller 
+			&&	cursor_controller->runtime_storage_database )	{
 
-		RPDB_RuntimeStorage_iterate( cursor_controller->runtime_storage );
+		RPDB_DatabaseCursorController*	database_cursor_controller	=	RPDB_Database_cursorController( cursor_controller->runtime_storage_database );
+		//	don't let our controller track the cursor - open, close, free manually
+		RPDB_DatabaseCursor*						cursor											=	RPDB_DatabaseCursor_new( database_cursor_controller );
 		
-		RPDB_DatabaseCursor*	this_cursor = NULL;
-		
-		void*	raw_data	=	NULL;
-		while ( ( raw_data	=	RPDB_Record_rawData(	RPDB_RuntimeStorage_nextRecord( cursor_controller->runtime_storage ) ) ) != NULL )	{
+		RPDB_DatabaseCursor_retrieveFirst( cursor );
+	
+		RPDB_Record*	record	=	NULL;
+		while ( ( record = RPDB_DatabaseCursor_iterate( cursor ) ) != NULL )	{
 
-			this_cursor = (RPDB_DatabaseCursor*) *(uintptr_t*) raw_data;
+			RPDB_DatabaseCursor*	this_cursor	=	(RPDB_DatabaseCursor*) *(uintptr_t*) RPDB_Record_rawData( record );
 			
 			RPDB_DatabaseCursor_close( this_cursor );			
 		}
+		
+		RPDB_DatabaseCursor_close( cursor );
+		RPDB_DatabaseCursor_free( & cursor );
 	}
 }
 
@@ -263,7 +160,7 @@ void RPDB_DatabaseCursorController_closeAllCursors( RPDB_DatabaseCursorControlle
 //	free all cursors; close if necessary
 void RPDB_DatabaseCursorController_freeAllCursors( RPDB_DatabaseCursorController* cursor_controller )	{
 	
-	RPDB_DatabaseCursor*	runtime_storage_cursor	=	cursor_controller->runtime_storage->database_cursor;
+	RPDB_DatabaseCursor*	runtime_storage_cursor	=	RPDB_Database_cursor( cursor_controller->runtime_storage_database );
 	
 	RPDB_DatabaseCursor_retrieveFirst( runtime_storage_cursor );
 	

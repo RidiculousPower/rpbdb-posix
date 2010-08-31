@@ -125,13 +125,23 @@ void RPDB_Database_createSecondaryIndexWithDatabase(	RPDB_Database*						primary
 													   uint32_t						key_size,
 													   void*							write_data,
 													   uint32_t						data_size	 );
-	RPDB_Record*							RPDB_Database_appendRecord(			RPDB_Database*		database,
-																								RPDB_Record*						append_record	);
-	RPDB_Record*							RPDB_Database_appendData(			RPDB_Database*		database,
-																								RPDB_Data*							append_data	);
-	RPDB_Record* RPDB_Database_appendRawData(	RPDB_Database*	database,
-														  void*							raw_append_data,
-														  uint32_t						data_size	);
+
+void RPDB_Database_appendRawKeyDataPair(	RPDB_Database*			database, 
+																					void*								primary_key,
+																					uint32_t						key_size,
+																					void*								write_data,
+																					uint32_t						data_size );
+void RPDB_Database_appendRawData(	RPDB_Database*			database, 
+																	void*								write_data,
+																	uint32_t						data_size );
+void RPDB_Database_appendData(	RPDB_Database*			database, 
+																RPDB_Data*					write_data );
+void RPDB_Database_appendKeyDataPair(	RPDB_Database*			database, 
+																			RPDB_Key*						primary_key,
+																			RPDB_Data*					write_data );
+void RPDB_Database_appendRecord(	RPDB_Database*			database, 
+																	RPDB_Record*				record );
+
 	//	RPDB_DatabaseReadWriteSettingsController*	RPDB_Database_settingsController(	RPDB_Database* 		database );
 
 	void										RPDB_Database_free(	RPDB_Database** database );

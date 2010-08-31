@@ -18,8 +18,6 @@
 	void										RPDB_RuntimeStorage_free(								RPDB_RuntimeStorage**						runtime_storage );
 	RPDB_RuntimeStorageSettingsController*		RPDB_RuntimeStorage_settingsController(				RPDB_RuntimeStorage*						runtime_storage );
 	RPDB_Environment*					RPDB_RuntimeStorage_parentEnvironment(		RPDB_RuntimeStorage*				runtime_storage );
-	RPDB_RuntimeStorage*						RPDB_RuntimeStorage_internal_initStorageHashForName(			RPDB_RuntimeStorage*				runtime_storage,
-																										char*								name );
 	uint32_t									RPDB_RuntimeStorage_countRecords(						RPDB_RuntimeStorage*				runtime_storage );
 	BOOL										RPDB_RuntimeStorage_keyExists(							RPDB_RuntimeStorage*				runtime_storage, 
 																										RPDB_Key*							key );

@@ -7,7 +7,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-int			RPDB_LogSettingsController_internal_config(				RPDB_LogSettingsController*		log_settings_controller, 
+BOOL			RPDB_LogSettingsController_internal_config(				RPDB_LogSettingsController*		log_settings_controller, 
 																		uint32_t							which_flag );
 void		RPDB_LogSettingsController_internal_setConfig(				RPDB_LogSettingsController*		log_settings_controller, 
 																		uint32_t							which_flag,

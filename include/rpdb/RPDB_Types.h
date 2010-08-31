@@ -1370,25 +1370,15 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 				struct RPDB_RuntimeStorage	{
 
 					//	Parent
-					RPDB_RuntimeStorageController*							parent_runtime_storage_controller;
+					RPDB_RuntimeStorageController*				parent_runtime_storage_controller;
 					//	Although the RuntimeStorageController is a singleton and is always parent to RuntimeStorage instances,
 					//	RuntimeStorage instances are generally associated with an environment.
 					//	NULL environments are permitted, in which case the RuntimeStorage instance is considered global. 
-					RPDB_Environment*										parent_environment;
-
-					char*													name;
-
-					int														environment_auto_number;
+					RPDB_Environment*											parent_environment;
 
 					//	Variables
-					RPDB_Database*											database;
+					RPDB_Database*												database;
 					RPDB_DatabaseCursor*									database_cursor;
-					uint32_t												record_count;
-					BOOL													started_iteration;
-					
-					RPDB_RuntimeStorageSettingsController*					settings_controller;
-					RPDB_SettingsController*								environment_settings_controller;
-					RPDB_RuntimeStorageSettingsController*					singleton_settings_controller;
 				};
 
 			/****************************
@@ -1401,19 +1391,14 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 				RPDB_Environment*												runtime_environment;
 				RPDB_Environment*												default_environment;
 
-				RPDB_DatabaseCursor*											database_cursor;
+				RPDB_DatabaseCursor*										database_cursor;
 
 				//	Runtime Storage instances are stored by name--&db_env
 				RPDB_Database*													runtime_storages_database;
-				RPDB_Database*													runtime_storages_database_secondary__db_env_address;
-				RPDB_Database*													runtime_storages_database_secondary__name;
 
 				//	All RPDB_Environment* and RPDB_Database* are stored by their wrapped_bdb_database DB* in these databases
 				RPDB_Database*													environment_reference_database;
-				RPDB_Database*													environment_reference_database_secondary__environment_name;
 				RPDB_Database*													database_reference_database;
-
-				int																environment_auto_number_count;
 
 				//	Unlike other controllers, the environmental runtime storage settings controller is stored inside the runtime storage controller
 				RPDB_RuntimeStorageSettingsController*							settings_controller;
@@ -1491,7 +1476,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 				RPDB_Environment*													parent_environment;
 
 				//	Variables
-				RPDB_RuntimeStorage*									runtime_storage;
+				RPDB_Database*	runtime_storage_database;
 
 				RPDB_SettingsController*					environment_settings_controller;
 				RPDB_MutexSettingsController*				settings_controller;
@@ -1603,7 +1588,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					RPDB_LogController*						parent_log_controller;
 					
 					//	Variables
-					RPDB_RuntimeStorage*						runtime_storage;
+					RPDB_Database*	runtime_storage_database;
 					
 					RPDB_SettingsController*					environment_settings_controller;
 					RPDB_LogSettingsController*				settings_controller;
@@ -1644,7 +1629,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 				//	Parent
 				RPDB_Environment*							parent_environment;
 				
-				RPDB_RuntimeStorage*						runtime_storage;
+				RPDB_Database*	runtime_storage_database;
 				
 				//	Variables
 				uint32_t									locker_id;
@@ -1693,7 +1678,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 				//	Parent
 				RPDB_Database*										parent_database;
 
-				RPDB_RuntimeStorage*									runtime_storage;
+				RPDB_Database*	runtime_storage_database;
 
 				RPDB_SettingsController*							environment_settings_controller;
 				RPDB_DatabaseJoinSettingsController*						settings_controller;
@@ -1734,7 +1719,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						//	Parent
 						RPDB_Database*								parent_database;
 
-						RPDB_RuntimeStorage*						runtime_storage;
+						RPDB_Database*	runtime_storage_database;
 
 						int											auto_name_count;
 						
@@ -1908,10 +1893,10 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 				//	Parent
 				RPDB_Environment*								parent_environment;
 	
-				int												database_auto_number;
+				db_recno_t											record_number;
 
 				//	Variables
-				RPDB_RuntimeStorage*							runtime_storage;
+				RPDB_Database*	runtime_storage_database;
 				RPDB_Database*									runtime_storage__index__bdb_db_address;
 	
 				RPDB_SettingsController*						environment_settings_controller;

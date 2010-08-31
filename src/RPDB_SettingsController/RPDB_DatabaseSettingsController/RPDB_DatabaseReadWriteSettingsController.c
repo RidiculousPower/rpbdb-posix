@@ -193,39 +193,6 @@ BOOL RPDB_DatabaseReadWriteSettingsController_returnMultiple( RPDB_DatabaseReadW
 		database_read_write_settings_controller->return_multiple = FALSE;
 	}
 
-/******************
-*  appendData  *
-******************/
-
-//	DB_APPEND				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
-BOOL RPDB_DatabaseReadWriteSettingsController_appendData( RPDB_DatabaseReadWriteSettingsController* database_read_write_settings_controller )	{
-
-	if ( database_read_write_settings_controller->append_data == TRUE )	{
-		return DB_APPEND;
-	}
-	return FALSE;
-}
-
-	/**************************
-	*  turnAppendDataOn  *
-	**************************/
-
-	//	DB_APPEND				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
-	void RPDB_DatabaseReadWriteSettingsController_turnAppendDataOn( RPDB_DatabaseReadWriteSettingsController* database_read_write_settings_controller )	{
-		database_read_write_settings_controller->append_data = TRUE;
-		RPDB_DatabaseReadWriteSettingsController_turnProhibitDuplicateDataOff( database_read_write_settings_controller );
-		RPDB_DatabaseReadWriteSettingsController_turnProhibitOverwriteOff( database_read_write_settings_controller );
-	}
-
-	/**************************
-	*  turnAppendDataOff  *
-	**************************/
-
-	//	DB_APPEND				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
-	void RPDB_DatabaseReadWriteSettingsController_turnAppendDataOff( RPDB_DatabaseReadWriteSettingsController* database_read_write_settings_controller )	{
-		database_read_write_settings_controller->append_data = FALSE;
-	}
-
 /****************************
 *  prohibitDuplicateData  *
 ****************************/
@@ -248,7 +215,6 @@ BOOL RPDB_DatabaseReadWriteSettingsController_prohibitDuplicateData( RPDB_Databa
 	//	Btree and Hash only
 	void RPDB_DatabaseReadWriteSettingsController_turnProhibitDuplicateDataOn( RPDB_DatabaseReadWriteSettingsController* database_read_write_settings_controller )	{
 		database_read_write_settings_controller->prohibit_duplicate_data = TRUE;
-		RPDB_DatabaseReadWriteSettingsController_turnAppendDataOff( database_read_write_settings_controller );
 		RPDB_DatabaseReadWriteSettingsController_turnProhibitOverwriteOff( database_read_write_settings_controller );
 	}
 
@@ -282,7 +248,6 @@ BOOL RPDB_DatabaseReadWriteSettingsController_prohibitOverwrite( RPDB_DatabaseRe
 	//	DB_NOOVERWRITE			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
 	void RPDB_DatabaseReadWriteSettingsController_turnProhibitOverwriteOn( RPDB_DatabaseReadWriteSettingsController* database_read_write_settings_controller )	{
 		database_read_write_settings_controller->prohibit_overwrite = TRUE;
-		RPDB_DatabaseReadWriteSettingsController_turnAppendDataOff( database_read_write_settings_controller );
 		RPDB_DatabaseReadWriteSettingsController_turnProhibitDuplicateDataOff( database_read_write_settings_controller );
 	}
 
@@ -619,8 +584,7 @@ RPDB_DatabaseReadWriteSettingsController* RPDB_DatabaseReadWriteSettingsControll
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
 int RPDB_DatabaseReadWriteSettingsController_internal_writeFlags( RPDB_DatabaseReadWriteSettingsController*		database_read_write_settings_controller)	{
 	//	Setter functions ensure exclusivity, so we should be able to simply | together the results
-	return	RPDB_DatabaseReadWriteSettingsController_appendData( database_read_write_settings_controller )
-			|	RPDB_DatabaseReadWriteSettingsController_prohibitDuplicateData( database_read_write_settings_controller )
+	return	RPDB_DatabaseReadWriteSettingsController_prohibitDuplicateData( database_read_write_settings_controller )
 			|	RPDB_DatabaseReadWriteSettingsController_prohibitOverwrite( database_read_write_settings_controller );
 }
 

@@ -498,10 +498,10 @@ void RPDB_LogSettingsController_setMaxRegionSize( RPDB_LogSettingsController* lo
 *  config  *
 **************/
 
-int RPDB_LogSettingsController_internal_config( RPDB_LogSettingsController* log_settings_controller, uint32_t which_flag )	{
+BOOL RPDB_LogSettingsController_internal_config( RPDB_LogSettingsController* log_settings_controller, uint32_t which_flag )	{
 
 	RPDB_Environment*		environment;
-	BOOL			on_or_off;
+	int			on_or_off;
 	
 	environment = log_settings_controller->parent_settings_controller->parent_environment;
 	
@@ -510,11 +510,11 @@ int RPDB_LogSettingsController_internal_config( RPDB_LogSettingsController* log_
 		&&	RPDB_LogSettingsController_on( log_settings_controller ) )	{
 
 		environment->wrapped_bdb_environment->log_get_config(	environment->wrapped_bdb_environment, 
-																which_flag, 
-																(int*) & on_or_off );
+																													which_flag, 
+																													(int*) & on_or_off );
 	}
 	
-	return on_or_off;
+	return ( on_or_off ? TRUE : FALSE );
 }
 
 /*****************

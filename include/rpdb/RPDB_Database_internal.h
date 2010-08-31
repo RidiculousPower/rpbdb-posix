@@ -42,6 +42,7 @@ RPDB_Database* RPDB_Database_internal_createDatabaseInstanceForSecondaryIndexOnP
 																								 char*				index_name,
 																								 BOOL				enable_sorted_duplicates );
 char* RPDB_Database_internal_filenameForName( char* database_name );
+RPDB_Database* RPDB_Database_internal_initForRuntimeStorage(	RPDB_Database*		runtime_storage_database );
 
 
 #endif

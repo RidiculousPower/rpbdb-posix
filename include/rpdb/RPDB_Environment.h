@@ -25,8 +25,7 @@
 	*  Prototypes  *
 	****************/
 	
-	RPDB_Environment*								RPDB_Environment_new(							char*		environment_name,
-																									char*		environment_home_directory );
+	RPDB_Environment*								RPDB_Environment_new(	char*		environment_home_directory );
 
 	void											RPDB_Environment_free(	RPDB_Environment** environment );
 	

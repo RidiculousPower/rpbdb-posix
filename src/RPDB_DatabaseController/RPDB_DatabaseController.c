@@ -42,12 +42,14 @@ RPDB_DatabaseController* RPDB_DatabaseController_new( RPDB_Environment* parent_e
 
 	RPDB_DatabaseController*		database_controller		=	RPDB_DatabaseController_internal_newWithoutRuntimeStorage( parent_environment );
 
-	char*		database_controller_runtime_storage_name	=	RPDB_DatabaseController_internal_uniqueIdentifier( database_controller );
+	RPDB_RuntimeStorageController*	runtime_storage_controller;
+	RPDB_DatabaseController*	runtime_database_controller	=	RPDB_Environment_databaseController(	runtime_storage_controller->runtime_environment );
+	RPDB_Database*	runtime_storage_database	=	RPDB_Database_new(	runtime_database_controller,
+																																	"database_controller" );
+	database_controller->runtime_storage_database	=	RPDB_Database_internal_initForRuntimeStorage(	runtime_storage_database );
 
-	//	Initialize our database controller runtime storage
-	database_controller->runtime_storage	=	RPDB_RuntimeStorageController_runtimeStorageInEnvironmentWithName(	RPDB_RuntimeStorageController_sharedInstance(), 
-																																																							parent_environment,
-																																																							database_controller_runtime_storage_name );	
+	database_controller->record_number	=	1;
+
 	return database_controller;
 }
 
@@ -60,8 +62,8 @@ void RPDB_DatabaseController_free(	RPDB_DatabaseController** database_controller
 	//	close and free all databases
 	RPDB_DatabaseController_freeAllDatabases( *database_controller );
 
-	if ( ( *database_controller )->runtime_storage != NULL )	{
-		RPDB_RuntimeStorage_free( & ( ( *database_controller )->runtime_storage ) );
+	if ( ( *database_controller )->runtime_storage_database != NULL )	{
+		RPDB_Database_free( & ( ( *database_controller )->runtime_storage_database ) );
 	}
 
 	free( *database_controller );
@@ -92,29 +94,6 @@ RPDB_Environment* RPDB_DatabaseController_parentEnvironment(	RPDB_DatabaseContro
 															Methods
 *******************************************************************************************************************************************************************************************/
 
-/*********************
-*  databaseWithName  *
-*********************/
-
-//	Return a name that has been created or creates it if necessary
-RPDB_Database* RPDB_DatabaseController_databaseWithName(	RPDB_DatabaseController*	database_controller, 
-																														char*											database_name	)	{
-	
-	RPDB_Database*	database	=	NULL;
-
-	//	Check and see if cursor_name exists in runtime storage
-	//	If it doesn't, we need to create it and store it
-	uintptr_t*	raw_key	=	(uintptr_t*) RPDB_RuntimeStorage_retrieveRawKey(	database_controller->runtime_storage,
-																																			database_name,
-																																			( strlen( database_name ) + 1 ) * sizeof( char ) );
-	if ( raw_key != NULL )	{
-		//	Set our pointer to our stored address
-		database	=	(RPDB_Database*) *raw_key;
-	}
-	
-	return database;
-}
-
 /****************
 *  newDatabase  *
 ****************/
@@ -127,13 +106,11 @@ RPDB_Database* RPDB_DatabaseController_newDatabase(	RPDB_DatabaseController*	dat
 																														database_name );
 
 	uintptr_t	database_address	=	(uintptr_t) database;
-	
-	//	Store pointer to database in runtime storage
-	RPDB_RuntimeStorage_insertRawKeyDataPair(	database_controller->runtime_storage,
-																						database->name,
-																						( strlen( database->name ) + 1 ) * sizeof( char ),
-																						& database_address,
-																						sizeof( uintptr_t ) );
+
+	RPDB_Database_appendRawData(	database_controller->runtime_storage_database,
+																& database_address,
+																sizeof( uintptr_t ) );
+
 	return database;
 }
 
@@ -143,21 +120,14 @@ RPDB_Database* RPDB_DatabaseController_newDatabase(	RPDB_DatabaseController*	dat
 
 //	Close all Databases
 void RPDB_DatabaseController_closeAllDatabases( RPDB_DatabaseController* database_controller )	{
-
-	RPDB_DatabaseCursor*	runtime_storage_cursor	=	database_controller->runtime_storage->database_cursor;
 	
-	RPDB_DatabaseCursor_retrieveFirst( runtime_storage_cursor );
-	
-	RPDB_Record*	record		=	NULL;
-	
-	RPDB_Database* this_database	=	NULL;
-	while ( ( record = RPDB_DatabaseCursor_iterate( runtime_storage_cursor ) ) != NULL )	{
+	RPDB_Record*	record		=	NULL;	
+	while ( ( record = RPDB_Database_shiftQueue( database_controller->runtime_storage_database ) ) != NULL )	{
 		
-		this_database	=	(RPDB_Database*) *(uintptr_t*) RPDB_Record_rawData( record );
+		RPDB_Database*	this_database	=	(RPDB_Database*) *(uintptr_t*) RPDB_Record_rawData( record );
 		
 		RPDB_Database_close( this_database );
-	}
-	
+	}	
 }
 
 /*********************
@@ -167,22 +137,13 @@ void RPDB_DatabaseController_closeAllDatabases( RPDB_DatabaseController* databas
 //	Free all Databases (close if necessary)
 void RPDB_DatabaseController_freeAllDatabases( RPDB_DatabaseController* database_controller )	{
 
-	RPDB_DatabaseCursor*	runtime_storage_cursor	=	database_controller->runtime_storage->database_cursor;
-	
-	RPDB_DatabaseCursor_retrieveFirst( runtime_storage_cursor );
-	
-	RPDB_Record*	record		=	NULL;
-	
-	while ( ( record = RPDB_DatabaseCursor_iterate( runtime_storage_cursor ) ) != NULL )	{
+	RPDB_Record*	record		=	NULL;	
+	while ( ( record = RPDB_Database_shiftQueue( database_controller->runtime_storage_database ) ) != NULL )	{
 		
-		RPDB_Database* this_database	=	(RPDB_Database*) *(uintptr_t*) RPDB_Record_rawData( record );
+		RPDB_Database*	this_database	=	(RPDB_Database*) *(uintptr_t*) RPDB_Record_rawData( record );
 		
-		if ( this_database != NULL )	{
-			//	free cursor - function already names proper closing etc.
-			RPDB_Database_free( & this_database );
-		}		
-	}
-	
+		RPDB_Database_free( & this_database );
+	}	
 }
 
 /*******************************************************************************************************************************************************************************************

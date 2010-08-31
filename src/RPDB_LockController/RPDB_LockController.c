@@ -13,6 +13,8 @@
 #include "RPDB_LockController.h"
 #include "RPDB_LockController_internal.h"
 
+#include "RPDB_Database.h"
+
 #include "RPDB_Lock.h"
 
 #include "RPDB_Environment.h"
@@ -331,38 +333,39 @@ int RPDB_LockController_clearLockRequestForLockerWithYoungestLock( RPDB_LockCont
 int RPDB_LockController_clearLockRequestForRandomLocker( RPDB_LockController* lock_controller )	{
 
 	return RPDB_LockController_internal_clearDeadlocks(	lock_controller,
-															DB_LOCK_RANDOM	);
+																											DB_LOCK_RANDOM	);
 }
-
-
 
 /*********************
 *  closeAllLocks  *
 *********************/
 
 void RPDB_LockController_closeAllLocks( RPDB_LockController* lock_controller )	{
-
-	//	Check if there are any open Locks
-	//	Iterate open Locks and tell each to close
-
-	//	FIX - not yet implemented runtime storage for lock controller
-
-	if (	lock_controller 
-		&&	lock_controller->runtime_storage )	{
-		
-		RPDB_RuntimeStorage_iterate( lock_controller->runtime_storage );
-		
-		RPDB_Lock*	this_lock = NULL;
-		
-		void*	raw_data	=	NULL;
-		while ( ( raw_data	=	RPDB_Record_rawData(	RPDB_RuntimeStorage_nextRecord( lock_controller->runtime_storage ) ) ) != NULL )	{
-			
-			this_lock = (RPDB_Lock*) *(uintptr_t*) raw_data;
-			
-			RPDB_Lock_unlock( this_lock );			
-		}
-	}
 	
+	//	FIX - needs to iterate not shift
+	
+	RPDB_Record*	record		=	NULL;	
+	while ( ( record = RPDB_Database_shiftQueue( lock_controller->runtime_storage_database ) ) != NULL )	{
+		
+		RPDB_Lock*	this_lock	=	(RPDB_Lock*) *(uintptr_t*) RPDB_Record_rawData( record );
+		
+		RPDB_Lock_unlock( this_lock );
+	}	
+}
+
+/*********************
+*  freeAllLocks  *
+*********************/
+
+void RPDB_LockController_freeAllLocks( RPDB_LockController* lock_controller )	{
+
+	RPDB_Record*	record		=	NULL;	
+	while ( ( record = RPDB_Database_shiftQueue( lock_controller->runtime_storage_database ) ) != NULL )	{
+		
+		RPDB_Lock*	this_lock	=	(RPDB_Lock*) *(uintptr_t*) RPDB_Record_rawData( record );
+		
+		RPDB_Lock_free( & this_lock );
+	}	
 }
 
 

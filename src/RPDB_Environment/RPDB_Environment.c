@@ -68,8 +68,7 @@
 *  new  *
 ********/
 
-RPDB_Environment* RPDB_Environment_new(	char* environment_name, 
-																				char* environment_home_directory )	{
+RPDB_Environment* RPDB_Environment_new(	char* environment_home_directory )	{
 
 	RPDB_Environment*	environment	=	calloc( 1, sizeof( RPDB_Environment ) );
 
@@ -81,21 +80,6 @@ RPDB_Environment* RPDB_Environment_new(	char* environment_name,
 	}
 	else	{
 		environment->directory			=	environment_home_directory;
-	}
-	//	If no name is specified, we create an auto_name
-	if ( environment_name == NULL )	{
-		int			environment_auto_number		=	RPDB_RuntimeStorageController_environmentNextAutoNumber( RPDB_RuntimeStorageController_sharedInstance() );
-		char		environment_auto_number_string[ 6 ];
-		int			environment_name_length	=		strlen( RPDB_ENVIRONMENT_AUTO_HANDLE )
-																			+	strlen( environment_auto_number_string );
-		environment->name	=	calloc( environment_name_length, sizeof( char ) );
-		sprintf(	environment->name,
-							"%s%i",		RPDB_ENVIRONMENT_AUTO_HANDLE,
-												environment_auto_number );
-	}
-	else {
-		
-		environment->name				=	strdup( environment_name );
 	}
 	
 	RPDB_Environment_initDefaults( environment );
@@ -338,7 +322,7 @@ RPDB_Environment* RPDB_Environment_close( RPDB_Environment* environment )	{
 	
 		//	remove entry in runtime storage for this environment - we do this before closing so we have the bdb address, which is the key
 		RPDB_RuntimeStorageController_internal_removeStoredEnvironment(	RPDB_RuntimeStorageController_sharedInstance(),
-																		environment );
+																																		environment );
 		
 		//	Tell all locks to release
 		if ( environment->lock_controller != NULL )	{

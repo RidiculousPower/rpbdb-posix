@@ -36,7 +36,5 @@ RPDB_Environment* RPDB_RuntimeStorageController_internal_environmentForBDBEnviro
 																						DB_ENV*								bdb_environment	);
 RPDB_Database* RPDB_RuntimeStorageController_internal_databaseForBDBDatabase(	RPDB_RuntimeStorageController*		runtime_storage_controller,
 																			   DB*									bdb_database	);
-	
-int RPDB_RuntimeStorageController_environmentNextAutoNumber( RPDB_RuntimeStorageController*		runtime_storage_controller );
-	
+		
 #endif

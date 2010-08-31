@@ -31,9 +31,6 @@
 	BOOL											RPDB_DatabaseReadWriteSettingsController_returnMultiple(						RPDB_DatabaseReadWriteSettingsController*				database_read_write_settings_controller );
 	void										RPDB_DatabaseReadWriteSettingsController_turnReturnMultipleOn(					RPDB_DatabaseReadWriteSettingsController*				database_read_write_settings_controller );
 	void										RPDB_DatabaseReadWriteSettingsController_turnReturnMultipleOff(				RPDB_DatabaseReadWriteSettingsController*				database_read_write_settings_controller );
-	BOOL											RPDB_DatabaseReadWriteSettingsController_appendData(							RPDB_DatabaseReadWriteSettingsController*				database_read_write_settings_controller );
-	void										RPDB_DatabaseReadWriteSettingsController_turnAppendDataOn(						RPDB_DatabaseReadWriteSettingsController*				database_read_write_settings_controller );
-	void										RPDB_DatabaseReadWriteSettingsController_turnAppendDataOff(					RPDB_DatabaseReadWriteSettingsController*				database_read_write_settings_controller );
 	BOOL											RPDB_DatabaseReadWriteSettingsController_prohibitDuplicateData(				RPDB_DatabaseReadWriteSettingsController*				database_read_write_settings_controller );
 	void										RPDB_DatabaseReadWriteSettingsController_turnProhibitDuplicateDataOn(			RPDB_DatabaseReadWriteSettingsController*				database_read_write_settings_controller );
 	void										RPDB_DatabaseReadWriteSettingsController_turnProhibitDuplicateDataOff(			RPDB_DatabaseReadWriteSettingsController*				database_read_write_settings_controller );
