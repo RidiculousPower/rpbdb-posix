@@ -13,6 +13,8 @@
 #include "RPDB_Lock.h"
 #include "RPDB_Lock_internal.h"
 
+#include "RPDB_Database_internal.h"
+
 #include "RPDB_LockController.h"
 
 #include "RPDB_Environment.h"
@@ -37,6 +39,11 @@ RPDB_Lock* RPDB_Lock_new( RPDB_LockController* parent_lock_controller )	{
 
 	RPDB_Lock*		lock = calloc( 1, sizeof( RPDB_Lock ) );
 
+	if ( parent_lock_controller->runtime_storage_database != NULL )	{
+		lock->runtime_identifier =	RPDB_Database_internal_storeRuntimeAddress(	parent_lock_controller->runtime_storage_database,
+																																						(void*) lock );
+	}
+
 	lock->parent_lock_controller = parent_lock_controller;
 
 	//	Make call to instantiate local settings controller
@@ -50,6 +57,12 @@ RPDB_Lock* RPDB_Lock_new( RPDB_LockController* parent_lock_controller )	{
 *  free  *
 ***************************/
 void RPDB_Lock_free(	RPDB_Lock** lock )	{
+
+	if ( ( *lock )->parent_lock_controller->runtime_storage_database != NULL )	{
+		RPDB_Database_internal_freeStoredRuntimeAddress(	( *lock )->parent_lock_controller->runtime_storage_database,
+																											( *lock )->runtime_identifier );
+	}
+
 	if ( ( *lock )->settings_controller != NULL )	{
 		RPDB_LockSettingsController_free( & ( ( *lock )->settings_controller ) );
 	}

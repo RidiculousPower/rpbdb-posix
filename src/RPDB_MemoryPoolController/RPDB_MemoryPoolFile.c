@@ -12,6 +12,8 @@
  
 #include "RPDB_MemoryPoolFile.h"
 
+#include "RPDB_Database_internal.h"
+
 #include "RPDB_MemoryPoolFileSettingsController.h"
 #include "RPDB_MemoryPoolSettingsController_internal.h"
 
@@ -29,6 +31,11 @@ RPDB_MemoryPoolFile* RPDB_MemoryPoolFile_new( RPDB_MemoryPoolFileController* par
 	
 	RPDB_MemoryPoolFile*		memory_pool_file = calloc( 1, sizeof( RPDB_MemoryPoolFile ) );
 
+	if ( parent_memory_pool_file_controller->runtime_storage_database != NULL )	{
+		memory_pool_file->runtime_identifier =	RPDB_Database_internal_storeRuntimeAddress(	parent_memory_pool_file_controller->runtime_storage_database,
+																																												(void*) memory_pool_file );
+	}
+
 	memory_pool_file->parent_memory_pool_file_controller = parent_memory_pool_file_controller;
 
 	return memory_pool_file;
@@ -38,6 +45,12 @@ RPDB_MemoryPoolFile* RPDB_MemoryPoolFile_new( RPDB_MemoryPoolFileController* par
 *  free  *
 ***************************/
 void RPDB_MemoryPoolFile_free(	RPDB_MemoryPoolFile** memory_pool_file )	{
+
+	if ( ( *memory_pool_file )->parent_memory_pool_file_controller->runtime_storage_database != NULL )	{
+		RPDB_Database_internal_freeStoredRuntimeAddress(	( *memory_pool_file )->parent_memory_pool_file_controller->runtime_storage_database,
+																											( *memory_pool_file )->runtime_identifier );
+	}
+
 	if ( ( *memory_pool_file )->settings_controller != NULL )	{
 		RPDB_MemoryPoolFileSettingsController_free( & ( ( *memory_pool_file )->settings_controller ) );
 	}

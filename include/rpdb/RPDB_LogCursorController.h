@@ -22,7 +22,5 @@
 	void							RPDB_LogCursorController_closeAllCursors(			RPDB_LogCursorController*		cursor_controller );
 	void							RPDB_LogCursorController_freeAllCursors(			RPDB_LogCursorController*		cursor_controller );
 
-	char* RPDB_LogCursorController_internal_uniqueIdentifier( RPDB_LogCursorController* log_cursor_controller );
-
 #endif
 

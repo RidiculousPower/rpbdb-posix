@@ -36,7 +36,7 @@ RPDB_Database* RPDB_Database_new(	RPDB_DatabaseController*	parent_database_contr
 	void RPDB_Database_sync( RPDB_Database* database );
 	
 	void RPDB_Database_closeAllSecondaryDatabases( RPDB_Database* database );
-void RPDB_Database_freeAllSecondaryDatabases( RPDB_Database* database );
+	void RPDB_Database_freeAllSecondaryDatabases( RPDB_Database* database );
 	BOOL																								RPDB_Database_associateSecondaryDatabase(				RPDB_Database*			database, 
 																																								RPDB_Database*			secondary_database );
 	RPDB_Record* 																						RPDB_Database_compact(									RPDB_Database*			database, 
@@ -50,23 +50,23 @@ void RPDB_Database_freeAllSecondaryDatabases( RPDB_Database* database );
                                             														                                                		
 	//	Controllers                         															                                                		                    	
 	RPDB_DatabaseCursorController*																		RPDB_Database_cursorController(						RPDB_Database*			database );
-RPDB_DatabaseJoinController* RPDB_Database_joinController( RPDB_Database* database );
+	RPDB_DatabaseJoinController* RPDB_Database_joinController( RPDB_Database* database );
 	RPDB_DatabaseSettingsController*																	RPDB_Database_settingsController(						RPDB_Database*			database );
                                           														                                                		
-BOOL RPDB_Database_isPrimary(	RPDB_Database*	database );
+	BOOL RPDB_Database_isPrimary(	RPDB_Database*	database );
 	BOOL																								RPDB_Database_isSecondary(								RPDB_Database*			database );
 	
 	void RPDB_Database_setSecondaryKeyCreationCallbackMethod(	RPDB_Database*						secondary_database,
 																RPDB_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method);
 	RPDB_SecondaryKeyCallbackMethod RPDB_Database_secondaryKeyCreationCallbackMethod(	RPDB_Database*		secondary_database );
-RPDB_Database* RPDB_Database_createSecondaryIndex(	RPDB_Database*						primary_database,
-										 char*								index_name,
-										 RPDB_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method);
-RPDB_Database* RPDB_Database_databaseForSecondaryIndex(	RPDB_Database*		primary_database,
-														 char*				index_name );
-RPDB_Database* RPDB_Database_createSecondaryIndexWithDuplicates(	RPDB_Database*						primary_database,
-																	char*								index_name,
-																	RPDB_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method);
+	RPDB_Database* RPDB_Database_createSecondaryIndex(	RPDB_Database*						primary_database,
+																										 char*								index_name,
+																										 RPDB_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method);
+	RPDB_Database* RPDB_Database_databaseForSecondaryIndex(	RPDB_Database*		primary_database,
+															 char*				index_name );
+	RPDB_Database* RPDB_Database_createSecondaryIndexWithDuplicates(	RPDB_Database*						primary_database,
+																		char*								index_name,
+																		RPDB_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method);
 void RPDB_Database_createSecondaryIndexWithDatabase(	RPDB_Database*						primary_database,
 													RPDB_Database*						secondary_database,
 													char*								index_name,
@@ -131,11 +131,11 @@ void RPDB_Database_appendRawKeyDataPair(	RPDB_Database*			database,
 																					uint32_t						key_size,
 																					void*								write_data,
 																					uint32_t						data_size );
-void RPDB_Database_appendRawData(	RPDB_Database*			database, 
-																	void*								write_data,
-																	uint32_t						data_size );
-void RPDB_Database_appendData(	RPDB_Database*			database, 
-																RPDB_Data*					write_data );
+db_recno_t RPDB_Database_appendRawData(	RPDB_Database*			database, 
+																				void*								write_data,
+																				uint32_t						data_size );
+db_recno_t RPDB_Database_appendData(	RPDB_Database*			database, 
+																			RPDB_Data*					write_data );
 void RPDB_Database_appendKeyDataPair(	RPDB_Database*			database, 
 																			RPDB_Key*						primary_key,
 																			RPDB_Data*					write_data );

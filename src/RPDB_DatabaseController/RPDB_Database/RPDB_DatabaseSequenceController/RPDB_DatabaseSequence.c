@@ -16,6 +16,7 @@
 #include "RPDB_Environment.h"
 
 #include "RPDB_Database.h"
+#include "RPDB_Database_internal.h"
 
 #include "RPDB_Record.h"
 
@@ -41,6 +42,11 @@ RPDB_DatabaseSequence* RPDB_DatabaseSequence_new( RPDB_DatabaseSequenceControlle
 	
 	RPDB_DatabaseSequence*		database_sequence = calloc( 1, sizeof( RPDB_DatabaseSequence ) );
 	
+	if ( parent_database_sequence_controller->runtime_storage_database != NULL )	{
+		database_sequence->runtime_identifier =	RPDB_Database_internal_storeRuntimeAddress(	parent_database_sequence_controller->runtime_storage_database,
+																																												(void*) database_sequence );
+	}
+	
 	database_sequence->parent_database_sequence_controller = parent_database_sequence_controller;
 	
 	db_sequence_create(	&( database_sequence->wrapped_bdb_sequence ),
@@ -54,6 +60,12 @@ RPDB_DatabaseSequence* RPDB_DatabaseSequence_new( RPDB_DatabaseSequenceControlle
 *  free  *
 ***************************/
 void RPDB_DatabaseSequence_free(	RPDB_DatabaseSequence** database_sequence )	{
+
+	if ( ( *database_sequence )->parent_database_sequence_controller->runtime_storage_database != NULL )	{
+		RPDB_Database_internal_freeStoredRuntimeAddress(	( *database_sequence )->parent_database_sequence_controller->runtime_storage_database,
+																											( *database_sequence )->runtime_identifier );
+	}
+
 	if ( ( *database_sequence )->settings_controller != NULL )	{
 		RPDB_DatabaseSequenceSettingsController_free( & ( ( *database_sequence )->settings_controller ) );
 	}

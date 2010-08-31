@@ -13,8 +13,6 @@
 #include "RPDB_RuntimeStorageController.h"
 #include "RPDB_RuntimeStorageController_internal.h"
 
-#include "RPDB_RuntimeStorage.h"
-
 #include "RPDB_Environment.h"
 #include "RPDB_Environment_internal.h"
 
@@ -46,7 +44,6 @@
 #include "RPDB_MemoryPoolFileSettingsController.h"
 #include "RPDB_ThreadSettingsController.h"
 #include "RPDB_TransactionSettingsController.h"
-#include "RPDB_RuntimeStorageSettingsController.h"
 #include "RPDB_EnvironmentCacheSettingsController.h"
 
 #include <string.h>
@@ -101,10 +98,6 @@ void RPDB_RuntimeStorageController_free( RPDB_RuntimeStorageController** runtime
 	//	free runtime storage database cursor
 	if ( ( *runtime_storage_controller )->database_cursor != NULL )	{
 		RPDB_DatabaseCursor_free( & ( ( *runtime_storage_controller )->database_cursor ) );
-	}
-	//	free runtime settings controller
-	if ( ( *runtime_storage_controller )->settings_controller != NULL )	{
-		RPDB_RuntimeStorageSettingsController_free( & ( ( *runtime_storage_controller )->settings_controller ) );
 	}
 	//	free runtime storage environment
 	if ( ( *runtime_storage_controller )->runtime_environment != NULL )	{
@@ -191,13 +184,6 @@ RPDB_RuntimeStorageController* RPDB_RuntimeStorageController_internal_initRuntim
 	/*----------------------*
 	*  Settings Controller  *
 	*----------------------*/
-	
-	//	Initialize our runtime settings controller
-	//	RPDB_RuntimeStorageSettingsController
-	
-	RPDB_RuntimeStorageSettingsController*	runtime_storage_settings_controller		=	RPDB_RuntimeStorageSettingsController_new( runtime_storage_controller );
-
-	runtime_storage_controller->settings_controller																=	runtime_storage_settings_controller;
 	
 	RPDB_SettingsController*	settings_controller		=	RPDB_Environment_settingsController( runtime_storage_controller->runtime_environment );
 	
@@ -402,14 +388,11 @@ void RPDB_RuntimeStorageController_internal_storeEnvironmentForBDBEnvironment(	R
 	}
 
 	//	If we automatically set default environment then we need to do so here
-	if ( RPDB_RuntimeStorageSettingsController_automaticDefaultEnvironment( runtime_storage_controller->settings_controller ) )	{
+	if ( RPDB_RuntimeStorageController_defaultEnvironment( runtime_storage_controller ) == NULL )	{
 		
-		if ( RPDB_RuntimeStorageController_defaultEnvironment( runtime_storage_controller ) == NULL )	{
-			
-			RPDB_RuntimeStorageController_setDefaultEnvironment(	runtime_storage_controller,
-																														environment	);
-		}
-	}	
+		RPDB_RuntimeStorageController_setDefaultEnvironment(	runtime_storage_controller,
+																													environment	);
+	}
 }
 
 /****************************

@@ -134,9 +134,12 @@ BOOL RPDB_DatabaseCursor_isOpen( RPDB_DatabaseCursor* database_cursor );
 	db_recno_t RPDB_DatabaseCursor_countDuplicatesForCurrentKey( RPDB_DatabaseCursor* database_cursor );
 	void RPDB_DatabaseCursor_resetIteration( RPDB_DatabaseCursor* database_cursor );
 void RPDB_DatabaseCursor_resetDuplicateIteration( RPDB_DatabaseCursor* database_cursor );
-	RPDB_Record* RPDB_DatabaseCursor_iterate( RPDB_DatabaseCursor* database_cursor );
-	RPDB_Record* RPDB_DatabaseCursor_iterateDuplicates( RPDB_DatabaseCursor* database_cursor );
-	RPDB_Record* RPDB_DatabaseCursor_iterateKeys( RPDB_DatabaseCursor* database_cursor );
+	RPDB_Record* RPDB_DatabaseCursor_iterate( RPDB_DatabaseCursor* database_cursor,
+																						RPDB_Record*					record );
+	RPDB_Record* RPDB_DatabaseCursor_iterateDuplicates( RPDB_DatabaseCursor* database_cursor,
+																											RPDB_Record*					record );
+	RPDB_Record* RPDB_DatabaseCursor_iterateKeys( RPDB_DatabaseCursor* database_cursor,
+																								RPDB_Record*					record );
 	RPDB_DatabaseCursor* RPDB_DatabaseCursor_deleteCurrentRecord( RPDB_DatabaseCursor*	database_cursor );
 	RPDB_DatabaseCursor* RPDB_DatabaseCursor_deleteKey(	RPDB_DatabaseCursor*	database_cursor,
 	 														RPDB_Key*								key	);

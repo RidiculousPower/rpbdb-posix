@@ -13,6 +13,8 @@
 #include "RPDB_Mutex.h"
 #include "RPDB_Mutex_internal.h"
 
+#include "RPDB_Database_internal.h"
+
 #include "RPDB_MutexController.h"
 
 #include "RPDB_Environment.h"
@@ -36,6 +38,11 @@ RPDB_Mutex* RPDB_Mutex_new( RPDB_MutexController* parent_mutex_controller )	{
 
 	RPDB_Mutex*	mutex	=	calloc( 1, sizeof( RPDB_Mutex ) );
 
+	if ( parent_mutex_controller->runtime_storage_database != NULL )	{
+		mutex->runtime_identifier =	RPDB_Database_internal_storeRuntimeAddress(	parent_mutex_controller->runtime_storage_database,
+																																						(void*) mutex );
+	}
+
 	mutex->parent_mutex_controller = parent_mutex_controller;
 	
 	//	Make call to instantiate local settings controller
@@ -48,6 +55,11 @@ RPDB_Mutex* RPDB_Mutex_new( RPDB_MutexController* parent_mutex_controller )	{
 *  free  *
 ***************************/
 void RPDB_Mutex_free(	RPDB_Mutex** mutex )	{
+
+	if ( ( *mutex )->parent_mutex_controller->runtime_storage_database != NULL )	{
+		RPDB_Database_internal_freeStoredRuntimeAddress(	( *mutex )->parent_mutex_controller->runtime_storage_database,
+																											( *mutex )->runtime_identifier );
+	}
 
 	if ( ( *mutex )->settings_controller != NULL )	{
 		RPDB_MutexSettingsController_free( & ( ( *mutex )->settings_controller ) );

@@ -55,6 +55,7 @@
 	#define RPDB_ERROR_MESSAGE_DEFAULT_ENVIRONMENT_NOT_FOUND	"Default Environment was missing."
 	#define RPDB_ERROR_MESSAGE_ENVIRONMENT_NOT_FOUND					"Requested Environment was missing."
 	
+	#define DEFAULT_ENVIRONMENT_HOME_DIRECTORY								"./"
 	#define RPDB_DATABASE_FILENAME_EXTENSION									"db"
 	#define RPDB_DELIMITER																		"-##-"
 	#define	RPDB_ENVIRONMENT_AUTO_HANDLE											"environment_auto_name_"

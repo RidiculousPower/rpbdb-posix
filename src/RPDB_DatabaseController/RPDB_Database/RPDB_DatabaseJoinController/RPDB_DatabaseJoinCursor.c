@@ -16,6 +16,7 @@
 #include "RPDB_DatabaseJoinController.h"
 
 #include "RPDB_Database.h"
+#include "RPDB_Database_internal.h"
 #include "RPDB_DatabaseCursor.h"
 
 #include "RPDB_Environment.h"
@@ -44,6 +45,11 @@ RPDB_DatabaseJoinCursor* RPDB_DatabaseJoinCursor_new( RPDB_DatabaseJoinControlle
 
 	RPDB_DatabaseJoinCursor*		join_cursor = calloc( 1, sizeof( RPDB_DatabaseJoinCursor ) );
 	
+	if ( parent_join_controller->runtime_storage_database != NULL )	{
+		join_cursor->runtime_identifier =	RPDB_Database_internal_storeRuntimeAddress(	parent_join_controller->runtime_storage_database,
+																																									(void*) join_cursor );
+	}
+	
 	join_cursor->parent_join_controller = parent_join_controller;
 		
 	//	Make call to instantiate local settings controller
@@ -56,6 +62,11 @@ RPDB_DatabaseJoinCursor* RPDB_DatabaseJoinCursor_new( RPDB_DatabaseJoinControlle
 *  free  *
 ***************************/
 void RPDB_DatabaseJoinCursor_free(	RPDB_DatabaseJoinCursor** join_cursor )	{
+
+	if ( ( *join_cursor )->parent_join_controller->runtime_storage_database != NULL )	{
+		RPDB_Database_internal_freeStoredRuntimeAddress(	( *join_cursor )->parent_join_controller->runtime_storage_database,
+																											( *join_cursor )->runtime_identifier );
+	}
 
 	//	close self if open
 	if ( RPDB_DatabaseJoinCursor_isOpen( *join_cursor ) )	{
@@ -179,28 +190,20 @@ RPDB_Record* RPDB_DatabaseJoinCursor_iterate(	RPDB_DatabaseJoinCursor*	database_
 
 	int	error	=	0;
 	if ( ( error  = database_join_cursor->wrapped_bdb_join_cursor->get(	database_join_cursor->wrapped_bdb_join_cursor,
-																		record->key->wrapped_bdb_dbt,
-																		record->data->wrapped_bdb_dbt,
-																		RPDB_NO_FLAGS ) ) != 0 ) {
+																																			record->key->wrapped_bdb_dbt,
+																																			record->data->wrapped_bdb_dbt,
+																																			RPDB_NO_FLAGS ) ) != 0 ) {
 		
 		//	If we get here we want no error or DB_NOTFOUND
 		if ( error == DB_NOTFOUND )	{
-			
-			return NULL;
+			record->result = FALSE;
 		}
 		else {
 			
 			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_join_cursor->primary_database->parent_database_controller->parent_environment ), 
-															error, 
-															"RPDB_DatabaseJoinCursor_iterate" );		
+																										error, 
+																										"RPDB_DatabaseJoinCursor_iterate" );		
 		}
-	}
-
-	//	DB_NOTFOUND should result in record getting set NULL here
-	//	If we don't have a next record we're done iterating - reset the counter and return NULL
-	if (	record == NULL
-		||	RPDB_Record_rawData( record ) == NULL )	{
-		record = NULL;
 	}
 
 	return record;

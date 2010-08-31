@@ -41,7 +41,6 @@
 #include "RPDB_DatabaseRecordSettingsController.h"
 
 #include "RPDB_MemoryPoolReadWriteSettingsController.h"
-#include "RPDB_RuntimeStorageSettingsController.h"
 
 #include "RPDB_SettingsController_internal.h"
 
@@ -92,9 +91,6 @@ void RPDB_SettingsController_free(	RPDB_SettingsController** settings_controller
 	}
 	if ( ( *settings_controller )->message_settings_controller != NULL )	{
 		RPDB_MessageSettingsController_free( & ( ( *settings_controller )->message_settings_controller ) );
-	}
-	if ( ( *settings_controller )->runtime_storage_settings_controller != NULL )	{
-		RPDB_RuntimeStorageSettingsController_free( & ( ( *settings_controller )->runtime_storage_settings_controller ) );
 	}
 	if ( ( *settings_controller )->replication_settings_controller != NULL )	{
 		RPDB_ReplicationSettingsController_free( & ( ( *settings_controller )->replication_settings_controller ) );

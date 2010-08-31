@@ -27,7 +27,6 @@
 #include "RPDB_DatabaseCursorSettingsController.h"
 
 #include "RPDB_RuntimeStorageController.h"
-#include "RPDB_RuntimeStorage.h"
 
 #include <string.h>
 
@@ -130,27 +129,8 @@ RPDB_DatabaseCursor* RPDB_DatabaseCursorController_cursor( RPDB_DatabaseCursorCo
 
 void RPDB_DatabaseCursorController_closeAllCursors( RPDB_DatabaseCursorController* cursor_controller )	{
 
-	//	our cursor controller in runtime storage doesn't have runtime storage, cursors are closed manually
-	if (		cursor_controller 
-			&&	cursor_controller->runtime_storage_database )	{
-
-		RPDB_DatabaseCursorController*	database_cursor_controller	=	RPDB_Database_cursorController( cursor_controller->runtime_storage_database );
-		//	don't let our controller track the cursor - open, close, free manually
-		RPDB_DatabaseCursor*						cursor											=	RPDB_DatabaseCursor_new( database_cursor_controller );
-		
-		RPDB_DatabaseCursor_retrieveFirst( cursor );
-	
-		RPDB_Record*	record	=	NULL;
-		while ( ( record = RPDB_DatabaseCursor_iterate( cursor ) ) != NULL )	{
-
-			RPDB_DatabaseCursor*	this_cursor	=	(RPDB_DatabaseCursor*) *(uintptr_t*) RPDB_Record_rawData( record );
-			
-			RPDB_DatabaseCursor_close( this_cursor );			
-		}
-		
-		RPDB_DatabaseCursor_close( cursor );
-		RPDB_DatabaseCursor_free( & cursor );
-	}
+	RPDB_Database_internal_closeAllStoredRuntimeAddresses(	cursor_controller->runtime_storage_database,
+																													(void *(*)(void*)) & RPDB_DatabaseCursor_close );
 }
 
 /*******************
@@ -160,23 +140,8 @@ void RPDB_DatabaseCursorController_closeAllCursors( RPDB_DatabaseCursorControlle
 //	free all cursors; close if necessary
 void RPDB_DatabaseCursorController_freeAllCursors( RPDB_DatabaseCursorController* cursor_controller )	{
 	
-	RPDB_DatabaseCursor*	runtime_storage_cursor	=	RPDB_Database_cursor( cursor_controller->runtime_storage_database );
-	
-	RPDB_DatabaseCursor_retrieveFirst( runtime_storage_cursor );
-	
-	RPDB_Record*	record		=	NULL;
-	
-	while ( ( record = RPDB_DatabaseCursor_iterate( runtime_storage_cursor ) ) != NULL )	{
-		
-		RPDB_DatabaseCursor* this_cursor	=	(RPDB_DatabaseCursor*) *(uintptr_t*) RPDB_Record_rawData( record );
-		
-		if ( this_cursor != NULL )	{
-			//	free cursor - function already names proper closing etc.
-			RPDB_DatabaseCursor_free( & this_cursor );
-		}
-		
-		RPDB_DatabaseCursor_deleteCurrentRecord( runtime_storage_cursor );
-	}
+	RPDB_Database_internal_freeAllStoredRuntimeAddresses(	cursor_controller->runtime_storage_database,
+																													(void *(*)(void**)) & RPDB_DatabaseCursor_free );
 }
 
 /*******************************************************************************************************************************************************************************************
@@ -198,40 +163,3 @@ RPDB_DatabaseCursorController* RPDB_DatabaseCursorController_internal_newWithout
 	return cursor_controller;
 }
 
-/*********************
-*  uniqueIdentifier  *
-*********************/
-
-char* RPDB_DatabaseCursorController_internal_uniqueIdentifier( RPDB_DatabaseCursorController* database_cursor_controller )	{
-	
-	RPDB_Database*	parent_database					=	database_cursor_controller->parent_database;
-	char*						parent_database_name		=	parent_database->name;
-	
-	uintptr_t		parent_database_address	=	(uintptr_t) parent_database;
-	
-	char*		parent_database_address_string		=	calloc( 21, sizeof( char ) );
-	sprintf(	parent_database_address_string,
-						"%" PRIxPTR "",			parent_database_address );
-	
-	//	we have a name to identify our database cursor instance, which guarantees that names
-	//	will always be unique for storage
-	int			unique_identifier_length			=		strlen( "database_cursor_controller"  ) 
-																					+	strlen( RPDB_DELIMITER )
-																					+	strlen( parent_database_name )
-																					+	strlen( RPDB_DELIMITER )
-																					+	strlen( parent_database_address_string )
-																					+	1;
-	char*		unique_identifier					=	calloc( unique_identifier_length, sizeof( char ) );
-	
-	sprintf(	unique_identifier,
-						"%s%s%s%s%s",		"database_cursor_controller",
-														RPDB_DELIMITER,
-														parent_database_name,
-														RPDB_DELIMITER,
-														parent_database_address_string	);
-	
-	free( parent_database_address_string );
-	parent_database_address_string	=	NULL;
-	
-	return unique_identifier;
-}

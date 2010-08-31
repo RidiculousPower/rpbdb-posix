@@ -15,8 +15,5 @@ int RPDB_DatabaseController_internal_associateCallback_Database__bdb_db_address(
 																					 const DBT*		bdb_key, 
 																					 const DBT*		bdb_data, 
 																					 DBT*			bdb_return_data	);
-char* RPDB_DatabaseController_internal_uniqueIdentifier( RPDB_DatabaseController* database_controller );
-
-char* RPDB_DatabaseController_internal_autonumberName( RPDB_DatabaseController* database_controller );
 	
 #endif

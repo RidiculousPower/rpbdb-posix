@@ -14,6 +14,8 @@
 #include "RPDB_LockController_internal.h"
 
 #include "RPDB_Database.h"
+#include "RPDB_Database_internal.h"
+#include "RPDB_DatabaseCursor.h"
 
 #include "RPDB_Lock.h"
 
@@ -24,8 +26,6 @@
 #include "RPDB_SettingsController.h"
 #include "RPDB_LockSettingsController.h"
 #include "RPDB_LockSettingsController_internal.h"
-
-#include "RPDB_RuntimeStorage.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -342,15 +342,8 @@ int RPDB_LockController_clearLockRequestForRandomLocker( RPDB_LockController* lo
 
 void RPDB_LockController_closeAllLocks( RPDB_LockController* lock_controller )	{
 	
-	//	FIX - needs to iterate not shift
-	
-	RPDB_Record*	record		=	NULL;	
-	while ( ( record = RPDB_Database_shiftQueue( lock_controller->runtime_storage_database ) ) != NULL )	{
-		
-		RPDB_Lock*	this_lock	=	(RPDB_Lock*) *(uintptr_t*) RPDB_Record_rawData( record );
-		
-		RPDB_Lock_unlock( this_lock );
-	}	
+	RPDB_Database_internal_closeAllStoredRuntimeAddresses(	lock_controller->runtime_storage_database,
+																													(void *(*)(void*)) & RPDB_Lock_unlock );
 }
 
 /*********************
@@ -359,13 +352,8 @@ void RPDB_LockController_closeAllLocks( RPDB_LockController* lock_controller )	{
 
 void RPDB_LockController_freeAllLocks( RPDB_LockController* lock_controller )	{
 
-	RPDB_Record*	record		=	NULL;	
-	while ( ( record = RPDB_Database_shiftQueue( lock_controller->runtime_storage_database ) ) != NULL )	{
-		
-		RPDB_Lock*	this_lock	=	(RPDB_Lock*) *(uintptr_t*) RPDB_Record_rawData( record );
-		
-		RPDB_Lock_free( & this_lock );
-	}	
+	RPDB_Database_internal_freeAllStoredRuntimeAddresses(	lock_controller->runtime_storage_database,
+																												(void *(*)(void**)) & RPDB_Lock_free );
 }
 
 

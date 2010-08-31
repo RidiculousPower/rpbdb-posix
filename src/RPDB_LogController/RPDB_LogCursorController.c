@@ -25,7 +25,6 @@
 #include "RPDB_Data.h"
 
 #include "RPDB_RuntimeStorageController.h"
-#include "RPDB_RuntimeStorage.h"
 
 #include <string.h>
 
@@ -86,15 +85,8 @@ RPDB_Environment* RPDB_LogCursorController_parentEnvironment(	RPDB_LogCursorCont
 
 void RPDB_LogCursorController_closeAllCursors( RPDB_LogCursorController* cursor_controller )	{
 
-	RPDB_DatabaseCursorController*	runtime_storage_cursor_controller	=	RPDB_Database_cursorController( cursor_controller->runtime_storage_database );
-	RPDB_DatabaseCursor*	cursor	=	RPDB_DatabaseCursor_new( runtime_storage_cursor_controller );
-	RPDB_Record*	record	=	NULL;
-	while ( ( record = RPDB_DatabaseCursor_retrieveNext( cursor ) ) != NULL )	{
-		RPDB_LogCursor* this_log_cursor	=	(RPDB_LogCursor*) *(uintptr_t*) RPDB_Record_rawData( record );
-		RPDB_LogCursor_close( this_log_cursor );
-	}
-	RPDB_DatabaseCursor_close( cursor );
-	RPDB_DatabaseCursor_free( & cursor );
+	RPDB_Database_internal_closeAllStoredRuntimeAddresses(	cursor_controller->runtime_storage_database,
+																													(void *(*)(void*)) & RPDB_LogCursor_close );
 }
 
 /*********************
@@ -103,13 +95,8 @@ void RPDB_LogCursorController_closeAllCursors( RPDB_LogCursorController* cursor_
 
 void RPDB_LogCursorController_freeAllCursors( RPDB_LogCursorController* cursor_controller )	{
 
-	RPDB_Record*	record		=	NULL;	
-	while ( ( record = RPDB_Database_shiftQueue( cursor_controller->runtime_storage_database ) ) != NULL )	{
-		
-		RPDB_LogCursor*	this_log_cursor	=	(RPDB_LogCursor*) *(uintptr_t*) RPDB_Record_rawData( record );
-		
-		RPDB_LogCursor_free( & this_log_cursor );
-	}	
+	RPDB_Database_internal_freeAllStoredRuntimeAddresses(	cursor_controller->runtime_storage_database,
+																												(void *(*)(void**)) & RPDB_LogCursor_free );
 }
 
 /*******************************************************************************************************************************************************************************************
@@ -117,43 +104,4 @@ void RPDB_LogCursorController_freeAllCursors( RPDB_LogCursorController* cursor_c
 																		Internal Methods
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
-
-
-/*********************
-*  uniqueIdentifier  *
-*********************/
-
-char* RPDB_LogCursorController_internal_uniqueIdentifier( RPDB_LogCursorController* log_cursor_controller )	{
-	
-	RPDB_Environment*	parent_environment			=	log_cursor_controller->parent_log_controller->parent_environment;
-	char*				parent_environment_name	=	parent_environment->name;
-
-	uintptr_t	parent_environment_address			=	(uintptr_t) parent_environment;
-	
-	char*		parent_environment_address_string		=	calloc( 21, sizeof( char ) );
-	sprintf(	parent_environment_address_string,
-						"%" PRIxPTR "",			parent_environment_address );
-	
-	//	we have one database controller per environment, so using the environment's pointer address (which is always unique)
-	//	should suffice
-	int			unique_identifier_length			=		strlen( "log_cursor_controller"  ) 
-														+	strlen( RPDB_DELIMITER )
-														+	strlen( parent_environment_name )
-														+	strlen( RPDB_DELIMITER )
-														+	strlen( parent_environment_address_string )
-														+	1;
-	char*		unique_identifier					=	calloc( unique_identifier_length, sizeof( char ) );
-	
-	sprintf(	unique_identifier,
-				"%s%s%s%s%s",		"log_cursor_controller",
-									RPDB_DELIMITER,
-									parent_environment_name,
-									RPDB_DELIMITER,
-									parent_environment_address_string	);
-	
-	free( parent_environment_address_string );
-	parent_environment_address_string	=	NULL;
-	
-	return unique_identifier;
-}
 

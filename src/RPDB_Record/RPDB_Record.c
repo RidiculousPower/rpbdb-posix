@@ -13,6 +13,8 @@
 #include "RPDB_Record.h"
 #include "RPDB_Record_internal.h"
 
+#include "RPDB_Database_internal.h"
+
 #include "RPDB_Key.h"
 #include "RPDB_Data.h"
 #include "RPDB_DBT.h"
@@ -40,6 +42,11 @@ RPDB_Record* RPDB_Record_new( RPDB_Database* parent_database )	{
 
 	RPDB_Record*	record = RPDB_Record_internal_newWithoutDBT( parent_database );
 
+	if ( parent_database->runtime_storage_database != NULL )	{
+		record->runtime_identifier =	RPDB_Database_internal_storeRuntimeAddress(	parent_database->runtime_storage_database,
+																																							(void*) record );
+	}
+
 	//	We have one primary key
 	record->key = RPDB_Key_new( record );
 
@@ -53,6 +60,11 @@ RPDB_Record* RPDB_Record_new( RPDB_Database* parent_database )	{
 }
 
 void	RPDB_Record_free( RPDB_Record** record )	{
+
+	if ( ( *record )->parent_database->runtime_storage_database != NULL )	{
+		RPDB_Database_internal_freeStoredRuntimeAddress(	( *record )->parent_database->runtime_storage_database,
+																											( *record )->runtime_identifier );
+	}
 
 	if ( ( *record )->key != NULL )	{
 		
@@ -288,7 +300,7 @@ RPDB_Key* RPDB_Record_retrievalKey( RPDB_Record* record )	{
 ******************/
 
 void RPDB_Record_setExistsInDatabase(	RPDB_Record*	record,
-										BOOL			data_status	)	{
+																			BOOL			data_status	)	{
 
 	record->exists_in_database = data_status;
 }
@@ -306,7 +318,7 @@ int RPDB_Record_existsInDatabase( RPDB_Record* record )	{
 ******************/
 
 void RPDB_Record_setRequiresUpdateToDatabase(	RPDB_Record*	record,
-												BOOL			data_status	)	{
+																							BOOL			data_status	)	{
 	record->requires_update_to_database = data_status;
 }
 

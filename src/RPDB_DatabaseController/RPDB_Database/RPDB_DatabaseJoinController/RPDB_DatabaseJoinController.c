@@ -30,7 +30,6 @@
 #include "RPDB_DatabaseJoinSettingsController_internal.h"
 
 #include "RPDB_RuntimeStorageController.h"
-#include "RPDB_RuntimeStorage.h"
 
 #include <string.h>
 
@@ -183,17 +182,8 @@ RPDB_DatabaseJoinCursor* RPDB_DatabaseJoinController_join(	RPDB_DatabaseJoinCont
 
 void RPDB_DatabaseJoinController_closeAllCursors( RPDB_DatabaseJoinController* database_join_controller )	{
 
-	//	our cursor controller in runtime storage doesn't have runtime storage, cursors are closed manually
-	if (	database_join_controller 
-		&&	database_join_controller->runtime_storage_database )	{
-		
-		RPDB_Record*	record	=	NULL;
-		
-		while( ( record = RPDB_Database_shiftQueue( database_join_controller->runtime_storage_database ) ) != NULL )	{
-			RPDB_DatabaseJoinCursor*	join_cursor	=	(RPDB_DatabaseJoinCursor*) *(uintptr_t*) RPDB_Record_rawData( record );
-			RPDB_DatabaseJoinCursor_close( join_cursor );
-		}
-	}
+	RPDB_Database_internal_closeAllStoredRuntimeAddresses(	database_join_controller->runtime_storage_database,
+																													(void *(*)(void*)) & RPDB_DatabaseJoinCursor_close );
 }
 
 /*******************
@@ -202,16 +192,8 @@ void RPDB_DatabaseJoinController_closeAllCursors( RPDB_DatabaseJoinController* d
 
 void RPDB_DatabaseJoinController_freeAllCursors( RPDB_DatabaseJoinController* database_join_controller )	{
 
-	RPDB_Record*	record		=	NULL;	
-	while ( ( record = RPDB_Database_shiftQueue( database_join_controller->runtime_storage_database ) ) != NULL )	{
-		
-		RPDB_DatabaseJoinCursor* this_cursor	=	(RPDB_DatabaseJoinCursor*) *(uintptr_t*) RPDB_Record_rawData( record );
-		
-		if ( this_cursor != NULL )	{
-			//	free cursor - function already names proper closing etc.
-			RPDB_DatabaseJoinCursor_free( & this_cursor );
-		}
-	}
+	RPDB_Database_internal_freeAllStoredRuntimeAddresses(	database_join_controller->runtime_storage_database,
+																												(void *(*)(void**)) & RPDB_DatabaseJoinCursor_free );
 }
 
 /*******************************************************************************************************************************************************************************************
@@ -220,40 +202,3 @@ void RPDB_DatabaseJoinController_freeAllCursors( RPDB_DatabaseJoinController* da
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-/*********************
-*  uniqueIdentifier  *
-*********************/
-
-char* RPDB_DatabaseJoinController_internal_uniqueIdentifier( RPDB_DatabaseJoinController* database_join_controller )	{
-	
-	RPDB_Database*	parent_database					=	database_join_controller->parent_database;
-	char*			parent_database_name			=	parent_database->name;
-	
-	uintptr_t	parent_database_address	=	(uintptr_t) parent_database;
-
-	char*		parent_database_address_string		=	calloc( 21, sizeof( char ) );
-	sprintf(	parent_database_address_string,
-						"%" PRIxPTR "",			parent_database_address );
-
-	//	we have a name to identify our database cursor instance, which guarantees that names
-	//	will always be unique for storage
-	int			unique_identifier_length			=		strlen( "database_join_controller"  ) 
-														+	strlen( RPDB_DELIMITER )
-														+	strlen( parent_database_name )
-														+	strlen( RPDB_DELIMITER )
-														+	strlen( parent_database_address_string )
-														+	1;
-	char*		unique_identifier					=	calloc( unique_identifier_length, sizeof( char ) );
-		
-	sprintf(	unique_identifier,
-				"%s%s%s%s%s",		"database_join_controller",
-									RPDB_DELIMITER,
-									parent_database_name,
-									RPDB_DELIMITER,
-									parent_database_address_string	);
-	
-	free( parent_database_address_string );
-	parent_database_address_string	=	NULL;
-	
-	return unique_identifier;
-}

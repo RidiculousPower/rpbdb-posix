@@ -23,7 +23,6 @@
 #include "RPDB_Record.h"
 #include "RPDB_Data.h"
 
-#include "RPDB_RuntimeStorage.h"
 #include "RPDB_RuntimeStorageController.h"
 
 #include <string.h>
@@ -111,6 +110,8 @@ RPDB_Database* RPDB_DatabaseController_newDatabase(	RPDB_DatabaseController*	dat
 																& database_address,
 																sizeof( uintptr_t ) );
 
+	database->runtime_identifier	=	database_controller->record_number;
+
 	return database;
 }
 
@@ -121,13 +122,8 @@ RPDB_Database* RPDB_DatabaseController_newDatabase(	RPDB_DatabaseController*	dat
 //	Close all Databases
 void RPDB_DatabaseController_closeAllDatabases( RPDB_DatabaseController* database_controller )	{
 	
-	RPDB_Record*	record		=	NULL;	
-	while ( ( record = RPDB_Database_shiftQueue( database_controller->runtime_storage_database ) ) != NULL )	{
-		
-		RPDB_Database*	this_database	=	(RPDB_Database*) *(uintptr_t*) RPDB_Record_rawData( record );
-		
-		RPDB_Database_close( this_database );
-	}	
+	RPDB_Database_internal_closeAllStoredRuntimeAddresses(	database_controller->runtime_storage_database,
+																													(void *(*)(void*)) & RPDB_Database_close );
 }
 
 /*********************
@@ -137,13 +133,8 @@ void RPDB_DatabaseController_closeAllDatabases( RPDB_DatabaseController* databas
 //	Free all Databases (close if necessary)
 void RPDB_DatabaseController_freeAllDatabases( RPDB_DatabaseController* database_controller )	{
 
-	RPDB_Record*	record		=	NULL;	
-	while ( ( record = RPDB_Database_shiftQueue( database_controller->runtime_storage_database ) ) != NULL )	{
-		
-		RPDB_Database*	this_database	=	(RPDB_Database*) *(uintptr_t*) RPDB_Record_rawData( record );
-		
-		RPDB_Database_free( & this_database );
-	}	
+	RPDB_Database_internal_freeAllStoredRuntimeAddresses(	database_controller->runtime_storage_database,
+																												(void *(*)(void**)) & RPDB_Database_free );
 }
 
 /*******************************************************************************************************************************************************************************************
@@ -163,42 +154,5 @@ RPDB_DatabaseController* RPDB_DatabaseController_internal_newWithoutRuntimeStora
 	database_controller->parent_environment = parent_environment;
 
 	return database_controller;
-}
-
-/*********************
-*  uniqueIdentifier  *
-*********************/
-
-char* RPDB_DatabaseController_internal_uniqueIdentifier( RPDB_DatabaseController* database_controller )	{
-	
-	RPDB_Environment*	parent_environment				=	database_controller->parent_environment;
-	char*				parent_environment_name	=	parent_environment->name;
-	
-	uintptr_t	parent_environment_address				=	(uintptr_t) parent_environment;
-	
-	char*		parent_environment_address_string		=	calloc( 21, sizeof( char ) );
-	sprintf(	parent_environment_address_string,
-						"%" PRIxPTR "",			parent_environment_address );
-	//	we have one database controller per environment, so using the environment's pointer address (which is always unique)
-	//	should suffice
-	int			unique_identifier_length			=		strlen( "database_controller"  )
-																					+	strlen( RPDB_DELIMITER )
-																					+	strlen( parent_environment_name )
-																					+	strlen( RPDB_DELIMITER )
-																					+	strlen( parent_environment_address_string )
-																					+	1;
-	char*		unique_identifier		=	calloc( unique_identifier_length , sizeof( char ) );
-	
-	sprintf(	unique_identifier,
-						"%s%s%s%s%s",		"database_controller",
-														RPDB_DELIMITER,
-														parent_environment_name,
-														RPDB_DELIMITER,
-														parent_environment_address_string	);
-	
-	free( parent_environment_address_string );
-	parent_environment_address_string	=	NULL;
-
-	return unique_identifier;
 }
 

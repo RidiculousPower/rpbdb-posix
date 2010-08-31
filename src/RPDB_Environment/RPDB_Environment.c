@@ -51,7 +51,6 @@
 #include "RPDB_LogSettingsController_internal.h"
 
 #include "RPDB_RuntimeStorageController.h"
-#include "RPDB_RuntimeStorage_internal.h"
 #include "RPDB_RuntimeStorageController_internal.h"
 
 #include <string.h>
@@ -76,7 +75,7 @@ RPDB_Environment* RPDB_Environment_new(	char* environment_home_directory )	{
 
 	//	If no directory is specified we use current working directory
 	if ( environment_home_directory == NULL )	{
-		environment->directory		=	"./";
+		environment->directory		=	DEFAULT_ENVIRONMENT_HOME_DIRECTORY;
 	}
 	else	{
 		environment->directory			=	environment_home_directory;
@@ -407,7 +406,7 @@ RPDB_Environment* RPDB_Environment_erase( RPDB_Environment* environment )	{
 
 void RPDB_Environment_checkForEnvironmentFailure( RPDB_Environment* environment )	{
 	environment->wrapped_bdb_environment->failchk(	environment->wrapped_bdb_environment,
-													RPDB_NO_FLAGS );
+																									RPDB_NO_FLAGS );
 }	
 
 /***********
@@ -423,7 +422,7 @@ char* RPDB_Environment_name( RPDB_Environment* environment )	{
 **************/
 
 void RPDB_Environment_setName(	RPDB_Environment*		environment,
-																	char*								name )	{
+																char*								name )	{
 	environment->name	=	strdup( name );
 }
 	
@@ -449,7 +448,7 @@ RPDB_ErrorController* RPDB_Environment_errorController( RPDB_Environment* enviro
 *  databaseController  *
 ***********************/
 
-RPDB_DatabaseController*					RPDB_Environment_databaseController( RPDB_Environment* environment )	{
+RPDB_DatabaseController* RPDB_Environment_databaseController( RPDB_Environment* environment )	{
 
 	if ( environment->database_controller == NULL )	{
 		environment->database_controller = RPDB_DatabaseController_new( environment );
@@ -953,43 +952,3 @@ int RPDB_Environment_internal_defaultIsThreadAliveCallback(	DB_ENV*			bdb_enviro
 	
 	return TRUE;
 }
-
-/*********************
-*  uniqueIdentifier  *
-*********************/
-
-char* RPDB_Environment_internal_uniqueIdentifier( RPDB_Environment* environment )	{
-	
-	char*		environment_name		=	environment->name;
-
-	uintptr_t	environment_address			=	(uintptr_t) environment;
-	
-	char*		environment_address_string		=	calloc( 21, sizeof( char ) );
-	sprintf(	environment_address_string,
-						"%" PRIxPTR "",			environment_address );
-	
-	//	we have a name to identify our environment instance, which guarantees that names
-	//	will always be unique for storage
-	int			unique_identifier_length	=		strlen( "environment" ) 
-												+	strlen( RPDB_DELIMITER )
-												+	strlen( environment_name )
-												+	strlen( RPDB_DELIMITER )
-												+	strlen( environment_address_string )
-												+	1;
-	char*		unique_identifier		=	calloc( unique_identifier_length, sizeof( char ) );
-	
-	sprintf(	unique_identifier,
-				"%s%s%s%s%s",		"environment", 
-									RPDB_DELIMITER,
-									environment_name, 
-									RPDB_DELIMITER,
-									environment_address_string	);
-	
-	free( environment_address_string );
-	environment_address_string = NULL;
-
-	return unique_identifier;
-}
-
-
-

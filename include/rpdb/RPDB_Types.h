@@ -99,9 +99,8 @@ typedef struct RPDB_Directory												RPDB_Directory;
 typedef struct RPDB_DatabaseOpenedDuringTransaction						RPDB_DatabaseOpenedDuringTransaction;
 
 typedef		RPDB_SECONDARY_KEY_CREATION_RETURN	(*RPDB_SecondaryKeyCallbackMethod)(	RPDB_Database*			secondary_database,
-																						RPDB_Record*			primary_record,
-																						RPDB_SecondaryKeys*	secondary_keys_to_return );
-
+																																									RPDB_Record*			primary_record,
+																																									RPDB_SecondaryKeys*	secondary_keys_to_return );
 
 /*************************************
 *  Thread Settings Callback Methods  *
@@ -202,6 +201,8 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 									//	Parent
 									RPDB_MemoryPoolFilePageController*										parent_memory_pool_file_page_controller;
 
+									db_recno_t					runtime_identifier;
+
 									db_pgno_t*																page_address;
 
 									void*																	page_data;
@@ -222,6 +223,8 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 									//	Parent
 									RPDB_MemoryPoolFile*										parent_memory_pool_file;
 
+									RPDB_Database*													runtime_storage_database;
+
 									RPDB_SettingsController*								environment_settings_controller;
 									RPDB_MemoryPoolFilePageSettingsController*				settings_controller;
 									RPDB_MemoryPoolFilePageSettingsController*				environment_level_settings_controller;
@@ -235,6 +238,8 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 
 								//	Parent
 								RPDB_MemoryPoolFileController*								parent_memory_pool_file_controller;
+
+								db_recno_t					runtime_identifier;
 
 								//	Wrapped BDB memory pool file
 								DB_MPOOLFILE*												wrapped_bdb_memory_pool_file;
@@ -252,6 +257,8 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 
 							//	Parent
 							RPDB_MemoryPoolController*			parent_memory_pool_controller;
+							
+							RPDB_Database*									runtime_storage_database;
 /*
 							int									(*page_in_method)(	RPDB_Environment*			environment,
 							   														void*			page_data,
@@ -1326,6 +1333,8 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					//	Parent
 					RPDB_TransactionController*							parent_transaction_controller;
 					
+					db_recno_t										runtime_identifier;
+					
 					//	Variables
 					char*													name;
 
@@ -1352,6 +1361,8 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 				//	Parent
 				RPDB_Environment*										parent_environment;
 
+				RPDB_Database*	runtime_storage_database;
+
 				uint32_t												current_transaction_index;
 				RPDB_Transaction**										transactions;
 
@@ -1363,23 +1374,6 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 				RPDB_TransactionSettingsController*				settings_controller;
 			};
 
-				/****************************
-				*	Data Type Definitions	*
-				****************************/
-
-				struct RPDB_RuntimeStorage	{
-
-					//	Parent
-					RPDB_RuntimeStorageController*				parent_runtime_storage_controller;
-					//	Although the RuntimeStorageController is a singleton and is always parent to RuntimeStorage instances,
-					//	RuntimeStorage instances are generally associated with an environment.
-					//	NULL environments are permitted, in which case the RuntimeStorage instance is considered global. 
-					RPDB_Environment*											parent_environment;
-
-					//	Variables
-					RPDB_Database*												database;
-					RPDB_DatabaseCursor*									database_cursor;
-				};
 
 			/****************************
 			*	Data Type Definitions	*
@@ -1413,6 +1407,8 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					//	Parent
 					RPDB_ReplicationController*							parent_replication_controller;
 	
+					db_recno_t										runtime_identifier;
+
 					//	Variables
 					
 					char*													host;
@@ -1439,6 +1435,8 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 				//	Parent
 				RPDB_Environment*													parent_environment;
 
+				RPDB_Database*	runtime_storage_database;
+
 				u_int													site_count;
 
 				//	Variables
@@ -1459,6 +1457,8 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					//	Parent
 					RPDB_MutexController*										parent_mutex_controller;
 
+					db_recno_t										runtime_identifier;
+
 					db_mutex_t													wrapped_bdb_mutex;
 
 					RPDB_SettingsController*					environment_settings_controller;
@@ -1475,7 +1475,6 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 				//	Parent
 				RPDB_Environment*													parent_environment;
 
-				//	Variables
 				RPDB_Database*	runtime_storage_database;
 
 				RPDB_SettingsController*					environment_settings_controller;
@@ -1517,6 +1516,8 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					//	Parent
 					RPDB_LogCursorController*					parent_log_cursor_controller;
 
+					db_recno_t										runtime_identifier;
+
 					//	Wrapped BDB log database_cursor
 					DB_LOGC*									wrapped_bdb_log_cursor;
 
@@ -1551,6 +1552,8 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							//	Parent
 							RPDB_LogController*						parent_log_controller;
 
+							db_recno_t										runtime_identifier;
+
 							//	Variables
 							RPDB_Record*								record;
 							RPDB_LogSequenceNumber*					log_sequence_number;
@@ -1571,6 +1574,8 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						//	Parent
 						RPDB_Environment*								parent_environment;
 
+						RPDB_Database*									runtime_storage_database;
+
 						RPDB_LogCursorController*						cursor_controller;
 
 						RPDB_SettingsController*					environment_settings_controller;
@@ -1586,8 +1591,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					
 					//	Parent
 					RPDB_LogController*						parent_log_controller;
-					
-					//	Variables
+
 					RPDB_Database*	runtime_storage_database;
 					
 					RPDB_SettingsController*					environment_settings_controller;
@@ -1603,6 +1607,8 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 
 					//	Parent
 					RPDB_LockController*						parent_lock_controller;
+
+					db_recno_t										runtime_identifier;
 
 					//	Variables
 					int											mode;
@@ -1651,6 +1657,8 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					//	Parent
 					RPDB_DatabaseJoinController*						parent_join_controller;
 
+					db_recno_t										runtime_identifier;
+
 					char*										name;
 
 					//	Variables
@@ -1694,6 +1702,8 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							
 							//	Parent
 							RPDB_DatabaseCursorController*				parent_database_cursor_controller;
+
+							db_recno_t										runtime_identifier;
 							
 							char*										name;
 							
@@ -1720,7 +1730,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						RPDB_Database*								parent_database;
 
 						RPDB_Database*	runtime_storage_database;
-
+	
 						int											auto_name_count;
 						
 						RPDB_SettingsController*							environment_settings_controller;
@@ -1756,6 +1766,8 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							//	Parent
 							RPDB_DatabaseSequenceController*				parent_database_sequence_controller;
 
+							db_recno_t										runtime_identifier;
+							
 							//	Variables
 							db_seq_t										current_value;
 
@@ -1776,6 +1788,8 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						//	Parent
 						RPDB_Database*									parent_database;
 
+						RPDB_Database*	runtime_storage_database;
+	
 						RPDB_SettingsController*								environment_settings_controller;
 						RPDB_DatabaseSequenceSettingsController*				settings_controller;
 						RPDB_DatabaseSequenceSettingsController*				environment_level_settings_controller;
@@ -1827,18 +1841,20 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						//	Parent
 						RPDB_Database*											parent_database;
 	
+						db_recno_t										runtime_identifier;
+
 						//	Variables
-						RPDB_Key*												key;
-						RPDB_Key*												primary_key;
+						RPDB_Key*														key;
+						RPDB_Key*														primary_key;
 						RPDB_SecondaryKeys*									secondary_keys;	
-						RPDB_Data*												data;
+						RPDB_Data*													data;
 	
-						int														exists_in_database;
-						int														requires_update_to_database;
+						BOOL																result;
 	
-						RPDB_SettingsController*							environment_settings_controller;
+						int																	exists_in_database;
+						int																	requires_update_to_database;
+	
 						RPDB_DatabaseRecordSettingsController*				settings_controller;
-						RPDB_DatabaseRecordSettingsController*				environment_level_settings_controller;
 					};
 
 				/****************************
@@ -1853,10 +1869,14 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					RPDB_RuntimeStorage*							parent_runtime_storage;
 					RPDB_RuntimeStorageController*					parent_runtime_storage_controller;
 
+					db_recno_t										runtime_identifier;
+
 					//	Variables
 					char*											filename;
 					char*											name;
 					DBTYPE											type;
+					
+					RPDB_Database*	runtime_storage_database;
 					
 					BOOL											is_secondary;
 					RPDB_Database*									secondary_database;
@@ -1895,9 +1915,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 	
 				db_recno_t											record_number;
 
-				//	Variables
 				RPDB_Database*	runtime_storage_database;
-				RPDB_Database*									runtime_storage__index__bdb_db_address;
 	
 				RPDB_SettingsController*						environment_settings_controller;
 				RPDB_DatabaseSettingsController*				settings_controller;

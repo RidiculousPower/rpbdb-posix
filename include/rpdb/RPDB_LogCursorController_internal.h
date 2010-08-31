@@ -13,7 +13,5 @@
 	*  Prototypes  *
 	****************/
 
-	char* RPDB_LogCursorController_internal_uniqueIdentifier( RPDB_LogCursorController* log_cursor_controller );
-
 #endif
 

@@ -13,6 +13,8 @@
 #include "RPDB_LogCursor.h"
 #include "RPDB_LogCursor_internal.h"
 
+#include "RPDB_Database_internal.h"
+
 #include "RPDB_LogCursorController.h"
 #include "RPDB_Log.h"
 #include "RPDB_LogSequenceNumber.h"
@@ -36,6 +38,11 @@ RPDB_LogCursor* RPDB_LogCursor_new( RPDB_LogCursorController* parent_log_cursor_
 	
 	RPDB_LogCursor*	log_cursor = calloc( 1, sizeof( RPDB_LogCursor ) );
 
+	if ( parent_log_cursor_controller->runtime_storage_database != NULL )	{
+		log_cursor->runtime_identifier =	RPDB_Database_internal_storeRuntimeAddress(	parent_log_cursor_controller->runtime_storage_database,
+																																									(void*) log_cursor );
+	}
+
 	log_cursor->parent_log_cursor_controller = parent_log_cursor_controller;
 
 	//	Make call to instantiate local settings controller
@@ -48,6 +55,11 @@ RPDB_LogCursor* RPDB_LogCursor_new( RPDB_LogCursorController* parent_log_cursor_
 *  free  *
 ***************************/
 void RPDB_LogCursor_free(	RPDB_LogCursor** log_cursor )	{
+
+	if ( ( *log_cursor )->parent_log_cursor_controller->runtime_storage_database != NULL )	{
+		RPDB_Database_internal_freeStoredRuntimeAddress(	( *log_cursor )->parent_log_cursor_controller->runtime_storage_database,
+																											( *log_cursor )->runtime_identifier );
+	}
 
 	free( log_cursor );
 }

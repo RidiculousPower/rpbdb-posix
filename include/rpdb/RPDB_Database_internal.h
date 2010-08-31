@@ -43,6 +43,14 @@ RPDB_Database* RPDB_Database_internal_createDatabaseInstanceForSecondaryIndexOnP
 																								 BOOL				enable_sorted_duplicates );
 char* RPDB_Database_internal_filenameForName( char* database_name );
 RPDB_Database* RPDB_Database_internal_initForRuntimeStorage(	RPDB_Database*		runtime_storage_database );
+db_recno_t RPDB_Database_internal_storeRuntimeAddress(	RPDB_Database*	runtime_database,
+																												void*			runtime_pointer );
+void RPDB_Database_internal_freeStoredRuntimeAddress(	RPDB_Database*	runtime_database,
+																											db_recno_t			runtime_record_number	);
+void RPDB_Database_internal_closeAllStoredRuntimeAddresses(	RPDB_Database*	runtime_database,
+																														void *close_function( void* )	);
+void RPDB_Database_internal_freeAllStoredRuntimeAddresses(	RPDB_Database*	runtime_database,
+																														void *free_function( void** ) );
 
 
 #endif

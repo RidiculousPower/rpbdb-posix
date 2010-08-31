@@ -12,6 +12,8 @@
 
 #include "RPDB_MemoryPoolFilePage.h"
 
+#include "RPDB_Database_internal.h"
+
 #include "RPDB_MemoryPoolFile.h"
 #include "RPDB_MemoryPoolFilePageController.h"
 
@@ -33,11 +35,16 @@
 *  new  *
 *************/
 
-RPDB_MemoryPoolFilePage* RPDB_MemoryPoolFilePage_new( RPDB_MemoryPoolFilePageController* memory_pool_file_page_controller )	{
+RPDB_MemoryPoolFilePage* RPDB_MemoryPoolFilePage_new( RPDB_MemoryPoolFilePageController* parent_memory_pool_file_page_controller )	{
 	
 	RPDB_MemoryPoolFilePage*		memory_pool_file_page = calloc( 1, sizeof( RPDB_MemoryPoolFilePage ) );
 
-	memory_pool_file_page->parent_memory_pool_file_page_controller = memory_pool_file_page_controller;
+	if ( parent_memory_pool_file_page_controller->runtime_storage_database != NULL )	{
+		memory_pool_file_page->runtime_identifier =	RPDB_Database_internal_storeRuntimeAddress(	parent_memory_pool_file_page_controller->runtime_storage_database,
+																																														(void*) memory_pool_file_page );
+	}
+
+	memory_pool_file_page->parent_memory_pool_file_page_controller = parent_memory_pool_file_page_controller;
 
 	return memory_pool_file_page;
 }
@@ -46,6 +53,11 @@ RPDB_MemoryPoolFilePage* RPDB_MemoryPoolFilePage_new( RPDB_MemoryPoolFilePageCon
 *  free  *
 ***************************/
 void RPDB_MemoryPoolFilePage_free(	RPDB_MemoryPoolFilePage** memory_pool_file_page )	{
+
+	if ( ( *memory_pool_file_page )->parent_memory_pool_file_page_controller->runtime_storage_database != NULL )	{
+		RPDB_Database_internal_freeStoredRuntimeAddress(	( *memory_pool_file_page )->parent_memory_pool_file_page_controller->runtime_storage_database,
+																											( *memory_pool_file_page )->runtime_identifier );
+	}
 
 	free( memory_pool_file_page );
 }

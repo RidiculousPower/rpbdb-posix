@@ -15,14 +15,14 @@
 #include "RPDB_Mutex.h"
 
 #include "RPDB_Database.h"
+#include "RPDB_Database_internal.h"
+#include "RPDB_DatabaseCursor.h"
 
 #include "RPDB_Data.h"
 #include "RPDB_Record.h"
 
 #include "RPDB_SettingsController.h"
 #include "RPDB_MutexSettingsController.h"
-
-#include "RPDB_RuntimeStorage.h"
 
 #include <string.h>
 
@@ -78,15 +78,8 @@ RPDB_Environment* RPDB_MutexController_parentEnvironment(	RPDB_MutexController* 
 
 void RPDB_MutexController_closeAllMutexes( RPDB_MutexController* mutex_controller )	{
 	
-	//	FIX - needs to iterate not shift
-	
-	RPDB_Record*	record		=	NULL;	
-	while ( ( record = RPDB_Database_shiftQueue( mutex_controller->runtime_storage_database ) ) != NULL )	{
-		
-		RPDB_Mutex*	this_mutex	=	(RPDB_Mutex*) *(uintptr_t*) RPDB_Record_rawData( record );
-		
-		RPDB_Mutex_close( this_mutex );
-	}	
+	RPDB_Database_internal_closeAllStoredRuntimeAddresses(	mutex_controller->runtime_storage_database,
+																													(void *(*)(void*)) & RPDB_Mutex_close );
 }
 
 /*********************
@@ -95,12 +88,7 @@ void RPDB_MutexController_closeAllMutexes( RPDB_MutexController* mutex_controlle
 
 void RPDB_MutexController_freeAllMutexes( RPDB_MutexController* mutex_controller )	{
 
-	RPDB_Record*	record		=	NULL;	
-	while ( ( record = RPDB_Database_shiftQueue( mutex_controller->runtime_storage_database ) ) != NULL )	{
-		
-		RPDB_Mutex*	this_mutex	=	(RPDB_Mutex*) *(uintptr_t*) RPDB_Record_rawData( record );
-		
-		RPDB_Mutex_free( & this_mutex );
-	}	
+	RPDB_Database_internal_freeAllStoredRuntimeAddresses(	mutex_controller->runtime_storage_database,
+																												(void *(*)(void**)) & RPDB_Mutex_free );
 }
 

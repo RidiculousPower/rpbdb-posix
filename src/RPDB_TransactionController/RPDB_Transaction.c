@@ -12,6 +12,8 @@
 
 #include "RPDB_Transaction.h"
 
+#include "RPDB_Database_internal.h"
+
 #include "RPDB_TransactionController.h"
 #include "RPDB_Transaction_internal.h"
 #include "RPDB_TransactionController_internal.h"
@@ -40,6 +42,11 @@ RPDB_Transaction* RPDB_Transaction_new( RPDB_TransactionController* parent_trans
 
 	RPDB_Transaction*				transaction = RPDB_Transaction_internal_newWithoutBDBTransaction( parent_transaction_controller );
 
+	if ( parent_transaction_controller->runtime_storage_database != NULL )	{
+		transaction->runtime_identifier =	RPDB_Database_internal_storeRuntimeAddress(	parent_transaction_controller->runtime_storage_database,
+																																									(void*) transaction );
+	}
+
 	//	Make call to instantiate local settings controller
 	transaction->settings_controller	=	RPDB_TransactionSettingsController_internal_copyOfSettingsControllerForInstance( RPDB_SettingsController_transactionSettingsController( RPDB_Environment_settingsController( parent_transaction_controller->parent_environment ) ) );
 
@@ -52,6 +59,11 @@ RPDB_Transaction* RPDB_Transaction_new( RPDB_TransactionController* parent_trans
 *  free  *
 ***************************/
 void RPDB_Transaction_free(	RPDB_Transaction** transaction )	{
+	
+	if ( ( *transaction )->parent_transaction_controller->runtime_storage_database != NULL )	{
+		RPDB_Database_internal_freeStoredRuntimeAddress(	( *transaction )->parent_transaction_controller->runtime_storage_database,
+																											( *transaction )->runtime_identifier );
+	}
 	
 	//	If the transaction is still open, commit it
 	if ( RPDB_Transaction_isOpen( *transaction ) )	{
