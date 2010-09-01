@@ -349,11 +349,15 @@ void RPDB_Database_close( RPDB_Database* database )	{
 		RPDB_RuntimeStorageController_internal_removeDatabaseStoredForBDBDatabase(	RPDB_RuntimeStorageController_sharedInstance(),
 																					database );
 		
-		//	shut own join cursors
-		RPDB_DatabaseJoinController_closeAllCursors( database->join_controller );
+		if ( database->join_controller != NULL )	{
+			//	shut own join cursors
+			RPDB_DatabaseJoinController_closeAllCursors( database->join_controller );
+		}
 		
-		//	Tell self's cursor controller to shut everything down
-		RPDB_DatabaseCursorController_closeAllCursors( database->cursor_controller );
+		if ( database->cursor_controller != NULL )	{
+			//	Tell self's cursor controller to shut everything down
+			RPDB_DatabaseCursorController_closeAllCursors( database->cursor_controller );
+		}
 		
 		//	first, if this database is primary, close its secondary databases before closing self
 		if ( RPDB_Database_isPrimary( database ) )	{
@@ -363,8 +367,12 @@ void RPDB_Database_close( RPDB_Database* database )	{
 		
 		RPDB_Environment*	environment	=	database->parent_database_controller->parent_environment;
 		
+		RPDB_DatabaseSettingsController*	database_settings_controller	=	RPDB_Database_settingsController( database );
+		
+		uint32_t	close_flags	=	RPDB_DatabaseSettingsController_internal_closeFlags( database_settings_controller );
+		
 		if ( ( connection_error	=	database->wrapped_bdb_database->close(	database->wrapped_bdb_database, 
-																			RPDB_DatabaseSettingsController_internal_closeFlags( RPDB_Database_settingsController( database ) ) ) ) )	{
+																																			close_flags ) ) )	{
 			
 			
 			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( environment ),
@@ -2129,12 +2137,11 @@ void RPDB_Database_internal_closeAllStoredRuntimeAddresses(	RPDB_Database*	runti
 	if ( RPDB_DatabaseCursor_setToFirst( cursor )	)	{
 	
 		RPDB_Record*	record	=	NULL;
-		while ( RPDB_DatabaseCursor_iterate( cursor, record ) )	{
+		while ( ( record = RPDB_DatabaseCursor_iterate( cursor, record ) ) )	{
 			void**	rpdb_instance	=	RPDB_Record_rawData( record );
 			//	call the RPDB free function specified
 			close_function( *rpdb_instance );
 		}
-		RPDB_Record_free( & record );
 	}
 	
 	RPDB_DatabaseCursor_free( & cursor );

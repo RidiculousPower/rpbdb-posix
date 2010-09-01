@@ -1111,8 +1111,7 @@ RPDB_Record* RPDB_DatabaseCursor_iterate(	RPDB_DatabaseCursor*	database_cursor,
 	}
 	
 	if ( record->result == FALSE )	{
-		//	caller is responsible for their own record
-		return NULL;
+		RPDB_Record_free( & record );
 	}
 	//	if we have an empty key, iterate to the next record (until we have no key)
 	else if ( record->result == DB_KEYEMPTY )	{
@@ -1150,8 +1149,7 @@ RPDB_Record* RPDB_DatabaseCursor_iterateDuplicates( RPDB_DatabaseCursor*	databas
 	}
 	
 	if ( record->result == FALSE )	{
-		//	caller is responsible for their own record
-		return NULL;
+		RPDB_Record_free( & record );
 	}
 	//	if we have an empty key, iterate to the next record (until we have no key)
 	else if ( record->result == DB_KEYEMPTY )	{
@@ -1189,8 +1187,7 @@ RPDB_Record* RPDB_DatabaseCursor_iterateKeys( RPDB_DatabaseCursor* database_curs
 	}
 	
 	if ( record->result == FALSE )	{
-		//	caller is responsible for their own record
-		return NULL;
+		RPDB_Record_free( & record );
 	}
 	//	if we have an empty key, iterate to the next record (until we have no key)
 	else if ( record->result == DB_KEYEMPTY )	{
