@@ -32,7 +32,7 @@ RPDB_Database* RPDB_Database_new(	RPDB_DatabaseController*	parent_database_contr
 	RPDB_Database*																						RPDB_Database_open(									RPDB_Database*			database );
 	void																								RPDB_Database_close(									RPDB_Database*			database );
 	void																								RPDB_Database_erase( 									RPDB_Database*			database );
-	void RPDB_Database_empty( RPDB_Database* database );
+	uint32_t RPDB_Database_empty( RPDB_Database* database );
 	void RPDB_Database_sync( RPDB_Database* database );
 	
 	void RPDB_Database_closeAllSecondaryDatabases( RPDB_Database* database );
@@ -55,6 +55,7 @@ RPDB_Database* RPDB_Database_new(	RPDB_DatabaseController*	parent_database_contr
                                           														                                                		
 	BOOL RPDB_Database_isPrimary(	RPDB_Database*	database );
 	BOOL																								RPDB_Database_isSecondary(								RPDB_Database*			database );
+	RPDB_Database* RPDB_Database_primaryDatabase( RPDB_Database*	secondary_database );
 	
 	void RPDB_Database_setSecondaryKeyCreationCallbackMethod(	RPDB_Database*						secondary_database,
 																RPDB_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method);

@@ -131,17 +131,21 @@ RPDB_Database* RPDB_Database_new(	RPDB_DatabaseController*	parent_database_contr
 	*  Name  *
 	*---------*/
 
-	new_database->name		=	strdup( database_name );		
-
+	//	Generally we need a name, but sometimes internally we pass NULL to set the name later
+	if ( database_name )	{
+		new_database->name		=	strdup( database_name );		
+	}
+	
 	/*-----------*
 	*  Filename  *
 	*-----------*/
 	
 	RPDB_MemoryPoolSettingsController*	memory_pool_settings_controller	=	RPDB_SettingsController_memoryPoolSettingsController( settings_controller );
 	
-	if ( ! RPDB_MemoryPoolSettingsController_isInMemoryEnvironment( memory_pool_settings_controller ) )	{
+	if (	! RPDB_MemoryPoolSettingsController_isInMemoryEnvironment( memory_pool_settings_controller )
+			&&	new_database->name)	{
 	
-		new_database->filename	=	RPDB_Database_internal_filenameForName( new_database->name );
+		new_database->filename	=	RPDB_Database_internal_filenameForName( new_database->name );		
 	}
 	
 	new_database->runtime_identifier	=	FALSE;
@@ -393,16 +397,46 @@ void RPDB_Database_close( RPDB_Database* database )	{
 *  empty  *
 **********/
 
-void RPDB_Database_empty( RPDB_Database* database __attribute__((unused)) )	{
+uint32_t RPDB_Database_empty( RPDB_Database* database )	{
 
+	RPDB_Environment*	environment	=	database->parent_database_controller->parent_environment;
+
+	RPDB_Transaction*	current_transaction	=	NULL;
+	if ( database->parent_database_controller->parent_environment->transaction_controller != NULL )	{
+		RPDB_TransactionController*	transaction_controller	=	RPDB_Environment_transactionController( environment );
+		current_transaction	=	RPDB_TransactionController_currentTransaction( transaction_controller );
+	}
+
+	uint32_t	number_of_records_emptied	=	0;
+	int	connection_error	=	RP_NO_ERROR;
+	if ( ( connection_error = database->wrapped_bdb_database->truncate(	database->wrapped_bdb_database,
+																																			( current_transaction ? current_transaction->wrapped_bdb_transaction : NULL ),
+																																			& number_of_records_emptied,
+																																			RPDB_FUNCTION_HAS_NO_FLAGS ) ) )	{
+	
+			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( environment ),
+																										connection_error, 
+																										"RPDB_Database_empty" );
+	}
+
+	return number_of_records_emptied;
 }
 
 /*********
 *  sync  *
 *********/
 
-void RPDB_Database_sync( RPDB_Database* database __attribute__((unused)) )	{
+void RPDB_Database_sync( RPDB_Database* database )	{
 
+	int	connection_error	=	RP_NO_ERROR;
+	if ( ( connection_error = database->wrapped_bdb_database->sync(	database->wrapped_bdb_database,
+																																	RPDB_FUNCTION_HAS_NO_FLAGS ) ) )	{
+	
+			RPDB_Environment*	environment	=	database->parent_database_controller->parent_environment;
+			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( environment ),
+																										connection_error, 
+																										"RPDB_Database_sync" );
+	}
 }
 
 /**********
@@ -413,6 +447,8 @@ void RPDB_Database_erase( RPDB_Database* database )	{
 
 	RPDB_Environment*	environment	=	database->parent_database_controller->parent_environment;
 	
+	RPDB_Database_close( database );
+
 	RPDB_Transaction*	current_transaction	=	NULL;
 	if ( environment->transaction_controller != NULL )	{
 		current_transaction = RPDB_TransactionController_currentTransaction( environment->transaction_controller );
@@ -614,6 +650,14 @@ BOOL RPDB_Database_isSecondary( RPDB_Database*	database )	{
 	return database->is_secondary;
 }
 
+/********************
+*  primaryDatabase  *
+********************/
+
+RPDB_Database* RPDB_Database_primaryDatabase( RPDB_Database*	secondary_database )	{
+	return secondary_database->primary_database;
+}
+
 /********************************************
 *  setSecondaryKeyCreationCallbackMethod  *
 ********************************************/
@@ -638,8 +682,8 @@ RPDB_SecondaryKeyCallbackMethod RPDB_Database_secondaryKeyCreationCallbackMethod
 *************************/
 
 RPDB_Database* RPDB_Database_createSecondaryIndex(	RPDB_Database*						primary_database,
-														char*								index_name,
-														RPDB_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method)	{
+																										char*											index_name,
+																										RPDB_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method)	{
 	
 	//	check to see if we already have a secondary database for this index_name
 	//	if we do, make sure it's open
@@ -650,16 +694,20 @@ RPDB_Database* RPDB_Database_createSecondaryIndex(	RPDB_Database*						primary_d
 	
 	if ( secondary_database == NULL )	{
 	
-		secondary_database	=	RPDB_Database_internal_createDatabaseInstanceForSecondaryIndexOnPrimaryDatabase(	primary_database,
-																													index_name,
-																													FALSE );
+		RPDB_Database*	secondary_database	=	RPDB_Database_new(	primary_database->parent_database_controller,
+																															NULL );
+		
+		RPDB_Database_internal_configureDatabaseInstanceForSecondaryIndexOnPrimaryDatabase(	primary_database,
+																																												secondary_database,
+																																												index_name,
+																																												FALSE );
 	}
 	
 	//	ensure database is working as secondary index on primary; if already configured, ignore gracefully
 	RPDB_Database_createSecondaryIndexWithDatabase(	primary_database,
-														secondary_database,
-														index_name,
-														secondary_key_creation_callback_method );
+																									secondary_database,
+																									index_name,
+																									secondary_key_creation_callback_method );
 	return secondary_database;
 }
 
@@ -668,7 +716,7 @@ RPDB_Database* RPDB_Database_createSecondaryIndex(	RPDB_Database*						primary_d
 *************************/
 
 RPDB_Database* RPDB_Database_databaseForSecondaryIndex(	RPDB_Database*		primary_database,
-															char*				index_name )	{
+																												char*				index_name )	{
 	
 	//	walk through secondary databases on primary and see for each if it matches index_name, if it does return it
 	RPDB_Database**	this_database	=	NULL;
@@ -693,17 +741,21 @@ RPDB_Database* RPDB_Database_databaseForSecondaryIndex(	RPDB_Database*		primary_
 *  createSecondaryIndex  *
 *************************/
 
-RPDB_Database* RPDB_Database_createSecondaryIndexWithDuplicates(	RPDB_Database*						primary_database,
-																	char*								index_name,
-																	RPDB_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method)	{
+RPDB_Database* RPDB_Database_createSecondaryIndexWithDuplicates(	RPDB_Database*										primary_database,
+																																	char*															index_name,
+																																	RPDB_SecondaryKeyCallbackMethod		secondary_key_creation_callback_method)	{
 	
-	RPDB_Database*	secondary_database	=	RPDB_Database_internal_createDatabaseInstanceForSecondaryIndexOnPrimaryDatabase(	primary_database,
-																																index_name,
-																																TRUE );
+	RPDB_Database*	secondary_database	=	RPDB_Database_new(	primary_database->parent_database_controller,
+																														NULL );
+	
+	RPDB_Database_internal_configureDatabaseInstanceForSecondaryIndexOnPrimaryDatabase(	primary_database,
+																																											secondary_database,
+																																											index_name,
+																																											TRUE );
 	RPDB_Database_createSecondaryIndexWithDatabase(	primary_database,
-														secondary_database,
-														index_name,
-														secondary_key_creation_callback_method );
+																									secondary_database,
+																									index_name,
+																									secondary_key_creation_callback_method );
 	return secondary_database;
 }
 
@@ -711,25 +763,24 @@ RPDB_Database* RPDB_Database_createSecondaryIndexWithDuplicates(	RPDB_Database*	
 *  createSecondaryIndex  *
 *************************/
 
-void RPDB_Database_createSecondaryIndexWithDatabase(	RPDB_Database*						primary_database,
-														RPDB_Database*						secondary_database,
-														char*								index_name __attribute__((unused)),
-														RPDB_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method)	{
+void RPDB_Database_createSecondaryIndexWithDatabase(	RPDB_Database*										primary_database,
+																											RPDB_Database*										secondary_database,
+																											char*															index_name,
+																											RPDB_SecondaryKeyCallbackMethod		secondary_key_creation_callback_method)	{
 	
 	//	We set the callback to our passed method
 	RPDB_Database_setSecondaryKeyCreationCallbackMethod(	secondary_database,
-															secondary_key_creation_callback_method );
+																												secondary_key_creation_callback_method );
 	
 	//	Set so that association with index automatically creates index for all existing records
 	RPDB_DatabaseAssociationSettingsController_turnSecondaryAssociationCreatesIndexOn( RPDB_DatabaseSettingsController_associationSettingsController( secondary_database->settings_controller ) );
 	
-	if ( RPDB_Database_isOpen( secondary_database ) == FALSE )	{
-		RPDB_Database_open( secondary_database );
-	}
-	
+	RPDB_Database_open( primary_database );
+	RPDB_Database_open( secondary_database );
+
 	//	Actually associate secondary database and update index of records for all existing records in primary
 	RPDB_Database_associateSecondaryDatabase(	primary_database,
-												secondary_database );
+																						secondary_database );
 	
 	secondary_database->index_name	=	strdup( index_name );
 }
@@ -2014,21 +2065,22 @@ RPDB_Record* RPDB_Database_internal_retrieveRecord(	RPDB_Database*		database,
 *  createDatabaseInstanceForSecondaryIndexOnPrimaryDatabase  *
 **************************/
 
-RPDB_Database* RPDB_Database_internal_createDatabaseInstanceForSecondaryIndexOnPrimaryDatabase(	RPDB_Database*		primary_database,
-																																																char*							index_name,
-																																																BOOL							enable_sorted_duplicates )	{
+RPDB_Database* RPDB_Database_internal_configureDatabaseInstanceForSecondaryIndexOnPrimaryDatabase(	RPDB_Database*		primary_database,
+																																																		RPDB_Database*		secondary_database,
+																																																		char*							index_name,
+																																																		BOOL							enable_sorted_duplicates )	{
 														
 	char*	secondary_database_name	=	malloc( ( strlen( primary_database->name ) + strlen( "__idx__" ) + strlen( index_name ) + 1 ) * sizeof( char ) );
 	
 	//	Our new secondary will be named primary_name__idx__index_name
 	sprintf( secondary_database_name, "%s__idx__%s", primary_database->name, index_name );
 	
-	RPDB_Database*	secondary_database	=	RPDB_DatabaseController_newDatabase(	primary_database->parent_database_controller, 
-																																							secondary_database_name );
-	
+	secondary_database->name			= strdup( secondary_database_name );
+	secondary_database->filename	=	RPDB_Database_internal_filenameForName( secondary_database->name );		
 	free( secondary_database_name );
 	
-	secondary_database->index_name	=	strdup( index_name );
+	secondary_database->index_name				=	strdup( index_name );
+	secondary_database->primary_database	=	primary_database;
 
 	if ( enable_sorted_duplicates == TRUE )	{
 		RPDB_DatabaseSettingsController*						database_settings_controller						=	RPDB_Database_settingsController( secondary_database );
@@ -2084,7 +2136,7 @@ RPDB_Database* RPDB_Database_internal_initForRuntimeStorage(	RPDB_Database*		run
 	RPDB_DatabaseSettingsController*			database_settings_controller			=	RPDB_Database_settingsController( runtime_storage_database );
 	RPDB_DatabaseTypeSettingsController*	database_type_settings_controller	=	RPDB_DatabaseSettingsController_typeSettingsController( database_settings_controller );
 	
-	//	Set the database type - BTree
+	//	Set the database type - Queue
 	RPDB_DatabaseTypeSettingsController_setTypeToQueue( database_type_settings_controller );	
 
 	RPDB_DatabaseFixedRecordSettingsController*	database_fixed_record_settings_controller	=	RPDB_DatabaseSettingsController_fixedRecordSettingsController( database_settings_controller );

@@ -49,7 +49,7 @@ RPDB_DatabaseJoinController* RPDB_DatabaseJoinController_new( RPDB_Database* par
 
 	database_join_controller->parent_database	=	parent_database;
 
-	RPDB_RuntimeStorageController*	runtime_storage_controller;
+	RPDB_RuntimeStorageController*	runtime_storage_controller	=	RPDB_RuntimeStorageController_sharedInstance();
 	RPDB_DatabaseController*	database_controller	=	RPDB_Environment_databaseController(	runtime_storage_controller->runtime_environment );
 	RPDB_Database*	runtime_storage_database	=	RPDB_Database_new(	database_controller,
 																																	"database_join_controller" );

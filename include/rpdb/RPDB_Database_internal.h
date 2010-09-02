@@ -38,9 +38,10 @@ RPDB_Record* RPDB_Database_internal_retrieveRawKeyDataPair(	RPDB_Database*			dat
 	RPDB_Record*	RPDB_Database_internal_retrieveRecord(	RPDB_Database*	database, 
 																		 uint32_t							flag, 
 																		 RPDB_Record*							record );																			
-RPDB_Database* RPDB_Database_internal_createDatabaseInstanceForSecondaryIndexOnPrimaryDatabase(	RPDB_Database*		primary_database,
-																								 char*				index_name,
-																								 BOOL				enable_sorted_duplicates );
+RPDB_Database* RPDB_Database_internal_configureDatabaseInstanceForSecondaryIndexOnPrimaryDatabase(	RPDB_Database*		primary_database,
+																																																		RPDB_Database*		secondary_database,
+																																																		char*							index_name,
+																																																		BOOL							enable_sorted_duplicates );
 char* RPDB_Database_internal_filenameForName( char* database_name );
 RPDB_Database* RPDB_Database_internal_initForRuntimeStorage(	RPDB_Database*		runtime_storage_database );
 db_recno_t RPDB_Database_internal_storeRuntimeAddress(	RPDB_Database*	runtime_database,
