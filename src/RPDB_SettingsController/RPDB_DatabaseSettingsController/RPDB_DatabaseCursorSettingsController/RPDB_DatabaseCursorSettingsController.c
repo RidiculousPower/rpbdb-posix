@@ -158,8 +158,8 @@ int RPDB_DatabaseCursorSettingsController_internal_countDataItemsFlags( RPDB_Dat
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_dup.html
 int RPDB_DatabaseCursorSettingsController_internal_duplicateFlags( RPDB_DatabaseCursorSettingsController* cursor_settings_controller __attribute__((unused)) )	{
 
-	//	Currently unused - always returns 0;
-	return RPDB_NO_FLAGS;
+	//	if DB_POSITION is not returned a duplicate cursor will be identical to a new cursor
+	return DB_POSITION;
 }	
 
 /************************

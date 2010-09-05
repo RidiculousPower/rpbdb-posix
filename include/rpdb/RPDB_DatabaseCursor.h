@@ -23,11 +23,11 @@
 BOOL RPDB_DatabaseCursor_isOpen( RPDB_DatabaseCursor* database_cursor );
 	RPDB_DatabaseCursor* RPDB_DatabaseCursor_close( RPDB_DatabaseCursor* database_cursor );
 	RPDB_DatabaseCursor* RPDB_DatabaseCursor_duplicateCursor( RPDB_DatabaseCursor* database_cursor );
-	void RPDB_DatabaseCursor_writeRecordAsCurrentData(	RPDB_DatabaseCursor*	database_cursor, 
+	void RPDB_DatabaseCursor_overwriteCurrentDataWithRecord(	RPDB_DatabaseCursor*	database_cursor, 
 														RPDB_Record*			record );
-	void RPDB_DatabaseCursor_writeDataAsCurrent(	RPDB_DatabaseCursor*	database_cursor, 
+	void RPDB_DatabaseCursor_overwriteCurrentData(	RPDB_DatabaseCursor*	database_cursor, 
 													RPDB_Data*				data );
-	void RPDB_DatabaseCursor_writeRawDataAsCurrent(	RPDB_DatabaseCursor*	database_cursor, 
+	void RPDB_DatabaseCursor_overwriteCurrentDataWithRawData(	RPDB_DatabaseCursor*	database_cursor, 
 														void*					data_raw,
 														uint32_t				data_size );
 	void RPDB_DatabaseCursor_writeRecordAsDuplicateDataAfterCurrent(	RPDB_DatabaseCursor*	database_cursor, 

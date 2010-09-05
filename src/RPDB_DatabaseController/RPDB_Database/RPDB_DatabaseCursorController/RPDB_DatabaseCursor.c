@@ -208,17 +208,14 @@ RPDB_DatabaseCursor* RPDB_DatabaseCursor_duplicateCursor( RPDB_DatabaseCursor* d
 
 	RPDB_DatabaseCursor_internal_ensureOpen( database_cursor );
 
-	int							connection_error	= 0;
-
-	RPDB_DatabaseCursor*		cursor_copy;
-
-	cursor_copy = RPDB_DatabaseCursor_new( database_cursor->parent_database_cursor_controller );
+	RPDB_DatabaseCursor*		cursor_copy	= RPDB_DatabaseCursor_new( database_cursor->parent_database_cursor_controller );
 
 	RPDB_DatabaseSettingsController*				database_settings_controller				=	RPDB_Database_settingsController( database_cursor->parent_database_cursor_controller->parent_database );
 	RPDB_DatabaseCursorSettingsController*	database_cursor_settings_controller	=	RPDB_DatabaseSettingsController_cursorSettingsController( database_settings_controller );
 	
 	uint32_t	duplicate_flags	=	RPDB_DatabaseCursorSettingsController_internal_duplicateFlags( database_cursor_settings_controller );
 
+	int							connection_error	= 0;
 	if ( ( connection_error = database_cursor->wrapped_bdb_cursor->dup(	database_cursor->wrapped_bdb_cursor, 
 																																			& cursor_copy->wrapped_bdb_cursor,
 																																			duplicate_flags ) ) ) {
@@ -241,7 +238,7 @@ RPDB_DatabaseCursor* RPDB_DatabaseCursor_duplicateCursor( RPDB_DatabaseCursor* d
 ************************************/
 
 //	DB_CURRENT				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_put.html
-void RPDB_DatabaseCursor_writeRecordAsCurrentData(	RPDB_DatabaseCursor*	database_cursor, 
+void RPDB_DatabaseCursor_overwriteCurrentDataWithRecord(	RPDB_DatabaseCursor*	database_cursor, 
 																										RPDB_Record*			record )	{
 
 	RPDB_DatabaseCursor_internal_writeRecord(	database_cursor, 
@@ -254,7 +251,7 @@ void RPDB_DatabaseCursor_writeRecordAsCurrentData(	RPDB_DatabaseCursor*	database
 ****************************************/
 
 //	DB_CURRENT				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_put.html
-void RPDB_DatabaseCursor_writeDataAsCurrent(	RPDB_DatabaseCursor*	database_cursor, 
+void RPDB_DatabaseCursor_overwriteCurrentData(	RPDB_DatabaseCursor*	database_cursor, 
 																							RPDB_Data*				data )	{
 
 	RPDB_DatabaseCursor_internal_writeKeyDataPair(	database_cursor, 
@@ -268,7 +265,7 @@ void RPDB_DatabaseCursor_writeDataAsCurrent(	RPDB_DatabaseCursor*	database_curso
 ********************************************/
 
 //	DB_CURRENT				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_put.html
-void RPDB_DatabaseCursor_writeRawDataAsCurrent(	RPDB_DatabaseCursor*	database_cursor, 
+void RPDB_DatabaseCursor_overwriteCurrentDataWithRawData(	RPDB_DatabaseCursor*	database_cursor, 
 																								void*									data_raw,
 																								uint32_t							data_size )	{
 
