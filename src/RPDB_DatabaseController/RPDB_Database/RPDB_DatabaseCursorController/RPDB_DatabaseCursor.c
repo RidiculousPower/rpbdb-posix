@@ -1223,7 +1223,7 @@ RPDB_DatabaseCursor* RPDB_DatabaseCursor_deleteCurrentRecord( RPDB_DatabaseCurso
 
 		RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_cursor->parent_database_cursor_controller->parent_database->parent_database_controller->parent_environment ), 
 																									connection_error, 
-																									"RPDB_DatabaseCursor_delete" );
+																									"RPDB_DatabaseCursor_deleteCurrentRecord" );
 		return NULL;
 	}
 	

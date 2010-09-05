@@ -11,6 +11,11 @@
 *******************************************************************************************************************************************************************************************/
 
 #include "RPDB_Directory.h"
+#include "RPDB_Directory_internal.h"
+
+#include <string.h>
+#include <unistd.h>
+#include <sys/stat.h>
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -30,3 +35,27 @@ RPDB_Directory* RPDB_Directory_new( char* directory_path )	{
 	
 	return new_directory;
 }
+
+/****************************
+*  ensurePathExistsForFile  *
+****************************/
+
+void RPDB_Directory_internal_ensureDirectoryPathExistsForFile( char* file_path )	{
+		
+	//	walk backwards until first /, replace with \0 and return as new string
+	char*	file_path_base	=	strdup( file_path );
+	int	which_letter = 0;
+	for ( which_letter = strlen( file_path_base ) - 1; which_letter > 0 ; which_letter-- )	{
+		if ( file_path_base[ which_letter ] == '/' )	{
+			file_path_base[ which_letter ]	=	'\0';
+			break;
+		}
+	}
+	
+	//	check whether the directory exists
+	if( access( file_path_base, F_OK ) == -1 ) {		
+		//	if it doesn't, create it
+		mkdir(	file_path_base, S_IRWXU );
+	}		
+}
+

@@ -112,8 +112,8 @@ void RPDB_Database_createSecondaryIndexWithDatabase(	RPDB_Database*						primary
 		RPDB_KeyRange*								RPDB_Database_relativePositionOfRawKey(						RPDB_Database*	database,
 																																	void*								raw_key );
 */
-		RPDB_Record*								RPDB_Database_shiftQueue(									RPDB_Database*	database );
-		RPDB_Record*								RPDB_Database_shiftQueueOrWait(								RPDB_Database*	database );
+		RPDB_Record*								RPDB_Database_shiftQueue(									RPDB_Database*	database, RPDB_Record* record );
+		RPDB_Record*								RPDB_Database_shiftQueueOrWait(								RPDB_Database*	database, RPDB_Record* record );
 	//	RPDB_DatabaseReadWriteSettingsController*	RPDB_Database_settingsController(							RPDB_Database* 	database );
 	
 	void									RPDB_Database_write(			RPDB_Database*		database, 

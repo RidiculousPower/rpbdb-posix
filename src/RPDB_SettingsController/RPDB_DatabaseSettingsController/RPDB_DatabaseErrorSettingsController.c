@@ -14,12 +14,19 @@
 
 #include "RPDB_ErrorController.h"
 #include "RPDB_DatabaseSettingsController.h"
-#include "RPDB_SettingsController.h"
 #include "RPDB_Environment.h"
 #include "RPDB_DatabaseReadWriteSettingsController.h"
 
 #include "RPDB_DatabaseErrorSettingsController_internal.h"
 #include "RPDB_RuntimeStorageController_internal.h"
+
+#include "RPDB_Directory_internal.h"
+
+#include "RPDB_SettingsController.h"
+#include "RPDB_FileSettingsController.h"
+
+#include <errno.h>
+#include <string.h>
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -94,7 +101,7 @@ FILE* RPDB_DatabaseErrorSettingsController_file( RPDB_DatabaseErrorSettingsContr
 ****************/
 
 void RPDB_DatabaseErrorSettingsController_setFile(	RPDB_DatabaseErrorSettingsController*		database_error_settings_controller, 
-													FILE*										error_file )	{
+																										FILE*										error_file )	{
 
 	RPDB_Database*	database	= database_error_settings_controller->parent_database_settings_controller->parent_database;
 
@@ -106,30 +113,35 @@ void RPDB_DatabaseErrorSettingsController_setFile(	RPDB_DatabaseErrorSettingsCon
 }
 
 /************************
-*  setFileForPath  *
+*  setFileFromPath  *
 ************************/
 
 //	Presumably this FILE* needs to be closed
-FILE* RPDB_DatabaseErrorSettingsController_setFileForPath(		RPDB_DatabaseErrorSettingsController*		database_error_settings_controller, 
-																char*										error_file_path )	{
+FILE* RPDB_DatabaseErrorSettingsController_setFileFromPath(		RPDB_DatabaseErrorSettingsController*		database_error_settings_controller, 
+																															char*																		error_file_path )	{
 	
-	FILE*		error_file;
-
-	database_error_settings_controller->error_file_path = error_file_path;
-
-	error_file = fopen( error_file_path, "w");
-
-	if ( error_file == NULL )	{
+	RPDB_Environment*	environment	=	database_error_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment;
+	RPDB_SettingsController*			settings_controller				=	RPDB_Environment_settingsController( environment );
+	RPDB_FileSettingsController*	file_settings_controller	=	RPDB_SettingsController_fileSettingsController( settings_controller );
+	
+	//	Create if necessary only creates the db; we have to create the directory if it doesn't yet exist
+	if ( RPDB_FileSettingsController_createIfNecessary( file_settings_controller ) ){
+		RPDB_Directory_internal_ensureDirectoryPathExistsForFile( error_file_path );
+	}
+	
+	errno = FALSE;
+	FILE*		error_file	= fopen( error_file_path, "a");
+	if ( errno )	{
 		RPDB_ErrorController_throwError(	RPDB_ErrorController_new( database_error_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ),
-										RP_ERROR_NO_FILE_AT_PATH,
-										"RPDB_DatabaseErrorSettingsController_setFileForPath",
-										"Could not open file at path." );
+																																RP_ERROR_NO_FILE_AT_PATH,
+																																"RPDB_DatabaseErrorSettingsController_setFileFromPath",
+																																strerror( errno ) );
 		return NULL;
 	}
 
-	RPDB_DatabaseErrorSettingsController_setFile( database_error_settings_controller, error_file );
+	database_error_settings_controller->error_file_path = error_file_path;
 
-	//	Don't we need to close this name at some point?
+	RPDB_DatabaseErrorSettingsController_setFile( database_error_settings_controller, error_file );
 
 	return error_file;
 }

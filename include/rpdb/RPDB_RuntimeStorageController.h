@@ -23,9 +23,9 @@
 	void								RPDB_RuntimeStorageController_internal_initRuntimeStoragesDatabases(					RPDB_RuntimeStorageController*		runtime_storage_controller );
 	void								RPDB_RuntimeStorageController_internal_initRuntimeStoragesDatabaseAssociations(	RPDB_RuntimeStorageController*		runtime_storage_controller );
 	void								RPDB_RuntimeStorageController_internal_initRuntimeStoragesCursors(					RPDB_RuntimeStorageController*		runtime_storage_controller );
-	RPDB_Environment*					RPDB_RuntimeStorageController_defaultEnvironment(	RPDB_RuntimeStorageController*		runtime_storage_controller );
+	RPDB_Environment*					RPDB_RuntimeStorageController_currentWorkingEnvironment(	RPDB_RuntimeStorageController*		runtime_storage_controller );
 	RPDB_Environment* RPDB_RuntimeStorageController_requireDefaultEnvironment(	RPDB_RuntimeStorageController*		runtime_storage_controller );
-	void					RPDB_RuntimeStorageController_setDefaultEnvironment(	RPDB_RuntimeStorageController*		runtime_storage_controller,
+	void					RPDB_RuntimeStorageController_setCurrentWorkingEnvironment(	RPDB_RuntimeStorageController*		runtime_storage_controller,
 																								RPDB_Environment*					environment );
 
 	void RPDB_RuntimeStorageController_internal_initEnvironmentAndDatabaseReferenceDatabases(	RPDB_RuntimeStorageController*		runtime_storage_controller );

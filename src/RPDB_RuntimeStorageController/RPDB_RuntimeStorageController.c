@@ -116,10 +116,10 @@ RPDB_RuntimeStorageSettingsController* RPDB_RuntimeStorageController_settingsCon
 }
 
 /***********************
-*  defaultEnvironment  *
+*  currentWorkingEnvironment  *
 ***********************/
 
-RPDB_Environment* RPDB_RuntimeStorageController_defaultEnvironment(	RPDB_RuntimeStorageController*		runtime_storage_controller )	{
+RPDB_Environment* RPDB_RuntimeStorageController_currentWorkingEnvironment(	RPDB_RuntimeStorageController*		runtime_storage_controller )	{
 	
 	return runtime_storage_controller->default_environment;
 }
@@ -145,10 +145,10 @@ RPDB_Environment* RPDB_RuntimeStorageController_requireDefaultEnvironment(	RPDB_
 }
 
 /**************************
-*  setDefaultEnvironment  *
+*  setCurrentWorkingEnvironment  *
 **************************/
 
-void RPDB_RuntimeStorageController_setDefaultEnvironment(	RPDB_RuntimeStorageController*		runtime_storage_controller,
+void RPDB_RuntimeStorageController_setCurrentWorkingEnvironment(	RPDB_RuntimeStorageController*		runtime_storage_controller,
 																													RPDB_Environment*					environment )	{
 	
 	runtime_storage_controller->default_environment	=	environment;
@@ -335,14 +335,14 @@ void RPDB_RuntimeStorageController_internal_storeEnvironmentForBDBEnvironment(	R
 
 	//	get wrapped bdb environment address and store as key
 	uintptr_t	bdb_environment_address	=	(uintptr_t) environment->wrapped_bdb_environment;
-	bdb_key.data	=	& bdb_environment_address;
-	bdb_key.size	=	sizeof( uintptr_t );
-	bdb_key.flags	=	RPDB_NO_FLAGS;
+	bdb_key.data		=	& bdb_environment_address;
+	bdb_key.size		=	sizeof( uintptr_t );
+	bdb_key.flags		=	RPDB_NO_FLAGS;
 	
 	//	get rpdb environment address and store as data
 	uintptr_t environment_address	=	(uintptr_t) environment;
-	bdb_data.data	=	& environment_address;
-	bdb_data.size	=	sizeof( uintptr_t );
+	bdb_data.data		=	& environment_address;
+	bdb_data.size		=	sizeof( uintptr_t );
 	bdb_data.flags	=	RPDB_NO_FLAGS;
 
 	//	store in runtime storage environments reference database
@@ -359,12 +359,8 @@ void RPDB_RuntimeStorageController_internal_storeEnvironmentForBDBEnvironment(	R
 																									"RPDB_RuntimeStorageController_internal_storeEnvironmentForBDBEnvironment" );
 	}
 
-	//	If we automatically set default environment then we need to do so here
-	if ( RPDB_RuntimeStorageController_defaultEnvironment( runtime_storage_controller ) == NULL )	{
-		
-		RPDB_RuntimeStorageController_setDefaultEnvironment(	runtime_storage_controller,
-																													environment	);
-	}
+	RPDB_RuntimeStorageController_setCurrentWorkingEnvironment(	runtime_storage_controller,
+																															environment	);
 }
 
 /****************************

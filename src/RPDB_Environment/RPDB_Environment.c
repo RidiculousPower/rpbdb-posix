@@ -73,12 +73,26 @@ RPDB_Environment* RPDB_Environment_new(	char* environment_home_directory )	{
 
 	environment->is_open			=	FALSE;
 
+	int		directory_length	=	0;
 	//	If no directory is specified we use current working directory
 	if ( environment_home_directory == NULL )	{
-		environment->directory		=	DEFAULT_ENVIRONMENT_HOME_DIRECTORY;
+		environment_home_directory	=	RPDB_DEFAULT_ENVIRONMENT_HOME_DIRECTORY;
 	}
-	else	{
-		environment->directory			=	environment_home_directory;
+	
+	//	if we have environment in memory, don't check path (it has none)
+	if ( environment_home_directory[ 0 ] != '\0' )	{
+
+		directory_length	=	strlen( environment_home_directory );
+
+		//	make sure our home directory ends with '/'
+		BOOL	home_directory_needs_slash	=	FALSE;
+		if ( environment_home_directory[ directory_length - 1 ] != '/' )	{
+			home_directory_needs_slash	=	TRUE;
+		}
+		environment->directory	=	calloc( directory_length + home_directory_needs_slash + 1, sizeof( char ) );
+		sprintf( environment->directory, "%s%s",	environment_home_directory,
+																							( home_directory_needs_slash ? "/" : "" ) );
+		
 	}
 	
 	RPDB_Environment_initDefaults( environment );
@@ -177,6 +191,7 @@ void RPDB_Environment_free( RPDB_Environment** environment )	{
 void RPDB_Environment_initDefaults( RPDB_Environment* environment )	{
 
 	RPDB_SettingsController*							settings_controller								=	RPDB_Environment_settingsController( environment );
+	RPDB_ErrorSettingsController*					error_settings_controller					=	RPDB_SettingsController_errorSettingsController( settings_controller );
 	RPDB_DebugSettingsController*					debug_settings_controller					=	RPDB_SettingsController_debugSettingsController( settings_controller );
 	RPDB_TransactionSettingsController*		transaction_settings_controller		=	RPDB_SettingsController_transactionSettingsController( settings_controller );
 	RPDB_LogSettingsController*						log_settings_controller						=	RPDB_SettingsController_logSettingsController( settings_controller );
@@ -238,7 +253,26 @@ void RPDB_Environment_initDefaults( RPDB_Environment* environment )	{
 	#ifdef RPDB_MULTIPLE_ACCESS
 		RPDB_ThreadSettingsController_turnOn( thread_settings_controller );
 	#endif
-	
+
+	#ifdef RPDB_DEFAULT_ENVIRONMENT_LOG
+		#if RPDB_DEFAULT_ENVIRONMENT_LOG == TRUE
+			if (		environment->directory 
+					&&	environment->directory[0] != '\0' )	{			
+				if ( RPDB_DEFAULT_ENVIRONMENT_LOG_TO_FILE )	{
+					char*	log_file_path	=	RPDB_Environment_internal_errorfilePathForEnvironment(	environment );
+					RPDB_ErrorSettingsController_setFileFromPath(	error_settings_controller,
+																												log_file_path );
+					free( log_file_path );
+				}
+				else {
+					RPDB_ErrorSettingsController_setFile(	error_settings_controller,
+																								stderr );			
+				}
+			}
+		#endif
+	#endif
+
+
 }
 
 /*************************
@@ -621,9 +655,9 @@ void RPDB_Environment_internal_openWithoutRuntimeStorage( RPDB_Environment* envi
 	
 	//	Open the environment itself (regardless of whether we had to create it on this call to RPDB_open)
 	if ( ( connection_error = environment->wrapped_bdb_environment->open(	environment->wrapped_bdb_environment, 
-																			environment->directory, 
-																			flags,
-																			mode ) ) ) {
+																																				environment->directory, 
+																																				flags,
+																																				mode ) ) ) {
 																			
 		RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( environment ), 
 														connection_error, 
@@ -709,15 +743,15 @@ void RPDB_Environment_internal_initWrappedEnvironment(	RPDB_Environment*		enviro
 			RPDB_ErrorSettingsController*	error_settings_controller	=	settings_controller->error_settings_controller;
 
 			//	DB_ENV->set_errfile()
-			if ( error_settings_controller->file )	{
+			if ( error_settings_controller->error_file )	{
 				RPDB_ErrorSettingsController_setFile(	error_settings_controller,
-														error_settings_controller->file );
-			}
+																							error_settings_controller->error_file );
+			}	
 			
 			//	DB_ENV->set_errpfx()
 			if ( error_settings_controller->prefix )	{
 				RPDB_ErrorSettingsController_setPrefix(	error_settings_controller,
-															error_settings_controller->prefix );
+																								error_settings_controller->prefix );
 			}
 			
 		}
@@ -952,3 +986,39 @@ int RPDB_Environment_internal_defaultIsThreadAliveCallback(	DB_ENV*			bdb_enviro
 	
 	return TRUE;
 }
+
+/******************************
+*  errorfilePathForEnvironment  *
+******************************/
+
+//	environment home directory + RPDB_DEFAULT_ENVIRONMENT_LOG_DIRECTORY + RPDB_DEFAULT_ENVIRONMENT_LOG_FILE + RPDB_DEFAULT_ENVIRONMENT_LOG_FILE_SUFFIX
+char* RPDB_Environment_internal_errorfilePathForEnvironment( RPDB_Environment*		environment )	{
+	
+	//	get environment home directory
+	char*	environment_home_directory		=	RPDB_Environment_homeDirectory( environment );
+	int		environment_directory_length	=	strlen( environment_home_directory );
+
+	int		log_directory_length	=	strlen( RPDB_DEFAULT_ENVIRONMENT_LOG_DIRECTORY );
+
+	BOOL	logfile_needs_slash	=	FALSE;
+	if (		log_directory_length
+			&&	RPDB_DEFAULT_ENVIRONMENT_LOG_DIRECTORY[ log_directory_length - 1 ] != '/' )	{
+
+		logfile_needs_slash	=	TRUE;
+	}
+
+	int	return_path_length	=	environment_directory_length
+													+	log_directory_length
+													+ strlen( RPDB_DEFAULT_ENVIRONMENT_LOG_FILE )
+													+ strlen( RPDB_DEFAULT_ENVIRONMENT_LOG_FILE_SUFFIX );
+	
+	char*	path_to_return	=	calloc( return_path_length + 1, sizeof( char ) );
+	
+	sprintf( path_to_return, "%s%s%s%s%s",	environment_home_directory,
+																					RPDB_DEFAULT_ENVIRONMENT_LOG_DIRECTORY,
+																					( logfile_needs_slash ? "/" : "" ),
+																					RPDB_DEFAULT_ENVIRONMENT_LOG_FILE,
+																					RPDB_DEFAULT_ENVIRONMENT_LOG_FILE_SUFFIX );
+	return path_to_return;
+}
+

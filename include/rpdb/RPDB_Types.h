@@ -416,9 +416,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					 ****************************/
 
 					struct RPDB_RuntimeStorageSettingsController	{
-	
-						RPDB_RuntimeStorageController*					parent_runtime_storage_controller;
-						
+							
 						//	Parent
 						RPDB_SettingsController*								parent_settings_controller;
 		
@@ -1166,8 +1164,9 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					//	Parent
 					RPDB_SettingsController*		parent_settings_controller;
 
-					FILE*							file;
-					BOOL							file_is_open;
+					FILE*							error_file;
+					char*							error_file_path;
+					BOOL							error_file_is_open;
 					char*							prefix;
 /*
 					void							(*error_callback_method)(	RPDB_Environment*					environment,                                                                                                                  
@@ -1865,9 +1864,6 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 
 					//	Parent
 					RPDB_DatabaseController*						parent_database_controller;
-
-					RPDB_RuntimeStorage*							parent_runtime_storage;
-					RPDB_RuntimeStorageController*					parent_runtime_storage_controller;
 
 					db_recno_t										runtime_identifier;
 

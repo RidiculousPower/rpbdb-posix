@@ -53,6 +53,7 @@ void RPDB_Database_internal_closeAllStoredRuntimeAddresses(	RPDB_Database*	runti
 void RPDB_Database_internal_freeAllStoredRuntimeAddresses(	RPDB_Database*	runtime_database,
 																														void *free_function( void** ) );
 
+char* RPDB_Database_internal_errorfilePathForDatabase( RPDB_Database* database );
 
 #endif
 

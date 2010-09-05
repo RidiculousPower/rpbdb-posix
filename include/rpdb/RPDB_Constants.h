@@ -31,7 +31,7 @@
 
 	#define RP_NO_ERROR 0
 	
-	#define RPDB_IN_MEMORY NULL
+	#define RPDB_IN_MEMORY ""
 
 	#define RPDB_MULTIPLE_ACCESS 1
 
@@ -56,7 +56,24 @@
 	#define RPDB_ERROR_MESSAGE_DEFAULT_ENVIRONMENT_NOT_FOUND	"Default Environment was missing."
 	#define RPDB_ERROR_MESSAGE_ENVIRONMENT_NOT_FOUND					"Requested Environment was missing."
 	
-	#define DEFAULT_ENVIRONMENT_HOME_DIRECTORY								"./"
+	#define RPDB_DEFAULT_ENVIRONMENT_HOME_DIRECTORY						"./"
+
+	#define RPDB_DEFAULT_ENVIRONMENT_LOG											TRUE
+	//	FALSE means log to stderr, TRUE means to environment.err.log
+	#define RPDB_DEFAULT_ENVIRONMENT_LOG_TO_FILE							FALSE	
+	#define RPDB_DEFAULT_ENVIRONMENT_LOG_DIRECTORY						"error_log"
+	#define RPDB_DEFAULT_ENVIRONMENT_LOG_FILE									"environment"
+	#define RPDB_DEFAULT_ENVIRONMENT_LOG_FILE_SUFFIX					".err.log"	
+	
+	#define RPDB_DEFAULT_DATABASE_LOG													TRUE
+	//	FALSE means log to stderr, TRUE means to database_name.db.err.log
+	#define RPDB_DEFAULT_DATABASE_LOG_TO_FILE									RPDB_DEFAULT_ENVIRONMENT_LOG_TO_FILE
+	//	Log in place writes the log file where the database is kept
+	#define RPDB_DEFAULT_DATABASE_LOG_IN_PLACE								FALSE
+	//	Alternatively, the log files can be written to a single directory
+	#define RPDB_DEFAULT_DATABASE_LOG_IN_DIRECTORY						RPDB_DEFAULT_ENVIRONMENT_LOG_DIRECTORY
+	#define RPDB_DEFAULT_DATABASE_LOG_FILE_SUFFIX							RPDB_DEFAULT_ENVIRONMENT_LOG_FILE_SUFFIX
+	
 	#define RPDB_DATABASE_FILENAME_EXTENSION									"db"
 	#define RPDB_DELIMITER																		"-##-"
 	#define	RPDB_ENVIRONMENT_AUTO_HANDLE											"environment_auto_name_"
@@ -75,6 +92,7 @@
 	#define RPDB_DEFAULT_CREATE_IF_NECESSARY									1
 	#define RPDB_DEFAULT_TO_BTREE															1
 	#define RPDB_DEFAULT_FAILCHECK														1
+	#define RPDB_DEFAULT_LOG_ENVIRONMENT											1
 
 	//	8 seems to be the minimum for the thread bucket to be enabled
 	//	based on comments here: http://dbaspot.com/forums/berkeley-db/266115-is_alive-example.html
@@ -82,16 +100,12 @@
 	//	have not personally investigated
 	#define RPDB_DEFAULT_THREAD_COUNT													16
 	
-	#define RPDB_RUNTIME_STORAGE_CACHE_SIZE_IN_MB							50
-	//	Runtime storage stores name => address, exclusively
-	//	We can permit names to be 256 characters (256 bits) and require only 32 bytes or .32K,
-	//	while data is a 64 bit int (requiring 64 bits, which is 8 bytes),
-	//	so we have records allowing a max of 320 bits total, which is 40 bytes or .4K.
-	//	We know we are on either a 32 or 64 bit system, so memory will be fastest reading in increments of 64
-	//	320 is an increment of 64, but not a power of 2 (BDB requires pagesize be a power of 2)
-	//	The next power of 2 is 512 (2^9), so we use 512 as our page size. 
-	//	Since we know our data is always a 64 bit int, we have additional leeway for names, 
-	//	allowing a maximum length of 512 - 64 = 448 bits, whic is 447 characters and a string terminator
+	//	Runtime storage stores recno => address or address => address
+	//	so keys are sizeof(db_recno_t) or sizeof(uintptr_t)
+	//	and data are sizeof(uintptr_t)
+	//	Generally both rb_recno_t and uintptr_t are 8bits
+	#define RPDB_RUNTIME_STORAGE_CACHE_SIZE_IN_MB							5
+	//	The minimum page size is 512, which will be far more than large enough
 	#define RPDB_RUNTIME_STORAGE_PAGE_SIZE_IN_K								512
 	
 #endif

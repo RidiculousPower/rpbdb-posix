@@ -22,7 +22,7 @@
 	FILE*																					RPDB_DatabaseErrorSettingsController_file(												RPDB_DatabaseErrorSettingsController*			database_error_settings_controller );
 	void 																					RPDB_DatabaseErrorSettingsController_setFile(											RPDB_DatabaseErrorSettingsController*			database_error_settings_controller, 
 																																													FILE*											error_file );
-	FILE*																					RPDB_DatabaseErrorSettingsController_setFileForPath(									RPDB_DatabaseErrorSettingsController*			database_error_settings_controller,
+	FILE*																					RPDB_DatabaseErrorSettingsController_setFileFromPath(									RPDB_DatabaseErrorSettingsController*			database_error_settings_controller,
 																																													char*											error_file_path );
 	char*																					RPDB_DatabaseErrorSettingsController_prefix(											RPDB_DatabaseErrorSettingsController*			database_error_settings_controller );
 	void																					RPDB_DatabaseErrorSettingsController_setPrefix(										RPDB_DatabaseErrorSettingsController*			database_error_settings_controller, 

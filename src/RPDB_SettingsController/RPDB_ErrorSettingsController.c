@@ -16,8 +16,14 @@
 #include "RPDB_SettingsController.h"
 #include "RPDB_Environment.h"
 
+#include "RPDB_FileSettingsController.h"
 #include "RPDB_ErrorSettingsController_internal.h"
 #include "RPDB_RuntimeStorageController_internal.h"
+	
+#include "RPDB_Directory_internal.h"
+
+#include <errno.h>
+#include <string.h>
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -44,11 +50,11 @@ RPDB_ErrorSettingsController* RPDB_ErrorSettingsController_new( RPDB_SettingsCon
 void RPDB_ErrorSettingsController_free(	RPDB_ErrorSettingsController** error_settings_controller )	{
 
 	//	Make sure file is open so we don't close a closed file.
-	if ( ( *error_settings_controller )->file_is_open )	{
+	if ( ( *error_settings_controller )->error_file_is_open )	{
 
-		fclose( ( *error_settings_controller )->file );
-		( *error_settings_controller )->file_is_open	=	FALSE;
-		( *error_settings_controller )->file			=	NULL;
+		fclose( ( *error_settings_controller )->error_file );
+		( *error_settings_controller )->error_file_is_open	=	FALSE;
+		( *error_settings_controller )->error_file			=	NULL;
 	}
 
 	free( *error_settings_controller );
@@ -71,14 +77,14 @@ FILE* RPDB_ErrorSettingsController_file( RPDB_ErrorSettingsController* error_set
 	
 	RPDB_Environment*		environment	= error_settings_controller->parent_settings_controller->parent_environment;
 		
-	if (	error_settings_controller->file == NULL
+	if (	error_settings_controller->error_file == NULL
 		&&	environment->wrapped_bdb_environment != NULL )	{
 	
 		environment->wrapped_bdb_environment->get_errfile(	environment->wrapped_bdb_environment, 
-															&( error_settings_controller->file ) );
+															&( error_settings_controller->error_file ) );
 	}
 	
-	return error_settings_controller->file;
+	return error_settings_controller->error_file;
 }
 
 /****************
@@ -87,16 +93,16 @@ FILE* RPDB_ErrorSettingsController_file( RPDB_ErrorSettingsController* error_set
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_errfile.html
 void RPDB_ErrorSettingsController_setFile(	RPDB_ErrorSettingsController*		error_settings_controller, 
-											FILE*								file )	{
+																						FILE*								file )	{
 
 	RPDB_Environment*		environment;
 
 	environment = error_settings_controller->parent_settings_controller->parent_environment;
 
-	error_settings_controller->file = file;
+	error_settings_controller->error_file = file;
 	if ( environment->wrapped_bdb_environment != NULL )	{
 		environment->wrapped_bdb_environment->set_errfile(	environment->wrapped_bdb_environment, 
-															file );
+																												file );
 	}
 }
 
@@ -107,23 +113,31 @@ void RPDB_ErrorSettingsController_setFile(	RPDB_ErrorSettingsController*		error_
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_errfile.html
 FILE* RPDB_ErrorSettingsController_setFileFromPath( RPDB_ErrorSettingsController* error_settings_controller, char* file_path )	{
 
-	RPDB_Environment*		environment;
-	FILE*		file;
+	RPDB_Environment*		environment	= error_settings_controller->parent_settings_controller->parent_environment;
 
-	environment = error_settings_controller->parent_settings_controller->parent_environment;
+	RPDB_SettingsController*			settings_controller				=	RPDB_Environment_settingsController( environment );
+	RPDB_FileSettingsController*	file_settings_controller	=	RPDB_SettingsController_fileSettingsController( settings_controller );
+	
+	//	Create if necessary only creates the db; we have to create the directory if it doesn't yet exist
+	if ( RPDB_FileSettingsController_createIfNecessary( file_settings_controller ) ){
+		RPDB_Directory_internal_ensureDirectoryPathExistsForFile( file_path );
+	}	
 
-	file = fopen( file_path, "w");
+	errno = FALSE;
+	FILE*		file	= fopen( file_path, "a" );	
 
-	if ( file == NULL )	{
+	if ( errno )	{
 		RPDB_ErrorController_throwError(	RPDB_Environment_errorController( environment ), 
-											RP_ERROR_NO_FILE_AT_PATH, 
-											"RPDB_ErrorSettingsController_setFileFromPath",
-											"File not found at path." );
+																			RP_ERROR_NO_FILE_AT_PATH, 
+																			"RPDB_ErrorSettingsController_setFileFromPath",
+																			strerror( errno ) );
 		return NULL;
 	}
 	
+	error_settings_controller->error_file_path	=	file_path;
+	
 	RPDB_ErrorSettingsController_setFile(	error_settings_controller, 
-											file );
+																				file );
 	
 	return file;
 }
@@ -141,7 +155,7 @@ char* RPDB_ErrorSettingsController_prefix( RPDB_ErrorSettingsController* error_s
 
 	if ( error_settings_controller->prefix == NULL )	{
 		environment->wrapped_bdb_environment->get_errpfx(	environment->wrapped_bdb_environment, 
-														 (const char**) &( error_settings_controller->prefix ) );	
+																											(const char**) &( error_settings_controller->prefix ) );	
 	}
 	
 	return error_settings_controller->prefix;
@@ -234,8 +248,8 @@ RPDB_ErrorSettingsController* RPDB_ErrorSettingsController_internal_copyOfSettin
 
 	//	Instances and Pointers
 	error_settings_controller_copy->prefix	=	error_settings_controller->prefix;
-	error_settings_controller_copy->file_is_open	=	error_settings_controller->file_is_open;
-	error_settings_controller_copy->file	=	error_settings_controller->file;
+	error_settings_controller_copy->error_file_is_open	=	error_settings_controller->error_file_is_open;
+	error_settings_controller_copy->error_file	=	error_settings_controller->error_file;
 
 	return error_settings_controller_copy;
 }

@@ -87,12 +87,6 @@ RPDB_Database* RPDB_Database_new(	RPDB_DatabaseController*	parent_database_contr
 
 	RPDB_Database*			new_database	= calloc( 1, sizeof( RPDB_Database ) );
 
-	//	if parent database controller has a runtime storage database, store our address in it (remove when free)
-	if ( parent_database_controller->runtime_storage_database != NULL )	{
-		new_database->runtime_identifier =	RPDB_Database_internal_storeRuntimeAddress(	parent_database_controller->runtime_storage_database,
-																																										(void*) new_database );
-	}
-	
 	/*------------------*
 	*  Parent Database  *
 	*------------------*/
@@ -104,11 +98,11 @@ RPDB_Database* RPDB_Database_new(	RPDB_DatabaseController*	parent_database_contr
 	*----------------------------*/
 
 	//	Make call to instantiate local settings controller
-	RPDB_Environment*									environment										=	parent_database_controller->parent_environment;
-	RPDB_SettingsController*					settings_controller						=	RPDB_Environment_settingsController( environment );
-	RPDB_DatabaseSettingsController*	database_settings_controller	=	RPDB_SettingsController_databaseSettingsController( settings_controller );
+	RPDB_Environment*											environment																	=	parent_database_controller->parent_environment;
+	RPDB_SettingsController*							settings_controller													=	RPDB_Environment_settingsController( environment );
+	RPDB_DatabaseSettingsController*			environment_database_settings_controller		=	RPDB_SettingsController_databaseSettingsController( settings_controller );
 	
-	new_database->settings_controller	=	RPDB_DatabaseSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller );
+	new_database->settings_controller	=	RPDB_DatabaseSettingsController_internal_copyOfSettingsControllerForInstance( environment_database_settings_controller );
 	
 	//	Set database as a parent (global settings controller is also a parent)
 	new_database->settings_controller->parent_database = new_database;
@@ -132,9 +126,7 @@ RPDB_Database* RPDB_Database_new(	RPDB_DatabaseController*	parent_database_contr
 	*---------*/
 
 	//	Generally we need a name, but sometimes internally we pass NULL to set the name later
-	if ( database_name )	{
-		new_database->name		=	strdup( database_name );		
-	}
+	new_database->name		=	strdup( database_name );
 	
 	/*-----------*
 	*  Filename  *
@@ -142,14 +134,51 @@ RPDB_Database* RPDB_Database_new(	RPDB_DatabaseController*	parent_database_contr
 	
 	RPDB_MemoryPoolSettingsController*	memory_pool_settings_controller	=	RPDB_SettingsController_memoryPoolSettingsController( settings_controller );
 	
-	if (	! RPDB_MemoryPoolSettingsController_isInMemoryEnvironment( memory_pool_settings_controller )
-			&&	new_database->name)	{
+	if ( ! RPDB_MemoryPoolSettingsController_isInMemoryEnvironment( memory_pool_settings_controller ) )	{
 	
 		new_database->filename	=	RPDB_Database_internal_filenameForName( new_database->name );		
 	}
 	
-	new_database->runtime_identifier	=	FALSE;
-	
+	/*---------------*
+	*  Error Output  *
+	*---------------*/
+
+	#ifdef RPDB_DEFAULT_DATABASE_LOG
+		#if RPDB_DEFAULT_DATABASE_LOG == TRUE
+			if ( parent_database_controller->runtime_storage_database != NULL )	{
+				RPDB_DatabaseSettingsController*	database_settings_controller	=	RPDB_Database_settingsController( new_database );
+				RPDB_DatabaseErrorSettingsController*	database_error_settings_controller	=	RPDB_DatabaseSettingsController_errorSettingsController( database_settings_controller );
+				
+				if ( RPDB_DEFAULT_DATABASE_LOG_TO_FILE )	{
+					
+					char*	log_file_path	=	RPDB_Database_internal_errorfilePathForDatabase( new_database );
+					
+					RPDB_DatabaseErrorSettingsController_setFileFromPath(	database_error_settings_controller,
+																																log_file_path );
+					free( log_file_path );
+				}
+				else {
+
+					RPDB_DatabaseErrorSettingsController_setFile(	database_error_settings_controller,
+																												stderr );			
+				}
+			}
+		#endif
+	#endif
+
+	/*-----------------------------*
+	*  Runtime Storage Identifier  *
+	*-----------------------------*/
+
+	//	if parent database controller has a runtime storage database, store our address in it (remove when free)
+	if ( parent_database_controller->runtime_storage_database != NULL )	{
+		new_database->runtime_identifier =	RPDB_Database_internal_storeRuntimeAddress(	parent_database_controller->runtime_storage_database,
+																																										(void*) new_database );
+	}
+	else {
+		new_database->runtime_identifier	=	FALSE;
+	}
+
 	return new_database;
 }
 
@@ -187,7 +216,7 @@ void RPDB_Database_free( RPDB_Database** database )	{
 		free( ( *database )->index_name );
 		( *database )->index_name	=	NULL;
 	}
-	
+
 	free( *database );
 	*database	=	NULL;
 }
@@ -300,7 +329,7 @@ RPDB_Database* RPDB_Database_open( RPDB_Database* database )	{
 		RPDB_Database_internal_openWithoutRuntimeStorage( database );
 
 		RPDB_RuntimeStorageController_internal_storeDatabaseForBDBDatabase(	RPDB_RuntimeStorageController_sharedInstance(),
-																				database );
+																																				database );
 		
 		//	if we are in a transaction and this is a primary database, add this database to the list of databases opened during transaction
 		//	secondaries are closed by primary close, so no need to track them
@@ -310,7 +339,7 @@ RPDB_Database* RPDB_Database_open( RPDB_Database* database )	{
 			&&	( transaction_id = RPDB_TransactionController_currentTransaction( transaction_controller ) ) != NULL )	{
 
 			RPDB_Transaction_internal_addDatabaseToListOpenedDuringTransaction(	transaction_id,
-																					database );
+																																					database );
 		}
 		
 		//	if we previously opened and have secondaries defined, associate them now
@@ -320,9 +349,9 @@ RPDB_Database* RPDB_Database_open( RPDB_Database* database )	{
 			
 			//	create index with database (createIndex... should name the rest)
 			RPDB_Database_createSecondaryIndexWithDatabase(	database,
-																*this_secondary_database,
-																( *this_secondary_database )->index_name,
-																( *this_secondary_database )->secondary_key_creation_callback_method );
+																											*this_secondary_database,
+																											( *this_secondary_database )->index_name,
+																											( *this_secondary_database )->secondary_key_creation_callback_method );
 		}
 	}
 
@@ -351,7 +380,7 @@ void RPDB_Database_close( RPDB_Database* database )	{
 	if ( database->is_open == TRUE )	{
 		
 		RPDB_RuntimeStorageController_internal_removeDatabaseStoredForBDBDatabase(	RPDB_RuntimeStorageController_sharedInstance(),
-																					database );
+																																								database );
 		
 		if ( database->join_controller != NULL )	{
 			//	shut own join cursors
@@ -548,7 +577,7 @@ void RPDB_Database_freeAllSecondaryDatabases( RPDB_Database* database )	{
 //
 //	Closing a primary database name automatically dis-associates all secondary database names associated with it.
 BOOL RPDB_Database_associateSecondaryDatabase(	RPDB_Database*		primary_database, 
-												RPDB_Database*		secondary_database )	{
+																								RPDB_Database*		secondary_database )	{
 
 	RPDB_Database_internal_ensureOpen( primary_database );
 	RPDB_Database_internal_ensureOpen( secondary_database );
@@ -690,12 +719,12 @@ RPDB_Database* RPDB_Database_createSecondaryIndex(	RPDB_Database*						primary_d
 	//	if not, create it
 	
 	RPDB_Database*	secondary_database	=	RPDB_Database_databaseForSecondaryIndex(	primary_database,
-																						index_name );
+																																									index_name );
 	
 	if ( secondary_database == NULL )	{
 	
 		RPDB_Database*	secondary_database	=	RPDB_Database_new(	primary_database->parent_database_controller,
-																															NULL );
+																															index_name );
 		
 		RPDB_Database_internal_configureDatabaseInstanceForSecondaryIndexOnPrimaryDatabase(	primary_database,
 																																												secondary_database,
@@ -929,12 +958,17 @@ db_recno_t RPDB_Database_appendRawData(	RPDB_Database*			database,
 	
 	uint32_t	flags	=	RPDB_DatabaseReadWriteSettingsController_internal_writeFlags( database_read_write_settings_controller );
 	
-	RPDB_Database_internal_writeRawKeyDataPair(	database,
-																							flags | DB_APPEND,
-																							& database->parent_database_controller->record_number,
-																							sizeof( db_recno_t ),
-																							write_data,
-																							data_size );
+	RPDB_Record*	record	=		RPDB_Database_internal_writeRawKeyDataPair(	database,
+																																				flags | DB_APPEND,
+																																				& database->parent_database_controller->record_number,
+																																				sizeof( db_recno_t ),
+																																				write_data,
+																																				data_size );
+	
+	database->parent_database_controller->record_number	=	*(db_recno_t*) RPDB_Record_rawData( record );
+	
+	RPDB_Record_free( & record );
+	
 	return database->parent_database_controller->record_number;
 }
 
@@ -1336,7 +1370,7 @@ RPDB_KeyRange* RPDB_Database_relativePositionOfRawKey(	RPDB_Database*	database,
 	
 //	Only relevant for Queue databases
 //	DB_CONSUME				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_get.html
-RPDB_Record* RPDB_Database_shiftQueue( RPDB_Database*	database )	{
+RPDB_Record* RPDB_Database_shiftQueue( RPDB_Database*	database, RPDB_Record* record )	{
 	
 	RPDB_Database_internal_ensureOpen( database );
 
@@ -1352,7 +1386,9 @@ RPDB_Record* RPDB_Database_shiftQueue( RPDB_Database*	database )	{
 																									"RPDB_Database_shiftQueue" );
 	}
 
-	RPDB_Record*	record	=	RPDB_Record_new( database );
+	if ( record == NULL )	{
+		record	=	RPDB_Record_new( database );
+	}
 	if ( RPDB_Database_internal_retrieveRecord(	database, 
 																							DB_CONSUME, 
 																							record )->result == FALSE )	{
@@ -1377,7 +1413,7 @@ RPDB_Record* RPDB_Database_shiftQueue( RPDB_Database*	database )	{
 
 //	Only relevant for Queue databases
 //	DB_CONSUME_WAIT			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_get.html
-RPDB_Record* RPDB_Database_shiftQueueOrWait( RPDB_Database*	database )	{
+RPDB_Record* RPDB_Database_shiftQueueOrWait( RPDB_Database*	database, RPDB_Record* record )	{
 
 	RPDB_DatabaseSettingsController*			database_settings_controller			=	RPDB_Database_settingsController( database );
 	RPDB_DatabaseTypeSettingsController*	database_type_settings_controller	=	RPDB_DatabaseSettingsController_typeSettingsController( database_settings_controller );
@@ -1391,7 +1427,9 @@ RPDB_Record* RPDB_Database_shiftQueueOrWait( RPDB_Database*	database )	{
 																									"RPDB_Database_shiftQueueOrWait" );
 	}
 	
-	RPDB_Record*	record	=	RPDB_Record_new( database );
+	if ( record == NULL )	{
+		record	=	RPDB_Record_new( database );
+	}
 	if ( RPDB_Database_internal_retrieveRecord(	database, 
 																							DB_CONSUME_WAIT, 
 																							record )->result == FALSE )	{
@@ -1550,25 +1588,25 @@ void RPDB_Database_internal_initWrappedDatabase(	RPDB_Database* database )	{
 	//	We have to instantiate settings in our wrapped instance that are set in our rpdb wrapper
 	if (	database->settings_controller != NULL )	{
 		
-		RPDB_DatabaseSettingsController*	settings_controller	=	database->settings_controller;
+		RPDB_DatabaseSettingsController*	database_settings_controller	=	database->settings_controller;
 		
 		//	DB->set_lorder()
-		if ( settings_controller->little_endian )	{		
-			RPDB_DatabaseSettingsController_setByteOrderToLittleEndian( settings_controller );
+		if ( database_settings_controller->little_endian )	{		
+			RPDB_DatabaseSettingsController_setByteOrderToLittleEndian( database_settings_controller );
 		}
-		else if ( settings_controller->big_endian	)	{
-			RPDB_DatabaseSettingsController_setByteOrderToBigEndian( settings_controller );
+		else if ( database_settings_controller->big_endian	)	{
+			RPDB_DatabaseSettingsController_setByteOrderToBigEndian( database_settings_controller );
 		}
 		
 		//	DB->set_pagesize()
-		if ( settings_controller->pagesize )	{
-			RPDB_DatabaseSettingsController_setPageSize(	settings_controller,
-																										settings_controller->pagesize );
+		if ( database_settings_controller->pagesize )	{
+			RPDB_DatabaseSettingsController_setPageSize(	database_settings_controller,
+																										database_settings_controller->pagesize );
 		}
 		
-		if (	settings_controller->variable_record_settings_controller != NULL )	{
+		if (	database_settings_controller->variable_record_settings_controller != NULL )	{
 		
-			RPDB_DatabaseVariableRecordSettingsController*	variable_record_settings_controller	=	settings_controller->variable_record_settings_controller;
+			RPDB_DatabaseVariableRecordSettingsController*	variable_record_settings_controller	=	database_settings_controller->variable_record_settings_controller;
 
 			//	DB->set_re_delim()
 			if ( variable_record_settings_controller->record_delimeter )	{
@@ -1577,9 +1615,9 @@ void RPDB_Database_internal_initWrappedDatabase(	RPDB_Database* database )	{
 			}
 		}
 
-		if (	settings_controller->fixed_record_settings_controller != NULL )	{
+		if (	database_settings_controller->fixed_record_settings_controller != NULL )	{
 
-			RPDB_DatabaseFixedRecordSettingsController*	fixed_record_settings_controller	=	settings_controller->fixed_record_settings_controller;
+			RPDB_DatabaseFixedRecordSettingsController*	fixed_record_settings_controller	=	database_settings_controller->fixed_record_settings_controller;
 			
 			//	DB->set_re_len()
 			if ( fixed_record_settings_controller->record_length )	{
@@ -1594,9 +1632,9 @@ void RPDB_Database_internal_initWrappedDatabase(	RPDB_Database* database )	{
 			}
 		}
 		
-		if (	settings_controller->type_settings_controller != NULL )	{
+		if (	database_settings_controller->type_settings_controller != NULL )	{
 
-			RPDB_DatabaseTypeSettingsController*	type_settings_controller	=	settings_controller->type_settings_controller;
+			RPDB_DatabaseTypeSettingsController*	type_settings_controller	=	database_settings_controller->type_settings_controller;
 
 			if ( type_settings_controller->btree_settings_controller != NULL )	{
 
@@ -1655,9 +1693,9 @@ void RPDB_Database_internal_initWrappedDatabase(	RPDB_Database* database )	{
 			}
 		}
 		
-		if ( settings_controller->cache_settings_controller != NULL )	{
+		if ( database_settings_controller->cache_settings_controller != NULL )	{
 		
-			RPDB_DatabaseCacheSettingsController*	cache_settings_controller	=	settings_controller->cache_settings_controller;
+			RPDB_DatabaseCacheSettingsController*	cache_settings_controller	=	database_settings_controller->cache_settings_controller;
 			
 			//	DB->set_cachesize()
 			if ( cache_settings_controller->max_size_in_bytes )	{
@@ -1677,9 +1715,9 @@ void RPDB_Database_internal_initWrappedDatabase(	RPDB_Database* database )	{
 			}
 		}
 		
-		if ( settings_controller->read_write_settings_controller != NULL )	{
+		if ( database_settings_controller->read_write_settings_controller != NULL )	{
 			
-			RPDB_DatabaseTypeSettingsController*	database_type_settings_controller	=	RPDB_DatabaseSettingsController_typeSettingsController( settings_controller );
+			RPDB_DatabaseTypeSettingsController*	database_type_settings_controller	=	RPDB_DatabaseSettingsController_typeSettingsController( database_settings_controller );
 			DBTYPE	database_type	=	RPDB_DatabaseTypeSettingsController_databaseType( database_type_settings_controller );
 			
 			if ( database_type == DB_BTREE )	{
@@ -1691,9 +1729,9 @@ void RPDB_Database_internal_initWrappedDatabase(	RPDB_Database* database )	{
 			}
 		}
 		
-		if ( settings_controller->encryption_settings_controller != NULL )	{
+		if ( database_settings_controller->encryption_settings_controller != NULL )	{
 		
-			RPDB_DatabaseEncryptionSettingsController*	encryption_settings_controller	=	settings_controller->encryption_settings_controller;
+			RPDB_DatabaseEncryptionSettingsController*	encryption_settings_controller	=	database_settings_controller->encryption_settings_controller;
 
 			//	DB->set_encrypt()
 			if ( encryption_settings_controller->password )	{
@@ -1702,9 +1740,9 @@ void RPDB_Database_internal_initWrappedDatabase(	RPDB_Database* database )	{
 			}
 		}
 		
-		if ( settings_controller->error_settings_controller != NULL )	{
+		if ( database_settings_controller->error_settings_controller != NULL )	{
 		
-			RPDB_DatabaseErrorSettingsController*	error_settings_controller	=	settings_controller->error_settings_controller;
+			RPDB_DatabaseErrorSettingsController*	error_settings_controller	=	database_settings_controller->error_settings_controller;
 
 			//	DB->set_errfile()
 			if ( error_settings_controller->error_file )	{
@@ -2029,10 +2067,12 @@ RPDB_Record* RPDB_Database_internal_retrieveRecord(	RPDB_Database*		database,
 	}
 	//	Otherwise we are retrieving a primary key/data pair
 	else	{
-		
-		//	primary key is our retrieval key
-		RPDB_Key_free( & record->primary_key );
-		record->primary_key	=	record->key;
+	
+		//	primary key is our retrieval key, so set both the same
+		if ( record->primary_key != record->key )	{
+			RPDB_Key_free( & record->primary_key );
+			record->primary_key	=	record->key;
+		}
 			
 		if ( ( connection_error = ( database->wrapped_bdb_database->get(	database->wrapped_bdb_database, 
 																																			transaction_id,
@@ -2159,9 +2199,12 @@ db_recno_t RPDB_Database_internal_storeRuntimeAddress(	RPDB_Database*	runtime_da
 																												void*						runtime_pointer )	{
 
 	uintptr_t	runtime_pointer_address	=	(uintptr_t) runtime_pointer;
-	return RPDB_Database_appendRawData(	runtime_database,
-																			& runtime_pointer_address,
-																			sizeof( uintptr_t ) );
+
+	db_recno_t	record_number	=	RPDB_Database_appendRawData(	runtime_database,
+																														& runtime_pointer_address,
+																														sizeof( uintptr_t ) );
+		
+	return record_number;
 }
 
 /*****************************
@@ -2171,9 +2214,13 @@ db_recno_t RPDB_Database_internal_storeRuntimeAddress(	RPDB_Database*	runtime_da
 void RPDB_Database_internal_freeStoredRuntimeAddress(	RPDB_Database*	runtime_database,
 																											db_recno_t			runtime_record_number	)	{
 	
-	RPDB_Database_deleteDataForRawKey(	runtime_database,
-																			& runtime_record_number,
-																			sizeof( db_recno_t ) );
+	if ( RPDB_Database_rawKeyExists(	runtime_database,
+																		& runtime_record_number,
+																		sizeof( db_recno_t ) ) )	{
+		RPDB_Database_deleteDataForRawKey(	runtime_database,
+																				& runtime_record_number,
+																				sizeof( db_recno_t ) );
+	}
 }
 
 /***********************************
@@ -2207,10 +2254,70 @@ void RPDB_Database_internal_freeAllStoredRuntimeAddresses(	RPDB_Database*	runtim
 																														void *free_function( void** ) )	{
 
 	RPDB_Record*	record	=	NULL;
-	while ( ( record = RPDB_Database_shiftQueue( runtime_database ) ) != NULL )	{
+	while ( ( record = RPDB_Database_shiftQueue( runtime_database, record ) ) != NULL )	{
 		//	our raw data points to the address of a pointer
 		void**	rpdb_instance	=	RPDB_Record_rawData( record );
 		//	call the RPDB free function specified
 		free_function( rpdb_instance );
 	}
+	
+}
+
+/***************************
+*  errorfilePathForDatabase  *
+***************************/
+
+//	environment home directory + RPDB_DEFAULT_DATABASE_LOG_IN_DIRECTORY + RPDB_DEFAULT_DATABASE_LOG_FILE_SUFFIX
+//	or
+//	environment home directory + database filename + .err.log
+char* RPDB_Database_internal_errorfilePathForDatabase( RPDB_Database* database )	{
+	
+	//	get environment home directory
+	char*	environment_home_directory		=	RPDB_Environment_homeDirectory( database->parent_database_controller->parent_environment );
+	int		environment_directory_length	=	strlen( environment_home_directory );
+
+	char*	path_to_return	=	NULL;
+	
+	if ( RPDB_DEFAULT_DATABASE_LOG_IN_PLACE )	{
+	
+		int	return_path_length	=	environment_directory_length
+														+	strlen( database->filename )
+														+ strlen( RPDB_DEFAULT_DATABASE_LOG_FILE_SUFFIX );
+		
+		path_to_return	=	calloc( return_path_length + 1, sizeof( char ) );
+		
+		sprintf( path_to_return, "%s%s%s",	environment_home_directory,
+																				database->filename,
+																				RPDB_DEFAULT_DATABASE_LOG_FILE_SUFFIX );		
+	}
+	else {
+
+		int		log_directory_length	=	strlen( RPDB_DEFAULT_DATABASE_LOG_IN_DIRECTORY );
+
+		BOOL	logfile_needs_slash	=	FALSE;
+		if (		log_directory_length
+				&&	RPDB_DEFAULT_DATABASE_LOG_IN_DIRECTORY[ log_directory_length - 1 ] != '/' )	{
+
+			logfile_needs_slash	=	TRUE;
+		}
+
+		int	directory_length	=	strlen( RPDB_DEFAULT_DATABASE_LOG_IN_DIRECTORY );
+		int	filename_length		=	strlen( database->filename );
+		int	suffix_length			=	strlen( RPDB_DEFAULT_DATABASE_LOG_FILE_SUFFIX );
+		int	return_path_length	=	environment_directory_length
+														+	directory_length
+														+ (int) logfile_needs_slash
+														+ filename_length
+														+ suffix_length;
+		
+		path_to_return	=	calloc( return_path_length + 1, sizeof( char ) );
+		
+		sprintf( path_to_return, "%s%s%s%s%s",	environment_home_directory,
+																						RPDB_DEFAULT_DATABASE_LOG_IN_DIRECTORY,
+																						( logfile_needs_slash ? "/" : "" ),
+																						database->filename,
+																						RPDB_DEFAULT_DATABASE_LOG_FILE_SUFFIX );		
+	}
+
+	return path_to_return;
 }

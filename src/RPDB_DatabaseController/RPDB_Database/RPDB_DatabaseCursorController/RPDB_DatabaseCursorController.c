@@ -114,12 +114,6 @@ RPDB_DatabaseCursor* RPDB_DatabaseCursorController_cursor( RPDB_DatabaseCursorCo
 	
 	RPDB_DatabaseCursor*	cursor	=	RPDB_DatabaseCursor_new( cursor_controller );
 	
-	uintptr_t	cursor_address	=	(uintptr_t) cursor;
-	
-	RPDB_Database_appendRawData(	cursor_controller->runtime_storage_database,
-																& cursor_address,
-																sizeof( uintptr_t ) );
-
 	return cursor;
 }
 

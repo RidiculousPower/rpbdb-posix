@@ -104,14 +104,6 @@ RPDB_Database* RPDB_DatabaseController_newDatabase(	RPDB_DatabaseController*	dat
 	RPDB_Database*	database						=	RPDB_Database_new(	database_controller,
 																														database_name );
 
-	uintptr_t	database_address	=	(uintptr_t) database;
-
-	RPDB_Database_appendRawData(	database_controller->runtime_storage_database,
-																& database_address,
-																sizeof( uintptr_t ) );
-
-	database->runtime_identifier	=	database_controller->record_number;
-
 	return database;
 }
 

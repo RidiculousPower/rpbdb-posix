@@ -14,6 +14,8 @@
 																	pid_t			process_id,
 																	db_threadid_t	thread_id,
 																	uint32_t		flags );
+	char* RPDB_Environment_internal_errorfilePathForEnvironment( RPDB_Environment*		environment );
+
 	
 #endif
 
