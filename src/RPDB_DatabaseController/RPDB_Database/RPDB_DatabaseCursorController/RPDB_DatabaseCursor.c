@@ -239,7 +239,7 @@ RPDB_DatabaseCursor* RPDB_DatabaseCursor_duplicateCursor( RPDB_DatabaseCursor* d
 
 //	DB_CURRENT				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_put.html
 void RPDB_DatabaseCursor_overwriteCurrentDataWithRecord(	RPDB_DatabaseCursor*	database_cursor, 
-																										RPDB_Record*			record )	{
+																													RPDB_Record*			record )	{
 
 	RPDB_DatabaseCursor_internal_writeRecord(	database_cursor, 
 																						DB_CURRENT, 
@@ -254,10 +254,11 @@ void RPDB_DatabaseCursor_overwriteCurrentDataWithRecord(	RPDB_DatabaseCursor*	da
 void RPDB_DatabaseCursor_overwriteCurrentData(	RPDB_DatabaseCursor*	database_cursor, 
 																							RPDB_Data*				data )	{
 
-	RPDB_DatabaseCursor_internal_writeKeyDataPair(	database_cursor, 
-																									DB_CURRENT,
-																									NULL,
-																									data );
+	RPDB_Record*	record	=	RPDB_DatabaseCursor_internal_writeKeyDataPair(	database_cursor, 
+																																					DB_CURRENT,
+																																					NULL,
+																																					data );
+	RPDB_Record_free( & record );
 }
 
 /********************************************
@@ -269,12 +270,13 @@ void RPDB_DatabaseCursor_overwriteCurrentDataWithRawData(	RPDB_DatabaseCursor*	d
 																								void*									data_raw,
 																								uint32_t							data_size )	{
 
-	RPDB_DatabaseCursor_internal_writeRawKeyDataPair(	database_cursor, 
-																										DB_CURRENT,
-																										NULL,
-																										0,
-																										data_raw,
-																										data_size );
+	RPDB_Record*	record	=	RPDB_DatabaseCursor_internal_writeRawKeyDataPair(	database_cursor, 
+																																						DB_CURRENT,
+																																						NULL,
+																																						0,
+																																						data_raw,
+																																						data_size );
+	RPDB_Record_free( & record );
 }
 
 /****************************************
@@ -298,10 +300,11 @@ void RPDB_DatabaseCursor_writeRecordAsDuplicateDataAfterCurrent(	RPDB_DatabaseCu
 void RPDB_DatabaseCursor_writeDataAsDuplicateAfterCurrent(	RPDB_DatabaseCursor*	database_cursor, 
 																														RPDB_Data*				data )	{
 
-	RPDB_DatabaseCursor_internal_writeKeyDataPair(	database_cursor, 
-																									DB_AFTER,
-																									NULL,
-																									data );
+	RPDB_Record*	record	=	RPDB_DatabaseCursor_internal_writeKeyDataPair(	database_cursor, 
+																																					DB_AFTER,
+																																					NULL,
+																																					data );
+	RPDB_Record_free( & record );
 }
 
 /************************************************
@@ -313,12 +316,13 @@ void RPDB_DatabaseCursor_writeRawDataAsDuplicateAfterCurrent(	RPDB_DatabaseCurso
 																															void*									data_raw,
 																															uint32_t							data_size )	{
 
-	RPDB_DatabaseCursor_internal_writeRawKeyDataPair(	database_cursor, 
-																										DB_AFTER,
-																										NULL,
-																										0,
-																										data_raw,
-																										data_size );
+	RPDB_Record*	record	=	RPDB_DatabaseCursor_internal_writeRawKeyDataPair(	database_cursor, 
+																																						DB_AFTER,
+																																						NULL,
+																																						0,
+																																						data_raw,
+																																						data_size );
+	RPDB_Record_free( & record );
 }
 
 /******************************************
@@ -342,10 +346,11 @@ void RPDB_DatabaseCursor_writeRecordAsDuplicateBeforeCurrent(	RPDB_DatabaseCurso
 void RPDB_DatabaseCursor_writeDataAsDuplicateBeforeCurrent(	RPDB_DatabaseCursor*	database_cursor, 
 																														RPDB_Data*						data )	{
 
-	RPDB_DatabaseCursor_internal_writeKeyDataPair(	database_cursor, 
-																									DB_BEFORE,
-																									NULL,
-																									data );
+	RPDB_Record*	record	=	RPDB_DatabaseCursor_internal_writeKeyDataPair(	database_cursor, 
+																																					DB_BEFORE,
+																																					NULL,
+																																					data );
+	RPDB_Record_free( & record );
 }
 
 /************************************************
@@ -357,12 +362,13 @@ void RPDB_DatabaseCursor_writeRawDataAsDuplicateBeforeCurrent(	RPDB_DatabaseCurs
 																																void*									data_raw,
 																																uint32_t							data_size )	{
 
-	RPDB_DatabaseCursor_internal_writeRawKeyDataPair(	database_cursor, 
-																										DB_BEFORE,
-																										NULL,
-																										0,
-																										data_raw,
-																										data_size );
+	RPDB_Record*	record	=	RPDB_DatabaseCursor_internal_writeRawKeyDataPair(	database_cursor, 
+																																						DB_BEFORE,
+																																						NULL,
+																																						0,
+																																						data_raw,
+																																						data_size );
+	RPDB_Record_free( & record );
 }
 
 
@@ -374,7 +380,7 @@ void RPDB_DatabaseCursor_writeRecord(	RPDB_DatabaseCursor*	database_cursor,
 																			RPDB_Record*							record )	{
 
 	RPDB_DatabaseCursor_writeRecordAfterAnyDuplicates(	database_cursor,
-														record );
+																											record );
 }
 
 /*****************************************
@@ -435,10 +441,11 @@ void RPDB_DatabaseCursor_writeKeyDataPairBeforeAnyDuplicates(		RPDB_DatabaseCurs
 																																RPDB_Key*							key,
 																																RPDB_Data*						data )	{
 
-	RPDB_DatabaseCursor_internal_writeKeyDataPair(	database_cursor, 
-																									DB_KEYFIRST,
-																									key,
-																									data );
+	RPDB_Record*	record	=	RPDB_DatabaseCursor_internal_writeKeyDataPair(	database_cursor, 
+																																					DB_KEYFIRST,
+																																					key,
+																																					data );
+	RPDB_Record_free( & record );
 }
 
 /*****************************************
@@ -455,12 +462,13 @@ void RPDB_DatabaseCursor_writeRawKeyDataPairBeforeAnyDuplicates(	RPDB_DatabaseCu
 																																	void*									data_raw,
 																																	uint32_t							data_size )	{
 
-	RPDB_DatabaseCursor_internal_writeRawKeyDataPair(	database_cursor, 
-																										DB_KEYFIRST,
-																										key_raw,
-																										key_size,
-																										data_raw,
-																										data_size );
+	RPDB_Record*	record	=	RPDB_DatabaseCursor_internal_writeRawKeyDataPair(	database_cursor, 
+																																						DB_KEYFIRST,
+																																						key_raw,
+																																						key_size,
+																																						data_raw,
+																																						data_size );
+	RPDB_Record_free( & record );
 }
 
 /********************************
@@ -491,10 +499,11 @@ void RPDB_DatabaseCursor_writeKeyDataPairAfterAnyDuplicates(	RPDB_DatabaseCursor
 																															RPDB_Key*							key,
 																															RPDB_Data*						data )	{
 	
-	RPDB_DatabaseCursor_internal_writeKeyDataPair(	database_cursor, 
-																									DB_KEYLAST,
-																									key,
-																									data );
+	RPDB_Record*	record	=	RPDB_DatabaseCursor_internal_writeKeyDataPair(	database_cursor, 
+																																					DB_KEYLAST,
+																																					key,
+																																					data );
+	RPDB_Record_free( & record );
 }
 
 /********************************************
@@ -511,12 +520,13 @@ void RPDB_DatabaseCursor_writeRawKeyDataPairAfterAnyDuplicates(	RPDB_DatabaseCur
 																																void*									data_raw,
 																																uint32_t							data_size )	{
 	
-	RPDB_DatabaseCursor_internal_writeRawKeyDataPair(	database_cursor, 
-																										DB_KEYLAST,
-																										key_raw,
-																										key_size,
-																										data_raw,
-																										data_size );
+	RPDB_Record*	record	=	RPDB_DatabaseCursor_internal_writeRawKeyDataPair(	database_cursor, 
+																																						DB_KEYLAST,
+																																						key_raw,
+																																						key_size,
+																																						data_raw,
+																																						data_size );
+	RPDB_Record_free( & record );
 }
 
 
@@ -525,12 +535,17 @@ void RPDB_DatabaseCursor_writeRawKeyDataPairAfterAnyDuplicates(	RPDB_DatabaseCur
 **************************************/
 
 //	DB_NODUPDATA			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_put.html
-void RPDB_DatabaseCursor_writeRecordOnlyIfNotInDatabase(	RPDB_DatabaseCursor*		database_cursor, 
+BOOL RPDB_DatabaseCursor_writeRecordOnlyIfNotInDatabase(	RPDB_DatabaseCursor*		database_cursor, 
 																													RPDB_Record*						record )	{
 
-	RPDB_DatabaseCursor_internal_writeRecord(	database_cursor, 
-																						DB_NODUPDATA,
-																						record );
+	record	=	RPDB_DatabaseCursor_internal_writeRecord(	database_cursor, 
+																											DB_NODUPDATA,
+																											record );
+	if ( record->data->wrapped_bdb_dbt->size == 0 )	{
+		return FALSE;
+	}
+	return TRUE;
+
 }
 
 /******************************************
@@ -538,14 +553,18 @@ void RPDB_DatabaseCursor_writeRecordOnlyIfNotInDatabase(	RPDB_DatabaseCursor*		d
 ******************************************/
 
 //	DB_NODUPDATA			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_put.html
-void RPDB_DatabaseCursor_writeKeyDataPairOnlyIfNotInDatabase(	RPDB_DatabaseCursor*	database_cursor, 
+BOOL RPDB_DatabaseCursor_writeKeyDataPairOnlyIfNotInDatabase(	RPDB_DatabaseCursor*	database_cursor, 
 																															RPDB_Key*							key,
 																															RPDB_Data*						data )	{
 
-	RPDB_DatabaseCursor_internal_writeKeyDataPair(	database_cursor, 
-																									DB_NODUPDATA,
-																									key,
-																									data );
+	RPDB_Record*	record	=	RPDB_DatabaseCursor_internal_writeKeyDataPair(	database_cursor, 
+																																					DB_NODUPDATA,
+																																					key,
+																																					data );
+	if ( record->data->wrapped_bdb_dbt->size == 0 )	{
+		return FALSE;
+	}
+	return TRUE;
 }
 
 /**********************************************
@@ -553,18 +572,22 @@ void RPDB_DatabaseCursor_writeKeyDataPairOnlyIfNotInDatabase(	RPDB_DatabaseCurso
 **********************************************/
 
 //	DB_NODUPDATA			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_put.html
-void RPDB_DatabaseCursor_writeRawKeyDataPairOnlyIfNotInDatabase(	RPDB_DatabaseCursor*	database_cursor, 
+BOOL RPDB_DatabaseCursor_writeRawKeyDataPairOnlyIfNotInDatabase(	RPDB_DatabaseCursor*	database_cursor, 
 																																	void*									key_raw,
 																																	uint32_t							key_size,
 																																	void*									data_raw,
 																																	uint32_t							data_size )	{
 
-	RPDB_DatabaseCursor_internal_writeRawKeyDataPair(	database_cursor, 
-																										DB_NODUPDATA,
-																										key_raw,
-																										key_size,
-																										data_raw,
-																										data_size );
+	RPDB_Record*	record	=	RPDB_DatabaseCursor_internal_writeRawKeyDataPair(	database_cursor, 
+																																						DB_NODUPDATA,
+																																						key_raw,
+																																						key_size,
+																																						data_raw,
+																																						data_size );
+	if ( record->data->wrapped_bdb_dbt->size == 0 )	{
+		return FALSE;
+	}
+	return TRUE;
 }
 
 /*******************************************************************************************************************************************************************************************
@@ -586,15 +609,14 @@ BOOL RPDB_DatabaseCursor_keyExists(	RPDB_DatabaseCursor*		database_cursor,
 																													DB_SET, 
 																													record );
 	
-	int	exists_in_database	=	RPDB_Record_existsInDatabase( record );
-
-	if ( exists_in_database == DB_NOTFOUND )	{
-		return FALSE;
+	BOOL	exists_in_database	=	record->data->wrapped_bdb_dbt->size ? TRUE : FALSE;
+	
+	RPDB_Record_free( & record );
+	
+	if ( exists_in_database )	{
+		return TRUE;
 	}
-	else if ( exists_in_database == DB_KEYEMPTY )	{
-		return RPDB_EMPTY_KEY_EXISTS;
-	}
-	return TRUE;
+	return FALSE;
 }
 
 /*****************************
@@ -753,69 +775,56 @@ RPDB_Record* RPDB_DatabaseCursor_retrieveRecordWithNumberAsKey(	RPDB_DatabaseCur
 *  retrievePartialRawKey  *
 *****************************************/
 
+//	DB_SET_RANGE			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_get.html
+//	Must be Btree and it must have been created with the DB_RECNUM flag.
+//	Permits partial key matches and range searches by returning the smallest item matching or including the key
 RPDB_Record* RPDB_DatabaseCursor_retrievePartialRawKey(	RPDB_DatabaseCursor*		database_cursor,
 																												void*										key_raw,
 																												uint32_t								key_size )	{
 
-	//	Make sure type is Btree
-	
-	//	Make sure was created with DB_RECNUM
+	RPDB_Record*	record	=	RPDB_DatabaseCursor_internal_retrieveRawKeyDataPair(	database_cursor, 
+																																								DB_SET_RANGE, 
+																																								key_raw, 
+																																								key_size,
+																																								NULL,
+																																								0 );
 
-	return RPDB_DatabaseCursor_internal_retrieveRawKeyDataPair(	database_cursor, 
-																															DB_SET_RANGE, 
-																															key_raw, 
-																															key_size,
-																															NULL,
-																															0 );
-}
-
-/****************************************
-*  retrievePartialObject  *
-****************************************/
-
-//	DB_SET_RANGE			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_get.html
-//	Must be Btree and it must have been created with the DB_RECNUM flag.
-//	Permits partial key matches and range searches by returning the smallest item matching or including the key
-RPDB_Record* RPDB_DatabaseCursor_retrievePartialData(	RPDB_DatabaseCursor*		database_cursor,
-																											RPDB_Data*							data )	{
-	
-	RPDB_Record*	record	=	RPDB_Record_new( NULL );
-	
-	RPDB_Record_setData(	record,
-												data );
-	
-	if (		RPDB_DatabaseCursor_internal_retrieveRecord(	database_cursor, 
-																												DB_SET_RANGE, 
-																												record )->result == FALSE 
-			||	record->result == DB_KEYEMPTY )	{
+	if ( record->data->wrapped_bdb_dbt->size == 0 )	{
 		RPDB_Record_free( & record );
 	}
 	return record;
 }
 
 /**************************************
-*  retrievePartialData  *
+*  retrievePartialKeyDataPair  *
 **************************************/
 
 //	DB_GET_BOTH_RANGE		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_get.html
 //	Permits partial data matches and range searches by returning the smallest item matching or including the data
-RPDB_Record* RPDB_DatabaseCursor_retrievePartialKeyDataPair(	RPDB_DatabaseCursor*		database_cursor,
-																															RPDB_Key*								partial_key,
-																															RPDB_Data*							partial_data )	{
+RPDB_Record* RPDB_DatabaseCursor_retrievePartialKey(	RPDB_DatabaseCursor*		database_cursor,
+																											RPDB_Key*								partial_key )	{
 
-	RPDB_Record*	record	=	RPDB_Record_new( NULL );
-	
-	RPDB_Record_setKey(	record,
-											partial_key);
-	RPDB_Record_setData(	record,
-												partial_data);
-	
-	if (		RPDB_DatabaseCursor_internal_retrieveRecord(	database_cursor, 
-																												DB_GET_BOTH_RANGE, 
-																												record )->result == FALSE
-			||	record->result == DB_KEYEMPTY )	{
+	RPDB_Record*	record	=	RPDB_DatabaseCursor_internal_retrieveKeyDataPair(	database_cursor, 
+																																						DB_SET_RANGE, 
+																																						partial_key, 
+																																						NULL  );
+
+	if ( record->data->wrapped_bdb_dbt->size == 0 )	{
 		RPDB_Record_free( & record );
 	}
+	return record;
+}
+
+/**************************************
+*  retrievePartialKeyInRecord  *
+**************************************/
+
+RPDB_Record* RPDB_DatabaseCursor_retrievePartialKeyInRecord(	RPDB_DatabaseCursor*		database_cursor,
+																															RPDB_Record*						record  )	{
+	
+	record	=	RPDB_DatabaseCursor_internal_retrieveRecord(	database_cursor, 
+																													DB_SET_RANGE, 
+																													record  );
 	return record;
 }
 
@@ -823,19 +832,67 @@ RPDB_Record* RPDB_DatabaseCursor_retrievePartialKeyDataPair(	RPDB_DatabaseCursor
 *  retrieveRawKeyPartialDataPair  *
 **************************************************/
 
-RPDB_Record* RPDB_DatabaseCursor_retrieveRawKeyPartialDataPair(	RPDB_DatabaseCursor*		database_cursor,
-																																void*										key_raw,
-																																uint32_t								key_size,
-																																void*										data_raw,
-																																uint32_t								data_size )	{
+RPDB_Record* RPDB_DatabaseCursor_retrieveDuplicateMatchingRawData(	RPDB_DatabaseCursor*		database_cursor,
+																																		void*										key_raw,
+																																		uint32_t								key_size,
+																																		void*										data_raw,
+																																		uint32_t								data_size )	{
 
-	return RPDB_DatabaseCursor_internal_retrieveRawKeyDataPair(	database_cursor, 
-																															DB_GET_BOTH_RANGE, 
-																															key_raw, 
-																															key_size,
-																															data_raw,
-																															data_size );
+	RPDB_Record*	record	=	RPDB_DatabaseCursor_internal_retrieveRawKeyDataPair(	database_cursor, 
+																																								DB_GET_BOTH_RANGE, 
+																																								key_raw, 
+																																								key_size,
+																																								data_raw,
+																																								data_size );
+
+	if ( record->data->wrapped_bdb_dbt->size == 0 )	{
+		RPDB_Record_free( & record );
+	}
+	return record;
 }
+
+/**************************************
+*  retrievePartialKeyDataPair  *
+**************************************/
+
+//	DB_GET_BOTH_RANGE		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_get.html
+//	Permits partial data matches and range searches by returning the smallest item matching or including the data
+RPDB_Record* RPDB_DatabaseCursor_retrieveDuplicateMatchingPartialData(	RPDB_DatabaseCursor*		database_cursor,
+																																				RPDB_Key*								partial_key,
+																																				RPDB_Data*							partial_data )	{
+
+	RPDB_Record*	record	=	RPDB_DatabaseCursor_internal_retrieveKeyDataPair(	database_cursor, 
+																																						DB_GET_BOTH_RANGE, 
+																																						partial_key, 
+																																						partial_data  );
+
+	if ( record->data->wrapped_bdb_dbt->size == 0 )	{
+		RPDB_Record_free( & record );
+	}
+	return record;
+}
+
+/**************************************
+*  retrievePartialKeyDataPairInRecord  *
+**************************************/
+
+RPDB_Record* RPDB_DatabaseCursor_retrieveDuplicateMatchingPartialDataInRecord(	RPDB_DatabaseCursor*		database_cursor,
+																																								RPDB_Record*						record  )	{
+	
+	uint32_t	partial_data_size	=	RPDB_Record_dataSize( record );
+	record	=	RPDB_DatabaseCursor_internal_retrieveRecord(	database_cursor, 
+																													DB_GET_BOTH_RANGE, 
+																													record  );
+	
+	if ( RPDB_Record_dataSize( record ) == partial_data_size )	{
+		RPDB_Record_setDataFromRawData( record,
+																		NULL,
+																		0 );
+	}
+	
+	return record;
+}
+
 
 /*******************************************************************************************************************************************************************************************
 																Relative to Current Key
@@ -1158,7 +1215,7 @@ RPDB_Record* RPDB_DatabaseCursor_iterateDuplicates( RPDB_DatabaseCursor*	databas
 }
 
 /****************************
-*  iterateNonDuplicates  *
+*  iterateKeys  *
 ****************************/
 
 //	iterates all records without duplicates
@@ -1192,6 +1249,131 @@ RPDB_Record* RPDB_DatabaseCursor_iterateKeys( RPDB_DatabaseCursor* database_curs
 																						record );
 	}
 	
+	return record;
+}
+
+/****************************
+*  slice  *
+****************************/
+
+//	iterates a slice of records
+RPDB_Record* RPDB_DatabaseCursor_slice( RPDB_DatabaseCursor*	database_cursor,
+																				uint32_t							length,
+																				RPDB_Record*					record )	{
+
+	if ( record == NULL )	{
+		database_cursor->slice_length	=	length - 1;
+		record = RPDB_Record_new( database_cursor->parent_database_cursor_controller->parent_database );
+	}
+	else {
+		database_cursor->slice_length--;
+	}
+
+	
+	if ( database_cursor->iteration_started == FALSE )	{
+		RPDB_DatabaseCursor_internal_retrieveCurrent(	database_cursor,
+																									record );
+		database_cursor->iteration_started = TRUE;
+	}
+	else {
+	
+		RPDB_DatabaseCursor_internal_retrieveNext(	database_cursor,
+																								record );
+	}
+	
+	if (		record->result == FALSE
+			||	database_cursor->slice_length == 0 )	{
+
+		RPDB_Record_free( & record );
+	}
+	//	if we have an empty key, iterate to the next record (until we have no key)
+	else if ( record->result == DB_KEYEMPTY )	{
+		return RPDB_DatabaseCursor_iterateKeys(	database_cursor,
+																						record );
+	}
+
+	return record;
+}
+
+/****************************
+*  sliceKeys  *
+****************************/
+
+//	iterates a slice of records
+RPDB_Record* RPDB_DatabaseCursor_sliceKeys( RPDB_DatabaseCursor*	database_cursor,
+																						uint32_t							length,
+																						RPDB_Record*					record )	{
+
+	if ( record == NULL )	{
+		database_cursor->slice_length	=	length - 1;
+		record = RPDB_Record_new( database_cursor->parent_database_cursor_controller->parent_database );
+	}
+	else {
+		database_cursor->slice_length--;
+	}
+	
+	if ( database_cursor->iteration_started == FALSE )	{
+		RPDB_DatabaseCursor_internal_retrieveCurrent( database_cursor,
+																									record );
+		database_cursor->iteration_started	=	TRUE;
+	}
+	else {
+		RPDB_DatabaseCursor_internal_retrieveNextNonDuplicate(	database_cursor,
+																														record );		
+	}
+	
+	if (		record->result == FALSE
+			||	database_cursor->slice_length == 0 )	{
+
+		RPDB_Record_free( & record );
+	}
+	//	if we have an empty key, iterate to the next record (until we have no key)
+	else if ( record->result == DB_KEYEMPTY )	{
+		return RPDB_DatabaseCursor_iterateKeys(	database_cursor,
+																						record );
+	}
+
+	return record;
+}
+
+/****************************
+*  sliceDuplicates  *
+****************************/
+
+//	iterates a slice of records
+RPDB_Record* RPDB_DatabaseCursor_sliceDuplicates( RPDB_DatabaseCursor*	database_cursor,
+																									uint32_t							length,
+																									RPDB_Record*					record )	{
+
+	if ( record == NULL )	{
+		database_cursor->slice_length	=	length - 1;
+		record = RPDB_Record_new( database_cursor->parent_database_cursor_controller->parent_database );
+	}
+	else {
+		database_cursor->slice_length--;
+	}
+
+	if ( database_cursor->duplicate_iteration_started == FALSE )	{
+		RPDB_DatabaseCursor_internal_retrieveCurrent( database_cursor,
+																									record );
+		database_cursor->duplicate_iteration_started = TRUE;
+	}
+	else {
+		RPDB_DatabaseCursor_internal_retrieveNextDuplicate( database_cursor,
+																												record );		
+	}
+	
+	if (		record->result == FALSE
+			||	database_cursor->slice_length == 0 )	{
+
+		RPDB_Record_free( & record );
+	}
+	//	if we have an empty key, iterate to the next record (until we have no key)
+	else if ( record->result == DB_KEYEMPTY )	{
+		return RPDB_DatabaseCursor_iterateKeys(	database_cursor,
+																						record );
+	}
+
 	return record;
 }
 
@@ -1358,8 +1540,8 @@ void RPDB_DatabaseCursor_internal_ensureOpen( RPDB_DatabaseCursor* database_curs
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_put.html
 RPDB_Record* RPDB_DatabaseCursor_internal_writeRecord(	RPDB_DatabaseCursor*	database_cursor, 
-															uint32_t				flags,
-															RPDB_Record*			record )	{
+																												uint32_t				flags,
+																												RPDB_Record*			record )	{
 
 	RPDB_DatabaseCursor_internal_ensureOpen( database_cursor );
 
@@ -1370,6 +1552,15 @@ RPDB_Record* RPDB_DatabaseCursor_internal_writeRecord(	RPDB_DatabaseCursor*	data
 																																			record->data->wrapped_bdb_dbt, 
 																																			flags ) ) ) {
 
+		switch ( connection_error ) {
+			//	if we asked for NODUPDATA we want to know if we inserted
+			case DB_KEYEXIST:
+				if ( flags == DB_NODUPDATA )	{
+					record->data->wrapped_bdb_dbt->size = 0;
+					return record;
+				}
+				break;
+		}
 		RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_cursor->parent_database_cursor_controller->parent_database->parent_database_controller->parent_environment ), 
 																									connection_error, 
 																									"RPDB_DatabaseCursor_internal_write" );

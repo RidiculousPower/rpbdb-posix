@@ -255,8 +255,8 @@ void RPDB_Record_setData(	RPDB_Record*			record,
 ******************/
 
 void RPDB_Record_setDataFromRawData(	RPDB_Record*		record,
-										void*				data_raw,
-										uint32_t			data_size )	{
+																			void*				data_raw,
+																			uint32_t			data_size )	{
 
 	RPDB_DBT_setData(	(RPDB_DBT*) record->data, 
 						data_raw,

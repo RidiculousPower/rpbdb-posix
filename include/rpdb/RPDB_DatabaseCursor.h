@@ -74,12 +74,12 @@ BOOL RPDB_DatabaseCursor_isOpen( RPDB_DatabaseCursor* database_cursor );
 																		uint32_t				key_size,
 																		void*					data_raw,
 																		uint32_t				data_size );
-	void RPDB_DatabaseCursor_writeRecordOnlyIfNotInDatabase(	RPDB_DatabaseCursor*	database_cursor, 
+	BOOL RPDB_DatabaseCursor_writeRecordOnlyIfNotInDatabase(	RPDB_DatabaseCursor*	database_cursor, 
 																RPDB_Record*							record );
-	void RPDB_DatabaseCursor_writeKeyDataPairOnlyIfNotInDatabase(	RPDB_DatabaseCursor*	database_cursor, 
+	BOOL RPDB_DatabaseCursor_writeKeyDataPairOnlyIfNotInDatabase(	RPDB_DatabaseCursor*	database_cursor, 
 																	RPDB_Key*				key,
 																	RPDB_Data*				data );
-	void RPDB_DatabaseCursor_writeRawKeyDataPairOnlyIfNotInDatabase(	RPDB_DatabaseCursor*	database_cursor, 
+	BOOL RPDB_DatabaseCursor_writeRawKeyDataPairOnlyIfNotInDatabase(	RPDB_DatabaseCursor*	database_cursor, 
 																		void*					key_raw,
 																		uint32_t				key_size,
 																		void*					data_raw,
@@ -108,19 +108,25 @@ BOOL RPDB_DatabaseCursor_isOpen( RPDB_DatabaseCursor* database_cursor );
 	 																db_recno_t*									record_id );
 	RPDB_Record* RPDB_DatabaseCursor_retrieveRecordWithNumberAsKey(	RPDB_DatabaseCursor* 	database_cursor,
 	 																	RPDB_Key*				key_with_record_number );
+
 	RPDB_Record* RPDB_DatabaseCursor_retrievePartialRawKey(	RPDB_DatabaseCursor*		database_cursor,
-																void*										raw_key,
-																uint32_t									key_size );
-	RPDB_Record* RPDB_DatabaseCursor_retrievePartialData(	RPDB_DatabaseCursor*		database_cursor,
-	 														RPDB_Data*					data );
-	RPDB_Record* RPDB_DatabaseCursor_retrievePartialKeyDataPair(	RPDB_DatabaseCursor*		database_cursor,
-																	RPDB_Key*					partial_key,
-																	RPDB_Data*					partial_data );
-	RPDB_Record* RPDB_DatabaseCursor_retrieveRawKeyPartialDataPair(	RPDB_DatabaseCursor*		database_cursor,
-																		void*										raw_key,
-																		uint32_t									key_size,
-																		void*										raw_data,
-																		uint32_t									data_size );
+																													void*										key_raw,
+																													uint32_t								key_size );
+	RPDB_Record* RPDB_DatabaseCursor_retrievePartialKey(	RPDB_DatabaseCursor*		database_cursor,
+																												RPDB_Key*								partial_key );
+	RPDB_Record* RPDB_DatabaseCursor_retrievePartialKeyInRecord(	RPDB_DatabaseCursor*		database_cursor,
+																																RPDB_Record*						record  );
+	RPDB_Record* RPDB_DatabaseCursor_retrieveDuplicateMatchingRawData(	RPDB_DatabaseCursor*		database_cursor,
+																																			void*										key_raw,
+																																			uint32_t								key_size,
+																																			void*										data_raw,
+																																			uint32_t								data_size );
+	RPDB_Record* RPDB_DatabaseCursor_retrieveDuplicateMatchingPartialData(	RPDB_DatabaseCursor*		database_cursor,
+																																					RPDB_Key*								partial_key,
+																																					RPDB_Data*							partial_data );
+	RPDB_Record* RPDB_DatabaseCursor_retrieveDuplicateMatchingPartialDataInRecord(	RPDB_DatabaseCursor*		database_cursor,
+																																									RPDB_Record*						record  );
+
 	RPDB_Record* RPDB_DatabaseCursor_retrieveCurrent( RPDB_DatabaseCursor* database_cursor );
 	BOOL RPDB_DatabaseCursor_setToFirst( RPDB_DatabaseCursor* database_cursor );
 	RPDB_Record* RPDB_DatabaseCursor_retrieveFirst( RPDB_DatabaseCursor* database_cursor );
@@ -141,6 +147,19 @@ void RPDB_DatabaseCursor_resetDuplicateIteration( RPDB_DatabaseCursor* database_
 																											RPDB_Record*					record );
 	RPDB_Record* RPDB_DatabaseCursor_iterateKeys( RPDB_DatabaseCursor* database_cursor,
 																								RPDB_Record*					record );
+																								
+																								
+	RPDB_Record* RPDB_DatabaseCursor_slice( RPDB_DatabaseCursor*	database_cursor,
+																					uint32_t							length,
+																					RPDB_Record*					record );
+	RPDB_Record* RPDB_DatabaseCursor_sliceKeys( RPDB_DatabaseCursor*	database_cursor,
+																							uint32_t							length,
+																							RPDB_Record*					record );
+	RPDB_Record* RPDB_DatabaseCursor_sliceDuplicates( RPDB_DatabaseCursor*	database_cursor,
+																										uint32_t							length,
+																										RPDB_Record*					record );
+																								
+																								
 	RPDB_DatabaseCursor* RPDB_DatabaseCursor_deleteCurrentRecord( RPDB_DatabaseCursor*	database_cursor );
 	RPDB_DatabaseCursor* RPDB_DatabaseCursor_deleteKey(	RPDB_DatabaseCursor*	database_cursor,
 	 														RPDB_Key*								key	);

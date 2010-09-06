@@ -2126,7 +2126,7 @@ RPDB_Database* RPDB_Database_internal_configureDatabaseInstanceForSecondaryIndex
 		RPDB_DatabaseSettingsController*						database_settings_controller						=	RPDB_Database_settingsController( secondary_database );
 		RPDB_DatabaseReadWriteSettingsController*		database_read_write_settings_controller	=	RPDB_DatabaseSettingsController_readWriteSettingsController( database_settings_controller );
 		
-		RPDB_DatabaseReadWriteSettingsController_turnDuplicatesOn( database_read_write_settings_controller );
+		RPDB_DatabaseReadWriteSettingsController_turnUnsortedDuplicatesOn( database_read_write_settings_controller );
 	}
 	
 	//	We're not doing config beyond here because this function only gets called internal

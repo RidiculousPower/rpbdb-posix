@@ -392,7 +392,7 @@ void RPDB_DatabaseTypeHashSettingsController_internal_setFlags(	RPDB_DatabaseTyp
 	
 	database->wrapped_bdb_database->set_flags(	database->wrapped_bdb_database,
 												RPDB_DatabaseTypeSettingsController_internal_setFlags( database_type_hash_settings_controller->parent_database_type_settings_controller )
-												|	RPDB_DatabaseReadWriteSettingsController_duplicates( RPDB_DatabaseSettingsController_readWriteSettingsController( RPDB_Database_settingsController( database ) ) )
+												|	RPDB_DatabaseReadWriteSettingsController_unsortedDuplicates( RPDB_DatabaseSettingsController_readWriteSettingsController( RPDB_Database_settingsController( database ) ) )
 												|	RPDB_DatabaseReadWriteSettingsController_sortedDuplicates( RPDB_DatabaseSettingsController_readWriteSettingsController( RPDB_Database_settingsController( database ) ) ) );
 }
 

@@ -1704,6 +1704,8 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 
 							db_recno_t										runtime_identifier;
 							
+							uint32_t								slice_length;
+							
 							char*										name;
 							
 							//	Wrapped bdb database_cursor

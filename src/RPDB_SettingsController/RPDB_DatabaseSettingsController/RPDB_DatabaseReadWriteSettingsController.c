@@ -422,7 +422,7 @@ BOOL RPDB_DatabaseReadWriteSettingsController_writeLocksInsteadOfReadLocks( RPDB
 *************************/
 
 //	DB_DUP				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_flags.html
-BOOL RPDB_DatabaseReadWriteSettingsController_duplicates( RPDB_DatabaseReadWriteSettingsController* database_write_retrieve_settings_controller )	{
+BOOL RPDB_DatabaseReadWriteSettingsController_unsortedDuplicates( RPDB_DatabaseReadWriteSettingsController* database_write_retrieve_settings_controller )	{
 	
 	//	If hash or btree, return ->permit_duplicates
 	//	Otherwise, return false
@@ -443,7 +443,7 @@ BOOL RPDB_DatabaseReadWriteSettingsController_duplicates( RPDB_DatabaseReadWrite
 	 *  turnPermitDuplicatesOn  *
 	 *******************************/
 
-	void RPDB_DatabaseReadWriteSettingsController_turnDuplicatesOn( RPDB_DatabaseReadWriteSettingsController* database_write_retrieve_settings_controller )	{
+	void RPDB_DatabaseReadWriteSettingsController_turnUnsortedDuplicatesOn( RPDB_DatabaseReadWriteSettingsController* database_write_retrieve_settings_controller )	{
 		
 		//	If hash or btree, set ->permit_duplicates
 		//	Otherwise, throw an error
@@ -456,7 +456,7 @@ BOOL RPDB_DatabaseReadWriteSettingsController_duplicates( RPDB_DatabaseReadWrite
 			
 			RPDB_ErrorController_throwError(	RPDB_ErrorController_new( database_write_retrieve_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ),
 												RPDB_ERROR_DUPLICATES_NOT_SUPPORTED,
-												"RPDB_DatabaseReadWriteSettingsController_turnDuplicatesOn",
+												"RPDB_DatabaseReadWriteSettingsController_turnUnsortedDuplicatesOn",
 												"Duplicate records are only supported by Btree and Hash database types." );
 		}
 		
@@ -467,7 +467,7 @@ BOOL RPDB_DatabaseReadWriteSettingsController_duplicates( RPDB_DatabaseReadWrite
 	 *  turnPermitDuplicatesOff  *
 	 *********************************/
 
-	void RPDB_DatabaseReadWriteSettingsController_turnDuplicatesOff( RPDB_DatabaseReadWriteSettingsController* database_write_retrieve_settings_controller )	{
+	void RPDB_DatabaseReadWriteSettingsController_turnUnsortedDuplicatesOff( RPDB_DatabaseReadWriteSettingsController* database_write_retrieve_settings_controller )	{
 		
 		RPDB_DatabaseTypeSettingsController*	database_type_settings_controller	=	RPDB_DatabaseSettingsController_typeSettingsController( database_write_retrieve_settings_controller->parent_database_settings_controller );
 		DBTYPE	database_type	=	RPDB_DatabaseTypeSettingsController_databaseType( database_type_settings_controller );
@@ -479,7 +479,7 @@ BOOL RPDB_DatabaseReadWriteSettingsController_duplicates( RPDB_DatabaseReadWrite
 			
 			RPDB_ErrorController_throwError(	RPDB_ErrorController_new( database_write_retrieve_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ),
 											 RPDB_ERROR_DUPLICATES_NOT_SUPPORTED,
-											 "RPDB_DatabaseReadWriteSettingsController_turnDuplicatesOff",
+											 "RPDB_DatabaseReadWriteSettingsController_turnUnsortedDuplicatesOff",
 											 "Duplicate records are only supported by Btree and Hash database types." );
 		}
 	}
