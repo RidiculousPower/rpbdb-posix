@@ -11,7 +11,6 @@ typedef struct RPDB_Database												RPDB_Database;
 typedef struct RPDB_DatabaseCursorController								RPDB_DatabaseCursorController;
 typedef struct RPDB_DatabaseCursor											RPDB_DatabaseCursor;
 typedef struct RPDB_DatabaseController										RPDB_DatabaseController;
-typedef struct RPDB_DatabaseVerificationController							RPDB_DatabaseVerificationController;
 typedef struct RPDB_DatabaseSequenceController								RPDB_DatabaseSequenceController;
 typedef struct RPDB_DatabaseSequence										RPDB_DatabaseSequence;
 typedef struct RPDB_Error													RPDB_Error;
@@ -107,16 +106,16 @@ typedef		RPDB_SECONDARY_KEY_CREATION_RETURN	(*RPDB_SecondaryKeyCallbackMethod)(	
 *************************************/
 
 typedef		BOOL	(*RPDB_IsThreadAliveCallbackMethod)(	RPDB_Environment*		environment,
-															pid_t					process_id,
-															db_threadid_t			thread_id,
-															BOOL					associated_with_single_process );
+																											pid_t								process_id,
+																											db_threadid_t				thread_id,
+																											BOOL								associated_with_single_process );
 typedef		void	(*RPDB_UniqueThreadIdentifierCallbackMethod)(	RPDB_Environment*		environment,
-																	pid_t*					process_id,
-																	db_threadid_t*			thread_id	);
-typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(	RPDB_Environment*				environment,
-																						pid_t				process_id,
-																						db_threadid_t		thread_id,
-																						char*				string_buffer );
+																															pid_t*							process_id,
+																															db_threadid_t*			thread_id	);
+typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(	RPDB_Environment*		environment,
+																																									pid_t								process_id,
+																																									db_threadid_t				thread_id,
+																																									char*								string_buffer );
 
 					/****************************
 					 *	Data Type Definitions	*
@@ -1739,25 +1738,6 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						RPDB_DatabaseCursorSettingsController*				environment_level_settings_controller;
 					};
 
-					/****************************
-					 *	Data Type Definitions	*
-					 ****************************/
-
-					struct RPDB_DatabaseVerificationController	{
-
-						//	Parent
-						RPDB_Database*									parent_database;
-
-						//	Variables
-						char*											file_path;
-						FILE*											file;
-						BOOL											file_is_open;
-
-						RPDB_SettingsController*									environment_settings_controller;
-						RPDB_DatabaseVerificationSettingsController*				settings_controller;
-						RPDB_DatabaseVerificationSettingsController*				environment_level_settings_controller;
-					};
-
 						/****************************
 						 *	Data Type Definitions	*
 						 ****************************/
@@ -1884,10 +1864,13 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					BOOL											opened_in_transaction;
 					BOOL											has_associated;
 					
+					BOOL											verification_file_is_open;
+					FILE*											verification_file;
+					char*											verification_file_path;
+					
 					//	Controllers
 					RPDB_DatabaseCursorController*					cursor_controller;
 					RPDB_DatabaseJoinController*					join_controller;
-					RPDB_DatabaseVerificationController*			verification_controller;
 					RPDB_DatabaseSequenceController*				sequence_controller;
 					//	Callback Public Methods
 					RPDB_SecondaryKeyCallbackMethod					secondary_key_creation_callback_method;

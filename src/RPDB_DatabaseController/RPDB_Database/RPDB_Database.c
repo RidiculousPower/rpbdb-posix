@@ -53,6 +53,9 @@
 #include "RPDB_DatabaseVariableRecordSettingsController.h"
 #include "RPDB_FileSettingsController.h"
 
+#include "RPDB_DatabaseSettingsController.h"
+#include "RPDB_DatabaseVerificationSettingsController.h"
+#include "RPDB_DatabaseVerificationSettingsController_internal.h"
 #include "RPDB_DatabaseSettingsController_internal.h"
 #include "RPDB_DatabaseCachePrioritySettingsController_internal.h"
 #include "RPDB_DatabaseCursorSettingsController_internal.h"
@@ -193,6 +196,13 @@ void RPDB_Database_free( RPDB_Database** database )	{
 																											( *database )->runtime_identifier );
 	}
 	
+	//	verification file
+	if ( ( *database )->verification_file_is_open )	{
+		fclose( ( *database )->verification_file );
+		( *database )->verification_file_is_open	=	FALSE;
+		( *database )->verification_file	=	NULL;
+	}
+
 	//	close join controller and cursors
 	if ( ( *database )->join_controller != NULL )	{
 		RPDB_DatabaseJoinController_free( & ( ( *database )->join_controller ) );
@@ -1545,6 +1555,76 @@ RPDB_Database* RPDB_Database_deleteDataForRawKey(	RPDB_Database* 	database,
 }	
 
 /*******************************************************************************************************************************************************************************************
+																		Verification
+*******************************************************************************************************************************************************************************************/
+
+/***********
+*  verify  *
+***********/
+
+//	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_verify.html
+RPDB_Database* RPDB_Database_verifyDatabase( RPDB_Database* database )	{
+
+	int			opened_file_locally = FALSE;
+	int			connection_error	= 0;
+	
+	//	If we have a file path but no file, open the file in the local scope and close it when we're done
+	if ( !	database->verification_file 
+		&&		database->verification_file_path )	{
+		
+		//	So we know if we should close it later
+		opened_file_locally = TRUE;
+		
+		database->verification_file = fopen( database->verification_file_path, "w");
+
+		if ( database->verification_file == NULL )	{
+			RPDB_ErrorController_throwError(	RPDB_Environment_errorController( database->parent_database_controller->parent_environment ),
+																				-1,
+																				"RPDB_DatabaseVerificationController_verify",
+																				"Could not open file at path." );
+			return NULL;
+		}
+	}
+	
+	RPDB_DatabaseSettingsController*							database_settings_controller							=	RPDB_Database_settingsController( database );
+	RPDB_DatabaseVerificationSettingsController*	database_verification_settings_controller	=	RPDB_DatabaseSettingsController_verificationSettingsController( database_settings_controller );
+
+	uint32_t	verification_flags	=	RPDB_DatabaseVerificationSettingsController_internal_verifyFlags( database_verification_settings_controller );
+
+	if ( ( connection_error = database->wrapped_bdb_database->verify(	database->wrapped_bdb_database,
+																																		database->filename, 
+																																		database->name, 
+																																		database->verification_file, 
+																																		verification_flags ) ) ) {
+		
+		RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database->parent_database_controller->parent_environment ),
+																									connection_error, 
+																									"RPDB_DatabaseVerificationController_verify" );
+		return NULL;
+	}
+
+
+	//	If we opened the file locally we should close it too
+	if ( opened_file_locally )	{
+		fclose( database->verification_file );
+	}
+
+	//	If we verified the database without ordered check, set the flag so we can do ordered check
+	if ( RPDB_DatabaseVerificationSettingsController_skipOrderCheck( database_verification_settings_controller ) )	{
+		
+		RPDB_DatabaseVerificationSettingsController_internal_hasDoneUnorderedCheck( database_verification_settings_controller, TRUE );
+	}
+	//	And if we complete an ordered check, reset our flag (no reason to do it twice in a row unless we start from the beginning). 
+	else if ( RPDB_DatabaseVerificationSettingsController_onlyOrderCheck( database_verification_settings_controller ) )	{
+		
+		RPDB_DatabaseVerificationSettingsController_internal_hasDoneUnorderedCheck( database_verification_settings_controller, FALSE );
+	}
+	
+	return database;		
+}
+
+
+/*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
 																		Internal Methods
 ********************************************************************************************************************************************************************************************
@@ -1970,6 +2050,7 @@ RPDB_Record* RPDB_Database_internal_writeKeyDataPair(		RPDB_Database*		database,
 	
 	return record;
 }
+
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************

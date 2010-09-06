@@ -1,5 +1,5 @@
 /*
- *		RPDB::Database::DatabaseVerificationController::DatabaseVerificationSettingsController
+ *		RPDB::Database::DatabaseSettingsController::DatabaseVerificationSettingsController
  *
  *
  */

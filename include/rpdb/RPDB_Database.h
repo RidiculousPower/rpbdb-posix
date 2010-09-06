@@ -157,6 +157,7 @@ void RPDB_Database_appendRecord(	RPDB_Database*			database,
 																				   void*								raw_deletion_key,
 																				   uint32_t							key_size );
 	//	RPDB_DatabaseReadWriteSettingsController*		RPDB_Database_settingsController(	RPDB_Database* 	database );
-	
+	RPDB_Database* RPDB_Database_verifyDatabase( RPDB_Database* database );
+
 #endif
 
