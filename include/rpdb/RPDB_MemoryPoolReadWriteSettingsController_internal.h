@@ -7,7 +7,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_MemoryPoolReadWriteSettingsController* RPDB_MemoryPoolReadWriteSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+RPDB_MemoryPoolReadWriteSettingsController* RPDB_MemoryPoolReadWriteSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_MemoryPoolReadWriteSettingsController* memory_pool_record_read_write_settings_controller );
 
 #endif
 

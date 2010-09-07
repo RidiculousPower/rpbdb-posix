@@ -32,7 +32,7 @@
 #include "RPDB_DatabaseSettingsController.h"
 #include "RPDB_DatabaseTypeSettingsController.h"
 #include "RPDB_DatabaseTypeBtreeSettingsController.h"
-#include "RPDB_DatabaseReadWriteSettingsController.h"
+#include "RPDB_DatabaseRecordReadWriteSettingsController.h"
 
 #include "RPDB_DatabaseCursorSettingsController_internal.h"
 #include "RPDB_DatabaseCursorReadWriteSettingsController_internal.h"
@@ -1393,9 +1393,9 @@ RPDB_DatabaseCursor* RPDB_DatabaseCursor_deleteCurrentRecord( RPDB_DatabaseCurso
 
 	RPDB_DatabaseSettingsController*									database_settings_controller										=	RPDB_Database_settingsController( database_cursor->parent_database_cursor_controller->parent_database );
 	RPDB_DatabaseCursorSettingsController*						database_cursor_settings_controller							=	RPDB_DatabaseSettingsController_cursorSettingsController( database_settings_controller );
-	RPDB_DatabaseCursorReadWriteSettingsController*		database_cursor_read_write_settings_controller	=	RPDB_DatabaseCursorSettingsController_readWriteSettingsController( database_cursor_settings_controller );
+	RPDB_DatabaseCursorReadWriteSettingsController*		database_cursor_record_read_write_settings_controller	=	RPDB_DatabaseCursorSettingsController_readWriteSettingsController( database_cursor_settings_controller );
 	
-	uint32_t		flags	=	RPDB_DatabaseCursorReadWriteSettingsController_internal_deleteFlags( database_cursor_read_write_settings_controller );
+	uint32_t		flags	=	RPDB_DatabaseCursorReadWriteSettingsController_internal_deleteFlags( database_cursor_record_read_write_settings_controller );
 	
 	if ( ( connection_error = database_cursor->wrapped_bdb_cursor->del(	database_cursor->wrapped_bdb_cursor, 
 																																			flags ) ) ) {

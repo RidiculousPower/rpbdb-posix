@@ -35,7 +35,6 @@
 	BOOL											RPDB_DatabaseSettingsController_isByteswapped(									RPDB_DatabaseSettingsController*	database_settings_controller );
 	int												RPDB_DatabaseSettingsController_maxSizePageIn(														RPDB_DatabaseSettingsController*	database_settings_controller );
 	RPDB_DatabaseErrorSettingsController*			RPDB_DatabaseSettingsController_errorSettingsController(						RPDB_DatabaseSettingsController*	database_settings_controller );
-	RPDB_DatabaseFixedRecordSettingsController*	RPDB_DatabaseSettingsController_fixedRecordSettingsController(					RPDB_DatabaseSettingsController*	database_settings_controller );
 	RPDB_DatabaseCacheSettingsController*			RPDB_DatabaseSettingsController_cacheSettingsController(						RPDB_DatabaseSettingsController*	database_settings_controller );
 	RPDB_DatabaseAssociationSettingsController*	RPDB_DatabaseSettingsController_associationSettingsController(					RPDB_DatabaseSettingsController*	database_settings_controller );
 	RPDB_DatabaseCompactSettingsController*		RPDB_DatabaseSettingsController_compactSettingsController(						RPDB_DatabaseSettingsController*	database_settings_controller );
@@ -46,9 +45,8 @@
 	RPDB_DatabaseCursorSettingsController*			RPDB_DatabaseSettingsController_cursorSettingsController(						RPDB_DatabaseSettingsController*	database_settings_controller );
 	RPDB_DatabaseTypeSettingsController*			RPDB_DatabaseSettingsController_typeSettingsController(						RPDB_DatabaseSettingsController*	database_settings_controller );
 	RPDB_DatabaseEncryptionSettingsController*		RPDB_DatabaseSettingsController_encryptionSettingsController(					RPDB_DatabaseSettingsController*	database_settings_controller );
-	RPDB_DatabaseReadWriteSettingsController*		RPDB_DatabaseSettingsController_readWriteSettingsController(					RPDB_DatabaseSettingsController*	database_settings_controller );
-	RPDB_DatabaseRecordSettingsController*			RPDB_DatabaseSettingsController_recordSettingsController(						RPDB_DatabaseSettingsController*	database_settings_controller );
 	RPDB_DatabaseJoinSettingsController* RPDB_DatabaseSettingsController_joinSettingsController( RPDB_DatabaseSettingsController*	database_settings_controller );
-	
+	RPDB_DatabaseRecordSettingsController* RPDB_DatabaseSettingsController_recordSettingsController( RPDB_DatabaseSettingsController*	database_settings_controller );
+
 #endif
 

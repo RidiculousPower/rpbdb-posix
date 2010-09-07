@@ -39,6 +39,7 @@
 #include "RPDB_DirectorySettingsController.h"
 
 #include "RPDB_DatabaseRecordSettingsController.h"
+#include "RPDB_DatabaseRecordReadWriteSettingsController.h"
 
 #include "RPDB_MemoryPoolReadWriteSettingsController.h"
 
@@ -402,10 +403,11 @@ int RPDB_SettingsController_internal_eraseFlags( RPDB_SettingsController* settin
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
 int RPDB_SettingsController_internal_openFlags( RPDB_SettingsController* settings_controller )	{
 	
-	RPDB_DebugSettingsController*					debug_settings_controller						=	RPDB_SettingsController_debugSettingsController( settings_controller );
-	RPDB_TransactionSettingsController*		transaction_settings_controller			=	RPDB_SettingsController_transactionSettingsController( settings_controller );
-	RPDB_FileSettingsController*					file_settings_controller						=	RPDB_SettingsController_fileSettingsController( settings_controller );
-	RPDB_MemoryPoolSettingsController*		memory_pool_settings_controller			=	RPDB_SettingsController_memoryPoolSettingsController( settings_controller );
+	RPDB_DebugSettingsController*									debug_settings_controller										=	RPDB_SettingsController_debugSettingsController( settings_controller );
+	RPDB_TransactionSettingsController*						transaction_settings_controller							=	RPDB_SettingsController_transactionSettingsController( settings_controller );
+	RPDB_FileSettingsController*									file_settings_controller										=	RPDB_SettingsController_fileSettingsController( settings_controller );
+	RPDB_MemoryPoolSettingsController*						memory_pool_settings_controller							=	RPDB_SettingsController_memoryPoolSettingsController( settings_controller );
+	RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_read_write_settings_controller	=	RPDB_MemoryPoolSettingsController_readWriteSettingsController( memory_pool_settings_controller );
 	
 	int	lock_settings_controller_on														=	RPDB_LockSettingsController_on( RPDB_SettingsController_lockSettingsController( settings_controller ) );
 	int	memory_pool_settings_controller_on										=	RPDB_MemoryPoolSettingsController_on( memory_pool_settings_controller );
@@ -415,7 +417,7 @@ int RPDB_SettingsController_internal_openFlags( RPDB_SettingsController* setting
 	int	replication_settings_controller_on										=	RPDB_ReplicationSettingsController_on( RPDB_SettingsController_replicationSettingsController( settings_controller ) );
 
 	int	create_if_necessary																		=	RPDB_FileSettingsController_createIfNecessary( file_settings_controller );
-	int	application_has_exclusive_access											=	RPDB_MemoryPoolSettingsController_applicationHasExclusiveAccess( memory_pool_settings_controller );
+	int	application_has_exclusive_access											=	RPDB_MemoryPoolReadWriteSettingsController_applicationHasExclusiveAccess( memory_pool_read_write_settings_controller );
 	int	run_normal_recovery_before_opening_environment				=	RPDB_DebugSettingsController_runNormalRecoveryBeforeOpeningEnvironment(	debug_settings_controller );
 	int	run_catastrophic_recovery_before_opening_environment	=	RPDB_DebugSettingsController_runCatastrophicRecoveryBeforeOpeningEnvironment(	debug_settings_controller );
 	int	register_for_recovery																	=	RPDB_DebugSettingsController_registerForRecovery( debug_settings_controller );
@@ -462,24 +464,34 @@ void RPDB_SettingsController_internal_setFlags( RPDB_SettingsController* setting
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 		
+		RPDB_EnvironmentCacheSettingsController*					cache_settings_controller												=	RPDB_SettingsController_cacheSettingsController( settings_controller );
+		RPDB_DatabaseSettingsController*									database_settings_controller										=	RPDB_SettingsController_databaseSettingsController( settings_controller );
+		RPDB_DatabaseRecordSettingsController*						database_record_settings_controller							=	RPDB_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+		RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	RPDB_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
+		RPDB_DebugSettingsController*											debug_settings_controller												=	RPDB_SettingsController_debugSettingsController( settings_controller );
+		RPDB_TransactionSettingsController*								transaction_settings_controller									=	RPDB_SettingsController_transactionSettingsController( settings_controller );
+		RPDB_MemoryPoolSettingsController*								memory_pool_settings_controller									=	RPDB_SettingsController_memoryPoolSettingsController( settings_controller );
+		RPDB_MemoryPoolReadWriteSettingsController*				memory_pool_read_write_settings_controller			=	RPDB_MemoryPoolSettingsController_readWriteSettingsController( memory_pool_settings_controller );
+		RPDB_LockSettingsController*											lock_settings_controller												=	RPDB_SettingsController_lockSettingsController( settings_controller );
+		
 		environment->wrapped_bdb_environment->set_flags(	environment->wrapped_bdb_environment,
-															RPDB_EnvironmentCacheSettingsController_buffering( RPDB_SettingsController_cacheSettingsController( settings_controller ) )
-															|	RPDB_DatabaseRecordSettingsController_syncPriorToWriteReturn( RPDB_DatabaseSettingsController_recordSettingsController( RPDB_SettingsController_databaseSettingsController( settings_controller ) ) )
-															|	RPDB_DebugSettingsController_prohibitPanic( RPDB_SettingsController_debugSettingsController( settings_controller ) )
-															|	RPDB_DebugSettingsController_panic( RPDB_SettingsController_debugSettingsController( settings_controller ) )
-															|	RPDB_DebugSettingsController_yieldCPUForStressTest( RPDB_SettingsController_debugSettingsController( settings_controller ) )
-															|	RPDB_LockSettingsController_prohibitLocking( RPDB_SettingsController_lockSettingsController( settings_controller ) )
-															|	RPDB_LockSettingsController_timeoutReturnsReturnDenyNotDeadlock( RPDB_SettingsController_lockSettingsController( settings_controller ) )
-															|	RPDB_LockSettingsController_lockForEnvironmentNotDatabase( RPDB_SettingsController_lockSettingsController( settings_controller ) )
-															|	RPDB_MemoryPoolSettingsController_memoryMapping( RPDB_SettingsController_memoryPoolSettingsController( settings_controller ) )
-															|	RPDB_MemoryPoolReadWriteSettingsController_pagefaultSharedRegions( RPDB_MemoryPoolSettingsController_readWriteSettingsController( RPDB_SettingsController_memoryPoolSettingsController( settings_controller ) ) )
-															|	RPDB_TransactionSettingsController_prohibitSyncOnWrite( RPDB_SettingsController_transactionSettingsController( settings_controller ) )
-															|	RPDB_TransactionSettingsController_prohibitSyncOnCommit( RPDB_SettingsController_transactionSettingsController( settings_controller ) )
-															|	RPDB_TransactionSettingsController_timeoutInMicrosecondsReturnsDenyNotDeadlock( RPDB_SettingsController_transactionSettingsController( settings_controller ) )
-															|	RPDB_TransactionSettingsController_snapshotIsolation( RPDB_SettingsController_transactionSettingsController( settings_controller ) )
-															|	RPDB_TransactionSettingsController_encloseAllActivityInTransaction( RPDB_SettingsController_transactionSettingsController( settings_controller ) )
-															|	RPDB_TransactionSettingsController_environmentalSnapshotIsolation( RPDB_SettingsController_transactionSettingsController( settings_controller ) ),
-															1 );
+																											RPDB_EnvironmentCacheSettingsController_buffering( cache_settings_controller )
+																											|	RPDB_DatabaseRecordReadWriteSettingsController_syncPriorToWriteReturn( database_record_read_write_settings_controller )
+																											|	RPDB_DebugSettingsController_prohibitPanic( debug_settings_controller )
+																											|	RPDB_DebugSettingsController_panic( debug_settings_controller )
+																											|	RPDB_DebugSettingsController_yieldCPUForStressTest( debug_settings_controller )
+																											|	RPDB_LockSettingsController_prohibitLocking( lock_settings_controller )
+																											|	RPDB_LockSettingsController_timeoutReturnsReturnDenyNotDeadlock( lock_settings_controller )
+																											|	RPDB_LockSettingsController_lockForEnvironmentNotDatabase( lock_settings_controller )
+																											|	RPDB_MemoryPoolSettingsController_memoryMapping( memory_pool_settings_controller )
+																											|	RPDB_MemoryPoolReadWriteSettingsController_pagefaultSharedRegions( memory_pool_read_write_settings_controller )
+																											|	RPDB_TransactionSettingsController_prohibitSyncOnWrite( transaction_settings_controller )
+																											|	RPDB_TransactionSettingsController_prohibitSyncOnCommit( transaction_settings_controller )
+																											|	RPDB_TransactionSettingsController_timeoutInMicrosecondsReturnsDenyNotDeadlock( transaction_settings_controller )
+																											|	RPDB_TransactionSettingsController_snapshotIsolation( transaction_settings_controller )
+																											|	RPDB_TransactionSettingsController_encloseAllActivityInTransaction( transaction_settings_controller )
+																											|	RPDB_TransactionSettingsController_environmentalSnapshotIsolation( transaction_settings_controller ),
+																											1 );
 	}	
 }	
 

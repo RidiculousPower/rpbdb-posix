@@ -16,20 +16,20 @@
 #include "RPDB_ErrorController.h"
 #include "RPDB_Database.h"
 #include "RPDB_DatabaseErrorSettingsController.h"
-#include "RPDB_DatabaseFixedRecordSettingsController.h"
+#include "RPDB_DatabaseRecordFixedLengthSettingsController.h"
 #include "RPDB_DatabaseCacheSettingsController.h"
 #include "RPDB_DatabaseAssociationSettingsController.h"
 #include "RPDB_DatabaseCompactSettingsController.h"
 #include "RPDB_DatabaseEncryptionSettingsController.h"
 #include "RPDB_DatabaseTypeSettingsController.h"
-#include "RPDB_DatabaseReadWriteSettingsController.h"
+#include "RPDB_DatabaseRecordReadWriteSettingsController.h"
 #include "RPDB_DatabaseCursorSettingsController.h"
 #include "RPDB_SettingsController.h"
 #include "RPDB_Environment.h"
 #include "RPDB_DatabaseVerbositySettingsController.h"
 #include "RPDB_DatabaseVerificationSettingsController.h"
 #include "RPDB_DatabaseSequenceSettingsController.h"
-#include "RPDB_DatabaseVariableRecordSettingsController.h"
+#include "RPDB_DatabaseRecordVariableLengthSettingsController.h"
 #include "RPDB_DatabaseRecordSettingsController.h"
 #include "RPDB_DatabaseJoinSettingsController.h"
 
@@ -39,6 +39,7 @@
 #include "RPDB_LockSettingsController.h"
 #include "RPDB_LogSettingsController.h"
 #include "RPDB_MemoryPoolSettingsController.h"
+#include "RPDB_MemoryPoolReadWriteSettingsController.h"
 #include "RPDB_ReplicationSettingsController.h"
 #include "RPDB_DebugSettingsController.h"
 #include "RPDB_FileSettingsController.h"
@@ -46,15 +47,15 @@
 
 #include "RPDB_DatabaseVerbositySettingsController_internal.h"
 #include "RPDB_DatabaseSequenceSettingsController_internal.h"
-#include "RPDB_DatabaseReadWriteSettingsController_internal.h"
+#include "RPDB_DatabaseRecordReadWriteSettingsController_internal.h"
 #include "RPDB_DatabaseCursorSettingsController_internal.h"
-#include "RPDB_DatabaseVariableRecordSettingsController_internal.h"
+#include "RPDB_DatabaseRecordVariableLengthSettingsController_internal.h"
 #include "RPDB_DatabaseVerificationSettingsController_internal.h"
 #include "RPDB_DatabaseRecordSettingsController_internal.h"
 
 #include "RPDB_DatabaseSettingsController_internal.h"
 #include "RPDB_DatabaseErrorSettingsController_internal.h"
-#include "RPDB_DatabaseFixedRecordSettingsController_internal.h"
+#include "RPDB_DatabaseRecordFixedLengthSettingsController_internal.h"
 #include "RPDB_DatabaseCacheSettingsController_internal.h"
 #include "RPDB_DatabaseAssociationSettingsController_internal.h"
 #include "RPDB_DatabaseCompactSettingsController_internal.h"
@@ -90,15 +91,6 @@ void RPDB_DatabaseSettingsController_free(	RPDB_DatabaseSettingsController** dat
 	}
 	if ( ( *database_settings_controller )->error_settings_controller != NULL )	{
 		RPDB_DatabaseErrorSettingsController_free( & ( ( *database_settings_controller )->error_settings_controller ) );
-	}
-	if ( ( *database_settings_controller )->variable_record_settings_controller != NULL )	{
-		RPDB_DatabaseVariableRecordSettingsController_free( & ( ( *database_settings_controller )->variable_record_settings_controller ) );
-	}
-	if ( ( *database_settings_controller )->fixed_record_settings_controller != NULL )	{
-		RPDB_DatabaseFixedRecordSettingsController_free( & ( ( *database_settings_controller )->fixed_record_settings_controller ) );
-	}
-	if ( ( *database_settings_controller )->read_write_settings_controller != NULL )	{
-		RPDB_DatabaseReadWriteSettingsController_free( & ( ( *database_settings_controller )->read_write_settings_controller ) );
 	}
 	if ( ( *database_settings_controller )->cursor_settings_controller != NULL )	{
 		RPDB_DatabaseCursorSettingsController_free( & ( ( *database_settings_controller )->cursor_settings_controller ) );
@@ -420,6 +412,21 @@ int RPDB_DatabaseSettingsController_maxSizePageIn( RPDB_DatabaseSettingsControll
 																		Controllers
 *******************************************************************************************************************************************************************************************/
 
+/*************************************
+*  recordSettingsController  *
+************************************/
+
+RPDB_DatabaseRecordSettingsController* RPDB_DatabaseSettingsController_recordSettingsController( RPDB_DatabaseSettingsController*	database_settings_controller )	{
+	
+	if ( database_settings_controller->record_settings_controller == NULL )	{
+		database_settings_controller->record_settings_controller = RPDB_DatabaseRecordSettingsController_new( database_settings_controller );
+	}
+	
+	return database_settings_controller->record_settings_controller;
+}
+
+
+
 /********************************
 *  errorSettingsController  *
 ********************************/
@@ -431,19 +438,6 @@ RPDB_DatabaseErrorSettingsController* RPDB_DatabaseSettingsController_errorSetti
 	}
 
 	return database_settings_controller->error_settings_controller;
-}
-
-/*****************************
-*  fixedRecordController  *
-*****************************/
-
-RPDB_DatabaseFixedRecordSettingsController* RPDB_DatabaseSettingsController_fixedRecordSettingsController( RPDB_DatabaseSettingsController* database_settings_controller )	{
-
-	if ( database_settings_controller->fixed_record_settings_controller == NULL )	{
-		database_settings_controller->fixed_record_settings_controller = RPDB_DatabaseFixedRecordSettingsController_new( database_settings_controller );
-	}
-
-	return database_settings_controller->fixed_record_settings_controller;
 }
 
 /************************
@@ -564,32 +558,6 @@ RPDB_DatabaseTypeSettingsController* RPDB_DatabaseSettingsController_typeSetting
 }
 
 /*************************************
-*  readWriteSettingsController  *
-*************************************/
-
-RPDB_DatabaseReadWriteSettingsController*		RPDB_DatabaseSettingsController_readWriteSettingsController(					RPDB_DatabaseSettingsController*	database_settings_controller )	{
-
-	if ( database_settings_controller->read_write_settings_controller == NULL )	{
-		database_settings_controller->read_write_settings_controller = RPDB_DatabaseReadWriteSettingsController_new( database_settings_controller );
-	}
-
-	return database_settings_controller->read_write_settings_controller;
-}
-
-/*************************************
-*  recordSettingsController  *
-************************************/
-
-RPDB_DatabaseRecordSettingsController* RPDB_DatabaseSettingsController_recordSettingsController( RPDB_DatabaseSettingsController*	database_settings_controller )	{
-	
-	if ( database_settings_controller->record_settings_controller == NULL )	{
-		database_settings_controller->record_settings_controller = RPDB_DatabaseRecordSettingsController_new( database_settings_controller );
-	}
-	
-	return database_settings_controller->record_settings_controller;
-}
-
-/*************************************
 *  joinSettingsController  *
 ************************************/
 
@@ -624,11 +592,15 @@ int RPDB_DatabaseSettingsController_internal_createFlags( RPDB_DatabaseSettingsC
 
 int RPDB_DatabaseSettingsController_internal_openFlags( RPDB_DatabaseSettingsController* database_settings_controller )	{
 	
-	return	RPDB_FileSettingsController_permitEnvironmentBasedFileNaming(	RPDB_SettingsController_fileSettingsController( RPDB_Environment_settingsController( database_settings_controller->parent_settings_controller->parent_environment ) ) )
+	RPDB_SettingsController*											settings_controller													=	RPDB_Environment_settingsController( database_settings_controller->parent_settings_controller->parent_environment );
+	RPDB_MemoryPoolSettingsController*						memory_pool_settings_controller							=	RPDB_SettingsController_memoryPoolSettingsController( settings_controller );
+	RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_read_write_settings_controller	=	RPDB_MemoryPoolSettingsController_readWriteSettingsController( memory_pool_settings_controller );
+	
+	return	RPDB_FileSettingsController_permitEnvironmentBasedFileNaming(	RPDB_SettingsController_fileSettingsController( settings_controller ) )
 			|	RPDB_FileSettingsController_useEnvironmentHomePermissionsForFileNaming(	RPDB_SettingsController_fileSettingsController( RPDB_Environment_settingsController( database_settings_controller->parent_settings_controller->parent_environment ) ) )
-			|	RPDB_FileSettingsController_createIfNecessary(	RPDB_SettingsController_fileSettingsController( RPDB_Environment_settingsController( database_settings_controller->parent_settings_controller->parent_environment ) ) )
-			|	RPDB_DebugSettingsController_openInLockdown(	RPDB_SettingsController_debugSettingsController( RPDB_Environment_settingsController( database_settings_controller->parent_settings_controller->parent_environment ) ) )
-			|	RPDB_MemoryPoolSettingsController_useSystemMemoryForStorage(	RPDB_SettingsController_memoryPoolSettingsController( RPDB_Environment_settingsController( database_settings_controller->parent_settings_controller->parent_environment ) ) );
+			|	RPDB_FileSettingsController_createIfNecessary(	RPDB_SettingsController_fileSettingsController( settings_controller ) )
+			|	RPDB_DebugSettingsController_openInLockdown(	RPDB_SettingsController_debugSettingsController( settings_controller ) )
+			|	RPDB_MemoryPoolReadWriteSettingsController_useSystemMemoryForStorage(	memory_pool_read_write_settings_controller );
 }
 
 /********************
@@ -783,10 +755,6 @@ RPDB_DatabaseSettingsController* RPDB_DatabaseSettingsController_internal_copyOf
 		database_settings_controller_copy->error_settings_controller										=	RPDB_DatabaseErrorSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->error_settings_controller );
 		database_settings_controller_copy->error_settings_controller->parent_database_settings_controller	=	database_settings_controller_copy;
 	}
-	if ( database_settings_controller->fixed_record_settings_controller != NULL )	{
-		database_settings_controller_copy->fixed_record_settings_controller									=	RPDB_DatabaseFixedRecordSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->fixed_record_settings_controller );
-		database_settings_controller_copy->fixed_record_settings_controller->parent_database_settings_controller	=	database_settings_controller_copy;
-	}
 	if ( database_settings_controller->cache_settings_controller != NULL )	{
 		database_settings_controller_copy->cache_settings_controller										=	RPDB_DatabaseCacheSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->cache_settings_controller );
 		database_settings_controller_copy->cache_settings_controller->parent_database_settings_controller	=	database_settings_controller_copy;
@@ -815,17 +783,9 @@ RPDB_DatabaseSettingsController* RPDB_DatabaseSettingsController_internal_copyOf
 		database_settings_controller_copy->sequence_settings_controller										=	RPDB_DatabaseSequenceSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->sequence_settings_controller );
 		database_settings_controller_copy->sequence_settings_controller->parent_database_settings_controller	=	database_settings_controller_copy;
 	}
-	if ( database_settings_controller->read_write_settings_controller != NULL )	{
-		database_settings_controller_copy->read_write_settings_controller									=	RPDB_DatabaseReadWriteSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->read_write_settings_controller );
-		database_settings_controller_copy->read_write_settings_controller->parent_database_settings_controller	=	database_settings_controller_copy;
-	}
 	if ( database_settings_controller->cursor_settings_controller != NULL )	{
 		database_settings_controller_copy->cursor_settings_controller										=	RPDB_DatabaseCursorSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->cursor_settings_controller );
 		database_settings_controller_copy->cursor_settings_controller->parent_database_settings_controller	=	database_settings_controller_copy;
-	}
-	if ( database_settings_controller->variable_record_settings_controller != NULL )	{
-		database_settings_controller_copy->variable_record_settings_controller								=	RPDB_DatabaseVariableRecordSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->variable_record_settings_controller );
-		database_settings_controller_copy->variable_record_settings_controller->parent_database_settings_controller	=	database_settings_controller_copy;
 	}
 	if ( database_settings_controller->verification_settings_controller != NULL )	{
 		database_settings_controller_copy->verification_settings_controller									=	RPDB_DatabaseVerificationSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->verification_settings_controller );

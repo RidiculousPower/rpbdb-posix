@@ -41,7 +41,7 @@
 			#include "RPDB_DatabaseCursorSettingsController.h"
 				#include "RPDB_DatabaseCursorReadWriteSettingsController.h"
 			#include "RPDB_DatabaseErrorSettingsController.h"
-			#include "RPDB_DatabaseReadWriteSettingsController.h"
+			#include "RPDB_DatabaseRecordReadWriteSettingsController.h"
 			#include "RPDB_DatabaseRecordSettingsController.h"
 			#include "RPDB_DatabaseTypeSettingsController.h"
 				#include "RPDB_DatabaseTypeBtreeSettingsController.h"

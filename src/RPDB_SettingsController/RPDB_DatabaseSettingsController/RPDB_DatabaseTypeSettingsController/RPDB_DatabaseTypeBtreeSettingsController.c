@@ -23,7 +23,8 @@
 #include "RPDB_RuntimeStorageController_internal.h"
 #include "RPDB_Data_internal.h"
 
-#include "RPDB_DatabaseReadWriteSettingsController.h"
+#include "RPDB_DatabaseRecordSettingsController.h"
+#include "RPDB_DatabaseRecordReadWriteSettingsController.h"
 
 #include "RPDB_DatabaseTypeSettingsController_internal.h"
 	
@@ -405,10 +406,14 @@ void RPDB_DatabaseTypeBtreeSettingsController_internal_setFlags(	RPDB_DatabaseTy
 
 	RPDB_Database*			database = database_type_btree_settings_controller->parent_database_type_settings_controller->parent_database_settings_controller->parent_database;
 	
+	RPDB_DatabaseSettingsController*									database_settings_controller										=	RPDB_Database_settingsController( database );
+	RPDB_DatabaseRecordSettingsController*						database_record_settings_controller							=	RPDB_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	RPDB_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
+	
 	database->wrapped_bdb_database->set_flags(	database->wrapped_bdb_database,
 												RPDB_DatabaseTypeSettingsController_internal_setFlags( database_type_btree_settings_controller->parent_database_type_settings_controller )
-												|	RPDB_DatabaseReadWriteSettingsController_unsortedDuplicates( RPDB_DatabaseSettingsController_readWriteSettingsController( RPDB_Database_settingsController( database ) ) )
-												|	RPDB_DatabaseReadWriteSettingsController_sortedDuplicates( RPDB_DatabaseSettingsController_readWriteSettingsController( RPDB_Database_settingsController( database ) ) )
+												|	RPDB_DatabaseRecordReadWriteSettingsController_unsortedDuplicates( database_record_read_write_settings_controller )
+												|	RPDB_DatabaseRecordReadWriteSettingsController_sortedDuplicates( database_record_read_write_settings_controller )
 												|	RPDB_DatabaseTypeBtreeSettingsController_recordNumberRetrieval( database_type_btree_settings_controller )
 												|	RPDB_DatabaseTypeBtreeSettingsController_reverseSplitting( database_type_btree_settings_controller )	);
 }

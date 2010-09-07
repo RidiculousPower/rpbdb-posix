@@ -16,7 +16,7 @@
 #include "RPDB_ErrorController.h"
 
 #include "RPDB_DatabaseEncryptionSettingsController_internal.h"
-#include "RPDB_DatabaseReadWriteSettingsController_internal.h"
+#include "RPDB_DatabaseRecordReadWriteSettingsController_internal.h"
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************

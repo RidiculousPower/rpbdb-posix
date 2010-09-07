@@ -47,9 +47,9 @@ void RPDB_DatabaseCursorSettingsController_free(	RPDB_DatabaseCursorSettingsCont
 
 		RPDB_DatabaseCursorCacheSettingsController_free( & ( ( *database_cursor_settings_controller )->cache_controller ) );
 	}
-	if ( ( *database_cursor_settings_controller )->read_write_settings_controller != NULL )	{
+	if ( ( *database_cursor_settings_controller )->record_read_write_settings_controller != NULL )	{
 
-		RPDB_DatabaseCursorReadWriteSettingsController_free( & ( ( *database_cursor_settings_controller )->read_write_settings_controller ) );
+		RPDB_DatabaseCursorReadWriteSettingsController_free( & ( ( *database_cursor_settings_controller )->record_read_write_settings_controller ) );
 	}
 
 	free( *database_cursor_settings_controller );
@@ -128,10 +128,10 @@ RPDB_DatabaseCursorCacheSettingsController* RPDB_DatabaseCursorSettingsControlle
 
 RPDB_DatabaseCursorReadWriteSettingsController* RPDB_DatabaseCursorSettingsController_readWriteSettingsController( RPDB_DatabaseCursorSettingsController* cursor_settings_controller )	{
 
-	if ( cursor_settings_controller->read_write_settings_controller == NULL )	{
-		cursor_settings_controller->read_write_settings_controller = RPDB_DatabaseCursorReadWriteSettingsController_new( cursor_settings_controller );
+	if ( cursor_settings_controller->record_read_write_settings_controller == NULL )	{
+		cursor_settings_controller->record_read_write_settings_controller = RPDB_DatabaseCursorReadWriteSettingsController_new( cursor_settings_controller );
 	}
-	return cursor_settings_controller->read_write_settings_controller;
+	return cursor_settings_controller->record_read_write_settings_controller;
 }
 
 /*******************************************************************************************************************************************************************************************

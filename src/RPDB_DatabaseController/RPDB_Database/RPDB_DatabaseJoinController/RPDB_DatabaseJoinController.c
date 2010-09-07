@@ -86,7 +86,11 @@ void RPDB_DatabaseJoinController_free(	RPDB_DatabaseJoinController** database_jo
 ***********************/
 
 RPDB_DatabaseJoinSettingsController* RPDB_DatabaseJoinController_settingsController(	RPDB_DatabaseJoinController* database_join_controller )	{
-	return database_join_controller->settings_controller;
+
+	RPDB_DatabaseSettingsController*			database_settings_controller			=	RPDB_Database_settingsController( database_join_controller->parent_database );
+	RPDB_DatabaseJoinSettingsController*	database_join_settings_controller	=	RPDB_DatabaseSettingsController_joinSettingsController( database_settings_controller );
+	
+	return database_join_settings_controller;
 }
 
 /*******************

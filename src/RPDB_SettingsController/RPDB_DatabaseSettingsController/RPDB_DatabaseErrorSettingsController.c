@@ -15,7 +15,7 @@
 #include "RPDB_ErrorController.h"
 #include "RPDB_DatabaseSettingsController.h"
 #include "RPDB_Environment.h"
-#include "RPDB_DatabaseReadWriteSettingsController.h"
+#include "RPDB_DatabaseRecordReadWriteSettingsController.h"
 
 #include "RPDB_DatabaseErrorSettingsController_internal.h"
 #include "RPDB_RuntimeStorageController_internal.h"

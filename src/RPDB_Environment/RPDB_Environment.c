@@ -39,6 +39,7 @@
 #include "RPDB_ErrorSettingsController.h"
 #include "RPDB_FileSettingsController.h"
 #include "RPDB_MemoryPoolSettingsController.h"
+#include "RPDB_MemoryPoolReadWriteSettingsController.h"
 #include "RPDB_MessageSettingsController.h"
 #include "RPDB_LockSettingsController.h"
 #include "RPDB_LockDeadlockDetectorSettingsController.h"
@@ -281,15 +282,16 @@ void RPDB_Environment_initDefaults( RPDB_Environment* environment )	{
 
 RPDB_Environment* RPDB_Environment_initForStorageInMemory( RPDB_Environment* environment )	{
 	
-	RPDB_SettingsController*							settings_controller								=	RPDB_Environment_settingsController( environment );
-	RPDB_MemoryPoolSettingsController*		memory_pool_settings_controller		=	RPDB_SettingsController_memoryPoolSettingsController( settings_controller );
-	RPDB_LogSettingsController*						log_settings_controller						=	RPDB_SettingsController_logSettingsController( settings_controller );
+	RPDB_SettingsController*											settings_controller													=	RPDB_Environment_settingsController( environment );
+	RPDB_LogSettingsController*										log_settings_controller											=	RPDB_SettingsController_logSettingsController( settings_controller );
+	RPDB_MemoryPoolSettingsController*						memory_pool_settings_controller							=	RPDB_SettingsController_memoryPoolSettingsController( settings_controller );
+	RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_read_write_settings_controller	=	RPDB_MemoryPoolSettingsController_readWriteSettingsController( memory_pool_settings_controller );
 
 	//	Don't allow writes to disk - use application memory for storage
-	RPDB_MemoryPoolSettingsController_turnApplicationHasExclusiveAccessOn(	RPDB_SettingsController_memoryPoolSettingsController( settings_controller ) );
+	RPDB_MemoryPoolReadWriteSettingsController_turnApplicationHasExclusiveAccessOn(	memory_pool_read_write_settings_controller );
 
 	//	Don't use a temporary backing file for flushing memory	
-	RPDB_MemoryPoolSettingsController_turnDoNotWriteToTemporaryBackingFileOn(	memory_pool_settings_controller );
+	RPDB_MemoryPoolReadWriteSettingsController_turnDoNotWriteToTemporaryBackingFileOn(	memory_pool_read_write_settings_controller );
 		
 	//	If log in memory is on, log in memory; otherwise, turn logging system off
 	if ( ! RPDB_LogSettingsController_logInMemory( log_settings_controller ) )	{

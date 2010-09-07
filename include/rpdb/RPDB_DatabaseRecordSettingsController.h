@@ -34,25 +34,10 @@
 	void		RPDB_DatabaseRecordSettingsController_turnDatabaseFreesMemoryOn(					RPDB_DatabaseRecordSettingsController*		record_settings_controller );
 	void		RPDB_DatabaseRecordSettingsController_turnDatabaseFreesMemoryOff(					RPDB_DatabaseRecordSettingsController*		record_settings_controller );
 
-	BOOL		RPDB_DatabaseRecordSettingsController_partialAccess(								RPDB_DatabaseRecordSettingsController*		record_settings_controller );
-	void		RPDB_DatabaseRecordSettingsController_turnPartialAccessOn(						RPDB_DatabaseRecordSettingsController*		record_settings_controller );
-	void		RPDB_DatabaseRecordSettingsController_turnPartialAccessOff(						RPDB_DatabaseRecordSettingsController*		record_settings_controller );
 
-	BOOL		RPDB_DatabaseRecordSettingsController_syncPriorToWriteReturn(						RPDB_DatabaseRecordSettingsController*		record_settings_controller );
-	void		RPDB_DatabaseRecordSettingsController_turnSyncPriorToWriteReturnOn(				RPDB_DatabaseRecordSettingsController*		record_settings_controller );
-	void		RPDB_DatabaseRecordSettingsController_turnSyncPriorToWriteReturnOff(				RPDB_DatabaseRecordSettingsController*		record_settings_controller );
-
-	uint32_t	RPDB_DatabaseRecordSettingsController_dataBufferSize(								RPDB_DatabaseRecordSettingsController*		record_settings_controller );
-	void		RPDB_DatabaseRecordSettingsController_setDataBufferSize(							RPDB_DatabaseRecordSettingsController*		record_settings_controller, 
-																						uint32_t							buffer_size );
-
-	uint32_t	RPDB_DatabaseRecordSettingsController_partialReadWriteSize(						RPDB_DatabaseRecordSettingsController*		record_settings_controller );
-	void		RPDB_DatabaseRecordSettingsController_setPartialReadWriteSize(					RPDB_DatabaseRecordSettingsController*		record_settings_controller, 
-																						uint32_t							partial_read_write_size );
-
-	uint32_t	RPDB_DatabaseRecordSettingsController_partialReadWriteOffset(						RPDB_DatabaseRecordSettingsController*		record_settings_controller );
-	void		RPDB_DatabaseRecordSettingsController_setPartialReadWriteOffset(					RPDB_DatabaseRecordSettingsController*		record_settings_controller, 
-																						uint32_t							partial_read_write_offset );
+	RPDB_DatabaseRecordFixedLengthSettingsController* RPDB_DatabaseRecordSettingsController_fixedLengthSettingsController( RPDB_DatabaseRecordSettingsController*		record_settings_controller );
+	RPDB_DatabaseRecordVariableLengthSettingsController* RPDB_DatabaseRecordSettingsController_variableLengthSettingsController( RPDB_DatabaseRecordSettingsController*		record_settings_controller );
+	RPDB_DatabaseRecordReadWriteSettingsController*		RPDB_DatabaseRecordSettingsController_readWriteSettingsController( RPDB_DatabaseRecordSettingsController*		record_settings_controller );
 
 #endif
 

@@ -51,6 +51,7 @@ RPDB_Database* RPDB_Database_new(	RPDB_DatabaseController*	parent_database_contr
 	//	Controllers                         															                                                		                    	
 	RPDB_DatabaseCursorController*																		RPDB_Database_cursorController(						RPDB_Database*			database );
 	RPDB_DatabaseJoinController* RPDB_Database_joinController( RPDB_Database* database );
+RPDB_DatabaseSequenceController* RPDB_Database_sequenceController( RPDB_Database* database );
 	RPDB_DatabaseSettingsController*																	RPDB_Database_settingsController(						RPDB_Database*			database );
                                           														                                                		
 	BOOL RPDB_Database_isPrimary(	RPDB_Database*	database );
@@ -114,7 +115,7 @@ void RPDB_Database_createSecondaryIndexWithDatabase(	RPDB_Database*						primary
 */
 		RPDB_Record*								RPDB_Database_shiftQueue(									RPDB_Database*	database, RPDB_Record* record );
 		RPDB_Record*								RPDB_Database_shiftQueueOrWait(								RPDB_Database*	database, RPDB_Record* record );
-	//	RPDB_DatabaseReadWriteSettingsController*	RPDB_Database_settingsController(							RPDB_Database* 	database );
+	//	RPDB_DatabaseRecordReadWriteSettingsController*	RPDB_Database_settingsController(							RPDB_Database* 	database );
 	
 	void									RPDB_Database_write(			RPDB_Database*		database, 
 																								RPDB_Record*						write_record );
@@ -143,7 +144,7 @@ void RPDB_Database_appendKeyDataPair(	RPDB_Database*			database,
 void RPDB_Database_appendRecord(	RPDB_Database*			database, 
 																	RPDB_Record*				record );
 
-	//	RPDB_DatabaseReadWriteSettingsController*	RPDB_Database_settingsController(	RPDB_Database* 		database );
+	//	RPDB_DatabaseRecordReadWriteSettingsController*	RPDB_Database_settingsController(	RPDB_Database* 		database );
 
 	void										RPDB_Database_free(	RPDB_Database** database );
 	RPDB_DatabaseSettingsController*		RPDB_Database_settingsController(	RPDB_Database* database );
@@ -156,8 +157,8 @@ void RPDB_Database_appendRecord(	RPDB_Database*			database,
 	RPDB_Database* RPDB_Database_deleteDataForRawKey(	RPDB_Database* 	database,
 																				   void*								raw_deletion_key,
 																				   uint32_t							key_size );
-	//	RPDB_DatabaseReadWriteSettingsController*		RPDB_Database_settingsController(	RPDB_Database* 	database );
-	RPDB_Database* RPDB_Database_verifyDatabase( RPDB_Database* database );
+	//	RPDB_DatabaseRecordReadWriteSettingsController*		RPDB_Database_settingsController(	RPDB_Database* 	database );
+	RPDB_Database* RPDB_Database_verify( RPDB_Database* database );
 
 #endif
 

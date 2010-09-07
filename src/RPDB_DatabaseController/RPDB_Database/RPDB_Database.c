@@ -17,6 +17,8 @@
 
 #include "RPDB_ErrorController.h"
 
+#include "RPDB_DatabaseSequenceController.h"
+
 #include "RPDB_DatabaseController.h"
 #include "RPDB_DatabaseController_internal.h"
 #include "RPDB_DatabaseCursorController_internal.h"
@@ -43,14 +45,15 @@
 #include "RPDB_DatabaseErrorSettingsController.h"
 #include "RPDB_DatabaseCacheSettingsController.h"
 #include "RPDB_DatabaseEncryptionSettingsController.h"
-#include "RPDB_DatabaseFixedRecordSettingsController.h"
-#include "RPDB_DatabaseReadWriteSettingsController.h"
+#include "RPDB_DatabaseRecordFixedLengthSettingsController.h"
+#include "RPDB_DatabaseRecordReadWriteSettingsController.h"
 #include "RPDB_DatabaseTypeSettingsController.h"
 #include "RPDB_DatabaseTypeBtreeSettingsController.h"
 #include "RPDB_DatabaseTypeHashSettingsController.h"
 #include "RPDB_DatabaseTypeQueueSettingsController.h"
 #include "RPDB_DatabaseTypeRecnoSettingsController.h"
-#include "RPDB_DatabaseVariableRecordSettingsController.h"
+#include "RPDB_DatabaseRecordSettingsController.h"
+#include "RPDB_DatabaseRecordVariableLengthSettingsController.h"
 #include "RPDB_FileSettingsController.h"
 
 #include "RPDB_DatabaseSettingsController.h"
@@ -59,13 +62,14 @@
 #include "RPDB_DatabaseSettingsController_internal.h"
 #include "RPDB_DatabaseCachePrioritySettingsController_internal.h"
 #include "RPDB_DatabaseCursorSettingsController_internal.h"
-#include "RPDB_DatabaseReadWriteSettingsController_internal.h"
+#include "RPDB_DatabaseRecordReadWriteSettingsController_internal.h"
 #include "RPDB_DatabaseTypeBtreeSettingsController_internal.h"
 #include "RPDB_DatabaseTypeHashSettingsController_internal.h"
 #include "RPDB_DatabaseTypeQueueSettingsController_internal.h"
 #include "RPDB_DatabaseTypeRecnoSettingsController_internal.h"
 
 #include "RPDB_MemoryPoolSettingsController.h"
+#include "RPDB_MemoryPoolReadWriteSettingsController.h"
 
 #include "RPDB_RuntimeStorageController.h"
 #include "RPDB_RuntimeStorageController_internal.h"
@@ -135,9 +139,10 @@ RPDB_Database* RPDB_Database_new(	RPDB_DatabaseController*	parent_database_contr
 	*  Filename  *
 	*-----------*/
 	
-	RPDB_MemoryPoolSettingsController*	memory_pool_settings_controller	=	RPDB_SettingsController_memoryPoolSettingsController( settings_controller );
+	RPDB_MemoryPoolSettingsController*						memory_pool_settings_controller							=	RPDB_SettingsController_memoryPoolSettingsController( settings_controller );
+	RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_read_write_settings_controller	=	RPDB_MemoryPoolSettingsController_readWriteSettingsController( memory_pool_settings_controller );
 	
-	if ( ! RPDB_MemoryPoolSettingsController_isInMemoryEnvironment( memory_pool_settings_controller ) )	{
+	if ( ! RPDB_MemoryPoolReadWriteSettingsController_isInMemoryEnvironment( memory_pool_read_write_settings_controller ) )	{
 	
 		new_database->filename	=	RPDB_Database_internal_filenameForName( new_database->name );		
 	}
@@ -863,6 +868,20 @@ RPDB_DatabaseJoinController* RPDB_Database_joinController( RPDB_Database* databa
 	return database->join_controller;
 }
 
+/**********************
+*  sequenceController  *
+**********************/
+
+RPDB_DatabaseSequenceController* RPDB_Database_sequenceController( RPDB_Database* database )	{
+	
+	if ( database->sequence_controller == NULL )	{
+		
+		database->sequence_controller = RPDB_DatabaseSequenceController_new( database );
+	}
+	
+	return database->sequence_controller;
+}
+
 /*******************************************************************************************************************************************************************************************
 																		Write Actions
 *******************************************************************************************************************************************************************************************/
@@ -872,12 +891,13 @@ RPDB_DatabaseJoinController* RPDB_Database_joinController( RPDB_Database* databa
 **********************/
 
 void RPDB_Database_write(	RPDB_Database*		database, 
-												RPDB_Record*						write_record )	{
+													RPDB_Record*			write_record )	{
 
-	RPDB_DatabaseSettingsController*						database_settings_controller						=	RPDB_Database_settingsController(	database );
-	RPDB_DatabaseReadWriteSettingsController*		database_read_write_settings_controller	=	RPDB_DatabaseSettingsController_readWriteSettingsController( database_settings_controller );
+	RPDB_DatabaseSettingsController*									database_settings_controller						=	RPDB_Database_settingsController(	database );
+	RPDB_DatabaseRecordSettingsController*						database_record_settings_controller			=	RPDB_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	RPDB_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
 	
-	uint32_t	flags	=	RPDB_DatabaseReadWriteSettingsController_internal_writeFlags( database_read_write_settings_controller );
+	uint32_t	flags	=	RPDB_DatabaseRecordReadWriteSettingsController_internal_writeFlags( database_record_read_write_settings_controller );
 
 	RPDB_Database_internal_writeRecord(	database,
 																			flags,
@@ -896,9 +916,10 @@ void RPDB_Database_writeKeyDataPair(	RPDB_Database*	database,
 																			RPDB_Data*						write_data )	{
 
 	RPDB_DatabaseSettingsController*						database_settings_controller						=	RPDB_Database_settingsController(	database );
-	RPDB_DatabaseReadWriteSettingsController*		database_read_write_settings_controller	=	RPDB_DatabaseSettingsController_readWriteSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordSettingsController*						database_record_settings_controller			=	RPDB_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	RPDB_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
 	
-	uint32_t	flags	=	RPDB_DatabaseReadWriteSettingsController_internal_writeFlags( database_read_write_settings_controller );
+	uint32_t	flags	=	RPDB_DatabaseRecordReadWriteSettingsController_internal_writeFlags( database_record_read_write_settings_controller );
 
 	RPDB_Database_internal_writeKeyDataPair(	database,
 																						flags,
@@ -920,9 +941,10 @@ RPDB_Record* RPDB_Database_writeRawKeyDataPair(	RPDB_Database*		database,
 																							 uint32_t						data_size	 )	{
 
 	RPDB_DatabaseSettingsController*						database_settings_controller						=	RPDB_Database_settingsController(	database );
-	RPDB_DatabaseReadWriteSettingsController*		database_read_write_settings_controller	=	RPDB_DatabaseSettingsController_readWriteSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordSettingsController*						database_record_settings_controller			=	RPDB_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	RPDB_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
 	
-	uint32_t	flags	=	RPDB_DatabaseReadWriteSettingsController_internal_writeFlags( database_read_write_settings_controller );
+	uint32_t	flags	=	RPDB_DatabaseRecordReadWriteSettingsController_internal_writeFlags( database_record_read_write_settings_controller );
 
 	return RPDB_Database_internal_writeRawKeyDataPair(	database,
 																											flags,
@@ -943,9 +965,10 @@ void RPDB_Database_appendRawKeyDataPair(	RPDB_Database*			database,
 																					uint32_t						data_size )	{
 
 	RPDB_DatabaseSettingsController*						database_settings_controller						=	RPDB_Database_settingsController(	database );
-	RPDB_DatabaseReadWriteSettingsController*		database_read_write_settings_controller	=	RPDB_DatabaseSettingsController_readWriteSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordSettingsController*						database_record_settings_controller			=	RPDB_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	RPDB_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
 	
-	uint32_t	flags	=	RPDB_DatabaseReadWriteSettingsController_internal_writeFlags( database_read_write_settings_controller );
+	uint32_t	flags	=	RPDB_DatabaseRecordReadWriteSettingsController_internal_writeFlags( database_record_read_write_settings_controller );
 	
 	RPDB_Database_internal_writeRawKeyDataPair(	database,
 																							flags | DB_APPEND,
@@ -964,9 +987,10 @@ db_recno_t RPDB_Database_appendRawData(	RPDB_Database*			database,
 																				uint32_t						data_size )	{
 				
 	RPDB_DatabaseSettingsController*						database_settings_controller						=	RPDB_Database_settingsController(	database );
-	RPDB_DatabaseReadWriteSettingsController*		database_read_write_settings_controller	=	RPDB_DatabaseSettingsController_readWriteSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordSettingsController*						database_record_settings_controller			=	RPDB_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	RPDB_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
 	
-	uint32_t	flags	=	RPDB_DatabaseReadWriteSettingsController_internal_writeFlags( database_read_write_settings_controller );
+	uint32_t	flags	=	RPDB_DatabaseRecordReadWriteSettingsController_internal_writeFlags( database_record_read_write_settings_controller );
 	
 	RPDB_Record*	record	=		RPDB_Database_internal_writeRawKeyDataPair(	database,
 																																				flags | DB_APPEND,
@@ -990,9 +1014,10 @@ db_recno_t RPDB_Database_appendData(	RPDB_Database*			database,
 																			RPDB_Data*					write_data )	{
 	
 	RPDB_DatabaseSettingsController*						database_settings_controller						=	RPDB_Database_settingsController(	database );
-	RPDB_DatabaseReadWriteSettingsController*		database_read_write_settings_controller	=	RPDB_DatabaseSettingsController_readWriteSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordSettingsController*						database_record_settings_controller			=	RPDB_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	RPDB_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
 	
-	uint32_t	flags	=	RPDB_DatabaseReadWriteSettingsController_internal_writeFlags( database_read_write_settings_controller );
+	uint32_t	flags	=	RPDB_DatabaseRecordReadWriteSettingsController_internal_writeFlags( database_record_read_write_settings_controller );
 
 	RPDB_Key*	write_key	=	RPDB_Key_new( NULL );
 	RPDB_Key_setKeyData(	write_key,
@@ -1017,9 +1042,10 @@ void RPDB_Database_appendKeyDataPair(	RPDB_Database*			database,
 																			RPDB_Data*					write_data )	{
 	
 	RPDB_DatabaseSettingsController*						database_settings_controller						=	RPDB_Database_settingsController(	database );
-	RPDB_DatabaseReadWriteSettingsController*		database_read_write_settings_controller	=	RPDB_DatabaseSettingsController_readWriteSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordSettingsController*						database_record_settings_controller			=	RPDB_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	RPDB_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
 	
-	uint32_t	flags	=	RPDB_DatabaseReadWriteSettingsController_internal_writeFlags( database_read_write_settings_controller );
+	uint32_t	flags	=	RPDB_DatabaseRecordReadWriteSettingsController_internal_writeFlags( database_record_read_write_settings_controller );
 
 	RPDB_Database_internal_writeKeyDataPair(	database,
 																						flags | DB_APPEND,
@@ -1035,9 +1061,10 @@ void RPDB_Database_appendRecord(	RPDB_Database*			database,
 																	RPDB_Record*				record )	{
 	
 	RPDB_DatabaseSettingsController*						database_settings_controller						=	RPDB_Database_settingsController(	database );
-	RPDB_DatabaseReadWriteSettingsController*		database_read_write_settings_controller	=	RPDB_DatabaseSettingsController_readWriteSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordSettingsController*						database_record_settings_controller			=	RPDB_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	RPDB_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
 	
-	uint32_t	flags	=	RPDB_DatabaseReadWriteSettingsController_internal_writeFlags( database_read_write_settings_controller );
+	uint32_t	flags	=	RPDB_DatabaseRecordReadWriteSettingsController_internal_writeFlags( database_record_read_write_settings_controller );
 
 	RPDB_Database_internal_writeRecord(	database,
 																			flags | DB_APPEND,
@@ -1069,9 +1096,10 @@ BOOL RPDB_Database_keyExists(	RPDB_Database*		database,
 	}
 
 	RPDB_DatabaseSettingsController*						database_settings_controller						=	RPDB_Database_settingsController(	database );
-	RPDB_DatabaseReadWriteSettingsController*		database_read_write_settings_controller	=	RPDB_DatabaseSettingsController_readWriteSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordSettingsController*						database_record_settings_controller			=	RPDB_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	RPDB_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
 	
-	uint32_t	exists_flags	=	RPDB_DatabaseReadWriteSettingsController_internal_existsFlags( database_read_write_settings_controller );
+	uint32_t	exists_flags	=	RPDB_DatabaseRecordReadWriteSettingsController_internal_existsFlags( database_record_read_write_settings_controller );
 	
 	if ( ( connection_error = database->wrapped_bdb_database->exists(	database->wrapped_bdb_database,												
 																																		transaction_id,
@@ -1479,9 +1507,10 @@ RPDB_Database* RPDB_Database_deleteRecord(	RPDB_Database* 	database,
 	}
 	
 	RPDB_DatabaseSettingsController*						database_settings_controller						=	RPDB_Database_settingsController( database );
-	RPDB_DatabaseReadWriteSettingsController*		database_read_write_settings_controller	=	RPDB_DatabaseSettingsController_readWriteSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordSettingsController*						database_record_settings_controller			=	RPDB_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	RPDB_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
 	
-	uint32_t	delete_flags	=	RPDB_DatabaseReadWriteSettingsController_internal_deleteFlags( database_read_write_settings_controller );
+	uint32_t	delete_flags	=	RPDB_DatabaseRecordReadWriteSettingsController_internal_deleteFlags( database_record_read_write_settings_controller );
 	
 	int				connection_error	= RP_NO_ERROR;
 	if ( ( connection_error = database->wrapped_bdb_database->del(	database->wrapped_bdb_database,												
@@ -1517,9 +1546,10 @@ RPDB_Database* RPDB_Database_deleteDataForKey(	RPDB_Database*		database,
 	}
 
 	RPDB_DatabaseSettingsController*						database_settings_controller						=	RPDB_Database_settingsController(	database );
-	RPDB_DatabaseReadWriteSettingsController*		database_read_write_settings_controller	=	RPDB_DatabaseSettingsController_readWriteSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordSettingsController*						database_record_settings_controller			=	RPDB_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	RPDB_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
 	
-	uint32_t	delete_flags	=	RPDB_DatabaseReadWriteSettingsController_internal_deleteFlags( database_read_write_settings_controller ) ;
+	uint32_t	delete_flags	=	RPDB_DatabaseRecordReadWriteSettingsController_internal_deleteFlags( database_record_read_write_settings_controller ) ;
 	
 	if ( ( connection_error = database->wrapped_bdb_database->del(	database->wrapped_bdb_database,												
 																																	transaction_id,
@@ -1563,7 +1593,7 @@ RPDB_Database* RPDB_Database_deleteDataForRawKey(	RPDB_Database* 	database,
 ***********/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_verify.html
-RPDB_Database* RPDB_Database_verifyDatabase( RPDB_Database* database )	{
+RPDB_Database* RPDB_Database_verify( RPDB_Database* database )	{
 
 	int			opened_file_locally = FALSE;
 	int			connection_error	= 0;
@@ -1580,7 +1610,7 @@ RPDB_Database* RPDB_Database_verifyDatabase( RPDB_Database* database )	{
 		if ( database->verification_file == NULL )	{
 			RPDB_ErrorController_throwError(	RPDB_Environment_errorController( database->parent_database_controller->parent_environment ),
 																				-1,
-																				"RPDB_DatabaseVerificationController_verify",
+																				"RPDB_Database_verify",
 																				"Could not open file at path." );
 			return NULL;
 		}
@@ -1684,31 +1714,50 @@ void RPDB_Database_internal_initWrappedDatabase(	RPDB_Database* database )	{
 																										database_settings_controller->pagesize );
 		}
 		
-		if (	database_settings_controller->variable_record_settings_controller != NULL )	{
-		
-			RPDB_DatabaseVariableRecordSettingsController*	variable_record_settings_controller	=	database_settings_controller->variable_record_settings_controller;
-
-			//	DB->set_re_delim()
-			if ( variable_record_settings_controller->record_delimeter )	{
-				RPDB_DatabaseVariableRecordSettingsController_setRecordDelimeter(	variable_record_settings_controller,
-																																					variable_record_settings_controller->record_delimeter );
-			}
-		}
-
-		if (	database_settings_controller->fixed_record_settings_controller != NULL )	{
-
-			RPDB_DatabaseFixedRecordSettingsController*	fixed_record_settings_controller	=	database_settings_controller->fixed_record_settings_controller;
+		if ( database_settings_controller->record_settings_controller != NULL )	{
 			
-			//	DB->set_re_len()
-			if ( fixed_record_settings_controller->record_length )	{
-				RPDB_DatabaseFixedRecordSettingsController_setRecordLength(	fixed_record_settings_controller,
-																																		fixed_record_settings_controller->record_length );
-			}
+			RPDB_DatabaseRecordSettingsController*	database_record_settings_controller	=	database_settings_controller->record_settings_controller;
 			
-			//	DB->set_re_pad()
-			if ( fixed_record_settings_controller->record_padding_byte )	{
-				RPDB_DatabaseFixedRecordSettingsController_setPaddingByte(	fixed_record_settings_controller,
-																																		fixed_record_settings_controller->record_padding_byte );
+			if (	database_record_settings_controller->record_variable_length_settings_controller != NULL )	{
+			
+				RPDB_DatabaseRecordVariableLengthSettingsController*	record_variable_length_settings_controller	=	database_record_settings_controller->record_variable_length_settings_controller;
+
+				//	DB->set_re_delim()
+				if ( record_variable_length_settings_controller->record_delimeter )	{
+					RPDB_DatabaseRecordVariableLengthSettingsController_setRecordDelimeter(	record_variable_length_settings_controller,
+																																						record_variable_length_settings_controller->record_delimeter );
+				}
+			}
+
+			if (	database_record_settings_controller->record_fixed_length_settings_controller != NULL )	{
+
+				RPDB_DatabaseRecordFixedLengthSettingsController*	record_fixed_length_settings_controller	=	database_record_settings_controller->record_fixed_length_settings_controller;
+				
+				//	DB->set_re_len()
+				if ( record_fixed_length_settings_controller->record_length )	{
+					RPDB_DatabaseRecordFixedLengthSettingsController_setRecordLength(	record_fixed_length_settings_controller,
+																																			record_fixed_length_settings_controller->record_length );
+				}
+				
+				//	DB->set_re_pad()
+				if ( record_fixed_length_settings_controller->record_padding_byte )	{
+					RPDB_DatabaseRecordFixedLengthSettingsController_setPaddingByte(	record_fixed_length_settings_controller,
+																																			record_fixed_length_settings_controller->record_padding_byte );
+				}
+			}
+
+			if ( database_record_settings_controller->record_read_write_settings_controller != NULL )	{
+				
+				RPDB_DatabaseTypeSettingsController*	database_type_settings_controller	=	RPDB_DatabaseSettingsController_typeSettingsController( database_settings_controller );
+				DBTYPE	database_type	=	RPDB_DatabaseTypeSettingsController_databaseType( database_type_settings_controller );
+				
+				if ( database_type == DB_BTREE )	{
+					//	DB->set_flags()
+					RPDB_DatabaseTypeBtreeSettingsController_internal_setFlags( RPDB_DatabaseTypeSettingsController_btreeController( database_type_settings_controller ) );
+				}
+				else if ( database_type == DB_HASH )	{
+					RPDB_DatabaseTypeHashSettingsController_internal_setFlags( RPDB_DatabaseTypeSettingsController_hashController( database_type_settings_controller ) );				
+				}
 			}
 		}
 		
@@ -1792,20 +1841,6 @@ void RPDB_Database_internal_initWrappedDatabase(	RPDB_Database* database )	{
 					RPDB_DatabaseCachePrioritySettingsController_internal_setPriorityTo(	cache_priority_settings_controller,
 																																								cache_priority_settings_controller->priority );
 				}
-			}
-		}
-		
-		if ( database_settings_controller->read_write_settings_controller != NULL )	{
-			
-			RPDB_DatabaseTypeSettingsController*	database_type_settings_controller	=	RPDB_DatabaseSettingsController_typeSettingsController( database_settings_controller );
-			DBTYPE	database_type	=	RPDB_DatabaseTypeSettingsController_databaseType( database_type_settings_controller );
-			
-			if ( database_type == DB_BTREE )	{
-				//	DB->set_flags()
-				RPDB_DatabaseTypeBtreeSettingsController_internal_setFlags( RPDB_DatabaseTypeSettingsController_btreeController( database_type_settings_controller ) );
-			}
-			else if ( database_type == DB_HASH )	{
-				RPDB_DatabaseTypeHashSettingsController_internal_setFlags( RPDB_DatabaseTypeSettingsController_hashController( database_type_settings_controller ) );				
 			}
 		}
 		
@@ -2205,9 +2240,10 @@ RPDB_Database* RPDB_Database_internal_configureDatabaseInstanceForSecondaryIndex
 
 	if ( enable_sorted_duplicates == TRUE )	{
 		RPDB_DatabaseSettingsController*						database_settings_controller						=	RPDB_Database_settingsController( secondary_database );
-		RPDB_DatabaseReadWriteSettingsController*		database_read_write_settings_controller	=	RPDB_DatabaseSettingsController_readWriteSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordSettingsController*						database_record_settings_controller			=	RPDB_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	RPDB_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
 		
-		RPDB_DatabaseReadWriteSettingsController_turnUnsortedDuplicatesOn( database_read_write_settings_controller );
+		RPDB_DatabaseRecordReadWriteSettingsController_turnUnsortedDuplicatesOn( database_record_read_write_settings_controller );
 	}
 	
 	//	We're not doing config beyond here because this function only gets called internal
@@ -2259,12 +2295,12 @@ RPDB_Database* RPDB_Database_internal_initForRuntimeStorage(	RPDB_Database*		run
 	
 	//	Set the database type - Queue
 	RPDB_DatabaseTypeSettingsController_setTypeToQueue( database_type_settings_controller );	
-
-	RPDB_DatabaseFixedRecordSettingsController*	database_fixed_record_settings_controller	=	RPDB_DatabaseSettingsController_fixedRecordSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordSettingsController*							database_record_settings_controller								=	RPDB_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	RPDB_DatabaseRecordFixedLengthSettingsController*		database_record_fixed_length_settings_controller	=	RPDB_DatabaseRecordSettingsController_fixedLengthSettingsController( database_record_settings_controller );
 
 	//	set fixed record length to store pointer addresses
-	RPDB_DatabaseFixedRecordSettingsController_setRecordLength(	database_fixed_record_settings_controller,
-																															sizeof( uintptr_t ) );
+	RPDB_DatabaseRecordFixedLengthSettingsController_setRecordLength(	database_record_fixed_length_settings_controller,
+																																		sizeof( uintptr_t ) );
 
 	//	Open the database with our settings
 	RPDB_Database_internal_openWithoutRuntimeStorage( runtime_storage_database );

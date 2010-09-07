@@ -38,31 +38,31 @@ RPDB_DatabaseCursorReadWriteSettingsController* RPDB_DatabaseCursorReadWriteSett
 /***************************
 *  free  *
 ***************************/
-void RPDB_DatabaseCursorReadWriteSettingsController_free(	RPDB_DatabaseCursorReadWriteSettingsController** database_cursor_read_write_settings_controller )	{
+void RPDB_DatabaseCursorReadWriteSettingsController_free(	RPDB_DatabaseCursorReadWriteSettingsController** database_cursor_record_read_write_settings_controller )	{
 
-	free( *database_cursor_read_write_settings_controller );
-	*database_cursor_read_write_settings_controller	=	NULL;
+	free( *database_cursor_record_read_write_settings_controller );
+	*database_cursor_record_read_write_settings_controller	=	NULL;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_DatabaseCursorReadWriteSettingsController_parentEnvironment(	RPDB_DatabaseCursorReadWriteSettingsController* database_cursor_read_write_settings_controller )	{
-	return database_cursor_read_write_settings_controller->parent_database_cursor_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment;
+RPDB_Environment* RPDB_DatabaseCursorReadWriteSettingsController_parentEnvironment(	RPDB_DatabaseCursorReadWriteSettingsController* database_cursor_record_read_write_settings_controller )	{
+	return database_cursor_record_read_write_settings_controller->parent_database_cursor_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment;
 }
 
 /***************************************
 *  parentDatabase  *
 ***************************************/
-RPDB_Database* RPDB_DatabaseCursorReadWriteSettingsController_parentDatabase(	RPDB_DatabaseCursorReadWriteSettingsController* database_cursor_read_write_settings_controller )	{
-	return database_cursor_read_write_settings_controller->parent_database_cursor_settings_controller->parent_database_settings_controller->parent_database;
+RPDB_Database* RPDB_DatabaseCursorReadWriteSettingsController_parentDatabase(	RPDB_DatabaseCursorReadWriteSettingsController* database_cursor_record_read_write_settings_controller )	{
+	return database_cursor_record_read_write_settings_controller->parent_database_cursor_settings_controller->parent_database_settings_controller->parent_database;
 }
 
 /***************************************
 *  parentDatabaseCursor  *
 ***************************************/
-RPDB_DatabaseCursor* RPDB_DatabaseCursorReadWriteSettingsController_parentDatabaseCursor(	RPDB_DatabaseCursorReadWriteSettingsController* database_cursor_read_write_settings_controller )	{
-	return database_cursor_read_write_settings_controller->parent_database_cursor_settings_controller->parent_database_cursor;
+RPDB_DatabaseCursor* RPDB_DatabaseCursorReadWriteSettingsController_parentDatabaseCursor(	RPDB_DatabaseCursorReadWriteSettingsController* database_cursor_record_read_write_settings_controller )	{
+	return database_cursor_record_read_write_settings_controller->parent_database_cursor_settings_controller->parent_database_cursor;
 }
 
 /*******************************************************************************************************************************************************************************************
@@ -274,17 +274,17 @@ RPDB_DatabaseCursorReadWriteSettingsController* RPDB_DatabaseCursorReadWriteSett
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_DatabaseCursorReadWriteSettingsController* RPDB_DatabaseCursorReadWriteSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseCursorReadWriteSettingsController* database_cursor_read_write_settings_controller )	{
+RPDB_DatabaseCursorReadWriteSettingsController* RPDB_DatabaseCursorReadWriteSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseCursorReadWriteSettingsController* database_cursor_record_read_write_settings_controller )	{
 
-	RPDB_DatabaseCursorReadWriteSettingsController* database_cursor_read_write_settings_controller_copy	=	RPDB_DatabaseCursorReadWriteSettingsController_new( database_cursor_read_write_settings_controller->parent_database_cursor_settings_controller );
+	RPDB_DatabaseCursorReadWriteSettingsController* database_cursor_record_read_write_settings_controller_copy	=	RPDB_DatabaseCursorReadWriteSettingsController_new( database_cursor_record_read_write_settings_controller->parent_database_cursor_settings_controller );
 
 	//	Instances and Pointers
-	database_cursor_read_write_settings_controller_copy->write_locks_instead_of_read_locks	=	database_cursor_read_write_settings_controller->write_locks_instead_of_read_locks;
-	database_cursor_read_write_settings_controller_copy->multiple_data_items	=	database_cursor_read_write_settings_controller->multiple_data_items;
-	database_cursor_read_write_settings_controller_copy->ignore_lease	=	database_cursor_read_write_settings_controller->ignore_lease;
-	database_cursor_read_write_settings_controller_copy->permit_write	=	database_cursor_read_write_settings_controller->permit_write;
-	database_cursor_read_write_settings_controller_copy->return_multiple_key_data_pairs	=	database_cursor_read_write_settings_controller->return_multiple_key_data_pairs;
+	database_cursor_record_read_write_settings_controller_copy->write_locks_instead_of_read_locks	=	database_cursor_record_read_write_settings_controller->write_locks_instead_of_read_locks;
+	database_cursor_record_read_write_settings_controller_copy->multiple_data_items	=	database_cursor_record_read_write_settings_controller->multiple_data_items;
+	database_cursor_record_read_write_settings_controller_copy->ignore_lease	=	database_cursor_record_read_write_settings_controller->ignore_lease;
+	database_cursor_record_read_write_settings_controller_copy->permit_write	=	database_cursor_record_read_write_settings_controller->permit_write;
+	database_cursor_record_read_write_settings_controller_copy->return_multiple_key_data_pairs	=	database_cursor_record_read_write_settings_controller->return_multiple_key_data_pairs;
 
-	return database_cursor_read_write_settings_controller_copy;
+	return database_cursor_record_read_write_settings_controller_copy;
 }
 

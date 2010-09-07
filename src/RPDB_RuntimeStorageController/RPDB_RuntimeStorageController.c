@@ -30,7 +30,7 @@
 #include "RPDB_SettingsController.h"
 #include "RPDB_DatabaseSettingsController.h"
 #include "RPDB_DatabaseSettingsController_internal.h"
-#include "RPDB_DatabaseReadWriteSettingsController.h"
+#include "RPDB_DatabaseRecordReadWriteSettingsController.h"
 #include "RPDB_DatabaseTypeSettingsController.h"
 #include "RPDB_DatabaseTypeBtreeSettingsController.h"
 #include "RPDB_DatabaseCursorReadWriteSettingsController.h"

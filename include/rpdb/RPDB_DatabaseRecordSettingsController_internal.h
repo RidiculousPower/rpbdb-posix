@@ -7,8 +7,6 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-void RPDB_DatabaseRecordSettingsController_internal_updateFlags( RPDB_DatabaseRecordSettingsController* record_settings_controller );
-
 RPDB_DatabaseRecordSettingsController* RPDB_DatabaseRecordSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseRecordSettingsController* record_settings_controller );
 	
 #endif
