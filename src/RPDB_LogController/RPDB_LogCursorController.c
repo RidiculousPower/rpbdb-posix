@@ -14,6 +14,7 @@
 #include "RPDB_LogCursorController_internal.h"
 
 #include "RPDB_LogCursor.h"
+#include "RPDB_LogCursor_internal.h"
 
 #include "RPDB_Environment.h"
 
@@ -44,11 +45,7 @@ RPDB_LogCursorController* RPDB_LogCursorController_new( RPDB_LogController* pare
 
 	log_cursor_controller->parent_log_controller	=	parent_log_controller;
 
-	RPDB_RuntimeStorageController*	runtime_storage_controller;
-	RPDB_DatabaseController*	database_controller	=	RPDB_Environment_databaseController(	runtime_storage_controller->runtime_environment );
-	RPDB_Database*	runtime_storage_database	=	RPDB_Database_new(	database_controller,
-																																	"log_cursor_controller" );
-	log_cursor_controller->runtime_storage_database	=	RPDB_Database_internal_initForRuntimeStorage(	runtime_storage_database );
+	RPDB_RUNTIME_STORAGE( log_cursor_controller,	"log_cursor_controller" );
 
 	return log_cursor_controller;
 }
@@ -95,8 +92,9 @@ void RPDB_LogCursorController_closeAllCursors( RPDB_LogCursorController* cursor_
 
 void RPDB_LogCursorController_freeAllCursors( RPDB_LogCursorController* cursor_controller )	{
 
+	RPDB_LogCursorController_closeAllCursors( cursor_controller );
 	RPDB_Database_internal_freeAllStoredRuntimeAddresses(	cursor_controller->runtime_storage_database,
-																												(void *(*)(void**)) & RPDB_LogCursor_free );
+																												(void *(*)(void**)) & RPDB_LogCursor_internal_freeFromRuntimeStorage );
 }
 
 /*******************************************************************************************************************************************************************************************

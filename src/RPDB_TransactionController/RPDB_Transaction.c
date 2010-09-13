@@ -11,6 +11,7 @@
 *******************************************************************************************************************************************************************************************/
 
 #include "RPDB_Transaction.h"
+#include "RPDB_Transaction_internal.h"
 
 #include "RPDB_Database_internal.h"
 
@@ -58,12 +59,21 @@ RPDB_Transaction* RPDB_Transaction_new( RPDB_TransactionController* parent_trans
 /***************************
 *  free  *
 ***************************/
+
 void RPDB_Transaction_free(	RPDB_Transaction** transaction )	{
 	
 	if ( ( *transaction )->parent_transaction_controller->runtime_storage_database != NULL )	{
 		RPDB_Database_internal_freeStoredRuntimeAddress(	( *transaction )->parent_transaction_controller->runtime_storage_database,
 																											( *transaction )->runtime_identifier );
 	}
+	RPDB_Transaction_internal_freeFromRuntimeStorage( transaction );
+}
+
+/***************************
+*  freeFromRuntimeStorage  *
+***************************/
+
+void RPDB_Transaction_internal_freeFromRuntimeStorage( RPDB_Transaction** transaction )	{
 	
 	//	If the transaction is still open, commit it
 	if ( RPDB_Transaction_isOpen( *transaction ) )	{

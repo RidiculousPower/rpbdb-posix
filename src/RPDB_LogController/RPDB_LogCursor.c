@@ -60,6 +60,13 @@ void RPDB_LogCursor_free(	RPDB_LogCursor** log_cursor )	{
 		RPDB_Database_internal_freeStoredRuntimeAddress(	( *log_cursor )->parent_log_cursor_controller->runtime_storage_database,
 																											( *log_cursor )->runtime_identifier );
 	}
+	RPDB_LogCursor_internal_freeFromRuntimeStorage( log_cursor );
+}
+
+/***************************
+*  free  *
+***************************/
+void RPDB_LogCursor_internal_freeFromRuntimeStorage(	RPDB_LogCursor** log_cursor )	{
 
 	free( log_cursor );
 }

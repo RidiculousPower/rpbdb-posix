@@ -46,5 +46,6 @@ RPDB_Record* RPDB_DatabaseCursor_internal_retrieveNextDuplicate(	RPDB_DatabaseCu
 RPDB_Record* RPDB_DatabaseCursor_internal_retrieveNextNonDuplicate(	RPDB_DatabaseCursor*	cursor,
 																																		RPDB_Record*					record );
 
+void RPDB_DatabaseCursor_internal_freeFromRuntimeStorage(	RPDB_DatabaseCursor** database_cursor );
 
 #endif

@@ -69,6 +69,9 @@ RPDB_DatabaseSequenceController* RPDB_Database_sequenceController( RPDB_Database
 	RPDB_Database* RPDB_Database_createSecondaryIndexWithDuplicates(	RPDB_Database*						primary_database,
 																		char*								index_name,
 																		RPDB_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method);
+RPDB_Database* RPDB_Database_createSecondaryIndexWithSortedDuplicates(	RPDB_Database*										primary_database,
+																																				char*															index_name,
+																																				RPDB_SecondaryKeyCallbackMethod		secondary_key_creation_callback_method);
 void RPDB_Database_createSecondaryIndexWithDatabase(	RPDB_Database*						primary_database,
 													RPDB_Database*						secondary_database,
 													char*								index_name,
@@ -89,6 +92,8 @@ void RPDB_Database_createSecondaryIndexWithDatabase(	RPDB_Database*						primary
 		RPDB_Record*								RPDB_Database_retrieveMatchingKeyDataPair(		RPDB_Database*	database, 
 																																	RPDB_Key*						key_data,
 																																	RPDB_Data*							data );
+	RPDB_Record* RPDB_Database_retrieveMatchingRecord(	RPDB_Database*		database, 
+																											RPDB_Record*			record );
 	RPDB_Record* RPDB_Database_retrieveMatchingRawKeyDataPair(	RPDB_Database*		database,
 																						   void*									raw_key,
 																						   uint32_t								key_size,

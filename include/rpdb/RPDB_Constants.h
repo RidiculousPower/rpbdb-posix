@@ -78,6 +78,7 @@
 	#define RPDB_DELIMITER																		"-##-"
 	#define	RPDB_ENVIRONMENT_AUTO_HANDLE											"environment_auto_name_"
 	#define	RPDB_DATABASE_AUTO_HANDLE													"database_auto_name_"
+	#define RPDB_SECONDARY_DATABASE_INDEX_DELIMITER						"__idx__"
 	
 	#define RPDB_DATABASE_CURSOR_DEFAULT_HANDLE								"cursor"
 	#define RPDB_DATABASE_CURSOR_HANDLE_DELIMETER							"_"
@@ -107,5 +108,17 @@
 	#define RPDB_RUNTIME_STORAGE_CACHE_SIZE_IN_MB							5
 	//	The minimum page size is 512, which will be far more than large enough
 	#define RPDB_RUNTIME_STORAGE_PAGE_SIZE_IN_K								512
-	
+
+	//	we don't want one runtime storage of "name" to close/free another runtime storage of "name"'s instances			
+	//	for this reason, each runtime storage needs its own unique identifier
+	#define RPDB_RUNTIME_STORAGE( parent, runtime_storage_name )																																																\
+		RPDB_RuntimeStorageController*	runtime_storage_controller	=	RPDB_RuntimeStorageController_sharedInstance();																			\
+		RPDB_DatabaseController*	runtime_database_controller	=	RPDB_Environment_databaseController(	runtime_storage_controller->runtime_environment );	\
+		char*		runtime_database_identifier		=	calloc( strlen( runtime_storage_name ) + 1, sizeof( char ) );																							\
+		sprintf(	runtime_database_identifier, "%s-%p", runtime_storage_name, parent );																											\
+		RPDB_Database*	runtime_storage_database	=	RPDB_Database_new(	runtime_database_controller,																											\
+																																		runtime_database_identifier );																										\
+		runtime_storage_database	=	RPDB_Database_internal_initForRuntimeStorage(	runtime_storage_database );																							\
+		parent->runtime_storage_database	=	runtime_storage_database;
+			
 #endif

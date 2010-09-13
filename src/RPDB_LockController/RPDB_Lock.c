@@ -56,12 +56,21 @@ RPDB_Lock* RPDB_Lock_new( RPDB_LockController* parent_lock_controller )	{
 /***************************
 *  free  *
 ***************************/
+
 void RPDB_Lock_free(	RPDB_Lock** lock )	{
 
 	if ( ( *lock )->parent_lock_controller->runtime_storage_database != NULL )	{
 		RPDB_Database_internal_freeStoredRuntimeAddress(	( *lock )->parent_lock_controller->runtime_storage_database,
 																											( *lock )->runtime_identifier );
 	}
+	RPDB_Lock_internal_freeFromRuntimeStorage( lock );
+}
+
+/***************************
+*  free  *
+***************************/
+
+void RPDB_Lock_internal_freeFromRuntimeStorage(	RPDB_Lock** lock )	{
 
 	if ( ( *lock )->settings_controller != NULL )	{
 		RPDB_LockSettingsController_free( & ( ( *lock )->settings_controller ) );

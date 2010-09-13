@@ -72,12 +72,22 @@ RPDB_DatabaseCursor* RPDB_DatabaseCursor_new( RPDB_DatabaseCursorController* par
 /***************************
 *  free  *
 ***************************/
+
 void RPDB_DatabaseCursor_free(	RPDB_DatabaseCursor** database_cursor )	{
 
 	if ( ( *database_cursor )->parent_database_cursor_controller->runtime_storage_database != NULL )	{
 		RPDB_Database_internal_freeStoredRuntimeAddress(	( *database_cursor )->parent_database_cursor_controller->runtime_storage_database,
 																											( *database_cursor )->runtime_identifier );
 	}
+
+	RPDB_DatabaseCursor_internal_freeFromRuntimeStorage( database_cursor );
+}
+
+/***************************
+*  free  *
+***************************/
+
+void RPDB_DatabaseCursor_internal_freeFromRuntimeStorage(	RPDB_DatabaseCursor** database_cursor )	{
 
 	//	close self
 	if ( RPDB_DatabaseCursor_isOpen( *database_cursor ) )	{

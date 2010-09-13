@@ -10,5 +10,6 @@
 RPDB_Log*	RPDB_LogCursor_internal_retrieveLogRecord(	RPDB_LogCursor*	log_cursor,
 																 uint32_t			which_record	);
 
+void RPDB_LogCursor_internal_freeFromRuntimeStorage(	RPDB_LogCursor** log_cursor );
 
 #endif

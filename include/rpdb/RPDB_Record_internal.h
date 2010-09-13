@@ -17,4 +17,6 @@ RPDB_Record* RPDB_Record_internal_newFromKeyData(	RPDB_Database* parent_database
 												   RPDB_Key*	dbt_key,
 												   RPDB_Data*	dbt_data	);
 	
+void	RPDB_Record_internal_freeFromRuntimeStorage( RPDB_Record** record );
+
 #endif

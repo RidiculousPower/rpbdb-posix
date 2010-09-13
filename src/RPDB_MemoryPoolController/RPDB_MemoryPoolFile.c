@@ -11,6 +11,7 @@
 *******************************************************************************************************************************************************************************************/
  
 #include "RPDB_MemoryPoolFile.h"
+#include "RPDB_MemoryPoolFile_internal.h"
 
 #include "RPDB_Database_internal.h"
 
@@ -50,6 +51,13 @@ void RPDB_MemoryPoolFile_free(	RPDB_MemoryPoolFile** memory_pool_file )	{
 		RPDB_Database_internal_freeStoredRuntimeAddress(	( *memory_pool_file )->parent_memory_pool_file_controller->runtime_storage_database,
 																											( *memory_pool_file )->runtime_identifier );
 	}
+	RPDB_MemoryPoolFile_freeFromRuntimeStorage( memory_pool_file );
+}
+
+/***************************
+*  freeFromRuntimeStorage  *
+***************************/
+void RPDB_MemoryPoolFile_freeFromRuntimeStorage(	RPDB_MemoryPoolFile** memory_pool_file )	{
 
 	if ( ( *memory_pool_file )->settings_controller != NULL )	{
 		RPDB_MemoryPoolFileSettingsController_free( & ( ( *memory_pool_file )->settings_controller ) );

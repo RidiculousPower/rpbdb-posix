@@ -8,6 +8,7 @@
 *******************************************************************************************************************************************************************************************/
 
 int		RPDB_Lock_internal_lockMode(							RPDB_Lock* lock );
+void RPDB_Lock_internal_freeFromRuntimeStorage(	RPDB_Lock** lock );
 
 
 #endif

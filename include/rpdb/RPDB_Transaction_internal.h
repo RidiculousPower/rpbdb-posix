@@ -12,5 +12,7 @@ DB_TXN*				RPDB_Transaction_internal_transactionID(					RPDB_Transaction*				tra
 void				RPDB_Transaction_internal_initDefaultInstanceSettings(		RPDB_Transaction*				transaction );
 void RPDB_Transaction_internal_addDatabaseToListOpenedDuringTransaction(	RPDB_Transaction*	transaction,
 																		 RPDB_Database*		database	);
-	
+
+void RPDB_Transaction_internal_freeFromRuntimeStorage( RPDB_Transaction** transaction );
+
 #endif

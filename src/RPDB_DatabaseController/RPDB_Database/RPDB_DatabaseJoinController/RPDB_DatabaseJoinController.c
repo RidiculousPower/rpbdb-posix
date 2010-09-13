@@ -49,11 +49,7 @@ RPDB_DatabaseJoinController* RPDB_DatabaseJoinController_new( RPDB_Database* par
 
 	database_join_controller->parent_database	=	parent_database;
 
-	RPDB_RuntimeStorageController*	runtime_storage_controller	=	RPDB_RuntimeStorageController_sharedInstance();
-	RPDB_DatabaseController*	database_controller	=	RPDB_Environment_databaseController(	runtime_storage_controller->runtime_environment );
-	RPDB_Database*	runtime_storage_database	=	RPDB_Database_new(	database_controller,
-																																	"database_join_controller" );
-	database_join_controller->runtime_storage_database	=	RPDB_Database_internal_initForRuntimeStorage(	runtime_storage_database );
+	RPDB_RUNTIME_STORAGE( database_join_controller, "database_join_controller" );
 
 	return database_join_controller;
 }
@@ -196,8 +192,9 @@ void RPDB_DatabaseJoinController_closeAllCursors( RPDB_DatabaseJoinController* d
 
 void RPDB_DatabaseJoinController_freeAllCursors( RPDB_DatabaseJoinController* database_join_controller )	{
 
+	RPDB_DatabaseJoinController_closeAllCursors( database_join_controller );
 	RPDB_Database_internal_freeAllStoredRuntimeAddresses(	database_join_controller->runtime_storage_database,
-																												(void *(*)(void**)) & RPDB_DatabaseJoinCursor_free );
+																												(void *(*)(void**)) & RPDB_DatabaseJoinCursor_internal_freeFromRuntimeStorage );
 }
 
 /*******************************************************************************************************************************************************************************************

@@ -13,6 +13,7 @@
 #include "RPDB_MutexController.h"
 
 #include "RPDB_Mutex.h"
+#include "RPDB_Mutex_internal.h"
 
 #include "RPDB_Database.h"
 #include "RPDB_Database_internal.h"
@@ -88,7 +89,8 @@ void RPDB_MutexController_closeAllMutexes( RPDB_MutexController* mutex_controlle
 
 void RPDB_MutexController_freeAllMutexes( RPDB_MutexController* mutex_controller )	{
 
+	RPDB_MutexController_closeAllMutexes( mutex_controller );
 	RPDB_Database_internal_freeAllStoredRuntimeAddresses(	mutex_controller->runtime_storage_database,
-																												(void *(*)(void**)) & RPDB_Mutex_free );
+																												(void *(*)(void**)) & RPDB_Mutex_internal_freeFromRuntimeStorage );
 }
 

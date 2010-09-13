@@ -33,6 +33,8 @@ void RPDB_TransactionController_commitCheckpointIfSufficientWrittenDataOrTimeEla
 																					  uint32_t						minimum_written_data_for_checkpoint_in_k,
 																					  uint32_t						minimum_time_for_checkpoint_in_minutes );
 	
+void RPDB_TransactionController_closeAllTransactions( RPDB_TransactionController* transaction_controller );
+void RPDB_TransactionController_freeAllTransactions( RPDB_TransactionController* transaction_controller );
 	
 
 #endif

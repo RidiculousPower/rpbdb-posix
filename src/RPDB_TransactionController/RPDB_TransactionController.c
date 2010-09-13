@@ -13,6 +13,9 @@
 #include "RPDB_TransactionController.h"
 #include "RPDB_TransactionController_internal.h"
 
+#include "RPDB_Database.h"
+#include "RPDB_Database_internal.h"
+
 #include "RPDB_Transaction.h"
 #include "RPDB_Transaction_internal.h"
 
@@ -64,6 +67,28 @@ void RPDB_TransactionController_free(	RPDB_TransactionController** transaction_c
 	
 	free( *transaction_controller );
 	*transaction_controller	=	NULL;
+}
+
+/**********************
+*  closeAllTransactions  *
+**********************/
+
+//	Close all Transactions
+void RPDB_TransactionController_closeAllTransactions( RPDB_TransactionController* transaction_controller )	{
+	
+	RPDB_Database_internal_closeAllStoredRuntimeAddresses(	transaction_controller->runtime_storage_database,
+																													(void *(*)(void*)) & RPDB_Transaction_commit );
+}
+
+/*********************
+*  freeAllTransactions  *
+*********************/
+
+//	Free all Transactions (close if necessary)
+void RPDB_TransactionController_freeAllTransactions( RPDB_TransactionController* transaction_controller )	{
+
+	RPDB_Database_internal_freeAllStoredRuntimeAddresses(	transaction_controller->runtime_storage_database,
+																												(void *(*)(void**)) & RPDB_Transaction_internal_freeFromRuntimeStorage );
 }
 
 /***************************

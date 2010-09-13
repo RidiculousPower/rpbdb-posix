@@ -60,6 +60,13 @@ void RPDB_Mutex_free(	RPDB_Mutex** mutex )	{
 		RPDB_Database_internal_freeStoredRuntimeAddress(	( *mutex )->parent_mutex_controller->runtime_storage_database,
 																											( *mutex )->runtime_identifier );
 	}
+	RPDB_Mutex_internal_freeFromRuntimeStorage( mutex );
+}
+
+/***************************
+*  free  *
+***************************/
+void RPDB_Mutex_internal_freeFromRuntimeStorage(	RPDB_Mutex** mutex )	{
 
 	if ( ( *mutex )->settings_controller != NULL )	{
 		RPDB_MutexSettingsController_free( & ( ( *mutex )->settings_controller ) );

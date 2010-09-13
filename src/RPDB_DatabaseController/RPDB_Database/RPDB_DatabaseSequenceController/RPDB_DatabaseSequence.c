@@ -18,6 +18,8 @@
 #include "RPDB_Database.h"
 #include "RPDB_Database_internal.h"
 
+#include "RPDB_DatabaseSequence_internal.h"
+
 #include "RPDB_Record.h"
 
 #include "RPDB_TransactionController.h"
@@ -59,12 +61,21 @@ RPDB_DatabaseSequence* RPDB_DatabaseSequence_new( RPDB_DatabaseSequenceControlle
 /***************************
 *  free  *
 ***************************/
+
 void RPDB_DatabaseSequence_free(	RPDB_DatabaseSequence** database_sequence )	{
 
 	if ( ( *database_sequence )->parent_database_sequence_controller->runtime_storage_database != NULL )	{
 		RPDB_Database_internal_freeStoredRuntimeAddress(	( *database_sequence )->parent_database_sequence_controller->runtime_storage_database,
 																											( *database_sequence )->runtime_identifier );
 	}
+	RPDB_DatabaseSequence_internal_freeFromRuntimeStorage( database_sequence );
+}
+
+/***************************
+*  freeFromRuntimeStorage  *
+***************************/
+
+void RPDB_DatabaseSequence_internal_freeFromRuntimeStorage(	RPDB_DatabaseSequence** database_sequence )	{
 
 	if ( ( *database_sequence )->settings_controller != NULL )	{
 		RPDB_DatabaseSequenceSettingsController_free( & ( ( *database_sequence )->settings_controller ) );

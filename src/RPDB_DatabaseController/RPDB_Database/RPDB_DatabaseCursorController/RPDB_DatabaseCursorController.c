@@ -18,6 +18,8 @@
 #include "RPDB_Database.h"
 #include "RPDB_Database_internal.h"
 
+#include "RPDB_DatabaseCursor_internal.h"
+
 #include "RPDB_Environment.h"
 
 #include "RPDB_Record.h"
@@ -44,20 +46,9 @@ RPDB_DatabaseCursorController* RPDB_DatabaseCursorController_new( RPDB_Database*
 
 	RPDB_DatabaseCursorController*		database_cursor_controller = RPDB_DatabaseCursorController_internal_newWithoutRuntimeStorage( parent_database );
 
-	//	We have one DatabaseCursor controller for every Database instance, which tracks all DatabaseCursors that have been opened on the given instance
-	//	Each DatabaseCursorController owns a RuntimeStorage, where it stores references to each DatabaseCursor.
-	//	This RuntimeStorage itself has to be stored in the RuntimeStorageController, which means it needs a unique identifier.
+	database_cursor_controller->parent_database	=	parent_database;
 
-	//	We already have the unique environment name (environment_name.environment_address), which distinguishes the environment instance
-	//	We need a name that will be unique for this Environment
-	//	We can add database_name.database_address, which identifies both which database, and which database instance
-	//	The address alone would be sufficient, but the name makes it readable for debugging.
-
-	RPDB_RuntimeStorageController*	runtime_storage_controller	=	RPDB_RuntimeStorageController_sharedInstance();
-	RPDB_DatabaseController*	database_controller	=	RPDB_Environment_databaseController(	runtime_storage_controller->runtime_environment );
-	RPDB_Database*	runtime_storage_database	=	RPDB_Database_new(	database_controller,
-																																	"database_cursor_controller" );
-	database_cursor_controller->runtime_storage_database	=	RPDB_Database_internal_initForRuntimeStorage(	runtime_storage_database );
+	RPDB_RUNTIME_STORAGE( database_cursor_controller, "database_cursor_controller" );
 	
  	return database_cursor_controller;
 }
@@ -134,8 +125,9 @@ void RPDB_DatabaseCursorController_closeAllCursors( RPDB_DatabaseCursorControlle
 //	free all cursors; close if necessary
 void RPDB_DatabaseCursorController_freeAllCursors( RPDB_DatabaseCursorController* cursor_controller )	{
 	
+	RPDB_DatabaseCursorController_closeAllCursors( cursor_controller );
 	RPDB_Database_internal_freeAllStoredRuntimeAddresses(	cursor_controller->runtime_storage_database,
-																													(void *(*)(void**)) & RPDB_DatabaseCursor_free );
+																												(void *(*)(void**)) & RPDB_DatabaseCursor_internal_freeFromRuntimeStorage );
 }
 
 /*******************************************************************************************************************************************************************************************

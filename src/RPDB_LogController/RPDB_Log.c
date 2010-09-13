@@ -11,6 +11,7 @@
 *******************************************************************************************************************************************************************************************/
 
 #include "RPDB_Log.h"
+#include "RPDB_Log_internal.h"
 
 #include "RPDB_Database_internal.h"
 
@@ -52,12 +53,21 @@ RPDB_Log* RPDB_Log_new( RPDB_LogController* parent_log_controller )	{
 /***************************
 *  free  *
 ***************************/
+
 void RPDB_Log_free(	RPDB_Log** log )	{
 
 	if ( ( *log )->parent_log_controller->runtime_storage_database != NULL )	{
 		RPDB_Database_internal_freeStoredRuntimeAddress(	( *log )->parent_log_controller->runtime_storage_database,
 																											( *log )->runtime_identifier );
 	}
+	RPDB_Log_internal_freeFromRuntimeStorage( log );
+}
+
+/***************************
+*  free  *
+***************************/
+
+void RPDB_Log_internal_freeFromRuntimeStorage(	RPDB_Log** log )	{
 
 	if ( ( *log )->log_sequence_number != NULL )	{
 		RPDB_LogSequenceNumber_free( & ( ( *log )->log_sequence_number ) );

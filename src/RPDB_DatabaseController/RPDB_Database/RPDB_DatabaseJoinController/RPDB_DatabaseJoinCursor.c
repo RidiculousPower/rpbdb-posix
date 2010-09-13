@@ -14,6 +14,7 @@
 #include "RPDB_DatabaseJoinCursor_internal.h"
 
 #include "RPDB_DatabaseJoinController.h"
+#include "RPDB_DatabaseJoinController_internal.h"
 
 #include "RPDB_Database.h"
 #include "RPDB_Database_internal.h"
@@ -67,6 +68,13 @@ void RPDB_DatabaseJoinCursor_free(	RPDB_DatabaseJoinCursor** join_cursor )	{
 		RPDB_Database_internal_freeStoredRuntimeAddress(	( *join_cursor )->parent_join_controller->runtime_storage_database,
 																											( *join_cursor )->runtime_identifier );
 	}
+	RPDB_DatabaseJoinCursor_internal_freeFromRuntimeStorage( join_cursor );
+}
+
+/***************************
+*  freeFromRuntimeStorage  *
+***************************/
+void RPDB_DatabaseJoinCursor_internal_freeFromRuntimeStorage(	RPDB_DatabaseJoinCursor** join_cursor )	{
 
 	//	close self if open
 	if ( RPDB_DatabaseJoinCursor_isOpen( *join_cursor ) )	{

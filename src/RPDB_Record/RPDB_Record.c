@@ -65,6 +65,10 @@ void	RPDB_Record_free( RPDB_Record** record )	{
 		RPDB_Database_internal_freeStoredRuntimeAddress(	( *record )->parent_database->runtime_storage_database,
 																											( *record )->runtime_identifier );
 	}
+	RPDB_Record_internal_freeFromRuntimeStorage( record );
+}
+
+void	RPDB_Record_internal_freeFromRuntimeStorage( RPDB_Record** record )	{
 
 	if ( ( *record )->key != NULL )	{
 		
@@ -347,9 +351,12 @@ RPDB_Record* RPDB_Record_internal_newWithoutDBT(	RPDB_Database* parent_database	
 	if ( parent_database )	{
 	
 		record->parent_database = parent_database;
+		
+		RPDB_DatabaseSettingsController*				database_settings_controller				=	RPDB_Database_settingsController( parent_database );
+		RPDB_DatabaseRecordSettingsController*	database_record_settings_controller	=	RPDB_DatabaseSettingsController_recordSettingsController( database_settings_controller );
 
 		//	Make call to instantiate local settings controller
-		record->settings_controller	=	RPDB_DatabaseRecordSettingsController_internal_copyOfSettingsControllerForInstance( RPDB_DatabaseSettingsController_recordSettingsController( RPDB_Database_settingsController( parent_database ) ) );
+		record->settings_controller	=	RPDB_DatabaseRecordSettingsController_internal_copyOfSettingsControllerForInstance( database_record_settings_controller );
 		
 	}
 	

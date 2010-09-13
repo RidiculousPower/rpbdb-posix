@@ -18,6 +18,7 @@
 #include "RPDB_DatabaseCursor.h"
 
 #include "RPDB_Lock.h"
+#include "RPDB_Lock_internal.h"
 
 #include "RPDB_Environment.h"
 
@@ -352,8 +353,9 @@ void RPDB_LockController_closeAllLocks( RPDB_LockController* lock_controller )	{
 
 void RPDB_LockController_freeAllLocks( RPDB_LockController* lock_controller )	{
 
+	RPDB_LockController_closeAllLocks( lock_controller );
 	RPDB_Database_internal_freeAllStoredRuntimeAddresses(	lock_controller->runtime_storage_database,
-																												(void *(*)(void**)) & RPDB_Lock_free );
+																												(void *(*)(void**)) & RPDB_Lock_internal_freeFromRuntimeStorage );
 }
 
 
