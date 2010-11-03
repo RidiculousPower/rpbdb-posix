@@ -20,7 +20,9 @@
 #include "RPDB_TransactionSettingsController.h"
 #include "RPDB_MemoryPoolSettingsController.h"
 #include "RPDB_MemoryPoolFileSettingsController.h"
+#include "RPDB_MemoryPoolFileCacheSettingsController.h"
 #include "RPDB_MemoryPoolFilePageSettingsController.h"
+#include "RPDB_MemoryPoolFileCacheSettingsController.h"
 #include "RPDB_MemoryPoolFileCachePrioritySettingsController.h"
 #include "RPDB_SettingsController.h"
 
@@ -61,8 +63,8 @@ void RPDB_MemoryPoolFileSettingsController_free(	RPDB_MemoryPoolFileSettingsCont
 	if ( ( *memory_pool_file_settings_controller )->cookie != NULL )	{
 		RPDB_Record_free( & ( ( *memory_pool_file_settings_controller )->cookie ) );
 	}
-	if ( ( *memory_pool_file_settings_controller )->priority_settings_controller != NULL )	{
-		RPDB_MemoryPoolFileCachePrioritySettingsController_free( & ( ( *memory_pool_file_settings_controller )->priority_settings_controller ) );
+	if ( ( *memory_pool_file_settings_controller )->cache_settings_controller != NULL )	{
+		RPDB_MemoryPoolFileCacheSettingsController_free( & ( ( *memory_pool_file_settings_controller )->cache_settings_controller ) );
 	}
 
 	free( *memory_pool_file_settings_controller );
@@ -397,16 +399,16 @@ void RPDB_MemoryPoolFileSettingsController_setCookie(	RPDB_MemoryPoolFileSetting
 *******************************************************************************************************************************************************************************************/
 
 /**************************
-*  priorityController  *
+*  cacheController  *
 **************************/
 
-RPDB_MemoryPoolFileCachePrioritySettingsController* RPDB_MemoryPoolFileSettingsController_cachePrioritySettingsController( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
+RPDB_MemoryPoolFileCacheSettingsController* RPDB_MemoryPoolFileSettingsController_cacheSettingsController( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 	
-	if ( memory_pool_file_settings_controller->priority_settings_controller == NULL )	{
+	if ( memory_pool_file_settings_controller->cache_settings_controller == NULL )	{
 		
-		memory_pool_file_settings_controller->priority_settings_controller = RPDB_MemoryPoolFileCachePrioritySettingsController_new( memory_pool_file_settings_controller );
+		memory_pool_file_settings_controller->cache_settings_controller = RPDB_MemoryPoolFileCacheSettingsController_new( memory_pool_file_settings_controller );
 	}
-	return memory_pool_file_settings_controller->priority_settings_controller;
+	return memory_pool_file_settings_controller->cache_settings_controller;
 }
 
 /**************************
@@ -417,7 +419,7 @@ RPDB_MemoryPoolFilePageSettingsController* RPDB_MemoryPoolFileSettingsController
 	
 	if ( memory_pool_file_settings_controller->page_settings_controller == NULL )	{
 		
-		memory_pool_file_settings_controller->page_settings_controller = RPDB_MemoryPoolFilePageSettingsController_new( RPDB_MemoryPoolSettingsController_fileSettingsController( RPDB_SettingsController_memoryPoolSettingsController( RPDB_Environment_settingsController( memory_pool_file_settings_controller->parent_memory_pool_file->parent_memory_pool_file_controller->parent_memory_pool_controller->parent_environment) ) ) );
+		memory_pool_file_settings_controller->page_settings_controller = RPDB_MemoryPoolFilePageSettingsController_new( memory_pool_file_settings_controller );
 	}
 	return memory_pool_file_settings_controller->page_settings_controller;
 }

@@ -1023,8 +1023,8 @@ db_recno_t RPDB_Database_appendRawData(	RPDB_Database*			database,
 																				void*								write_data,
 																				uint32_t						data_size )	{
 				
-	RPDB_DatabaseSettingsController*						database_settings_controller						=	RPDB_Database_settingsController(	database );
-	RPDB_DatabaseRecordSettingsController*						database_record_settings_controller			=	RPDB_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	RPDB_DatabaseSettingsController*									database_settings_controller										=	RPDB_Database_settingsController(	database );
+	RPDB_DatabaseRecordSettingsController*						database_record_settings_controller							=	RPDB_DatabaseSettingsController_recordSettingsController( database_settings_controller );
 	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	RPDB_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
 	
 	uint32_t	flags	=	RPDB_DatabaseRecordReadWriteSettingsController_internal_writeFlags( database_record_read_write_settings_controller );
@@ -1036,9 +1036,9 @@ db_recno_t RPDB_Database_appendRawData(	RPDB_Database*			database,
 																																				write_data,
 																																				data_size );
 	
-	database->parent_database_controller->record_number	=	*(db_recno_t*) RPDB_Record_rawData( record );
-	
 	RPDB_Record_free( & record );
+	
+	database->parent_database_controller->record_number++;
 	
 	return database->parent_database_controller->record_number;
 }
@@ -2080,6 +2080,29 @@ RPDB_Record* RPDB_Database_internal_writeRawKeyDataPair(	RPDB_Database*		databas
 																							record );
 }
 
+/***************************
+*  writeKeyDataPair  *
+***************************/
+
+RPDB_Record* RPDB_Database_internal_writeKeyDataPair(		RPDB_Database*		database, 
+																												uint32_t					flags,
+																												RPDB_Key*					primary_key,
+																												RPDB_Data*				write_data )	{
+
+	RPDB_Record*	record	=	RPDB_Record_internal_newFromKeyData(	database,
+																																primary_key,
+																																write_data);
+	
+	if ( RPDB_Database_internal_writeRecord(	database,
+																						flags,
+																						record ) == NULL )	{
+		RPDB_Record_free( & record );
+	}
+	
+	return record;
+}
+
+
 /*******************
 *  writeData  *
 *******************/
@@ -2108,28 +2131,7 @@ RPDB_Record* RPDB_Database_internal_writeRecord(	RPDB_Database*		database,
 		RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database->parent_database_controller->parent_environment ), 
 																									connection_error, 
 																									"RPDB_Database_internal_writeRecord" );
-	}
-	
-	return record;
-}
-
-/***************************
-*  writeKeyDataPair  *
-***************************/
-
-RPDB_Record* RPDB_Database_internal_writeKeyDataPair(		RPDB_Database*		database, 
-																												uint32_t					flags,
-																												RPDB_Key*					primary_key,
-																												RPDB_Data*				write_data )	{
-
-	RPDB_Record*	record	=	RPDB_Record_internal_newFromKeyData(	database,
-																																primary_key,
-																																write_data);
-	
-	if ( RPDB_Database_internal_writeRecord(	database,
-																						flags,
-																						record ) == NULL )	{
-		RPDB_Record_free( & record );
+		return NULL;
 	}
 	
 	return record;

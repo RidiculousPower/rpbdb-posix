@@ -56,7 +56,7 @@
 	void										RPDB_MemoryPoolFileSettingsController_setCookie(									RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
 																																	RPDB_Record*								cookie );
 
-	RPDB_MemoryPoolFileCachePrioritySettingsController*		RPDB_MemoryPoolFileSettingsController_cachePrioritySettingsController(	RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller );
+	RPDB_MemoryPoolFileCacheSettingsController* RPDB_MemoryPoolFileSettingsController_cacheSettingsController( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller );
 	RPDB_MemoryPoolFilePageSettingsController*					RPDB_MemoryPoolFileSettingsController_pageSettingsController(			RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller );
 
 #endif

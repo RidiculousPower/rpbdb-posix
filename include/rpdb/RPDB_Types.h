@@ -58,6 +58,7 @@ typedef struct RPDB_MemoryPoolSettingsController							RPDB_MemoryPoolSettingsCo
 typedef struct RPDB_MemoryPoolReadWriteSettingsController					RPDB_MemoryPoolReadWriteSettingsController;
 typedef struct RPDB_MemoryPoolFileSettingsController						RPDB_MemoryPoolFileSettingsController;
 typedef struct RPDB_MemoryPoolFilePageSettingsController					RPDB_MemoryPoolFilePageSettingsController;
+typedef struct RPDB_MemoryPoolFileCacheSettingsController					RPDB_MemoryPoolFileCacheSettingsController;
 typedef struct RPDB_MemoryPoolFileCachePrioritySettingsController			RPDB_MemoryPoolFileCachePrioritySettingsController;
 typedef struct RPDB_LogSettingsController									RPDB_LogSettingsController;
 typedef struct RPDB_LockSettingsController									RPDB_LockSettingsController;
@@ -310,18 +311,30 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 
 							};
 
+								/****************************
+								 *	Data Type Definitions	*
+								 ****************************/
+
+								struct RPDB_MemoryPoolFileCachePrioritySettingsController	{
+
+									//	Parent
+									RPDB_MemoryPoolFileCacheSettingsController*				parent_memory_pool_file_cache_settings_controller;
+
+									DB_CACHE_PRIORITY											priority;
+
+									RPDB_SettingsController*									environment_settings_controller;
+								};
+
 							/****************************
 							 *	Data Type Definitions	*
 							 ****************************/
 
-							struct RPDB_MemoryPoolFileCachePrioritySettingsController	{
+							struct RPDB_MemoryPoolFileCacheSettingsController	{
 
 								//	Parent
-								RPDB_MemoryPoolFileSettingsController*						parent_memory_pool_file_settings_controller;
+								RPDB_MemoryPoolFileSettingsController*												parent_memory_pool_file_settings_controller;
 
-								DB_CACHE_PRIORITY											priority;
-
-								RPDB_SettingsController*									environment_settings_controller;
+								RPDB_MemoryPoolFileCachePrioritySettingsController*						priority_settings_controller;
 							};
 
 						/****************************
@@ -343,10 +356,10 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							uint64_t																			max_file_size_in_bytes;
 							RPDB_Record*																	cookie;
 
-							RPDB_MemoryPoolFileCachePrioritySettingsController*	priority_settings_controller;
-							RPDB_MemoryPoolFilePageSettingsController*				page_settings_controller;
+							RPDB_MemoryPoolFileCacheSettingsController*		cache_settings_controller;
+							RPDB_MemoryPoolFilePageSettingsController*		page_settings_controller;
 
-							RPDB_SettingsController*								environment_settings_controller;
+							RPDB_SettingsController*											environment_settings_controller;
 						};
 
 					/****************************

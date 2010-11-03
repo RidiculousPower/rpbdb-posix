@@ -30,6 +30,8 @@
 	void											RPDB_DatabaseTypeSettingsController_setTypeToQueue(	RPDB_DatabaseTypeSettingsController*	database_type_settings_controller );
 	RPDB_DatabaseTypeBtreeSettingsController*		RPDB_DatabaseTypeSettingsController_btreeController(	RPDB_DatabaseTypeSettingsController*	database_type_settings_controller );
 	RPDB_DatabaseTypeHashSettingsController* RPDB_DatabaseTypeSettingsController_hashController( RPDB_DatabaseTypeSettingsController* database_type_settings_controller );
+	RPDB_DatabaseTypeQueueSettingsController* RPDB_DatabaseTypeSettingsController_queueController( RPDB_DatabaseTypeSettingsController* database_type_settings_controller );
+	RPDB_DatabaseTypeRecnoSettingsController* RPDB_DatabaseTypeSettingsController_recnoController( RPDB_DatabaseTypeSettingsController* database_type_settings_controller );
 
 #endif
 

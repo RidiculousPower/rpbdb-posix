@@ -13,7 +13,7 @@
 	*  Prototypes  *
 	****************/
 					
-	RPDB_MemoryPoolFileCachePrioritySettingsController*	RPDB_MemoryPoolFileCachePrioritySettingsController_new(	RPDB_MemoryPoolFileSettingsController*	memory_pool_file_settings_controller );
+RPDB_MemoryPoolFileCachePrioritySettingsController* RPDB_MemoryPoolFileCachePrioritySettingsController_new( RPDB_MemoryPoolFileCacheSettingsController*	memory_pool_file_cache_settings_controller );
 
 	void													RPDB_MemoryPoolFileCachePrioritySettingsController_free(	RPDB_MemoryPoolFileCachePrioritySettingsController** memory_pool_file_cache_priority_settings_controller );
 	RPDB_Environment*								RPDB_MemoryPoolFileCachePrioritySettingsController_parentEnvironment(	RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );

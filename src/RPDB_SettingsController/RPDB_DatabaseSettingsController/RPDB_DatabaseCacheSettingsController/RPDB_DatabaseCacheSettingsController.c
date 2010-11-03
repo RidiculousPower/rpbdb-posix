@@ -36,7 +36,7 @@ RPDB_DatabaseCacheSettingsController* RPDB_DatabaseCacheSettingsController_new( 
 
 	database_cache_settings_controller->parent_database_settings_controller = database_settings_controller;
 
-	RPDB_DatabaseCacheSettingsController_internal_initDefaultSettings( RPDB_DatabaseSettingsController_cacheSettingsController( database_settings_controller ) );
+	RPDB_DatabaseCacheSettingsController_internal_initDefaultSettings( database_cache_settings_controller );
 
 	return database_cache_settings_controller;
 }

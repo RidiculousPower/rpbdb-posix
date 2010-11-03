@@ -24,11 +24,11 @@
 *  new  *
 ************/
 
-RPDB_MemoryPoolFileCachePrioritySettingsController* RPDB_MemoryPoolFileCachePrioritySettingsController_new( RPDB_MemoryPoolFileSettingsController*	memory_pool_file_settings_controller )	{
+RPDB_MemoryPoolFileCachePrioritySettingsController* RPDB_MemoryPoolFileCachePrioritySettingsController_new( RPDB_MemoryPoolFileCacheSettingsController*	memory_pool_file_cache_settings_controller )	{
 
 	RPDB_MemoryPoolFileCachePrioritySettingsController*		memory_pool_file_cache_priority_settings_controller = calloc( 1, sizeof( RPDB_MemoryPoolFileCachePrioritySettingsController ) );
 
-	memory_pool_file_cache_priority_settings_controller->parent_memory_pool_file_settings_controller = memory_pool_file_settings_controller;
+	memory_pool_file_cache_priority_settings_controller->parent_memory_pool_file_cache_settings_controller = memory_pool_file_cache_settings_controller;
 
 	return memory_pool_file_cache_priority_settings_controller;
 }
@@ -46,7 +46,7 @@ void RPDB_MemoryPoolFileCachePrioritySettingsController_free(	RPDB_MemoryPoolFil
 *  parentEnvironment  *
 ***************************************/
 RPDB_Environment* RPDB_MemoryPoolFileCachePrioritySettingsController_parentEnvironment(	RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller )	{
-	return memory_pool_file_cache_priority_settings_controller->parent_memory_pool_file_settings_controller->parent_memory_pool_file->parent_memory_pool_file_controller->parent_memory_pool_controller->parent_environment;
+	return memory_pool_file_cache_priority_settings_controller->parent_memory_pool_file_cache_settings_controller->parent_memory_pool_file_settings_controller->parent_memory_pool_file->parent_memory_pool_file_controller->parent_memory_pool_controller->parent_environment;
 }
 
 /*************************
@@ -60,7 +60,7 @@ DB_CACHE_PRIORITY RPDB_MemoryPoolFileCachePrioritySettingsController_currentPrio
 
 	RPDB_MemoryPoolFile*			db_mpool_file;
 	
-	db_mpool_file = memory_pool_file_cache_priority_settings_controller->parent_memory_pool_file_settings_controller->parent_memory_pool_file;
+	db_mpool_file = memory_pool_file_cache_priority_settings_controller->parent_memory_pool_file_cache_settings_controller->parent_memory_pool_file_settings_controller->parent_memory_pool_file;
 	
 	if ( db_mpool_file != NULL )	{
 		db_mpool_file->wrapped_bdb_memory_pool_file->get_priority(	db_mpool_file->wrapped_bdb_memory_pool_file, 
@@ -301,7 +301,7 @@ void RPDB_MemoryPoolFileCachePrioritySettingsController_internal_setPriorityTo(	
 
 	RPDB_MemoryPoolFile*			db_mpool_file;
 
-	db_mpool_file = memory_pool_file_cache_priority_settings_controller->parent_memory_pool_file_settings_controller->parent_memory_pool_file;
+	db_mpool_file = memory_pool_file_cache_priority_settings_controller->parent_memory_pool_file_cache_settings_controller->parent_memory_pool_file_settings_controller->parent_memory_pool_file;
 
 	if ( db_mpool_file != NULL )	{
 		db_mpool_file->wrapped_bdb_memory_pool_file->set_priority(	db_mpool_file->wrapped_bdb_memory_pool_file, 
@@ -314,7 +314,7 @@ void RPDB_MemoryPoolFileCachePrioritySettingsController_internal_setPriorityTo(	
 *******************************************/
 RPDB_MemoryPoolFileCachePrioritySettingsController* RPDB_MemoryPoolFileCachePrioritySettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller )	{
 
-	RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller_copy	=	RPDB_MemoryPoolFileCachePrioritySettingsController_new( memory_pool_file_cache_priority_settings_controller->parent_memory_pool_file_settings_controller );
+	RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller_copy	=	RPDB_MemoryPoolFileCachePrioritySettingsController_new( memory_pool_file_cache_priority_settings_controller->parent_memory_pool_file_cache_settings_controller );
 
 	//	Instances and Pointers
 	memory_pool_file_cache_priority_settings_controller_copy->priority	=	memory_pool_file_cache_priority_settings_controller->priority;

@@ -23,6 +23,7 @@
 #include "RPDB_SettingsController.h"
 #include "RPDB_MemoryPoolSettingsController.h"
 #include "RPDB_MemoryPoolFileSettingsController.h"
+#include "RPDB_MemoryPoolFileCacheSettingsController.h"
 #include "RPDB_MemoryPoolFileCachePrioritySettingsController.h"
 #include "RPDB_MemoryPoolFilePageSettingsController_internal.h"
 	
@@ -93,10 +94,15 @@ RPDB_Environment* RPDB_MemoryPoolFilePage_parentEnvironment(	RPDB_MemoryPoolFile
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/memp_fput.html
 RPDB_MemoryPoolFilePage* RPDB_MemoryPoolFilePageController_writePageToCache( RPDB_MemoryPoolFilePage* memory_pool_file_page )	{
 	
+	RPDB_MemoryPoolFileSettingsController*							memory_pool_file_settings_controller								=	RPDB_MemoryPoolFile_settingsController( memory_pool_file_page->parent_memory_pool_file_page_controller->parent_memory_pool_file );
+	RPDB_MemoryPoolFileCacheSettingsController*					memory_pool_file_cache_settings_controller					=	RPDB_MemoryPoolFileSettingsController_cacheSettingsController( memory_pool_file_settings_controller );
+	RPDB_MemoryPoolFileCachePrioritySettingsController*	memory_pool_file_cache_priority_settings_controller	=	RPDB_MemoryPoolFileCacheSettingsController_prioritySettingsController( memory_pool_file_cache_settings_controller );
+	RPDB_MemoryPoolFilePageSettingsController*					memory_pool_file_page_settings_controller						=	RPDB_MemoryPoolFileSettingsController_pageSettingsController( memory_pool_file_settings_controller );
+	
 	memory_pool_file_page->wrapped_bdb_memory_pool_file->put(	memory_pool_file_page->wrapped_bdb_memory_pool_file,
-								memory_pool_file_page->page_address,
-								RPDB_MemoryPoolFileCachePrioritySettingsController_currentPriority( RPDB_MemoryPoolFileSettingsController_cachePrioritySettingsController( RPDB_MemoryPoolFile_settingsController( memory_pool_file_page->parent_memory_pool_file_page_controller->parent_memory_pool_file ) ) ),
-								RPDB_MemoryPoolFilePageSettingsController_internal_writePageToCacheFlags( RPDB_MemoryPoolFileSettingsController_pageSettingsController( RPDB_MemoryPoolSettingsController_fileSettingsController( RPDB_SettingsController_memoryPoolSettingsController( RPDB_Environment_settingsController( memory_pool_file_page->parent_memory_pool_file_page_controller->parent_memory_pool_file->parent_memory_pool_file_controller->parent_memory_pool_controller->parent_environment) ) ) ) ) );
+																														memory_pool_file_page->page_address,
+																														RPDB_MemoryPoolFileCachePrioritySettingsController_currentPriority( memory_pool_file_cache_priority_settings_controller ),
+																														RPDB_MemoryPoolFilePageSettingsController_internal_writePageToCacheFlags( memory_pool_file_page_settings_controller ) );
 	return memory_pool_file_page;
 }
 

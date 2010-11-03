@@ -460,7 +460,11 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_unsortedDuplicates( RPDB_Dat
 //	DB_DUPSORT			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_flags.html
 BOOL RPDB_DatabaseRecordReadWriteSettingsController_sortedDuplicates( RPDB_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
 
-	DBTYPE	database_type	=	RPDB_DatabaseTypeSettingsController_databaseType( RPDB_DatabaseSettingsController_typeSettingsController( database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller ) );
+	RPDB_DatabaseSettingsController*			parent_database_settings_controller	=	database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller;
+
+	RPDB_DatabaseTypeSettingsController*	database_type_settings_controller		=	RPDB_DatabaseSettingsController_typeSettingsController( parent_database_settings_controller );
+
+	DBTYPE	database_type	=	RPDB_DatabaseTypeSettingsController_databaseType( database_type_settings_controller );
 	
 	if (	(	database_type == DB_BTREE
 			 ||	database_type == DB_HASH )

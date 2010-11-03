@@ -242,6 +242,52 @@ RPDB_DatabaseTypeHashSettingsController* RPDB_DatabaseTypeSettingsController_has
 	return database_type_settings_controller->hash_settings_controller;
 }
 
+/*************************
+*  queueController  *
+*************************/
+
+RPDB_DatabaseTypeQueueSettingsController* RPDB_DatabaseTypeSettingsController_queueController( RPDB_DatabaseTypeSettingsController* database_type_settings_controller )	{
+	
+	//	If we have a parent database we are a local settings controller, so we only want to set settings for our local type
+	if (	database_type_settings_controller->parent_database			!= NULL
+		&&	database_type_settings_controller->default_database_type	!= DB_HASH )	{
+		
+		RPDB_ErrorController_throwError(	RPDB_Environment_errorController( database_type_settings_controller->parent_database->parent_database_controller->parent_environment ),
+										 0,
+										 "RPDB_DatabaseTypeSettingsController_queueController",
+										 "Database is not queue." );
+	}
+	else if ( database_type_settings_controller->queue_settings_controller == NULL )	{
+		
+		database_type_settings_controller->queue_settings_controller = RPDB_DatabaseTypeQueueSettingsController_new( database_type_settings_controller );
+	}
+	
+	return database_type_settings_controller->queue_settings_controller;
+}
+
+/*************************
+*  recnoController  *
+*************************/
+
+RPDB_DatabaseTypeRecnoSettingsController* RPDB_DatabaseTypeSettingsController_recnoController( RPDB_DatabaseTypeSettingsController* database_type_settings_controller )	{
+	
+	//	If we have a parent database we are a local settings controller, so we only want to set settings for our local type
+	if (	database_type_settings_controller->parent_database			!= NULL
+		&&	database_type_settings_controller->default_database_type	!= DB_HASH )	{
+		
+		RPDB_ErrorController_throwError(	RPDB_Environment_errorController( database_type_settings_controller->parent_database->parent_database_controller->parent_environment ),
+										 0,
+										 "RPDB_DatabaseTypeSettingsController_recnoController",
+										 "Database is not recno." );
+	}
+	else if ( database_type_settings_controller->recno_settings_controller == NULL )	{
+		
+		database_type_settings_controller->recno_settings_controller = RPDB_DatabaseTypeRecnoSettingsController_new( database_type_settings_controller );
+	}
+	
+	return database_type_settings_controller->recno_settings_controller;
+}
+
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
 																		Internal Methods

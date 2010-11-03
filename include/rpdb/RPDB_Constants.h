@@ -5,12 +5,16 @@
 	 *  Constants  *
 	 ****************/
 	
-	typedef enum BOOL_e	{
+	#ifndef FALSE
+		#define FALSE 0
+	#endif
+	#ifndef TRUE
+		#define TRUE 1
+	#endif
 	
-		FALSE	= 0,
-		TRUE	= 1
-		
-	}	BOOL;
+	#ifndef BOOL
+		typedef int BOOL;
+	#endif
 	
 	typedef enum RPDB_SECONDARY_KEY_CREATION_RETURN_e	{
 		
