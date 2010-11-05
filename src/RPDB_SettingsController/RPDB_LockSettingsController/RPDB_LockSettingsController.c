@@ -147,7 +147,7 @@ int RPDB_LockSettingsController_timeoutReturnsReturnDenyNotDeadlock( RPDB_LockSe
 	*************************************************/
 
 	//	DB_TIME_NOTGRANTED      http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-	void RPDB_LockSettingsController_turnTimeoutReturnsReturnDenyNotDeadlockOn( RPDB_LockSettingsController* lock_settings_controller )	{
+	void RPDB_LockSettingsController_turnTimeoutReturnsDenyNotDeadlockOn( RPDB_LockSettingsController* lock_settings_controller )	{
 		lock_settings_controller->timeout_returns_deny_not_deadlock = TRUE;
 	}
 
@@ -156,7 +156,7 @@ int RPDB_LockSettingsController_timeoutReturnsReturnDenyNotDeadlock( RPDB_LockSe
 	*************************************************/
 
 	//	DB_TIME_NOTGRANTED      http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-	void RPDB_LockSettingsController_turnTimeoutReturnsReturnDenyNotDeadlockOff( RPDB_LockSettingsController* lock_settings_controller )	{
+	void RPDB_LockSettingsController_turnTimeoutReturnsDenyNotDeadlockOff( RPDB_LockSettingsController* lock_settings_controller )	{
 		lock_settings_controller->timeout_returns_deny_not_deadlock = FALSE;
 	}
 
