@@ -17,8 +17,8 @@
 
 	void										RPDB_MemoryPoolFileSettingsController_free(										RPDB_MemoryPoolFileSettingsController** memory_pool_file_settings_controller );
 	RPDB_Environment*					RPDB_MemoryPoolFileSettingsController_parentEnvironment(				RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller );
-	int											RPDB_MemoryPoolFileSettingsController_createWithNumberInitialNullBytes(			RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller );
-	void										RPDB_MemoryPoolFileSettingsController_setReturnsCreateWithNumberInitialNullBytes(	RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
+	int											RPDB_MemoryPoolFileSettingsController_createWithInitialNullBytesNumbering(			RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller );
+	void										RPDB_MemoryPoolFileSettingsController_setCreateWithInitialNullBytesNumbering(	RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
 																																	int											initial_null_bytes );
 
 	uint8_t*											RPDB_MemoryPoolFileSettingsController_fileID(										RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller );

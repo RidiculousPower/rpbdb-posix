@@ -83,7 +83,7 @@ RPDB_Environment* RPDB_MemoryPoolFileSettingsController_parentEnvironment(	RPDB_
 *********************************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/memp_set_clear_len.html
-int RPDB_MemoryPoolFileSettingsController_createWithNumberInitialNullBytes( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
+int RPDB_MemoryPoolFileSettingsController_createWithInitialNullBytesNumbering( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 	
 	if (	memory_pool_file_settings_controller->create_with_number_initial_bytes == FALSE
 		&&	memory_pool_file_settings_controller->parent_memory_pool_file != FALSE )	{
@@ -97,7 +97,7 @@ int RPDB_MemoryPoolFileSettingsController_createWithNumberInitialNullBytes( RPDB
 *  setReturnsCreateWithNumberInitialNullBytes  *
 *************************************************/
 
-void RPDB_MemoryPoolFileSettingsController_setReturnsCreateWithNumberInitialNullBytes( RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
+void RPDB_MemoryPoolFileSettingsController_setCreateWithInitialNullBytesNumbering( RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
 																						int											initial_null_bytes )	{
 
 	memory_pool_file_settings_controller->create_with_number_initial_bytes = initial_null_bytes;
