@@ -481,7 +481,7 @@ void RPDB_SettingsController_internal_setFlags( RPDB_SettingsController* setting
 																											|	RPDB_DebugSettingsController_panic( debug_settings_controller )
 																											|	RPDB_DebugSettingsController_yieldCPUForStressTest( debug_settings_controller )
 																											|	RPDB_LockSettingsController_prohibitLocking( lock_settings_controller )
-																											|	RPDB_LockSettingsController_timeoutReturnsReturnDenyNotDeadlock( lock_settings_controller )
+																											|	RPDB_LockSettingsController_timeoutReturnsDenyNotDeadlock( lock_settings_controller )
 																											|	RPDB_LockSettingsController_lockForEnvironmentNotDatabase( lock_settings_controller )
 																											|	RPDB_MemoryPoolSettingsController_memoryMapping( memory_pool_settings_controller )
 																											|	RPDB_MemoryPoolReadWriteSettingsController_pagefaultSharedRegions( memory_pool_read_write_settings_controller )

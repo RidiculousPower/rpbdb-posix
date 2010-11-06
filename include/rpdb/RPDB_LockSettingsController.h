@@ -27,7 +27,7 @@
 	void												RPDB_LockSettingsController_turnProhibitLockingOn(							RPDB_LockSettingsController*			lock_settings_controller );
 	void												RPDB_LockSettingsController_turnProhibitLockingOff(						RPDB_LockSettingsController*			lock_settings_controller );
 
-	int												RPDB_LockSettingsController_timeoutReturnsReturnDenyNotDeadlock(			RPDB_LockSettingsController*			lock_settings_controller );
+	int												RPDB_LockSettingsController_timeoutReturnsDenyNotDeadlock(			RPDB_LockSettingsController*			lock_settings_controller );
 	void												RPDB_LockSettingsController_turnTimeoutReturnsDenyNotDeadlockOn(		RPDB_LockSettingsController*			lock_settings_controller );
 	void												RPDB_LockSettingsController_turnTimeoutReturnsDenyNotDeadlockOff(	RPDB_LockSettingsController*			lock_settings_controller );
 

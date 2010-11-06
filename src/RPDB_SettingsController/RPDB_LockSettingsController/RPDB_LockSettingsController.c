@@ -135,7 +135,7 @@ int RPDB_LockSettingsController_prohibitLocking( RPDB_LockSettingsController* lo
 *********************************************/
 
 //	DB_TIME_NOTGRANTED      http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-int RPDB_LockSettingsController_timeoutReturnsReturnDenyNotDeadlock( RPDB_LockSettingsController* lock_settings_controller )	{
+int RPDB_LockSettingsController_timeoutReturnsDenyNotDeadlock( RPDB_LockSettingsController* lock_settings_controller )	{
 	if ( lock_settings_controller->timeout_returns_deny_not_deadlock == TRUE )	{
 		return DB_TIME_NOTGRANTED;
 	}
