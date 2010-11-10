@@ -32,6 +32,7 @@
 
 #include "RPDB_SettingsController.h"
 
+#include "RPDB_DatabaseCursorSettingsController.h"
 #include "RPDB_DatabaseTypeSettingsController.h"
 #include "RPDB_DatabaseSettingsController.h"
 #include "RPDB_DirectorySettingsController.h"
@@ -191,18 +192,23 @@ void RPDB_Environment_free( RPDB_Environment** environment )	{
 
 void RPDB_Environment_initDefaults( RPDB_Environment* environment )	{
 
-	RPDB_SettingsController*							settings_controller								=	RPDB_Environment_settingsController( environment );
-	RPDB_ErrorSettingsController*					error_settings_controller					=	RPDB_SettingsController_errorSettingsController( settings_controller );
-	RPDB_DebugSettingsController*					debug_settings_controller					=	RPDB_SettingsController_debugSettingsController( settings_controller );
-	RPDB_TransactionSettingsController*		transaction_settings_controller		=	RPDB_SettingsController_transactionSettingsController( settings_controller );
-	RPDB_LogSettingsController*						log_settings_controller						=	RPDB_SettingsController_logSettingsController( settings_controller );
-	RPDB_LockSettingsController*					lock_settings_controller					=	RPDB_SettingsController_lockSettingsController( settings_controller );
-	RPDB_MemoryPoolSettingsController*		memory_pool_settings_controller		=	RPDB_SettingsController_memoryPoolSettingsController( settings_controller );
-	RPDB_DirectorySettingsController*			directory_settings_controller			=	RPDB_SettingsController_directorySettingsController( settings_controller );
-	RPDB_FileSettingsController*					file_settings_controller					=	RPDB_SettingsController_fileSettingsController( settings_controller );
-	RPDB_ThreadSettingsController*				thread_settings_controller				=	RPDB_SettingsController_threadSettingsController( settings_controller );
-	RPDB_DatabaseSettingsController*			database_settings_controller			=	RPDB_SettingsController_databaseSettingsController( settings_controller );
-	RPDB_DatabaseTypeSettingsController*	database_type_settings_controller	=	RPDB_DatabaseSettingsController_typeSettingsController( database_settings_controller );
+	RPDB_SettingsController*								settings_controller								=	RPDB_Environment_settingsController( environment );
+	RPDB_ErrorSettingsController*						error_settings_controller					=	RPDB_SettingsController_errorSettingsController( settings_controller );
+	RPDB_DebugSettingsController*						debug_settings_controller					=	RPDB_SettingsController_debugSettingsController( settings_controller );
+	RPDB_TransactionSettingsController*			transaction_settings_controller		=	RPDB_SettingsController_transactionSettingsController( settings_controller );
+	RPDB_LogSettingsController*							log_settings_controller						=	RPDB_SettingsController_logSettingsController( settings_controller );
+	RPDB_LockSettingsController*						lock_settings_controller					=	RPDB_SettingsController_lockSettingsController( settings_controller );
+	RPDB_MemoryPoolSettingsController*			memory_pool_settings_controller		=	RPDB_SettingsController_memoryPoolSettingsController( settings_controller );
+	RPDB_DirectorySettingsController*				directory_settings_controller			=	RPDB_SettingsController_directorySettingsController( settings_controller );
+	RPDB_FileSettingsController*						file_settings_controller					=	RPDB_SettingsController_fileSettingsController( settings_controller );
+	RPDB_ThreadSettingsController*					thread_settings_controller				=	RPDB_SettingsController_threadSettingsController( settings_controller );
+	RPDB_DatabaseSettingsController*				database_settings_controller			=	RPDB_SettingsController_databaseSettingsController( settings_controller );
+	RPDB_DatabaseTypeSettingsController*		database_type_settings_controller	=	RPDB_DatabaseSettingsController_typeSettingsController( database_settings_controller );
+
+	RPDB_DatabaseCursorSettingsController*	database_cursor_settings_controller	=	RPDB_DatabaseSettingsController_cursorSettingsController( database_settings_controller );
+
+	//	we always want default cursor duplication to actually duplicate the cursor
+	RPDB_DatabaseCursorSettingsController_turnDuplicateRetainsLocationOn( database_cursor_settings_controller );
 
 	#ifdef RPDB_DEFAULT_MEMORY_POOL_ON
 		//	And make sure we actually have a memory pool

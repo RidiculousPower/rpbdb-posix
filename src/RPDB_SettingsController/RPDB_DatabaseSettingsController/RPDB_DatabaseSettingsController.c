@@ -219,10 +219,11 @@ uint32_t RPDB_DatabaseSettingsController_pagesize( RPDB_DatabaseSettingsControll
 
 	//	If it's already set we don't need to grab it - it is up to date
 	if (	database_settings_controller->pagesize == 0
+		&&	database != NULL
 		&&	database->wrapped_bdb_database != NULL )	{
 
 		if ( ( connection_error = database->wrapped_bdb_database->get_pagesize(	database->wrapped_bdb_database, 
-																				&( database_settings_controller->pagesize ) ) ) )	{
+																																						&( database_settings_controller->pagesize ) ) ) )	{
 
 			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_settings_controller->parent_database->parent_database_controller->parent_environment ),
 															connection_error, 
@@ -246,7 +247,8 @@ void RPDB_DatabaseSettingsController_setPageSize(	RPDB_DatabaseSettingsControlle
 
 	database_settings_controller->pagesize = pagesize;
 
-	if ( database->wrapped_bdb_database != NULL )	{
+	if (		database != NULL
+			&&	database->wrapped_bdb_database != NULL )	{
 		if ( ( connection_error = database->wrapped_bdb_database->set_pagesize(	database->wrapped_bdb_database, 
 																																						pagesize ) ) )	{
 
@@ -273,6 +275,7 @@ BOOL RPDB_DatabaseSettingsController_isBigEndian( RPDB_DatabaseSettingsControlle
 
 	if (	! database_settings_controller->little_endian
 		&&	! database_settings_controller->big_endian
+		&&	database != NULL
 		&&	database->wrapped_bdb_database != NULL )	{
 
 		if ( ( connection_error = database->wrapped_bdb_database->get_lorder(	database->wrapped_bdb_database, 
@@ -304,7 +307,8 @@ void RPDB_DatabaseSettingsController_setByteOrderToBigEndian( RPDB_DatabaseSetti
 	database_settings_controller->big_endian = TRUE;
 	database_settings_controller->little_endian = FALSE;
 
-	if ( database->wrapped_bdb_database != NULL )	{
+	if (		database != NULL
+			&&	database->wrapped_bdb_database != NULL )	{
 		if ( ( connection_error = database->wrapped_bdb_database->set_lorder(	database->wrapped_bdb_database,
 																				4321 )) )	{
 
@@ -331,10 +335,11 @@ BOOL RPDB_DatabaseSettingsController_isLittleEndian( RPDB_DatabaseSettingsContro
 
 	if (	! database_settings_controller->little_endian
 		&&	! database_settings_controller->big_endian
+		&&	database != NULL
 		&&	database->wrapped_bdb_database != NULL )	{
 
 		if ( ( connection_error = database->wrapped_bdb_database->get_lorder(	database->wrapped_bdb_database, 
-																				& load_order ) ) )	{
+																																					& load_order ) ) )	{
 
 			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_settings_controller->parent_database->parent_database_controller->parent_environment ),
 													connection_error, 
@@ -359,9 +364,10 @@ void RPDB_DatabaseSettingsController_setByteOrderToLittleEndian( RPDB_DatabaseSe
 	database_settings_controller->little_endian = TRUE;
 	database_settings_controller->big_endian = FALSE;
 
-	if ( database->wrapped_bdb_database != NULL )	{
+	if (		database != NULL
+			&&	database->wrapped_bdb_database != NULL )	{
 		if ( ( connection_error = database->wrapped_bdb_database->set_lorder(	database->wrapped_bdb_database, 
-																				1234 ) ) )	{
+																																					1234 ) ) )	{
 
 			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_settings_controller->parent_database->parent_database_controller->parent_environment ),
 													connection_error, 
@@ -381,14 +387,15 @@ BOOL RPDB_DatabaseSettingsController_isByteswapped( RPDB_DatabaseSettingsControl
 	
 	int			connection_error	= 0;
 
-	if ( database->wrapped_bdb_database != NULL)	{
+	if (		database != NULL
+			&&	database->wrapped_bdb_database != NULL)	{
 
 		if ( ( connection_error = database->wrapped_bdb_database->get_byteswapped(	database->wrapped_bdb_database, 
-																					(int*) &( database_settings_controller->is_byteswapped ) )) )	{
+																																								(int*) &( database_settings_controller->is_byteswapped ) )) )	{
 
 			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_settings_controller->parent_database->parent_database_controller->parent_environment ),
-															connection_error, 
-															"RPDB_DatabaseType" );
+																																											connection_error, 
+																																											"RPDB_DatabaseType" );
 		}
 	}
 	
