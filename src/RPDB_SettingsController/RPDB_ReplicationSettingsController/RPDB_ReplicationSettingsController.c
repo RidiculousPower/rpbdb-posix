@@ -858,8 +858,8 @@ uint32_t RPDB_ReplicationSettingsController_slowestClockValue( RPDB_ReplicationS
 *  setSlowestClockValue  *
 *****************************/
 
-void RPDB_ReplicationSettingsController_setSlowestClockValue(	RPDB_ReplicationSettingsController*	replication_settings_controller, 
-																uint32_t								slowest_clock_value )	{
+void RPDB_ReplicationSettingsController_setSlowestClockValue(	RPDB_ReplicationSettingsController*		replication_settings_controller, 
+																															uint32_t															slowest_clock_value )	{
 
 	replication_settings_controller->slowest_clock_value = slowest_clock_value;
 
@@ -870,8 +870,8 @@ void RPDB_ReplicationSettingsController_setSlowestClockValue(	RPDB_ReplicationSe
 		&&	environment->wrapped_bdb_environment != NULL )	{
 
 		environment->wrapped_bdb_environment->rep_set_clockskew(	environment->wrapped_bdb_environment, 
-										replication_settings_controller->slowest_clock_value, 
-										replication_settings_controller->fastest_clock_value );
+																															replication_settings_controller->slowest_clock_value, 
+																															replication_settings_controller->fastest_clock_value );
 	}
 }
 
@@ -888,8 +888,8 @@ uint32_t RPDB_ReplicationSettingsController_fastestClockSkewValue( RPDB_Replicat
 		&&	environment->wrapped_bdb_environment != NULL )	{
 
 		environment->wrapped_bdb_environment->rep_get_clockskew(	environment->wrapped_bdb_environment, 
-										&( replication_settings_controller->slowest_clock_value ), 
-										&( replication_settings_controller->fastest_clock_value ) );
+																															&( replication_settings_controller->slowest_clock_value ), 
+																															&( replication_settings_controller->fastest_clock_value ) );
 	}
 
 	return replication_settings_controller->fastest_clock_value;
@@ -899,8 +899,8 @@ uint32_t RPDB_ReplicationSettingsController_fastestClockSkewValue( RPDB_Replicat
 *  setFastestClockSkewValue  *
 *********************************/
 
-void RPDB_ReplicationSettingsController_setFastestClockSkewValue(	RPDB_ReplicationSettingsController*	replication_settings_controller, 
-																	uint32_t								fastest_clock_value )	{
+void RPDB_ReplicationSettingsController_setFastestClockSkewValue(	RPDB_ReplicationSettingsController*		replication_settings_controller, 
+																																	uint32_t															fastest_clock_value )	{
 
 	replication_settings_controller->fastest_clock_value = fastest_clock_value;
 
@@ -911,8 +911,8 @@ void RPDB_ReplicationSettingsController_setFastestClockSkewValue(	RPDB_Replicati
 		&&	environment->wrapped_bdb_environment != NULL )	{
 
 		environment->wrapped_bdb_environment->rep_set_clockskew(	environment->wrapped_bdb_environment, 
-										replication_settings_controller->slowest_clock_value, 
-										replication_settings_controller->fastest_clock_value );
+																															replication_settings_controller->slowest_clock_value, 
+																															replication_settings_controller->fastest_clock_value );
 	}
 }
 

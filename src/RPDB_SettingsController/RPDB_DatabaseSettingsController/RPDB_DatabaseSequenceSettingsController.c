@@ -192,7 +192,7 @@ int RPDB_DatabaseSequenceSettingsController_rangeMaximum( RPDB_DatabaseSequenceS
 ************************/
 
 void RPDB_DatabaseSequenceSettingsController_setRangeMaximum(	RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller,
-																db_seq_t									range_maximum )	{
+																															db_seq_t									range_maximum )	{
 	
 	sequence_settings_controller->range_maximum = range_maximum;
 }

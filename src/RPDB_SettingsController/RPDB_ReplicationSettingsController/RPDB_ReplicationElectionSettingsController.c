@@ -328,6 +328,166 @@ BOOL	RPDB_ReplicationElectionSettingsController_waitForMinimumElectablePeersForD
 																					DB_REPMGR_ACKS_ALL );
 	}
 
+/*****************************************************
+*  setSiteIsNowReplicationClientCallbackMethod  *
+*****************************************************/
+/*
+void RPDB_MessageSettingsController_setSiteIsNowReplicationClientCallbackMethod(	RPDB_MessageSettingsController*								message_settings_controller,
+ 																					void *(site_is_now_replication_client_callback_method)( RPDB_Environment*	environment ) )	{
+
+	DB_ENV*		environment	= message_settings_controller->parent_settings_controller->parent_environment->environment;
+	
+	message_settings_controller->site_is_now_replication_client_callback_method = site_is_now_replication_client_callback_method;
+	//	Make sure we have our internal callback enabled
+	 if ( environment->wrapped_bdb_environment != NULL )	{
+		environment->wrapped_bdb_environment->set_event_notify(	environment->wrapped_bdb_environment, 
+																& RPDB_MessageSettingsController_internal_eventCallbackMethod );
+	}
+}
+*/
+/*************************************************
+*  siteIsNowReplicationClientCallbackMethod  *
+*************************************************/
+/*
+void *(site_is_now_replication_client_callback_method)( RPDB_Environment*	environment ) RPDB_MessageSettingsController_siteIsNowReplicationClientCallbackMethod(	RPDB_MessageSettingsController*		message_settings_controller )	{
+	
+	return message_settings_controller->site_is_now_replication_client_callback_method;
+}
+*/
+/*****************************************************
+*  setSiteWonReplicationElectionCallbackMethod  *
+*****************************************************/
+/*
+void RPDB_MessageSettingsController_setSiteWonReplicationElectionCallbackMethod(	RPDB_MessageSettingsController*								message_settings_controller,
+ 																					void *(site_won_replication_election_callback_method)( RPDB_Environment*	environment ) )	{
+	
+	DB_ENV*		environment	= message_settings_controller->parent_settings_controller->parent_environment->environment;
+
+	message_settings_controller->site_won_replication_election_callback_method = site_won_replication_election_callback_method;
+	//	Make sure we have our internal callback enabled
+	 if ( environment->wrapped_bdb_environment != NULL )	{
+		environment->wrapped_bdb_environment->set_event_notify(	environment->wrapped_bdb_environment, 
+																& RPDB_MessageSettingsController_internal_eventCallbackMethod );
+	}
+}
+*/
+/*************************************************
+*  siteWonReplicationElectionCallbackMethod  *
+*************************************************/
+/*
+void *(site_won_replication_election_callback_method)( RPDB_Environment*	environment ) RPDB_MessageSettingsController_siteWonReplicationElectionCallbackMethod(	RPDB_MessageSettingsController*		message_settings_controller )	{
+	
+	return message_settings_controller->site_won_replication_election_callback_method;
+}
+*/
+/*********************************************************
+*  setSiteIsNowMasterOfReplicationGroupCallbackMethod  *
+*********************************************************/
+/*
+void RPDB_MessageSettingsController_setSiteIsNowMasterOfReplicationGroupCallbackMethod(	RPDB_MessageSettingsController*		message_settings_controller,
+ 																							void *(site_is_now_master_of_replication_group_callback_method)( RPDB_Environment*	environment ) )	{
+	
+	DB_ENV*		environment	= message_settings_controller->parent_settings_controller->parent_environment->environment;
+	
+	message_settings_controller->site_is_now_master_of_replication_group_callback_method = site_is_now_master_of_replication_group_callback_method;
+	//	Make sure we have our internal callback enabled
+	 if ( environment->wrapped_bdb_environment != NULL )	{
+		environment->wrapped_bdb_environment->set_event_notify(	environment->wrapped_bdb_environment, 
+																& RPDB_MessageSettingsController_internal_eventCallbackMethod );
+	}
+}
+*/
+/*********************************************************
+*  siteIsNowMasterOfReplicationGroupCallbackMethod  *
+*********************************************************/
+/*
+void *(site_is_now_master_of_replication_group_callback_method)( RPDB_Environment*	environment ) RPDB_MessageSettingsController_siteIsNowMasterOfReplicationGroupCallbackMethod(	RPDB_MessageSettingsController*		message_settings_controller )	{
+	
+	return message_settings_controller->site_is_now_master_of_replication_group_callback_method;
+}
+*/
+/*****************************************************
+*  setReplicationGroupHasNewMasterCallbackMethod  *
+*****************************************************/
+/*
+void RPDB_MessageSettingsController_setReplicationGroupHasNewMasterCallbackMethod(	RPDB_MessageSettingsController*									message_settings_controller,
+ 																					void *(replication_group_has_new_master_callback_method)( RPDB_Environment*	environment ) )	{
+	
+	DB_ENV*		environment	= message_settings_controller->parent_settings_controller->parent_environment->environment;
+	
+	message_settings_controller->replication_group_has_new_master_callback_method = replication_group_has_new_master_callback_method;
+	//	Make sure we have our internal callback enabled
+
+	 if ( environment->wrapped_bdb_environment != NULL )	{
+		environment->wrapped_bdb_environment->set_event_notify(	environment->wrapped_bdb_environment, 
+																& RPDB_MessageSettingsController_internal_eventCallbackMethod );
+	}
+}
+*/
+/*************************************************
+*  replicationGroupHasNewMasterCallbackMethod  *
+*************************************************/
+/*
+void *(replication_group_has_new_master_callback_method)( RPDB_Environment*	environment ) RPDB_MessageSettingsController_replicationGroupHasNewMasterCallbackMethod(	RPDB_MessageSettingsController*		message_settings_controller )	{
+	
+	return message_settings_controller->replication_group_has_new_master_callback_method;
+}
+*/
+/*********************************************************
+*  setReplicationAcknowledgementFailedCallbackMethod  *
+*********************************************************/
+/*
+void RPDB_MessageSettingsController_setReplicationAcknowledgementFailedCallbackMethod(	RPDB_MessageSettingsController*									message_settings_controller,
+ 																						void *(replication_acknowledgement_failed_callback_method)( RPDB_Environment*	environment ) )	{
+	
+	DB_ENV*		environment	= message_settings_controller->parent_settings_controller->parent_environment->environment;
+	
+	message_settings_controller->replication_acknowledgement_failed_callback_method = replication_acknowledgement_failed_callback_method;
+	//	Make sure we have our internal callback enabled
+
+	 if ( environment->wrapped_bdb_environment != NULL )	{
+		environment->wrapped_bdb_environment->set_event_notify(	environment->wrapped_bdb_environment, 
+																& RPDB_MessageSettingsController_internal_eventCallbackMethod );
+	}
+}
+*/
+/*****************************************************
+*  replicationAcknowledgementFailedCallbackMethod  *
+*****************************************************/
+/*
+void *(replication_acknowledgement_failed_callback_method)( RPDB_Environment*	environment ) RPDB_MessageSettingsController_replicationAcknowledgementFailedCallbackMethod(	RPDB_MessageSettingsController*		message_settings_controller )	{
+	
+	return message_settings_controller->replication_acknowledgement_failed_callback_method;
+}
+*/
+/*****************************************************
+*  setReplicationStartupCompletedCallbackMethod  *
+*****************************************************/
+/*
+void RPDB_MessageSettingsController_setReplicationStartupCompletedCallbackMethod(	RPDB_MessageSettingsController*								message_settings_controller,
+ 																					void *(replication_startup_completed_callback_method)( RPDB_Environment*	environment ) )	{
+	
+	DB_ENV*		environment	= message_settings_controller->parent_settings_controller->parent_environment->environment;
+	
+	message_settings_controller->replication_startup_completed_callback_method = replication_startup_completed_callback_method;
+	//	Make sure we have our internal callback enabled
+
+	 if ( environment->wrapped_bdb_environment != NULL )	{
+		environment->wrapped_bdb_environment->set_event_notify(	environment->wrapped_bdb_environment, 
+																& RPDB_MessageSettingsController_internal_eventCallbackMethod );
+	}
+}
+*/
+/*************************************************
+*  replicationStartupCompletedCallbackMethod  *
+*************************************************/
+/*
+void *(replication_startup_completed_callback_method)( RPDB_Environment*	environment ) RPDB_MessageSettingsController_replicationStartupCompletedCallbackMethod(	RPDB_MessageSettingsController*		message_settings_controller )	{
+	
+	return message_settings_controller->replication_startup_completed_callback_method;
+}
+*/
+
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
 																		Internal Methods

@@ -90,7 +90,7 @@ char* RPDB_DatabaseRecordReadWriteSettingsController_filename( RPDB_DatabaseReco
 *********************/
 
 void RPDB_DatabaseRecordReadWriteSettingsController_setFilename(	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller,
-															char*											filename	)	{
+																																	char*											filename	)	{
 	
 	database_record_read_write_settings_controller->filename = filename;
 }
@@ -840,7 +840,7 @@ uint32_t RPDB_DatabaseRecordReadWriteSettingsController_partialReadWriteOffset( 
 *********************************/
 
 void RPDB_DatabaseRecordReadWriteSettingsController_setPartialReadWriteOffset(	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller, 
-															uint32_t							partial_read_write_offset )	{
+																																								uint32_t							partial_read_write_offset )	{
 
 	//	If we are a local settings controller, return the actual buffer length, otherwise return the global setting
 	if ( database_record_read_write_settings_controller->parent_database_record_settings_controller->parent_record == NULL )	{
@@ -853,6 +853,34 @@ void RPDB_DatabaseRecordReadWriteSettingsController_setPartialReadWriteOffset(	R
 //		database_record_read_write_settings_controller->parent_record->wrapped_bdb_dbt->doff = partial_read_write_offset;
 	}
 }
+
+/*************************************
+*  setWriteFailedCallbackMethod  *
+*************************************/
+/*
+void RPDB_MessageSettingsController_setWriteFailedCallbackMethod(	RPDB_MessageSettingsController*				message_settings_controller,
+ 																	void *(write_failed_callback_method)( RPDB_Environment*	environment ) )	{
+	
+	DB_ENV*		environment	= message_settings_controller->parent_settings_controller->parent_environment->environment;
+	
+	message_settings_controller->write_failed_callback_method = write_failed_callback_method;
+	//	Make sure we have our internal callback enabled
+	
+	 if ( environment->wrapped_bdb_environment != NULL )	{
+		environment->wrapped_bdb_environment->set_event_notify(	environment->wrapped_bdb_environment, 
+																& RPDB_MessageSettingsController_internal_eventCallbackMethod );
+	}
+}
+*/
+/*********************************
+*  writeFailedCallbackMethod  *
+*********************************/
+/*
+void *(write_failed_callback_method)( RPDB_Environment*	environment ) RPDB_MessageSettingsController_writeFailedCallbackMethod(	RPDB_MessageSettingsController*		message_settings_controller )	{
+	
+	return message_settings_controller->write_failed_callback_method;
+}
+*/
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************

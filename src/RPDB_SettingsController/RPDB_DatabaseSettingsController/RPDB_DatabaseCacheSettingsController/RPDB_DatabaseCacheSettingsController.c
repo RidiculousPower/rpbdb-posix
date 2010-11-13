@@ -83,9 +83,9 @@ uint64_t RPDB_DatabaseCacheSettingsController_maxSizeInBytes( RPDB_DatabaseCache
 	
 	if ( RPDB_DatabaseCacheSettingsController_internal_isInEnvironment( database_cache_settings_controller ) )	{
 		RPDB_ErrorController_throwError(	RPDB_ErrorController_new( NULL ), 
-											RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
-											"RPDB_DatabaseCacheSettingsController_maxSizeInBytes", 
-											"This setting is only for when using a database outside an environment." );
+																			RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
+																			"RPDB_DatabaseCacheSettingsController_maxSizeInBytes", 
+																			"This setting is only for when using a database outside an environment." );
 		return 0;
 	}
 	
@@ -102,10 +102,10 @@ uint64_t RPDB_DatabaseCacheSettingsController_maxSizeInBytes( RPDB_DatabaseCache
 	}
 
 	database_cache_settings_controller->max_size_in_bytes =		gigabytes_size
-															*	1024 /*  megs  */ 
-															*	1024 /*  kbytes  */ 
-															*	1024 /*  bytes  */ 
-															+	additional_bytes_size; 
+																													*	1024 /*  megs  */ 
+																													*	1024 /*  kbytes  */ 
+																													*	1024 /*  bytes  */ 
+																													+	additional_bytes_size; 
 	
 	//	Return in bytes
 	return database_cache_settings_controller->max_size_in_bytes;
@@ -117,6 +117,14 @@ uint64_t RPDB_DatabaseCacheSettingsController_maxSizeInBytes( RPDB_DatabaseCache
 
 	//	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_cachesize.html
 	long RPDB_DatabaseCacheSettingsController_maxSizeInKBytes( RPDB_DatabaseCacheSettingsController* database_cache_settings_controller )	{
+
+		if ( RPDB_DatabaseCacheSettingsController_internal_isInEnvironment( database_cache_settings_controller ) )	{
+			RPDB_ErrorController_throwError(	RPDB_ErrorController_new( NULL ), 
+												RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
+												"RPDB_DatabaseCacheSettingsController_maxSizeInKBytes", 
+												"This setting is only for when using a database outside an environment." );
+			return 0;
+		}
 
 		float	max_size_kbytes = (float)RPDB_DatabaseCacheSettingsController_maxSizeInBytes( database_cache_settings_controller );
 		
@@ -130,6 +138,14 @@ uint64_t RPDB_DatabaseCacheSettingsController_maxSizeInBytes( RPDB_DatabaseCache
 	//	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_cachesize.html
 	long RPDB_DatabaseCacheSettingsController_maxSizeInMBytes( RPDB_DatabaseCacheSettingsController* database_cache_settings_controller )	{
 
+		if ( RPDB_DatabaseCacheSettingsController_internal_isInEnvironment( database_cache_settings_controller ) )	{
+			RPDB_ErrorController_throwError(	RPDB_ErrorController_new( NULL ), 
+																				RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
+																				"RPDB_DatabaseCacheSettingsController_maxSizeInMBytes", 
+																				"This setting is only for when using a database outside an environment." );
+			return 0;
+		}
+
 		float	max_size_mbytes = (float)RPDB_DatabaseCacheSettingsController_maxSizeInKBytes( database_cache_settings_controller );
 		
 		return max_size_mbytes / (float)1024;
@@ -141,6 +157,14 @@ uint64_t RPDB_DatabaseCacheSettingsController_maxSizeInBytes( RPDB_DatabaseCache
 
 	//	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_cachesize.html
 	long RPDB_DatabaseCacheSettingsController_maxSizeInGBytes( RPDB_DatabaseCacheSettingsController* database_cache_settings_controller )	{
+
+		if ( RPDB_DatabaseCacheSettingsController_internal_isInEnvironment( database_cache_settings_controller ) )	{
+			RPDB_ErrorController_throwError(	RPDB_ErrorController_new( NULL ), 
+																				RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
+																				"RPDB_DatabaseCacheSettingsController_maxSizeInGBytes", 
+																				"This setting is only for when using a database outside an environment." );
+			return 0;
+		}
 
 		float	max_size_gbytes = (float)RPDB_DatabaseCacheSettingsController_maxSizeInMBytes( database_cache_settings_controller );
 		
@@ -155,16 +179,16 @@ uint64_t RPDB_DatabaseCacheSettingsController_maxSizeInBytes( RPDB_DatabaseCache
 //	Because databases opened within Berkeley DB environments use the cache specified to the environment, 
 //	it is an error to attempt to set a cache in a database created within an environment.
 void RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes(	RPDB_DatabaseCacheSettingsController*		database_cache_settings_controller, 
-																uint32_t									max_size_in_bytes )	{
+																															uint32_t																max_size_in_bytes )	{
 
-	uint32_t	additional_bytes_size					= max_size_in_bytes % (1024 * 1024 * 1024);
+	uint32_t	additional_bytes_size				= max_size_in_bytes % (1024 * 1024 * 1024);
 	uint32_t	gigabytes_size							= max_size_in_bytes - additional_bytes_size;
 	
 	if ( RPDB_DatabaseCacheSettingsController_internal_isInEnvironment( database_cache_settings_controller ) )	{
 		RPDB_ErrorController_throwError(	RPDB_ErrorController_new( NULL ), 
-											RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
-										 "RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes", 
-										 "This setting is only for when using a database outside an environment." );
+																			RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
+																			"RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes", 
+																			"This setting is only for when using a database outside an environment." );
 		return;
 	}
 
@@ -173,9 +197,9 @@ void RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes(	RPDB_DatabaseCacheS
 
 	if ( database->wrapped_bdb_database != NULL )	{
 		database->wrapped_bdb_database->set_cachesize(	database->wrapped_bdb_database, 
-									gigabytes_size, 
-									additional_bytes_size, 
-									database_cache_settings_controller->number_cache_regions );
+																										gigabytes_size, 
+																										additional_bytes_size, 
+																										database_cache_settings_controller->number_cache_regions );
 	}
 	
 	//	Store the setting for reference later
@@ -188,7 +212,15 @@ void RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes(	RPDB_DatabaseCacheS
 
 	//	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
 	void RPDB_DatabaseCacheSettingsController_setMaxSizeInKBytes(	RPDB_DatabaseCacheSettingsController*		database_cache_settings_controller, 
-																	uint32_t									max_size_kbytes )	{
+																																uint32_t																max_size_kbytes )	{
+		
+		if ( RPDB_DatabaseCacheSettingsController_internal_isInEnvironment( database_cache_settings_controller ) )	{
+			RPDB_ErrorController_throwError(	RPDB_ErrorController_new( NULL ), 
+																				RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
+																				"RPDB_DatabaseCacheSettingsController_setMaxSizeInKBytes", 
+																				"This setting is only for when using a database outside an environment." );
+			return 0;
+		}
 		RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes(	database_cache_settings_controller, 
 																	max_size_kbytes * 1024 );
 	}
@@ -199,9 +231,17 @@ void RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes(	RPDB_DatabaseCacheS
 
 	//	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
 	void RPDB_DatabaseCacheSettingsController_setMaxSizeInMBytes(	RPDB_DatabaseCacheSettingsController*		database_cache_settings_controller, 
-																	uint32_t									max_size_mbytes )	{
+																																uint32_t									max_size_mbytes )	{
+		
+		if ( RPDB_DatabaseCacheSettingsController_internal_isInEnvironment( database_cache_settings_controller ) )	{
+			RPDB_ErrorController_throwError(	RPDB_ErrorController_new( NULL ), 
+																				RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
+																				"RPDB_DatabaseCacheSettingsController_setMaxSizeInMBytes", 
+																				"This setting is only for when using a database outside an environment." );
+			return 0;
+		}
 		RPDB_DatabaseCacheSettingsController_setMaxSizeInKBytes(	database_cache_settings_controller, 
-																	max_size_mbytes * 1024 );
+																															max_size_mbytes * 1024 );
 	}
 
 	/************************
@@ -210,7 +250,15 @@ void RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes(	RPDB_DatabaseCacheS
 
 	//	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
 	void RPDB_DatabaseCacheSettingsController_setMaxSizeInGBytes(	RPDB_DatabaseCacheSettingsController*		database_cache_settings_controller, 
-																	uint32_t									max_size_gbytes )	{
+																																uint32_t									max_size_gbytes )	{
+		
+		if ( RPDB_DatabaseCacheSettingsController_internal_isInEnvironment( database_cache_settings_controller ) )	{
+			RPDB_ErrorController_throwError(	RPDB_ErrorController_new( NULL ), 
+																				RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
+																				"RPDB_DatabaseCacheSettingsController_setMaxSizeInGBytes", 
+																				"This setting is only for when using a database outside an environment." );
+			return 0;
+		}
 		RPDB_DatabaseCacheSettingsController_setMaxSizeInMBytes(	database_cache_settings_controller, 
 																	max_size_gbytes * 1024 );
 	}
@@ -221,10 +269,18 @@ void RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes(	RPDB_DatabaseCacheS
 
 	//	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
 	void RPDB_DatabaseCacheSettingsController_setMaxSizeInGBytesMBytesKBytesBytes(	RPDB_DatabaseCacheSettingsController*		database_cache_settings_controller, 
-																					uint32_t									max_size_gbytes, 
-																					uint32_t									additional_max_size_mbytes, 
-																					uint32_t									additional_max_size_kbytes, 
-																					uint32_t									additional_max_size_in_bytes )	{
+																																									uint32_t									max_size_gbytes, 
+																																									uint32_t									additional_max_size_mbytes, 
+																																									uint32_t									additional_max_size_kbytes, 
+																																									uint32_t									additional_max_size_in_bytes )	{
+		
+		if ( RPDB_DatabaseCacheSettingsController_internal_isInEnvironment( database_cache_settings_controller ) )	{
+			RPDB_ErrorController_throwError(	RPDB_ErrorController_new( NULL ), 
+																				RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
+																				"RPDB_DatabaseCacheSettingsController_setMaxSizeInGBytesMBytesKBytesBytes", 
+																				"This setting is only for when using a database outside an environment." );
+			return 0;
+		}
 		RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes( database_cache_settings_controller,	max_size_gbytes * 1024 * 1024 * 1024
 		 																								+	additional_max_size_mbytes * 1024 * 1024
 																										+	additional_max_size_kbytes * 1024
@@ -237,9 +293,17 @@ void RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes(	RPDB_DatabaseCacheS
 
 	//	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
 	void RPDB_DatabaseCacheSettingsController_setMaxSizeInMBytesKBytesBytes(	RPDB_DatabaseCacheSettingsController*		database_cache_settings_controller, 
-																				uint32_t									max_size_mbytes, 
-																				uint32_t									additional_max_size_kbytes, 
-																				uint32_t									additional_max_size_in_bytes )	{
+																																						uint32_t									max_size_mbytes, 
+																																						uint32_t									additional_max_size_kbytes, 
+																																						uint32_t									additional_max_size_in_bytes )	{
+
+		if ( RPDB_DatabaseCacheSettingsController_internal_isInEnvironment( database_cache_settings_controller ) )	{
+			RPDB_ErrorController_throwError(	RPDB_ErrorController_new( NULL ), 
+																				RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
+																				"RPDB_DatabaseCacheSettingsController_setMaxSizeInMBytesKBytesBytes", 
+																				"This setting is only for when using a database outside an environment." );
+			return 0;
+		}
 		RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes( database_cache_settings_controller,	max_size_mbytes * 1024 * 1024
 																										+	additional_max_size_kbytes * 1024
 																										+	additional_max_size_in_bytes );
@@ -251,8 +315,16 @@ void RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes(	RPDB_DatabaseCacheS
 
 	//	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
 	void RPDB_DatabaseCacheSettingsController_setMaxSizeInKBytesBytes(	RPDB_DatabaseCacheSettingsController* database_cache_settings_controller, 
-																		uint32_t								max_size_kbytes, 
-																		uint32_t								additional_max_size_in_bytes )	{
+																																			uint32_t								max_size_kbytes, 
+																																			uint32_t								additional_max_size_in_bytes )	{
+
+		if ( RPDB_DatabaseCacheSettingsController_internal_isInEnvironment( database_cache_settings_controller ) )	{
+			RPDB_ErrorController_throwError(	RPDB_ErrorController_new( NULL ), 
+																				RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
+																				"RPDB_DatabaseCacheSettingsController_setMaxSizeInKBytesBytes", 
+																				"This setting is only for when using a database outside an environment." );
+			return 0;
+		}
 		RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes(	database_cache_settings_controller,	
 																	max_size_kbytes * 1024
 																	+	additional_max_size_in_bytes );
@@ -266,9 +338,9 @@ int RPDB_DatabaseCacheSettingsController_numberCacheRegions( RPDB_DatabaseCacheS
 
 	if ( RPDB_DatabaseCacheSettingsController_internal_isInEnvironment( database_cache_settings_controller ) )	{
 		RPDB_ErrorController_throwError(	RPDB_ErrorController_new( NULL ), 
-											RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
-										 "RPDB_DatabaseCacheSettingsController_numberContiguousRegions", 
-										 "This setting is only for when using a database outside an environment." );
+																			RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
+																			"RPDB_DatabaseCacheSettingsController_numberContiguousRegions", 
+																			"This setting is only for when using a database outside an environment." );
 		return 0;
 	}
 
@@ -279,13 +351,13 @@ int RPDB_DatabaseCacheSettingsController_numberCacheRegions( RPDB_DatabaseCacheS
 *  setNumberCacheRegions  *
 *****************************/
 
-void RPDB_DatabaseCacheSettingsController_setNumberCacheRegions(	RPDB_DatabaseCacheSettingsController* database_cache_settings_controller, 
-																	int number_cache_regions )	{		
+void RPDB_DatabaseCacheSettingsController_setNumberCacheRegions(	RPDB_DatabaseCacheSettingsController*		database_cache_settings_controller, 
+																																	int																			number_cache_regions )	{		
 	if ( RPDB_DatabaseCacheSettingsController_internal_isInEnvironment( database_cache_settings_controller ) )	{
 		RPDB_ErrorController_throwError(	RPDB_ErrorController_new( NULL ), 
-											RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
-										 "RPDB_DatabaseCacheSettingsController_setNumberCacheRegions", 
-										 "This setting is only for when using a database outside an environment." );
+																			RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
+																			"RPDB_DatabaseCacheSettingsController_setNumberCacheRegions", 
+																			"This setting is only for when using a database outside an environment." );
 	}
 
 	database_cache_settings_controller->number_cache_regions = number_cache_regions;
@@ -355,7 +427,7 @@ BOOL RPDB_DatabaseCacheSettingsController_internal_isInEnvironment( RPDB_Databas
 			//	an environment as parent to the db or database_cursor
 			//	If we did, then we would have an environmental settings controller as the parent and not a db or database_cursor as the parent
 		(	database_cache_settings_controller->parent_database_settings_controller->parent_database == NULL
-		&&	database_cache_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment != NULL ) )	{
+		&&	database_cache_settings_controller->parent_database_settings_controller->parent_settings_controller->parent_environment != NULL ) )	{
 		
 		return RP_IN_ENVIRONMENT;
 	}

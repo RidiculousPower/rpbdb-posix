@@ -215,6 +215,35 @@ void (*error_callback_method)(	RPDB_Environment*			environment,
 	return error_settings_controller->error_callback_method;
 }
 */
+
+/*****************************
+*  panicCallbackMethod  *
+*****************************/
+/*
+void *(panic_callback_method)( RPDB_Environment*	environment ) RPDB_MessageSettingsController_panicCallbackMethod(	RPDB_MessageSettingsController*		message_settings_controller )	{
+	
+	return message_settings_controller->panic_callback_method;
+}
+*/
+
+/*****************************
+*  setPanicCallbackMethod  *
+*****************************/
+/*
+void RPDB_MessageSettingsController_setPanicCallbackMethod(	RPDB_MessageSettingsController*		message_settings_controller,
+ 																void *(panic_callback_method)( RPDB_Environment*	environment ) )	{
+	
+	DB_ENV*		environment	= message_settings_controller->parent_settings_controller->parent_environment->environment;
+
+	message_settings_controller->panic_callback_method = panic_callback_method;
+	//	Make sure we have our internal callback enabled
+	 if ( environment->wrapped_bdb_environment != NULL )	{
+		environment->wrapped_bdb_environment->set_event_notify(	environment->wrapped_bdb_environment, 
+																& RPDB_MessageSettingsController_internal_eventCallbackMethod );
+	}
+}
+*/
+
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
 																		Internal Methods
