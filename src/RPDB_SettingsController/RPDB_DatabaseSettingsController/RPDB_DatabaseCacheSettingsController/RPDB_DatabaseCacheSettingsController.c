@@ -219,7 +219,6 @@ void RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes(	RPDB_DatabaseCacheS
 																				RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
 																				"RPDB_DatabaseCacheSettingsController_setMaxSizeInKBytes", 
 																				"This setting is only for when using a database outside an environment." );
-			return 0;
 		}
 		RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes(	database_cache_settings_controller, 
 																	max_size_kbytes * 1024 );
@@ -238,7 +237,6 @@ void RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes(	RPDB_DatabaseCacheS
 																				RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
 																				"RPDB_DatabaseCacheSettingsController_setMaxSizeInMBytes", 
 																				"This setting is only for when using a database outside an environment." );
-			return 0;
 		}
 		RPDB_DatabaseCacheSettingsController_setMaxSizeInKBytes(	database_cache_settings_controller, 
 																															max_size_mbytes * 1024 );
@@ -257,7 +255,6 @@ void RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes(	RPDB_DatabaseCacheS
 																				RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
 																				"RPDB_DatabaseCacheSettingsController_setMaxSizeInGBytes", 
 																				"This setting is only for when using a database outside an environment." );
-			return 0;
 		}
 		RPDB_DatabaseCacheSettingsController_setMaxSizeInMBytes(	database_cache_settings_controller, 
 																	max_size_gbytes * 1024 );
@@ -279,7 +276,6 @@ void RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes(	RPDB_DatabaseCacheS
 																				RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
 																				"RPDB_DatabaseCacheSettingsController_setMaxSizeInGBytesMBytesKBytesBytes", 
 																				"This setting is only for when using a database outside an environment." );
-			return 0;
 		}
 		RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes( database_cache_settings_controller,	max_size_gbytes * 1024 * 1024 * 1024
 		 																								+	additional_max_size_mbytes * 1024 * 1024
@@ -302,7 +298,6 @@ void RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes(	RPDB_DatabaseCacheS
 																				RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
 																				"RPDB_DatabaseCacheSettingsController_setMaxSizeInMBytesKBytesBytes", 
 																				"This setting is only for when using a database outside an environment." );
-			return 0;
 		}
 		RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes( database_cache_settings_controller,	max_size_mbytes * 1024 * 1024
 																										+	additional_max_size_kbytes * 1024
@@ -323,7 +318,6 @@ void RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes(	RPDB_DatabaseCacheS
 																				RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
 																				"RPDB_DatabaseCacheSettingsController_setMaxSizeInKBytesBytes", 
 																				"This setting is only for when using a database outside an environment." );
-			return 0;
 		}
 		RPDB_DatabaseCacheSettingsController_setMaxSizeInBytes(	database_cache_settings_controller,	
 																	max_size_kbytes * 1024
@@ -341,7 +335,6 @@ int RPDB_DatabaseCacheSettingsController_numberCacheRegions( RPDB_DatabaseCacheS
 																			RP_ERROR_NO_SETTING_DB_CACHE_WHILE_IN_ENVIRONMENT, 
 																			"RPDB_DatabaseCacheSettingsController_numberContiguousRegions", 
 																			"This setting is only for when using a database outside an environment." );
-		return 0;
 	}
 
 	return database_cache_settings_controller->number_cache_regions;

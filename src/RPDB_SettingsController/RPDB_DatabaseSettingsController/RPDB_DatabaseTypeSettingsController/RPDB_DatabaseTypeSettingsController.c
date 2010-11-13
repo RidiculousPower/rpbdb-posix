@@ -102,8 +102,8 @@ DBTYPE RPDB_DatabaseTypeSettingsController_databaseType( RPDB_DatabaseTypeSettin
 																			&( database_type_settings_controller->default_database_type ) ) ) )	{
 																				
 			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database->parent_database_controller->parent_environment ),
-															connection_error, 
-															"RPDB_DatabaseType" );
+																										connection_error, 
+																										"RPDB_DatabaseType" );
 			return RP_TYPE_UNKNOWN;
 		}
 	}
