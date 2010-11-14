@@ -75,7 +75,8 @@ uint32_t RPDB_DatabaseEncryptionSettingsController_encrypted( RPDB_DatabaseEncry
 	if ( database_encryption_settings_controller->encrypted == TRUE )	{
 		return DB_ENCRYPT;
 	}
-	else if ( database->wrapped_bdb_database != NULL )	{
+	else if (		database != NULL
+					&&	database->wrapped_bdb_database != NULL )	{
 
 		connection_error = database->wrapped_bdb_database->get_encrypt_flags(	database->wrapped_bdb_database, 
 																				& flags );
@@ -100,14 +101,15 @@ uint32_t RPDB_DatabaseEncryptionSettingsController_encrypted( RPDB_DatabaseEncry
 
 	//	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_encrypt.html
 	void RPDB_DatabaseEncryptionSettingsController_turnEncryptionOn(	RPDB_DatabaseEncryptionSettingsController*		database_encryption_settings_controller,
-																		char*											encryption_password )	{
+																																		char*											encryption_password )	{
 
 		RPDB_Database*			database	= database_encryption_settings_controller->parent_database_settings_controller->parent_database;
 		int			connection_error	= 0;
 		
 		database_encryption_settings_controller->password	=	encryption_password;
 	
-		if ( database->wrapped_bdb_database != NULL )	{
+		if (		database != NULL
+				&&	database->wrapped_bdb_database != NULL )	{
 
 			connection_error = database->wrapped_bdb_database->set_encrypt(	database->wrapped_bdb_database, 
 														encryption_password, 
@@ -140,7 +142,8 @@ uint32_t RPDB_DatabaseEncryptionSettingsController_encrypted( RPDB_DatabaseEncry
 		RPDB_Database*			database	= database_encryption_settings_controller->parent_database_settings_controller->parent_database;
 		int			connection_error	= 0;
 
-		if ( database->wrapped_bdb_database != NULL )	{
+		if (		database != NULL
+				&&	database->wrapped_bdb_database != NULL )	{
 			if ( ( connection_error = database->wrapped_bdb_database->set_encrypt( database->wrapped_bdb_database, encryption_password, FALSE ) ) ) {
 				
 				RPDB_ErrorController_internal_throwBDBError( RPDB_Environment_errorController( database_encryption_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ), 

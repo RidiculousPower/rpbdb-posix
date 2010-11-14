@@ -115,8 +115,8 @@ int RPDB_LogSettingsController_disableSystemBuffering( RPDB_LogSettingsControlle
 	void RPDB_LogSettingsController_turnDisableSystemBufferingOn( RPDB_LogSettingsController* log_settings_controller )	{
 	
 		RPDB_LogSettingsController_internal_setConfig(	log_settings_controller, 
-														DB_LOG_DIRECT, 
-														TRUE );
+																										DB_LOG_DIRECT, 
+																										TRUE );
 		log_settings_controller->disable_system_buffering = TRUE;
 	}
 
@@ -126,8 +126,8 @@ int RPDB_LogSettingsController_disableSystemBuffering( RPDB_LogSettingsControlle
 
 	void RPDB_LogSettingsController_turnDisableSystemBufferingOff( RPDB_LogSettingsController* log_settings_controller )	{
 		RPDB_LogSettingsController_internal_setConfig(	log_settings_controller, 
-														DB_LOG_DIRECT, 
-														FALSE );
+																										DB_LOG_DIRECT, 
+																										FALSE );
 		log_settings_controller->disable_system_buffering = FALSE;
 	}
 

@@ -78,9 +78,9 @@
 	void																					RPDB_TransactionSettingsController_setMaxOpen(										RPDB_TransactionSettingsController*							transaction_settings_controller, 
 																																												uint32_t														max_open );
 																																																												
-	time_t*																					RPDB_TransactionSettingsController_recoveryTimestamp(								RPDB_TransactionSettingsController*							transaction_settings_controller );
+	time_t																					RPDB_TransactionSettingsController_recoveryTimestamp(								RPDB_TransactionSettingsController*							transaction_settings_controller );
 	void																					RPDB_TransactionSettingsController_setRecoveryTimestamp(							RPDB_TransactionSettingsController*							transaction_settings_controller, 
-																																												time_t*															recovery_timestamp );
+																																																											time_t															recovery_timestamp );
 /*
 	void																					RPDB_TransactionSettingsController_setRollbackwardCallbackMethod(					RPDB_TransactionSettingsController*							transaction_settings_controller,
 																																												int (*rollbackward_callback_method)(	RPDB_Environment*					environment,

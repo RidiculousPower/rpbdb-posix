@@ -65,13 +65,14 @@ RPDB_Database* RPDB_DatabaseRecordFixedLengthSettingsController_parentDatabase(	
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_re_len.html
 uint32_t RPDB_DatabaseRecordFixedLengthSettingsController_recordLength( RPDB_DatabaseRecordFixedLengthSettingsController* database_record_fixed_length_settings_controller )	{
 	
-	DB*					database;
-	
-	database = database_record_fixed_length_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database->wrapped_bdb_database;
-	
-	if ( database_record_fixed_length_settings_controller->record_length == 0 )	{
-		database->get_re_len(	database,
-								&( database_record_fixed_length_settings_controller->record_length ) );
+	RPDB_Database*	database	=	database_record_fixed_length_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database;
+
+	if (		database != NULL
+			&&	database->wrapped_bdb_database != NULL
+			&&	database_record_fixed_length_settings_controller->record_length == 0 )	{
+
+		database->wrapped_bdb_database->get_re_len(	database->wrapped_bdb_database,
+																								&( database_record_fixed_length_settings_controller->record_length ) );
 	}
 	
 	return database_record_fixed_length_settings_controller->record_length;
@@ -83,14 +84,15 @@ uint32_t RPDB_DatabaseRecordFixedLengthSettingsController_recordLength( RPDB_Dat
 
 //	The DB->set_re_len method configures a database, not only operations performed using the specified DB name.
 void RPDB_DatabaseRecordFixedLengthSettingsController_setRecordLength(	RPDB_DatabaseRecordFixedLengthSettingsController*		database_record_fixed_length_settings_controller,
-																	uint32_t											record_length )	{
+																																				uint32_t											record_length )	{
 	
 	RPDB_Database*	database	= database_record_fixed_length_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database;
 	
 	database_record_fixed_length_settings_controller->record_length = record_length;
-	if ( database->wrapped_bdb_database != NULL )	{
+	if (		database != NULL
+			&&	database->wrapped_bdb_database != NULL )	{
 		database->wrapped_bdb_database->set_re_len(	database->wrapped_bdb_database, 
-													record_length );	
+																								record_length );	
 	}
 }
 
@@ -103,7 +105,8 @@ int RPDB_DatabaseRecordFixedLengthSettingsController_paddingByte( RPDB_DatabaseR
 
 	RPDB_Database*	database	= database_record_fixed_length_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database;
 
-	if ( database->wrapped_bdb_database != NULL )	{
+	if (		database != NULL
+			&&	database->wrapped_bdb_database != NULL )	{
 
 		database->wrapped_bdb_database->get_re_pad(	database->wrapped_bdb_database, 
 													&( database_record_fixed_length_settings_controller->record_padding_byte ) );
@@ -122,9 +125,10 @@ void RPDB_DatabaseRecordFixedLengthSettingsController_setPaddingByte(	RPDB_Datab
 
 	RPDB_Database*	database	= database_record_fixed_length_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database;
 
-	if ( database->wrapped_bdb_database != NULL )	{
+	if (		database != NULL
+			&&	database->wrapped_bdb_database != NULL )	{
 		database->wrapped_bdb_database->set_re_pad(	database->wrapped_bdb_database,
-													record_padding_byte );		
+																								record_padding_byte );		
 	}
 	database_record_fixed_length_settings_controller->record_padding_byte = record_padding_byte;
 }

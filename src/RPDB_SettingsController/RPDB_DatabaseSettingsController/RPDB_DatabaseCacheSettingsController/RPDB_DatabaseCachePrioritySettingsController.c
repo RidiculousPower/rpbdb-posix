@@ -70,8 +70,11 @@ DB_CACHE_PRIORITY RPDB_DatabaseCachePrioritySettingsController_priority( RPDB_Da
 	
 	database = database_cache_priority_settings_controller->parent_database_cache_settings_controller->parent_database_settings_controller->parent_database;
 	
-	database->wrapped_bdb_database->get_priority( database->wrapped_bdb_database, 
-												 & current_cache_priority );
+	if (		database 
+			&&	database->wrapped_bdb_database )	{
+		database->wrapped_bdb_database->get_priority( database->wrapped_bdb_database, 
+																									& current_cache_priority );
+	}
 	
 	return current_cache_priority;
 }

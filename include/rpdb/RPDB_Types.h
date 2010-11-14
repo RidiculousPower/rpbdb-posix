@@ -145,7 +145,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						long									maximum_number_of_transactions_to_recover;
 						uint32_t								timeout_in_microseconds;
 						uint32_t								max_open;
-						time_t*									recovery_timestamp;
+						time_t									recovery_timestamp;
 	
 						BOOL									started_transaction_recover;
 	/*

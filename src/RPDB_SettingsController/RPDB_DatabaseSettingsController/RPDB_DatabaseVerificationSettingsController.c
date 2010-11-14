@@ -227,11 +227,10 @@ BOOL RPDB_DatabaseVerificationSettingsController_onlyOrderCheck( RPDB_DatabaseVe
 		if (	! database_verification_settings_controller->force_order_check 
 			&&	! database_verification_settings_controller->has_done_unordered_check )	{
 		
-			RPDB_ErrorController_throwError(	
-				RPDB_Environment_errorController(	database_verification_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ),
-										-1,
-										"RPDB_DatabaseVerificationSettingsController_onlyOrderCheck",
-										"Must first perform check while skipping order or force ordered check explicitly (may cause corruption)." );
+			RPDB_ErrorController_throwError(	RPDB_Environment_errorController(	database_verification_settings_controller->parent_database_settings_controller->parent_settings_controller->parent_environment ),
+																				-1,
+																				"RPDB_DatabaseVerificationSettingsController_onlyOrderCheck",
+																				"Must first perform check while skipping order or force ordered check explicitly (may cause corruption)." );
 		}
 	
 		//	Skipping order check can't also be true

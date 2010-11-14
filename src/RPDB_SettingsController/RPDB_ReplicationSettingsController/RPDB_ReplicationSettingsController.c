@@ -521,12 +521,12 @@ void RPDB_ReplicationSettingsController_setIsClient( RPDB_ReplicationSettingsCon
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
 		environment->wrapped_bdb_environment->rep_start(	environment->wrapped_bdb_environment, 
-								replication_settings_controller->additional_start_information->data->wrapped_bdb_dbt, 
-								DB_REP_CLIENT );
+																											replication_settings_controller->additional_start_information->data->wrapped_bdb_dbt, 
+																											DB_REP_CLIENT );
 	}
 	
-	replication_settings_controller->is_client = FALSE;
-	replication_settings_controller->is_master = TRUE;
+	replication_settings_controller->is_client = TRUE;
+	replication_settings_controller->is_master = FALSE;
 }
 
 /*****************

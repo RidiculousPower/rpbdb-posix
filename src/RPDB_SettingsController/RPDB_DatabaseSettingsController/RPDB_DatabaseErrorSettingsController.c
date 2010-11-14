@@ -88,9 +88,11 @@ FILE* RPDB_DatabaseErrorSettingsController_file( RPDB_DatabaseErrorSettingsContr
 	
 	RPDB_Database*	database	= database_error_settings_controller->parent_database_settings_controller->parent_database;
 
-	if ( database_error_settings_controller->error_file == NULL )	{
+	if (		database != NULL
+			&&	database->wrapped_bdb_database != NULL
+			&&	database_error_settings_controller->error_file == NULL )	{
 		database->wrapped_bdb_database->get_errfile(	database->wrapped_bdb_database, 
-														&( database_error_settings_controller->error_file ) );
+																									&( database_error_settings_controller->error_file ) );
 	}
 	
 	return database_error_settings_controller->error_file;
@@ -107,7 +109,8 @@ void RPDB_DatabaseErrorSettingsController_setFile(	RPDB_DatabaseErrorSettingsCon
 
 	database_error_settings_controller->error_file = error_file;
 
-	if ( database->wrapped_bdb_database != NULL )	{
+	if (		database != NULL
+			&&	database->wrapped_bdb_database != NULL )	{
 		database->wrapped_bdb_database->set_errfile( database->wrapped_bdb_database, error_file );
 	}
 }
@@ -155,7 +158,8 @@ char* RPDB_DatabaseErrorSettingsController_prefix( RPDB_DatabaseErrorSettingsCon
 
 	RPDB_Database*	database	= database_error_settings_controller->parent_database_settings_controller->parent_database;
 
-	if ( database->wrapped_bdb_database != NULL )	{
+	if (		database != NULL
+			&&	database->wrapped_bdb_database != NULL )	{
 		database->wrapped_bdb_database->get_errpfx(	database->wrapped_bdb_database, 
 													(const char**) &( database_error_settings_controller->error_prefix ) );
 	}
@@ -172,7 +176,8 @@ void RPDB_DatabaseErrorSettingsController_setPrefix(	RPDB_DatabaseErrorSettingsC
 
 	RPDB_Database*	database	= database_error_settings_controller->parent_database_settings_controller->parent_database;
 
-	if ( database->wrapped_bdb_database != NULL )	{
+	if (		database != NULL
+			&&	database->wrapped_bdb_database != NULL )	{
 		database->wrapped_bdb_database->set_errpfx(	database->wrapped_bdb_database,
 													error_prefix );
 	}

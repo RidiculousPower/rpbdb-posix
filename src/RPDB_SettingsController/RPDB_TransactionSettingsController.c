@@ -553,18 +553,18 @@ void RPDB_TransactionSettingsController_setMaxOpen(	RPDB_TransactionSettingsCont
 ********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_tx_timestamp.html
-time_t* RPDB_TransactionSettingsController_recoveryTimestamp( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+time_t RPDB_TransactionSettingsController_recoveryTimestamp( RPDB_TransactionSettingsController* transaction_settings_controller )	{
 
 	RPDB_Environment*		environment = transaction_settings_controller->parent_settings_controller->parent_environment;
 
 	//	If we already have timeout stored in the settings controller then we know we've asked for it from the DB;
 	//	Otherwise we need to ask the DB for it. 
 	//	If it gets updated after we asked, the local record of it also got updated; we know we are always up to date.
-	if (	transaction_settings_controller->recovery_timestamp == NULL
+	if (	transaction_settings_controller->recovery_timestamp
 		&&	environment->wrapped_bdb_environment != NULL )	{
 
 		environment->wrapped_bdb_environment->get_tx_timestamp(	environment->wrapped_bdb_environment, 
-															   transaction_settings_controller->recovery_timestamp );
+																														& transaction_settings_controller->recovery_timestamp );
 	}
 	
 	return transaction_settings_controller->recovery_timestamp;
@@ -576,7 +576,7 @@ time_t* RPDB_TransactionSettingsController_recoveryTimestamp( RPDB_TransactionSe
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_tx_timestamp.html
 void RPDB_TransactionSettingsController_setRecoveryTimestamp(	RPDB_TransactionSettingsController*	transaction_settings_controller, 
-																time_t*									recovery_timestamp )	{
+																															time_t									recovery_timestamp )	{
 
 	RPDB_Environment*		environment = transaction_settings_controller->parent_settings_controller->parent_environment;
 	
@@ -585,7 +585,7 @@ void RPDB_TransactionSettingsController_setRecoveryTimestamp(	RPDB_TransactionSe
 	if ( environment->wrapped_bdb_environment != NULL )	{
 		
 		environment->wrapped_bdb_environment->set_tx_timestamp(	environment->wrapped_bdb_environment, 
-																transaction_settings_controller->recovery_timestamp );
+																														& transaction_settings_controller->recovery_timestamp );
 	}
 }
 
