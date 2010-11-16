@@ -172,19 +172,21 @@ uint32_t RPDB_DatabaseTypeBtreeSettingsController_minimumKeysPerPage( RPDB_Datab
 ******************************/
 
 void RPDB_DatabaseTypeBtreeSettingsController_setMinimumKeysPerPage(	RPDB_DatabaseTypeBtreeSettingsController*	database_type_btree_settings_controller,
-																		uint32_t									minimum_keys_per_page )	{
+																																			uint32_t									minimum_keys_per_page )	{
 
 	RPDB_Database*			database = database_type_btree_settings_controller->parent_database_type_settings_controller->parent_database_settings_controller->parent_database;
 
 	int			connection_error	= 0;
 
-	if ( database->wrapped_bdb_database != NULL )	{
+	if (		database != NULL
+			&&	database->wrapped_bdb_database != NULL )	{
+		
 		if ( ( connection_error = database->wrapped_bdb_database->set_bt_minkey(	database->wrapped_bdb_database,
-																					minimum_keys_per_page ) ) )	{
+																																							minimum_keys_per_page ) ) )	{
 			
 			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_type_btree_settings_controller->parent_database_type_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ),
-														connection_error, 
-														"RPDB_DatabaseTypeBtreeSettingsController_minimumKeysPerPage" );
+																										connection_error, 
+																										"RPDB_DatabaseTypeBtreeSettingsController_minimumKeysPerPage" );
 		}
 	}
 

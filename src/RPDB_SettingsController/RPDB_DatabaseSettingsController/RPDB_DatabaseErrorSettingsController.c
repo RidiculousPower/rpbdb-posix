@@ -160,8 +160,9 @@ char* RPDB_DatabaseErrorSettingsController_prefix( RPDB_DatabaseErrorSettingsCon
 
 	if (		database != NULL
 			&&	database->wrapped_bdb_database != NULL )	{
+			
 		database->wrapped_bdb_database->get_errpfx(	database->wrapped_bdb_database, 
-													(const char**) &( database_error_settings_controller->error_prefix ) );
+																								(const char**) &( database_error_settings_controller->error_prefix ) );
 	}
 	
 	return database_error_settings_controller->error_prefix;
@@ -178,8 +179,9 @@ void RPDB_DatabaseErrorSettingsController_setPrefix(	RPDB_DatabaseErrorSettingsC
 
 	if (		database != NULL
 			&&	database->wrapped_bdb_database != NULL )	{
+			
 		database->wrapped_bdb_database->set_errpfx(	database->wrapped_bdb_database,
-													error_prefix );
+																								error_prefix );
 	}
 	
 	database_error_settings_controller->error_prefix = (char*) error_prefix;

@@ -382,10 +382,6 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_writeLocksInsteadOfReadLocks
 		database_read_write_settings_controller->write_locks_instead_of_read_locks = FALSE;
 	}
 
-/*******************************************************************************************************************************************************************************************
-												Switch Settings
-*******************************************************************************************************************************************************************************************/
-
 /*************************
 *  duplicates  *
 *************************/
@@ -395,8 +391,9 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_unsortedDuplicates( RPDB_Dat
 	
 	//	If hash or btree, return ->permit_duplicates
 	//	Otherwise, return false
-	
-	DBTYPE	database_type	=	RPDB_DatabaseTypeSettingsController_databaseType( RPDB_DatabaseSettingsController_typeSettingsController( database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller ) );
+	RPDB_DatabaseSettingsController*			database_settings_controller			=	database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller;
+	RPDB_DatabaseTypeSettingsController*	database_type_settings_controller	=	RPDB_DatabaseSettingsController_typeSettingsController( database_settings_controller );
+	DBTYPE	database_type	=	RPDB_DatabaseTypeSettingsController_databaseType( database_type_settings_controller );
 	
 	if (	(	database_type == DB_BTREE
 			||	database_type == DB_HASH )
@@ -424,9 +421,9 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_unsortedDuplicates( RPDB_Dat
 				||	database_type == DB_HASH ) )	{
 			
 			RPDB_ErrorController_throwError(	RPDB_ErrorController_new( database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ),
-												RPDB_ERROR_DUPLICATES_NOT_SUPPORTED,
-												"RPDB_DatabaseRecordReadWriteSettingsController_turnUnsortedDuplicatesOn",
-												"Duplicate records are only supported by Btree and Hash database types." );
+																				RPDB_ERROR_DUPLICATES_NOT_SUPPORTED,
+																				"RPDB_DatabaseRecordReadWriteSettingsController_turnUnsortedDuplicatesOn",
+																				"Duplicate records are only supported by Btree and Hash database types." );
 		}
 		
 		database_read_write_settings_controller->permit_duplicates = TRUE;
@@ -447,10 +444,11 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_unsortedDuplicates( RPDB_Dat
 				||	database_type == DB_HASH ) )	{
 			
 			RPDB_ErrorController_throwError(	RPDB_ErrorController_new( database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ),
-											 RPDB_ERROR_DUPLICATES_NOT_SUPPORTED,
-											 "RPDB_DatabaseRecordReadWriteSettingsController_turnUnsortedDuplicatesOff",
-											 "Duplicate records are only supported by Btree and Hash database types." );
+																				 RPDB_ERROR_DUPLICATES_NOT_SUPPORTED,
+																				 "RPDB_DatabaseRecordReadWriteSettingsController_turnUnsortedDuplicatesOff",
+																				 "Duplicate records are only supported by Btree and Hash database types." );
 		}
+		database_read_write_settings_controller->permit_duplicates = FALSE;
 	}
 
 /*********************
@@ -582,7 +580,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_databaseAllocatesMemoryUsing
 
 BOOL RPDB_DatabaseRecordReadWriteSettingsController_databaseAllocatesMemoryUsingRealloc( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
-	if ( database_record_read_write_settings_controller->database_allocates_memory_using_malloc == TRUE )	{
+	if ( database_record_read_write_settings_controller->database_allocates_memory_using_realloc == TRUE )	{
 		return DB_DBT_REALLOC;
 	}
 	return FALSE;
@@ -614,7 +612,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_databaseAllocatesMemoryUsing
 
 BOOL RPDB_DatabaseRecordReadWriteSettingsController_applicationAllocatesMemory( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
-	if ( database_record_read_write_settings_controller->database_allocates_memory_using_malloc == TRUE )	{
+	if ( database_record_read_write_settings_controller->application_allocates_memory == TRUE )	{
 		return DB_DBT_USERMEM;
 	}
 	return FALSE;
@@ -646,7 +644,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_applicationAllocatesMemory( 
 
 BOOL RPDB_DatabaseRecordReadWriteSettingsController_databaseFreesMemory( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
-	if ( database_record_read_write_settings_controller->database_allocates_memory_using_malloc == TRUE )	{
+	if ( database_record_read_write_settings_controller->database_free_memory == TRUE )	{
 		return DB_DBT_APPMALLOC;
 	}
 	return FALSE;
@@ -678,7 +676,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_databaseFreesMemory( RPDB_Da
 
 BOOL RPDB_DatabaseRecordReadWriteSettingsController_partialAccess( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
-	if ( database_record_read_write_settings_controller->database_allocates_memory_using_malloc == TRUE )	{
+	if ( database_record_read_write_settings_controller->partial_access == TRUE )	{
 		return DB_DBT_PARTIAL;
 	}
 	return FALSE;
@@ -912,10 +910,10 @@ void RPDB_DatabaseRecordReadWriteSettingsController_internal_updateFlags( RPDB_D
 
 	//	Update the flags stored in the DBT
 	*flags_pointer =	RPDB_DatabaseRecordReadWriteSettingsController_databaseAllocatesMemoryUsingMalloc( database_record_read_write_settings_controller )
-						|	RPDB_DatabaseRecordReadWriteSettingsController_databaseAllocatesMemoryUsingRealloc( database_record_read_write_settings_controller )
-						|	RPDB_DatabaseRecordReadWriteSettingsController_applicationAllocatesMemory( database_record_read_write_settings_controller )
-						|	RPDB_DatabaseRecordReadWriteSettingsController_partialAccess( database_record_read_write_settings_controller )
-						|	RPDB_DatabaseRecordReadWriteSettingsController_databaseFreesMemory( database_record_read_write_settings_controller );
+										|	RPDB_DatabaseRecordReadWriteSettingsController_databaseAllocatesMemoryUsingRealloc( database_record_read_write_settings_controller )
+										|	RPDB_DatabaseRecordReadWriteSettingsController_applicationAllocatesMemory( database_record_read_write_settings_controller )
+										|	RPDB_DatabaseRecordReadWriteSettingsController_partialAccess( database_record_read_write_settings_controller )
+										|	RPDB_DatabaseRecordReadWriteSettingsController_databaseFreesMemory( database_record_read_write_settings_controller );
 }	
 
 /******************************************

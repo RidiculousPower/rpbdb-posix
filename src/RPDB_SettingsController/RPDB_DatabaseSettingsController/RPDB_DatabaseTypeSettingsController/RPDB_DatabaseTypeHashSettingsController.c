@@ -114,7 +114,9 @@ void RPDB_DatabaseTypeHashSettingsController_setTableSize(	RPDB_DatabaseTypeHash
 
 	int			connection_error	= RP_NO_ERROR;
 		
-	if ( database->wrapped_bdb_database != NULL )	{
+	if (		database != NULL
+			&&	database->wrapped_bdb_database != NULL )	{
+
 		if ( ( connection_error = database->wrapped_bdb_database->set_h_nelem(	database->wrapped_bdb_database, 
 																				number_of_elements ) ) )	{
 		
@@ -139,6 +141,7 @@ uint32_t RPDB_DatabaseTypeHashSettingsController_hashDensityFactor( RPDB_Databas
 	int			connection_error	= RP_NO_ERROR;
 
 	if (	! database_type_hash_settings_controller->density
+		&&	database != NULL
 		&&	database->wrapped_bdb_database != NULL )	{
 		
 		if ( ( connection_error = database->wrapped_bdb_database->get_h_ffactor(	database->wrapped_bdb_database, 
@@ -158,7 +161,7 @@ uint32_t RPDB_DatabaseTypeHashSettingsController_hashDensityFactor( RPDB_Databas
 ******************************/
 
 void RPDB_DatabaseTypeHashSettingsController_setHashDensityFactor(	RPDB_DatabaseTypeHashSettingsController*	database_type_hash_settings_controller, 
-																	uint32_t									density )	{
+																																		uint32_t									density )	{
 
 	RPDB_Database*		database = database_type_hash_settings_controller->parent_database_type_settings_controller->parent_database_settings_controller->parent_database;
 
@@ -166,14 +169,15 @@ void RPDB_DatabaseTypeHashSettingsController_setHashDensityFactor(	RPDB_Database
 
 	database_type_hash_settings_controller->density	=	density;
 
-	if (	database->wrapped_bdb_database != NULL )	{
+	if (		database != NULL
+			&&	database->wrapped_bdb_database != NULL )	{
 
 		if ( ( connection_error = database->wrapped_bdb_database->set_h_ffactor(	database->wrapped_bdb_database, 
 																					database_type_hash_settings_controller->density ) ) )	{
 
 			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_type_hash_settings_controller->parent_database_type_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ),
-															connection_error, 
-															"RPDB_DatabaseTypeHashSettingsController_setHashDensityFactor" );
+																										connection_error, 
+																										"RPDB_DatabaseTypeHashSettingsController_setHashDensityFactor" );
 		}
 	}
 }

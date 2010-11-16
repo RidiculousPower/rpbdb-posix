@@ -18,6 +18,8 @@
 #include "RPDB_DatabaseEncryptionSettingsController_internal.h"
 #include "RPDB_DatabaseRecordReadWriteSettingsController_internal.h"
 	
+#include <string.h>
+	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
 																		Public Methods
@@ -112,8 +114,8 @@ uint32_t RPDB_DatabaseEncryptionSettingsController_encrypted( RPDB_DatabaseEncry
 				&&	database->wrapped_bdb_database != NULL )	{
 
 			connection_error = database->wrapped_bdb_database->set_encrypt(	database->wrapped_bdb_database, 
-														encryption_password, 
-														DB_ENCRYPT_AES );
+																																			encryption_password, 
+																																			DB_ENCRYPT_AES );
 		}
 		
 		//	FIX - do we also need to call set_flags here? i think so, to turn DB_ENCRYPT on
@@ -122,9 +124,9 @@ uint32_t RPDB_DatabaseEncryptionSettingsController_encrypted( RPDB_DatabaseEncry
 
 		if ( connection_error ) {
 		
-			RPDB_ErrorController_internal_throwBDBError( RPDB_Environment_errorController( database_encryption_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ), 
-																connection_error, 
-																"RPDB_DatabaseEncryptionSettingsController_turnEncryptionOn" );
+			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_encryption_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ), 
+																										connection_error, 
+																										"RPDB_DatabaseEncryptionSettingsController_turnEncryptionOn" );
 			return;
 		}
 	
@@ -137,23 +139,28 @@ uint32_t RPDB_DatabaseEncryptionSettingsController_encrypted( RPDB_DatabaseEncry
 
 	//	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_encrypt.html
 	void RPDB_DatabaseEncryptionSettingsController_turnEncryptionOff(	RPDB_DatabaseEncryptionSettingsController*		database_encryption_settings_controller, 
-																		char*											encryption_password )	{
+																																		char*											encryption_password )	{
 
 		RPDB_Database*			database	= database_encryption_settings_controller->parent_database_settings_controller->parent_database;
-		int			connection_error	= 0;
 
 		if (		database != NULL
 				&&	database->wrapped_bdb_database != NULL )	{
-			if ( ( connection_error = database->wrapped_bdb_database->set_encrypt( database->wrapped_bdb_database, encryption_password, FALSE ) ) ) {
+
+			int		connection_error	= 0;
+			if ( ( connection_error = database->wrapped_bdb_database->set_encrypt(	database->wrapped_bdb_database, 
+																																							encryption_password, 
+																																							FALSE ) ) ) {
 				
-				RPDB_ErrorController_internal_throwBDBError( RPDB_Environment_errorController( database_encryption_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ), 
-															 connection_error, 
-															 "RPDB_DatabaseEncryptionSettingsController_turnEncryptionOff" );
+				RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database->parent_database_controller->parent_environment ), 
+																											connection_error, 
+																											"RPDB_DatabaseEncryptionSettingsController_turnEncryptionOff" );
 				return;
 			}
 		}
-
-		database_encryption_settings_controller->encrypted = FALSE;
+		
+		if ( strcmp( encryption_password, database_encryption_settings_controller->password ) == 0 )	{
+			database_encryption_settings_controller->encrypted = FALSE;
+		}
 	}
 
 /*******************************************************************************************************************************************************************************************

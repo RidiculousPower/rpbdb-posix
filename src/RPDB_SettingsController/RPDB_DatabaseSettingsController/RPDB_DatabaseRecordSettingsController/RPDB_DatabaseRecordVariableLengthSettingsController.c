@@ -61,33 +61,37 @@ RPDB_Database* RPDB_DatabaseRecordVariableLengthSettingsController_parentDatabas
 	************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_re_delim.html
-int RPDB_DatabaseRecordVariableLengthSettingsController_recordDelimeter( RPDB_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller )	{
+int RPDB_DatabaseRecordVariableLengthSettingsController_delimeterByte( RPDB_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller )	{
 
 	RPDB_Database*				database	= database_record_variable_length_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database;
 	
-	if ( database->wrapped_bdb_database != NULL )	{
+	if (		database != NULL
+			&&	database->wrapped_bdb_database != NULL )	{
+		
 		database->wrapped_bdb_database->get_re_delim(	database->wrapped_bdb_database, 
-														&( database_record_variable_length_settings_controller->record_delimeter ) );
+																									&( database_record_variable_length_settings_controller->delimeter_byte ) );
 	}
 	
-	return database_record_variable_length_settings_controller->record_delimeter;
+	return database_record_variable_length_settings_controller->delimeter_byte;
 }
 
 	/****************************
 	*  setRecordDelimeter  *
 	****************************/
 
-void RPDB_DatabaseRecordVariableLengthSettingsController_setRecordDelimeter(	RPDB_DatabaseRecordVariableLengthSettingsController*		database_record_variable_length_settings_controller, 
-																		int													record_delimeter )	{
+void RPDB_DatabaseRecordVariableLengthSettingsController_setDelimeterByte(	RPDB_DatabaseRecordVariableLengthSettingsController*		database_record_variable_length_settings_controller, 
+																																							int													delimeter_byte )	{
 
 	RPDB_Database*				database	= database_record_variable_length_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database;
 
-	if ( database->wrapped_bdb_database != NULL )	{
+	if (		database != NULL
+			&&	database->wrapped_bdb_database != NULL )	{
+	
 		database->wrapped_bdb_database->set_re_delim(	database->wrapped_bdb_database, 
-														record_delimeter );
+																									delimeter_byte );
 	}
 	
-	database_record_variable_length_settings_controller->record_delimeter = record_delimeter;
+	database_record_variable_length_settings_controller->delimeter_byte = delimeter_byte;
 }
 
 /*******************************************************************************************************************************************************************************************
@@ -106,7 +110,7 @@ RPDB_DatabaseRecordVariableLengthSettingsController* RPDB_DatabaseRecordVariable
 	//	Instances and Pointers
 	database_record_variable_length_settings_controller_copy->index_primary	=	database_record_variable_length_settings_controller->index_primary;
 	database_record_variable_length_settings_controller_copy->secondary_key_is_immutable	=	database_record_variable_length_settings_controller->secondary_key_is_immutable;
-	database_record_variable_length_settings_controller_copy->record_delimeter	=	database_record_variable_length_settings_controller->record_delimeter;
+	database_record_variable_length_settings_controller_copy->delimeter_byte	=	database_record_variable_length_settings_controller->delimeter_byte;
 
 	return database_record_variable_length_settings_controller_copy;
 }

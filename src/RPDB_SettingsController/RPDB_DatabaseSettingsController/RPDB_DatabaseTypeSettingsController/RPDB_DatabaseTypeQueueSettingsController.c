@@ -106,20 +106,20 @@ BOOL RPDB_DatabaseTypeQueueSettingsController_returnKeyDataPairsInOrder( RPDB_Da
 //	For Queue Databases		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_q_extentsize.html
 uint32_t RPDB_DatabaseTypeQueueSettingsController_numberOfPagesForUnderlyingData( RPDB_DatabaseTypeQueueSettingsController* database_type_queue_settings_controller )	{
 
-	DB*		database;
+	RPDB_Database*		database	=	database_type_queue_settings_controller->parent_database_type_settings_controller->parent_database_settings_controller->parent_database;
 
 	int		connection_error	= 0;
 
-	if ( ! database_type_queue_settings_controller->number_of_pages_for_underlying_data )	{
-		
-		database = database_type_queue_settings_controller->parent_database_type_settings_controller->parent_database_settings_controller->parent_database->wrapped_bdb_database;
-	
-		if ( ( connection_error = database->get_q_extentsize(	database,
-																&( database_type_queue_settings_controller->number_of_pages_for_underlying_data ) ) ) )	{
+	if (		! database_type_queue_settings_controller->number_of_pages_for_underlying_data
+			&&	database != NULL
+			&&	database->wrapped_bdb_database != NULL )	{
+			
+		if ( ( connection_error = database->wrapped_bdb_database->get_q_extentsize(	database->wrapped_bdb_database,
+																																								&( database_type_queue_settings_controller->number_of_pages_for_underlying_data ) ) ) )	{
 
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_type_queue_settings_controller->parent_database_type_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ),
-													connection_error, 
-													"RPDB_DatabaseTypeQueueSettingsController_numberOfPagesForUnderlyingData" );
+			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database->parent_database_controller->parent_environment ),
+																										connection_error, 
+																										"RPDB_DatabaseTypeQueueSettingsController_numberOfPagesForUnderlyingData" );
 		}
 	}
 	
@@ -139,13 +139,15 @@ void RPDB_DatabaseTypeQueueSettingsController_setNumberOfPagesForUnderlyingData(
 	
 	database_type_queue_settings_controller->number_of_pages_for_underlying_data = number_of_pages_for_underlying_data;
 
-	if ( database->wrapped_bdb_database != NULL )	{
+	if (		database != NULL
+			&&	database->wrapped_bdb_database != NULL )	{
+
 		if ( ( connection_error = database->wrapped_bdb_database->set_q_extentsize(	database->wrapped_bdb_database, 
 																					database_type_queue_settings_controller->number_of_pages_for_underlying_data ) ) )	{
 		
 			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_type_queue_settings_controller->parent_database_type_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ),
-													connection_error, 
-													"RPDB_DatabaseTypeQueueSettingsController_setNumberOfPagesForUnderlyingData" );
+																										connection_error, 
+																										"RPDB_DatabaseTypeQueueSettingsController_setNumberOfPagesForUnderlyingData" );
 		}
 	}
 }

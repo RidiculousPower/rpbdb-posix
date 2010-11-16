@@ -194,7 +194,7 @@ void RPDB_Environment_initDefaults( RPDB_Environment* environment )	{
 
 	RPDB_SettingsController*								settings_controller								=	RPDB_Environment_settingsController( environment );
 	RPDB_ErrorSettingsController*						error_settings_controller					=	RPDB_SettingsController_errorSettingsController( settings_controller );
-	RPDB_DebugSettingsController*						debug_settings_controller					=	RPDB_SettingsController_debugSettingsController( settings_controller );
+//	RPDB_DebugSettingsController*						debug_settings_controller					=	RPDB_SettingsController_debugSettingsController( settings_controller );
 	RPDB_TransactionSettingsController*			transaction_settings_controller		=	RPDB_SettingsController_transactionSettingsController( settings_controller );
 	RPDB_LogSettingsController*							log_settings_controller						=	RPDB_SettingsController_logSettingsController( settings_controller );
 	RPDB_LockSettingsController*						lock_settings_controller					=	RPDB_SettingsController_lockSettingsController( settings_controller );
@@ -224,7 +224,7 @@ void RPDB_Environment_initDefaults( RPDB_Environment* environment )	{
 
 		//	Enable registration, checking for environmental failure, normal recovery
 		//	DB_RECOVER
-		RPDB_DebugSettingsController_turnRunNormalRecoveryBeforeOpeningEnvironmentOn( debug_settings_controller );
+//		RPDB_DebugSettingsController_turnRunNormalRecoveryBeforeOpeningEnvironmentOn( debug_settings_controller );
 
 		//	DB_REGISTER, DB_ENV_FAILCHK
 //		RPDB_DebugSettingsController_turnRegisterForRecoveryOn( debug_settings_controller );

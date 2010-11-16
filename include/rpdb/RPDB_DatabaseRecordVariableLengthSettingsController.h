@@ -19,9 +19,9 @@
 	RPDB_Environment*							RPDB_DatabaseRecordVariableLengthSettingsController_parentEnvironment(				RPDB_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller );
 	RPDB_Database* RPDB_DatabaseRecordVariableLengthSettingsController_parentDatabase(	RPDB_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller );
 
-	int													RPDB_DatabaseRecordVariableLengthSettingsController_recordDelimeter(								RPDB_DatabaseRecordVariableLengthSettingsController*		database_record_variable_length_settings_controller );
-	void												RPDB_DatabaseRecordVariableLengthSettingsController_setRecordDelimeter(							RPDB_DatabaseRecordVariableLengthSettingsController*		database_record_variable_length_settings_controller,
-																																					int													record_delimeter );
+	int													RPDB_DatabaseRecordVariableLengthSettingsController_delimeterByte(								RPDB_DatabaseRecordVariableLengthSettingsController*		database_record_variable_length_settings_controller );
+	void												RPDB_DatabaseRecordVariableLengthSettingsController_setDelimeterByte(							RPDB_DatabaseRecordVariableLengthSettingsController*		database_record_variable_length_settings_controller,
+																																					int													delimeter_byte );
 														
 	RPDB_DatabaseRecordVariableLengthSettingsController*		RPDB_DatabaseRecordVariableLengthSettingsController_internal_copyOfDefaultSettingsForInstance(	RPDB_DatabaseRecordVariableLengthSettingsController*		database_record_variable_length_settings_controller );
 

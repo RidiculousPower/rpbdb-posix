@@ -1668,20 +1668,22 @@ RPDB_Database* RPDB_Database_verify( RPDB_Database* database )	{
 	RPDB_DatabaseSettingsController*							database_settings_controller							=	RPDB_Database_settingsController( database );
 	RPDB_DatabaseVerificationSettingsController*	database_verification_settings_controller	=	RPDB_DatabaseSettingsController_verificationSettingsController( database_settings_controller );
 
-	uint32_t	verification_flags	=	RPDB_DatabaseVerificationSettingsController_internal_verifyFlags( database_verification_settings_controller );
+	if ( database->wrapped_bdb_database != NULL )	{
 
-	if ( ( connection_error = database->wrapped_bdb_database->verify(	database->wrapped_bdb_database,
-																																		database->filename, 
-																																		database->name, 
-																																		database->verification_file, 
-																																		verification_flags ) ) ) {
-		
-		RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database->parent_database_controller->parent_environment ),
-																									connection_error, 
-																									"RPDB_DatabaseVerificationController_verify" );
-		return NULL;
+		uint32_t	verification_flags	=	RPDB_DatabaseVerificationSettingsController_internal_verifyFlags( database_verification_settings_controller );
+
+		if ( ( connection_error = database->wrapped_bdb_database->verify(	database->wrapped_bdb_database,
+																																			database->filename, 
+																																			database->name, 
+																																			database->verification_file, 
+																																			verification_flags ) ) ) {
+			
+			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database->parent_database_controller->parent_environment ),
+																										connection_error, 
+																										"RPDB_DatabaseVerificationController_verify" );
+			return NULL;
+		}
 	}
-
 
 	//	If we opened the file locally we should close it too
 	if ( opened_file_locally )	{
@@ -1772,9 +1774,9 @@ void RPDB_Database_internal_initWrappedDatabase(	RPDB_Database* database )	{
 				RPDB_DatabaseRecordVariableLengthSettingsController*	record_variable_length_settings_controller	=	database_record_settings_controller->record_variable_length_settings_controller;
 
 				//	DB->set_re_delim()
-				if ( record_variable_length_settings_controller->record_delimeter )	{
-					RPDB_DatabaseRecordVariableLengthSettingsController_setRecordDelimeter(	record_variable_length_settings_controller,
-																																						record_variable_length_settings_controller->record_delimeter );
+				if ( record_variable_length_settings_controller->delimeter_byte )	{
+					RPDB_DatabaseRecordVariableLengthSettingsController_setDelimeterByte(	record_variable_length_settings_controller,
+																																						record_variable_length_settings_controller->delimeter_byte );
 				}
 			}
 

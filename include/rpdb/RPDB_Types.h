@@ -683,7 +683,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							//	Parent
 							RPDB_DatabaseRecordSettingsController*						parent_database_record_settings_controller;
 
-							int														record_delimeter;
+							int														delimeter_byte;
 							//	FIX	- what happened to these??
 							BOOL													index_primary;
 							BOOL													secondary_key_is_immutable;
