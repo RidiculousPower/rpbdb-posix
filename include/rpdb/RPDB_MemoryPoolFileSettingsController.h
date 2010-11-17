@@ -21,9 +21,9 @@
 	void										RPDB_MemoryPoolFileSettingsController_setCreateWithInitialNullBytesNumbering(	RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
 																																	int											initial_null_bytes );
 
-	uint8_t*											RPDB_MemoryPoolFileSettingsController_fileID(										RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller );
+	uint8_t*									RPDB_MemoryPoolFileSettingsController_fileID(										RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller );
 	void											RPDB_MemoryPoolFileSettingsController_setFileID(									RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
-																																	uint8_t*									file_id );
+																																															uint8_t									file_id[ DB_FILE_ID_LEN ] );
 
 	int											RPDB_MemoryPoolFileSettingsController_fileType(									RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller );
 	void										RPDB_MemoryPoolFileSettingsController_setFileType(									RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
@@ -52,9 +52,9 @@
 	void RPDB_MemoryPoolFileSettingsController_setPageSizeInKBytes(	RPDB_MemoryPoolFileSettingsController*	memory_pool_file_settings_controller, 
 																																	uint32_t 																size_in_kbytes );
 
-	RPDB_Record*											RPDB_MemoryPoolFileSettingsController_cookie(										RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller );
+	RPDB_Data*											RPDB_MemoryPoolFileSettingsController_cookie(										RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller );
 	void										RPDB_MemoryPoolFileSettingsController_setCookie(									RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
-																																	RPDB_Record*								cookie );
+																																														RPDB_Data*								cookie );
 
 	RPDB_MemoryPoolFileCacheSettingsController* RPDB_MemoryPoolFileSettingsController_cacheSettingsController( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller );
 	RPDB_MemoryPoolFilePageSettingsController*					RPDB_MemoryPoolFileSettingsController_pageSettingsController(			RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller );

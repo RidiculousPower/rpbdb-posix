@@ -25,6 +25,7 @@
 	void RPDB_Key_setKeyData(	RPDB_Key*	key,
 								void*		key_raw,
 								uint32_t	key_size );
+	uint32_t RPDB_Key_size( RPDB_Key* data );
 
 #endif
 

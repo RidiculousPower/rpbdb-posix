@@ -56,17 +56,13 @@ RPDB_Environment* RPDB_MemoryPoolFileCachePrioritySettingsController_parentEnvir
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/memp_set_priority.html
 DB_CACHE_PRIORITY RPDB_MemoryPoolFileCachePrioritySettingsController_currentPriority( RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller )	{
 
-	DB_CACHE_PRIORITY				current_cache_priority;
-
-	RPDB_MemoryPoolFile*			db_mpool_file;
-	
-	db_mpool_file = memory_pool_file_cache_priority_settings_controller->parent_memory_pool_file_cache_settings_controller->parent_memory_pool_file_settings_controller->parent_memory_pool_file;
+	RPDB_MemoryPoolFile*			db_mpool_file	= memory_pool_file_cache_priority_settings_controller->parent_memory_pool_file_cache_settings_controller->parent_memory_pool_file_settings_controller->parent_memory_pool_file;
 	
 	if ( db_mpool_file != NULL )	{
 		db_mpool_file->wrapped_bdb_memory_pool_file->get_priority(	db_mpool_file->wrapped_bdb_memory_pool_file, 
-																	& current_cache_priority );
+																																& memory_pool_file_cache_priority_settings_controller->priority );
 	}
-	return current_cache_priority;
+	return memory_pool_file_cache_priority_settings_controller->priority;
 }
 
 /*****************
@@ -85,7 +81,7 @@ BOOL RPDB_MemoryPoolFileCachePrioritySettingsController_veryLow( RPDB_MemoryPool
 
 	void RPDB_MemoryPoolFileCachePrioritySettingsController_setVeryLow( RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller )	{
 
-		RPDB_MemoryPoolFileCachePrioritySettingsController_internal_isPriority( memory_pool_file_cache_priority_settings_controller, DB_PRIORITY_VERY_LOW );
+		RPDB_MemoryPoolFileCachePrioritySettingsController_internal_setPriorityTo( memory_pool_file_cache_priority_settings_controller, DB_PRIORITY_VERY_LOW );
 	}
 
 	/*********************
@@ -122,7 +118,7 @@ BOOL RPDB_MemoryPoolFileCachePrioritySettingsController_low( RPDB_MemoryPoolFile
 
 	void RPDB_MemoryPoolFileCachePrioritySettingsController_setLow( RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller )	{
 
-		RPDB_MemoryPoolFileCachePrioritySettingsController_internal_isPriority( memory_pool_file_cache_priority_settings_controller, DB_PRIORITY_LOW );
+		RPDB_MemoryPoolFileCachePrioritySettingsController_internal_setPriorityTo( memory_pool_file_cache_priority_settings_controller, DB_PRIORITY_LOW );
 	}
 
 	/*****************
@@ -159,7 +155,7 @@ BOOL RPDB_MemoryPoolFileCachePrioritySettingsController_default( RPDB_MemoryPool
 
 	void RPDB_MemoryPoolFileCachePrioritySettingsController_setDefault( RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller )	{
 
-		RPDB_MemoryPoolFileCachePrioritySettingsController_internal_isPriority( memory_pool_file_cache_priority_settings_controller, DB_PRIORITY_DEFAULT );
+		RPDB_MemoryPoolFileCachePrioritySettingsController_internal_setPriorityTo( memory_pool_file_cache_priority_settings_controller, DB_PRIORITY_DEFAULT );
 	}
 
 	/*********************
@@ -196,7 +192,7 @@ BOOL RPDB_MemoryPoolFileCachePrioritySettingsController_high( RPDB_MemoryPoolFil
 
 	void RPDB_MemoryPoolFileCachePrioritySettingsController_setHigh( RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller )	{
 
-		RPDB_MemoryPoolFileCachePrioritySettingsController_internal_isPriority( memory_pool_file_cache_priority_settings_controller, DB_PRIORITY_HIGH );
+		RPDB_MemoryPoolFileCachePrioritySettingsController_internal_setPriorityTo( memory_pool_file_cache_priority_settings_controller, DB_PRIORITY_HIGH );
 	}
 
 	/*********************
@@ -233,7 +229,7 @@ BOOL RPDB_MemoryPoolFileCachePrioritySettingsController_veryHigh( RPDB_MemoryPoo
 
 	void RPDB_MemoryPoolFileCachePrioritySettingsController_setVeryHigh( RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller )	{
 
-		RPDB_MemoryPoolFileCachePrioritySettingsController_internal_isPriority( memory_pool_file_cache_priority_settings_controller, DB_PRIORITY_VERY_HIGH );
+		RPDB_MemoryPoolFileCachePrioritySettingsController_internal_setPriorityTo( memory_pool_file_cache_priority_settings_controller, DB_PRIORITY_VERY_HIGH );
 	}
 
 	/*************************
@@ -266,9 +262,11 @@ BOOL RPDB_MemoryPoolFileCachePrioritySettingsController_veryHigh( RPDB_MemoryPoo
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/memp_set_priority.html
 BOOL RPDB_MemoryPoolFileCachePrioritySettingsController_internal_isAtLeast(	RPDB_MemoryPoolFileCachePrioritySettingsController*		memory_pool_file_cache_priority_settings_controller, 
-																			 DB_CACHE_PRIORITY											cache_priority )	{
+																																						DB_CACHE_PRIORITY											cache_priority )	{
 
-	return ( cache_priority >= RPDB_MemoryPoolFileCachePrioritySettingsController_currentPriority( memory_pool_file_cache_priority_settings_controller ) ? TRUE : FALSE );
+	DB_CACHE_PRIORITY	current_priority	=	RPDB_MemoryPoolFileCachePrioritySettingsController_currentPriority( memory_pool_file_cache_priority_settings_controller );
+
+	return ( current_priority >= cache_priority ? TRUE : FALSE );
 }
 
 /*****************
@@ -276,9 +274,11 @@ BOOL RPDB_MemoryPoolFileCachePrioritySettingsController_internal_isAtLeast(	RPDB
 *****************/
 
 BOOL RPDB_MemoryPoolFileCachePrioritySettingsController_internal_isAtMost(	RPDB_MemoryPoolFileCachePrioritySettingsController*		memory_pool_file_cache_priority_settings_controller, 
-																			DB_CACHE_PRIORITY											cache_priority )	{
+																																						DB_CACHE_PRIORITY											cache_priority )	{
 
-	return ( cache_priority <= RPDB_MemoryPoolFileCachePrioritySettingsController_currentPriority( memory_pool_file_cache_priority_settings_controller ) ? TRUE : FALSE );
+	DB_CACHE_PRIORITY	current_priority	=	RPDB_MemoryPoolFileCachePrioritySettingsController_currentPriority( memory_pool_file_cache_priority_settings_controller );
+
+	return ( current_priority <= cache_priority ? TRUE : FALSE );
 }
 
 /**************************
@@ -286,10 +286,12 @@ BOOL RPDB_MemoryPoolFileCachePrioritySettingsController_internal_isAtMost(	RPDB_
 **************************/
 
 BOOL RPDB_MemoryPoolFileCachePrioritySettingsController_internal_isPriority(	RPDB_MemoryPoolFileCachePrioritySettingsController*		memory_pool_file_cache_priority_settings_controller, 
-																				DB_CACHE_PRIORITY											cache_priority )	{
+																																							DB_CACHE_PRIORITY											cache_priority )	{
 
 
-	return ( cache_priority == RPDB_MemoryPoolFileCachePrioritySettingsController_currentPriority( memory_pool_file_cache_priority_settings_controller ) ? TRUE : FALSE );
+	DB_CACHE_PRIORITY	current_priority	=	RPDB_MemoryPoolFileCachePrioritySettingsController_currentPriority( memory_pool_file_cache_priority_settings_controller );
+
+	return ( current_priority == cache_priority ? TRUE : FALSE );
 }
 
 /**********************
@@ -297,16 +299,16 @@ BOOL RPDB_MemoryPoolFileCachePrioritySettingsController_internal_isPriority(	RPD
 **********************/
 
 void RPDB_MemoryPoolFileCachePrioritySettingsController_internal_setPriorityTo(	RPDB_MemoryPoolFileCachePrioritySettingsController*		memory_pool_file_cache_priority_settings_controller, 
-																					DB_CACHE_PRIORITY											cache_priority )	{
+																																								DB_CACHE_PRIORITY											cache_priority )	{
 
-	RPDB_MemoryPoolFile*			db_mpool_file;
-
-	db_mpool_file = memory_pool_file_cache_priority_settings_controller->parent_memory_pool_file_cache_settings_controller->parent_memory_pool_file_settings_controller->parent_memory_pool_file;
+	RPDB_MemoryPoolFile*			db_mpool_file	= memory_pool_file_cache_priority_settings_controller->parent_memory_pool_file_cache_settings_controller->parent_memory_pool_file_settings_controller->parent_memory_pool_file;
 
 	if ( db_mpool_file != NULL )	{
 		db_mpool_file->wrapped_bdb_memory_pool_file->set_priority(	db_mpool_file->wrapped_bdb_memory_pool_file, 
-																	cache_priority );
+																																cache_priority );
 	}
+	
+	memory_pool_file_cache_priority_settings_controller->priority	=	cache_priority;
 }
 
 /*******************************************

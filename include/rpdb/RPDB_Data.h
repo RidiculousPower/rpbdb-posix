@@ -25,6 +25,7 @@ void*			RPDB_Data_rawData(		RPDB_Data*		data );
 void RPDB_Data_setRawData(	RPDB_Data*	data,
 							void*		data_raw,
 							uint32_t	data_size );
+uint32_t RPDB_Data_size( RPDB_Data* data );
 
 #endif
 

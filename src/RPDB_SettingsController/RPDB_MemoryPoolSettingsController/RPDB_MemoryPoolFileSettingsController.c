@@ -14,6 +14,7 @@
 
 #include "RPDB_Environment.h"
 #include "RPDB_Record.h"
+#include "RPDB_Data.h"
 
 #include "RPDB_FileSettingsController.h"
 #include "RPDB_EnvironmentCacheSettingsController.h"
@@ -61,7 +62,7 @@ void RPDB_MemoryPoolFileSettingsController_free(	RPDB_MemoryPoolFileSettingsCont
 		RPDB_MemoryPoolFilePageSettingsController_free( & ( ( *memory_pool_file_settings_controller )->page_settings_controller ) );
 	}
 	if ( ( *memory_pool_file_settings_controller )->cookie != NULL )	{
-		RPDB_Record_free( & ( ( *memory_pool_file_settings_controller )->cookie ) );
+		RPDB_Data_free( & ( ( *memory_pool_file_settings_controller )->cookie ) );
 	}
 	if ( ( *memory_pool_file_settings_controller )->cache_settings_controller != NULL )	{
 		RPDB_MemoryPoolFileCacheSettingsController_free( & ( ( *memory_pool_file_settings_controller )->cache_settings_controller ) );
@@ -116,8 +117,9 @@ uint8_t* RPDB_MemoryPoolFileSettingsController_fileID( RPDB_MemoryPoolFileSettin
 	
 	if (	memory_pool_file_settings_controller->file_id == 0
 		&&	memory_pool_file_settings_controller->parent_memory_pool_file != NULL )	{
+
 		memory_pool_file_settings_controller->parent_memory_pool_file->wrapped_bdb_memory_pool_file->get_fileid(	memory_pool_file_settings_controller->parent_memory_pool_file->wrapped_bdb_memory_pool_file, 
-																													memory_pool_file_settings_controller->file_id );
+																																																							memory_pool_file_settings_controller->file_id );
 	}
 	return memory_pool_file_settings_controller->file_id;
 }
@@ -127,12 +129,13 @@ uint8_t* RPDB_MemoryPoolFileSettingsController_fileID( RPDB_MemoryPoolFileSettin
 *****************/
 
 void RPDB_MemoryPoolFileSettingsController_setFileID(	RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
-														uint8_t*									file_id )	{
+																											uint8_t																		file_id[ DB_FILE_ID_LEN ] )	{
 
 	memory_pool_file_settings_controller->file_id = file_id;
 	if ( memory_pool_file_settings_controller->parent_memory_pool_file != NULL )	{
+	
 		memory_pool_file_settings_controller->parent_memory_pool_file->wrapped_bdb_memory_pool_file->set_fileid(	memory_pool_file_settings_controller->parent_memory_pool_file->wrapped_bdb_memory_pool_file, 
-																													memory_pool_file_settings_controller->file_id );
+																																																							memory_pool_file_settings_controller->file_id );
 	}
 }
 
@@ -213,10 +216,11 @@ uint64_t RPDB_MemoryPoolFileSettingsController_maxFileSizeInBytes( RPDB_MemoryPo
 		memory_pool_file->wrapped_bdb_memory_pool_file->get_maxsize(	memory_pool_file->wrapped_bdb_memory_pool_file, 
 																																	& gigabytes, 
 																																	& additional_bytes );
-	}
+
+		memory_pool_file_settings_controller->max_file_size_in_bytes =		gigabytes * ( 1024 * 1024 * 1024 )
+																																		+ additional_bytes;
 	
-	memory_pool_file_settings_controller->max_file_size_in_bytes =		gigabytes * ( 1024 * 1024 * 1024 )
-																																	+ additional_bytes;
+	}
 	
 	return memory_pool_file_settings_controller->max_file_size_in_bytes;
 }
@@ -227,7 +231,10 @@ uint64_t RPDB_MemoryPoolFileSettingsController_maxFileSizeInBytes( RPDB_MemoryPo
 
 long RPDB_MemoryPoolFileSettingsController_maxFileSizeInKBytes( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 
-	return RPDB_MemoryPoolFileSettingsController_maxFileSizeInBytes( memory_pool_file_settings_controller ) / 1024;
+	uint64_t	max_file_size_in_bytes	=	RPDB_MemoryPoolFileSettingsController_maxFileSizeInBytes( memory_pool_file_settings_controller );
+	uint32_t	max_file_size_in_kbytes	=	max_file_size_in_bytes / 1024;
+
+	return max_file_size_in_kbytes;
 }
 
 /************************
@@ -236,7 +243,10 @@ long RPDB_MemoryPoolFileSettingsController_maxFileSizeInKBytes( RPDB_MemoryPoolF
 
 long RPDB_MemoryPoolFileSettingsController_maxFileSizeInMBytes( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 
-	return RPDB_MemoryPoolFileSettingsController_maxFileSizeInKBytes( memory_pool_file_settings_controller ) / 1024;
+	uint64_t	max_file_size_in_kbytes	=	RPDB_MemoryPoolFileSettingsController_maxFileSizeInKBytes( memory_pool_file_settings_controller );
+	uint32_t	max_file_size_in_mbytes	=	max_file_size_in_kbytes / 1024;
+
+	return max_file_size_in_mbytes;
 }
 
 /************************
@@ -245,7 +255,10 @@ long RPDB_MemoryPoolFileSettingsController_maxFileSizeInMBytes( RPDB_MemoryPoolF
 
 long RPDB_MemoryPoolFileSettingsController_maxFileSizeInGBytes( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 
-	return RPDB_MemoryPoolFileSettingsController_maxFileSizeInMBytes( memory_pool_file_settings_controller ) / 1024;
+	uint64_t	max_file_size_in_mbytes	=	RPDB_MemoryPoolFileSettingsController_maxFileSizeInMBytes( memory_pool_file_settings_controller );
+	uint32_t	max_file_size_in_gbytes	=	max_file_size_in_mbytes / 1024;
+
+	return max_file_size_in_gbytes;
 }
 
 /**************************
@@ -258,8 +271,10 @@ void RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInBytes(	RPDB_MemoryPoo
 	uint32_t		gigabytes;
 	uint32_t		additional_bytes;
 	
-	additional_bytes = max_file_size_in_bytes % ( 1024 * 1024 * 1024 );
-	gigabytes = ( max_file_size_in_bytes - additional_bytes ) / ( 1024 * 1024 * 1024 );
+	uint32_t		bytes_in_gigabyte	=	( 1024 * 1024 * 1024 );
+	
+	additional_bytes	= max_file_size_in_bytes % bytes_in_gigabyte;
+	gigabytes					= ( max_file_size_in_bytes - additional_bytes ) / bytes_in_gigabyte;
 	
 	memory_pool_file_settings_controller->max_file_size_in_bytes = max_file_size_in_bytes;
 	if ( memory_pool_file_settings_controller->parent_memory_pool_file != NULL )	{
@@ -278,9 +293,12 @@ void RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInBytes(	RPDB_MemoryPoo
 
 void RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInKBytes(	RPDB_MemoryPoolFileSettingsController*	memory_pool_file_settings_controller, 
 																																		uint32_t 																size_in_kbytes )	{
+	
+//	uint64_t	size_in_kbytes_64 = size_in_kbytes;
+	uint64_t	size_in_bytes	=	(uint64_t) size_in_kbytes * 1024;
 
 	RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInBytes(	memory_pool_file_settings_controller, 
-																																size_in_kbytes * 1024 );
+																																size_in_bytes );
 }
 
 /***************************
@@ -290,8 +308,10 @@ void RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInKBytes(	RPDB_MemoryPo
 void RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInMBytes(	RPDB_MemoryPoolFileSettingsController*	memory_pool_file_settings_controller, 
 																																		uint32_t																size_in_mbytes )	{
 
+	uint32_t	size_in_kbytes	=	size_in_mbytes * 1024;
+
 	RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInKBytes(	memory_pool_file_settings_controller, 
-																																size_in_mbytes * 1024 * 1024 );
+																																size_in_kbytes );
 }
 
 /***************************
@@ -301,8 +321,10 @@ void RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInMBytes(	RPDB_MemoryPo
 void RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInGBytes(	RPDB_MemoryPoolFileSettingsController*	memory_pool_file_settings_controller, 
 																																		uint32_t																size_in_gbytes )	{
 
+	uint32_t	size_in_mbytes	=	size_in_gbytes * 1024;
+
 	RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInMBytes(	memory_pool_file_settings_controller, 
-																																size_in_gbytes * 1024 * 1024 * 1024 );
+																																size_in_mbytes );
 }
 
 /********************
@@ -367,14 +389,14 @@ void RPDB_MemoryPoolFileSettingsController_setPageSizeInKBytes(	RPDB_MemoryPoolF
 *************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/memp_set_pgcookie.html
-RPDB_Record* RPDB_MemoryPoolFileSettingsController_cookie( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
+RPDB_Data* RPDB_MemoryPoolFileSettingsController_cookie( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 	
 	if (	memory_pool_file_settings_controller->cookie == NULL
 		&&	memory_pool_file_settings_controller->parent_memory_pool_file != NULL )	{
 
-		memory_pool_file_settings_controller->cookie = RPDB_Record_new( NULL );
+		memory_pool_file_settings_controller->cookie = RPDB_Data_new( NULL );
 		memory_pool_file_settings_controller->parent_memory_pool_file->wrapped_bdb_memory_pool_file->get_pgcookie(	memory_pool_file_settings_controller->parent_memory_pool_file->wrapped_bdb_memory_pool_file, 
-																																														memory_pool_file_settings_controller->cookie->data->wrapped_bdb_dbt );
+																																																								memory_pool_file_settings_controller->cookie->wrapped_bdb_dbt );
 	}
 	return memory_pool_file_settings_controller->cookie;
 }
@@ -384,13 +406,13 @@ RPDB_Record* RPDB_MemoryPoolFileSettingsController_cookie( RPDB_MemoryPoolFileSe
 *****************/
 
 void RPDB_MemoryPoolFileSettingsController_setCookie(	RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
-														RPDB_Record*								cookie )	{
+																											RPDB_Data*																cookie )	{
 
 	memory_pool_file_settings_controller->cookie = cookie;
 	if ( memory_pool_file_settings_controller->parent_memory_pool_file != NULL )	{
 
 		memory_pool_file_settings_controller->parent_memory_pool_file->wrapped_bdb_memory_pool_file->set_pgcookie(	memory_pool_file_settings_controller->parent_memory_pool_file->wrapped_bdb_memory_pool_file, 
-																						cookie->data->wrapped_bdb_dbt );
+																																																								cookie->wrapped_bdb_dbt );
 	}
 }
 

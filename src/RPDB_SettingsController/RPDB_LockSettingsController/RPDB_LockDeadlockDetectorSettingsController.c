@@ -235,7 +235,7 @@ void RPDB_LockDeadlockDetectorSettingsController_internal_set( RPDB_LockDeadlock
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
 		environment->wrapped_bdb_environment->get_lk_detect(	environment->wrapped_bdb_environment, 
-																&( lock_deadlock_detector_settings_controller->deadlock_settings ) );
+																													&( lock_deadlock_detector_settings_controller->deadlock_settings ) );
 	}
 }
 
@@ -244,7 +244,7 @@ void RPDB_LockDeadlockDetectorSettingsController_internal_set( RPDB_LockDeadlock
 *****************/
 
 BOOL RPDB_LockDeadlockDetectorSettingsController_internal_isSetTo(	RPDB_LockDeadlockDetectorSettingsController*	lock_deadlock_detector_settings_controller, 
-																	uint32_t										deadlock_settings )	{
+																																		uint32_t										deadlock_settings )	{
 	RPDB_LockDeadlockDetectorSettingsController_internal_set( lock_deadlock_detector_settings_controller );
 
 	if ( lock_deadlock_detector_settings_controller->deadlock_settings == deadlock_settings )	{
@@ -258,15 +258,17 @@ BOOL RPDB_LockDeadlockDetectorSettingsController_internal_isSetTo(	RPDB_LockDead
 *************/
 
 void RPDB_LockDeadlockDetectorSettingsController_internal_setTo(	RPDB_LockDeadlockDetectorSettingsController*	lock_deadlock_detector_settings_controller, 
-																	uint32_t										deadlock_settings )	{
+																																	uint32_t										deadlock_settings )	{
 
 	RPDB_Environment*		environment	= lock_deadlock_detector_settings_controller->parent_lock_settings_controller->parent_settings_controller->parent_environment;
 	
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
 		environment->wrapped_bdb_environment->set_lk_detect(	environment->wrapped_bdb_environment, 
-																deadlock_settings );
+																													deadlock_settings );
 	}
+	
+	lock_deadlock_detector_settings_controller->deadlock_settings	=	deadlock_settings;
 }
 
 /*******************************************

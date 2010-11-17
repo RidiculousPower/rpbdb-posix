@@ -172,7 +172,7 @@ uint32_t RPDB_MutexSettingsController_mutexAlignment( RPDB_MutexSettingsControll
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
 		environment->wrapped_bdb_environment->mutex_get_align(	environment->wrapped_bdb_environment, 
-																&( mutex_settings_controller->mutex_alignment ) );
+																														&( mutex_settings_controller->mutex_alignment ) );
 	}
 	
 	return mutex_settings_controller->mutex_alignment;
@@ -184,17 +184,17 @@ uint32_t RPDB_MutexSettingsController_mutexAlignment( RPDB_MutexSettingsControll
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/mutex_set_max.html
 void RPDB_MutexSettingsController_setMutexAlignment(	RPDB_MutexSettingsController*		mutex_settings_controller, 
-														uint32_t							increment_for_adding_mutexes )	{
+																											uint32_t												mutex_alignment )	{
 
 	RPDB_Environment*		environment	= mutex_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
 		environment->wrapped_bdb_environment->mutex_set_align(	environment->wrapped_bdb_environment, 
-																increment_for_adding_mutexes );
+																														mutex_alignment );
 	}
 	
-	mutex_settings_controller->increment_for_adding_mutexes = increment_for_adding_mutexes;	
+	mutex_settings_controller->mutex_alignment = mutex_alignment;	
 }
 
 /*************************

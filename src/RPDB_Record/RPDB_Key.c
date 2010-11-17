@@ -87,6 +87,16 @@ void RPDB_Key_setKeyData(	RPDB_Key*	key,
 						key_size );
 }
 
+/*************
+*  size  *
+*************/
+
+//	Note that applications can determine the length of a record by setting the ulen field 
+//	(RPDB_DatabaseRecordSettingsController_dataBufferSize) to 0 and checking the return value in the size field.
+uint32_t RPDB_Key_size( RPDB_Key* data )	{
+
+	return RPDB_DBT_size(	(RPDB_DBT*) data  );
+}	
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************

@@ -50,7 +50,7 @@
 	int													RPDB_ReplicationSettingsController_startAsClientOrRallyElection(					RPDB_ReplicationSettingsController*	replication_settings_controller );
 	void													RPDB_ReplicationSettingsController_setStartAsClientOrRallyElection(				RPDB_ReplicationSettingsController*	replication_settings_controller );
 
-	int														RPDB_ReplicationSettingsController_limit(											RPDB_ReplicationSettingsController*	replication_settings_controller );
+	double											RPDB_ReplicationSettingsController_limit(											RPDB_ReplicationSettingsController*	replication_settings_controller );
 	void													RPDB_ReplicationSettingsController_setLimit(										RPDB_ReplicationSettingsController*	replication_settings_controller, 
 																																				uint64_t								limit_in_gbytes, 
 																																				uint64_t								limit_in_bytes );
@@ -59,7 +59,6 @@
 																																				char*									host );
 	u_int													RPDB_ReplicationSettingsController_port(											RPDB_ReplicationSettingsController*	replication_settings_controller );
 	void													RPDB_ReplicationSettingsController_setPort(										RPDB_ReplicationSettingsController*	replication_settings_controller, 
-																																				char*									host, 
 																																				u_int									port );
 	uint32_t												RPDB_ReplicationSettingsController_siteCount(										RPDB_ReplicationSettingsController*	replication_settings_controller );
 	void													RPDB_ReplicationSettingsController_setSiteCount(									RPDB_ReplicationSettingsController*	replication_settings_controller, 

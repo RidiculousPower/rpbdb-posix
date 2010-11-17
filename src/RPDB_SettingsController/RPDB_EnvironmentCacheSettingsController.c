@@ -160,14 +160,14 @@ double RPDB_EnvironmentCacheSettingsController_sizeInGBytes( RPDB_EnvironmentCac
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
 void RPDB_EnvironmentCacheSettingsController_setSizeInBytes(	RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
-																															uint32_t																	size_in_bytes )	{
+																															uint64_t																	size_in_bytes )	{
 
 	RPDB_Environment*		environment = cache_settings_controller->parent_settings_controller->parent_environment;
 
-	uint32_t	additional_bytes_size	=		size_in_bytes 
-																		%	( /* 1 gbyte in bytes */ 1024 * 1024 * 1024);
-	uint32_t	gigabytes_size				=		size_in_bytes 
-																		-	additional_bytes_size;
+	uint32_t	bytes_in_gigabyte	=	1024 * 1024 * 1024;
+
+	uint32_t	additional_bytes_size	=		size_in_bytes %	bytes_in_gigabyte;
+	uint32_t	gigabytes_size				=		( size_in_bytes -	additional_bytes_size ) % bytes_in_gigabyte;
 
 	cache_settings_controller->size_in_bytes	=	size_in_bytes;
 	
@@ -192,8 +192,10 @@ void RPDB_EnvironmentCacheSettingsController_setSizeInBytes(	RPDB_EnvironmentCac
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
 void RPDB_EnvironmentCacheSettingsController_setSizeInKBytes( RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
 																															uint32_t																	size_kbytes  )	{
+	
+	uint64_t	size_bytes	=	(uint64_t) size_kbytes * 1024;
 	RPDB_EnvironmentCacheSettingsController_setSizeInBytes(	cache_settings_controller, 
-																													size_kbytes * 1024 );
+																													size_bytes );
 }
 
 /********************
@@ -275,7 +277,7 @@ void RPDB_EnvironmentCacheSettingsController_setSizeInKBytesBytes( RPDB_Environm
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
 void RPDB_EnvironmentCacheSettingsController_setSizeInBytesWithRegions(	RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
-																																				uint32_t																	size_in_bytes,
+																																				uint64_t																	size_in_bytes,
 																																				int																				number_of_regions )	{
 
 	RPDB_Environment*		environment = cache_settings_controller->parent_settings_controller->parent_environment;
@@ -421,15 +423,16 @@ uint64_t RPDB_EnvironmentCacheSettingsController_maxSizeInBytes( RPDB_Environmen
 																										connection_error, 
 																										"RPDB_EnvironmentCacheSettingsController_maxSizeInBytes" );
 		}
+
+		//	Return in bytes
+		cache_settings_controller->max_size_in_bytes	=		gigabytes_size 
+																										* 1024 /*  megs  */ 
+																										* 1024 /*  kbytes  */ 
+																										* 1024 /*  bytes  */ 
+																										+ additional_bytes_size;
+
 	}
 	
-	//	Return in bytes
-	cache_settings_controller->max_size_in_bytes	=		gigabytes_size 
-																									* 1024 /*  megs  */ 
-																									* 1024 /*  kbytes  */ 
-																									* 1024 /*  bytes  */ 
-																									+ additional_bytes_size;
-
 	return cache_settings_controller->max_size_in_bytes;
 }
 
@@ -473,22 +476,24 @@ double RPDB_EnvironmentCacheSettingsController_maxSizeInGBytes( RPDB_Environment
 **********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
-void RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes( RPDB_EnvironmentCacheSettingsController* cache_settings_controller, uint32_t max_size_in_bytes )	{
+void RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes(	RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
+																																uint64_t																	max_size_in_bytes )	{
 
 	RPDB_Environment*		environment = cache_settings_controller->parent_settings_controller->parent_environment;
 
-	uint32_t	additional_bytes_size	=		max_size_in_bytes 
-																		%	( /* 1 gbyte in bytes */ 1024 * 1024 * 1024);
-	uint32_t	gigabytes_size				=		max_size_in_bytes 
-																		-	additional_bytes_size;
+	uint32_t	bytes_in_gigabyte	=	1024 * 1024 * 1024;
+
+	uint64_t	additional_bytes_size	=		max_size_in_bytes % (uint64_t) bytes_in_gigabyte;
+	uint64_t	gigabytes_in_bytes		=		max_size_in_bytes -	additional_bytes_size;
+	uint64_t	gigabytes_size				=		gigabytes_in_bytes / (uint64_t) bytes_in_gigabyte;
 
 	cache_settings_controller->max_size_in_bytes	=	max_size_in_bytes;
 	
 	if ( environment->wrapped_bdb_environment != NULL )	{
 		int	connection_error	=	RP_NO_ERROR;
 		if ( ( connection_error = environment->wrapped_bdb_environment->set_cache_max(	environment->wrapped_bdb_environment, 
-																																										gigabytes_size, 
-																																										additional_bytes_size ) ) )	{
+																																										(uint32_t) gigabytes_size, 
+																																										(uint32_t) additional_bytes_size ) ) )	{
 
 			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( environment ),
 																										connection_error, 
@@ -504,7 +509,10 @@ void RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes( RPDB_Environment
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
 void RPDB_EnvironmentCacheSettingsController_setMaxSizeInKBytes( RPDB_EnvironmentCacheSettingsController* cache_settings_controller, uint32_t max_size_kbytes )	{
 
-	RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes( cache_settings_controller, max_size_kbytes * 1024 );
+	uint64_t	max_size_bytes	=	(uint64_t) max_size_kbytes * 1024;
+
+	RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes(	cache_settings_controller,
+																															max_size_bytes );
 }
 
 /***********************
@@ -538,10 +546,13 @@ void RPDB_EnvironmentCacheSettingsController_setMaxSizeInGBytesMBytesKBytesBytes
 																																									uint32_t																	additional_max_size_kbytes,
 																																									uint32_t																	additional_max_size_in_bytes )	{
 
-	RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes( cache_settings_controller,	max_size_gbytes * 1024 * 1024 * 1024
-																																											+	additional_max_size_mbytes * 1024 * 1024
-																																											+	additional_max_size_kbytes * 1024
-																																											+	additional_max_size_in_bytes );
+	uint64_t	max_size_in_bytes	=	(uint64_t) max_size_gbytes * 1024 * 1024 * 1024
+															+	(uint64_t) additional_max_size_mbytes * 1024 * 1024
+															+	(uint64_t) additional_max_size_kbytes * 1024
+															+	(uint64_t) additional_max_size_in_bytes;
+
+	RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes(	cache_settings_controller,	
+																															max_size_in_bytes );
 }
 
 /**********************************
@@ -554,9 +565,12 @@ void RPDB_EnvironmentCacheSettingsController_setMaxSizeInMBytesKBytesBytes(	RPDB
 																																						uint32_t																	additional_max_size_kbytes, 
 																																						uint32_t																	additional_max_size_in_bytes )	{
 
-	RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes( cache_settings_controller,	max_size_mbytes * 1024 * 1024
-																																											+	additional_max_size_kbytes * 1024
-																																											+	additional_max_size_in_bytes );
+	uint64_t	max_size_in_bytes	=	(uint64_t) max_size_mbytes * 1024 * 1024
+															+	(uint64_t) additional_max_size_kbytes * 1024
+															+	(uint64_t) additional_max_size_in_bytes;
+
+	RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes(	cache_settings_controller,
+																															max_size_in_bytes );
 }
 
 /****************************
@@ -565,11 +579,14 @@ void RPDB_EnvironmentCacheSettingsController_setMaxSizeInMBytesKBytesBytes(	RPDB
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
 void RPDB_EnvironmentCacheSettingsController_setMaxSizeInKBytesBytes( RPDB_EnvironmentCacheSettingsController* cache_settings_controller, 
-																	  uint32_t		max_size_kbytes, 
-																	  uint32_t		additional_max_size_in_bytes )	{
+																																			uint32_t		max_size_kbytes, 
+																																			uint32_t		additional_max_size_in_bytes )	{
 
-	RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes( cache_settings_controller,	max_size_kbytes * 1024
-																																											+	additional_max_size_in_bytes );
+	uint64_t	max_size_in_bytes	=	(uint64_t) max_size_kbytes * 1024
+															+	(uint64_t) additional_max_size_in_bytes;
+
+	RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes(	cache_settings_controller,	
+																															max_size_in_bytes );
 }
 
 /*******************************************************************************************************************************************************************************************

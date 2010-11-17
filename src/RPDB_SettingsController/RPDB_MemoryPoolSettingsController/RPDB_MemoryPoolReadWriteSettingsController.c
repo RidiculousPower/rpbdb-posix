@@ -178,7 +178,7 @@ void RPDB_MemoryPoolReadWriteSettingsController_setTimeToSleepBeforeNextWrite( R
 ************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_mp_mmapsize.html
-int RPDB_MemoryPoolReadWriteSettingsController_maxMappedDBSize( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller )	{
+size_t RPDB_MemoryPoolReadWriteSettingsController_maxMappedDatabaseSize( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller )	{
 
 	RPDB_Environment*		environment;
 	
@@ -187,7 +187,7 @@ int RPDB_MemoryPoolReadWriteSettingsController_maxMappedDBSize( RPDB_MemoryPoolR
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
 		environment->wrapped_bdb_environment->get_mp_mmapsize(	environment->wrapped_bdb_environment,
-										&( memory_pool_read_write_settings_controller->max_mapped_db_size ) );
+																														&( memory_pool_read_write_settings_controller->max_mapped_db_size ) );
 	}
 	
 	return memory_pool_read_write_settings_controller->max_mapped_db_size;
@@ -197,19 +197,21 @@ int RPDB_MemoryPoolReadWriteSettingsController_maxMappedDBSize( RPDB_MemoryPoolR
 *  setMaxMappedDBSize  *
 ****************************/
 
-void RPDB_MemoryPoolReadWriteSettingsController_setMaxMappedDBSize( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller, size_t max_mapped_db_size )	{
+void RPDB_MemoryPoolReadWriteSettingsController_setMaxMappedDatabaseSize(	RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_read_write_settings_controller, 
+																																					size_t																				max_mapped_db_size )	{
 
 	RPDB_Environment*		environment;
 	
 	environment = memory_pool_read_write_settings_controller->parent_memory_pool_settings_controller->parent_settings_controller->parent_environment;
+
+	memory_pool_read_write_settings_controller->max_mapped_db_size = max_mapped_db_size;
 	
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
 		environment->wrapped_bdb_environment->set_mp_mmapsize(	environment->wrapped_bdb_environment, 
-										memory_pool_read_write_settings_controller->max_mapped_db_size );
+																														memory_pool_read_write_settings_controller->max_mapped_db_size );
 	}
 	
-	memory_pool_read_write_settings_controller->max_mapped_db_size = max_mapped_db_size;
 }
 
 /*****************************

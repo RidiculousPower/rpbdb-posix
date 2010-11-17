@@ -569,20 +569,28 @@ void RPDB_ReplicationSettingsController_setStartAsClientOrRallyElection( RPDB_Re
 *************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_limit.html
-int RPDB_ReplicationSettingsController_limit( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+double RPDB_ReplicationSettingsController_limit( RPDB_ReplicationSettingsController* replication_settings_controller )	{
 
 	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	uint32_t	gigabytes, bytes;
 
+	uint32_t	bytes_in_gigabyte	=	( 1024 * 1024 * 1024 );
+
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
-		environment->wrapped_bdb_environment->rep_get_limit( environment->wrapped_bdb_environment, &gigabytes, &bytes );
+		environment->wrapped_bdb_environment->rep_get_limit(	environment->wrapped_bdb_environment, 
+																													& gigabytes, 
+																													& bytes );
 
-		replication_settings_controller->limit_in_bytes = gigabytes * ( 1024 * 1024 * 1024 ) + bytes;
+		replication_settings_controller->limit_in_gbytes = gigabytes;
+		replication_settings_controller->limit_in_bytes			= bytes;
 	}
+	
+	double	total_bytes	=	( replication_settings_controller->limit_in_gbytes * bytes_in_gigabyte )
+											+ replication_settings_controller->limit_in_bytes;
 
-	return replication_settings_controller->limit_in_bytes;
+	return total_bytes;
 }
 
 /*****************
@@ -590,21 +598,23 @@ int RPDB_ReplicationSettingsController_limit( RPDB_ReplicationSettingsController
 *****************/
 
 void RPDB_ReplicationSettingsController_setLimit(	RPDB_ReplicationSettingsController*	replication_settings_controller, 
-													uint64_t								limit_in_gbytes, 
-													uint64_t								limit_in_bytes )	{
+																									uint64_t								limit_in_gbytes, 
+																									uint64_t								limit_in_bytes )	{
 
 	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
-	uint32_t	gigabytes, bytes;
 
-	gigabytes = limit_in_gbytes + limit_in_bytes % ( 1024 * 1024 * 1024 );
-	bytes = limit_in_bytes - gigabytes * ( 1024 * 1024 * 1024 );
+	uint32_t	bytes_in_gigabyte	=	( 1024 * 1024 * 1024 );
+	uint32_t	byte_remainder		=	limit_in_bytes % bytes_in_gigabyte;
+	uint32_t	total_gigabytes		=	limit_in_gbytes + ( ( limit_in_bytes - byte_remainder ) / bytes_in_gigabyte );
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
-		environment->wrapped_bdb_environment->rep_set_limit( environment->wrapped_bdb_environment, gigabytes, bytes );
+		environment->wrapped_bdb_environment->rep_set_limit(	environment->wrapped_bdb_environment, 
+																													total_gigabytes, 
+																													byte_remainder );
 	}
 	
-	replication_settings_controller->limit_in_gbytes	= gigabytes;
-	replication_settings_controller->limit_in_bytes		= bytes;
+	replication_settings_controller->limit_in_gbytes		= total_gigabytes;
+	replication_settings_controller->limit_in_bytes				= byte_remainder;
 }
 
 /*************
@@ -652,9 +662,8 @@ u_int RPDB_ReplicationSettingsController_port( RPDB_ReplicationSettingsControlle
 *  setPort  *
 *****************/
 
-void RPDB_ReplicationSettingsController_setPort(	RPDB_ReplicationSettingsController*	replication_settings_controller,
-													char*									host __attribute__((unused)), 
-													u_int									port )	{
+void RPDB_ReplicationSettingsController_setPort(	RPDB_ReplicationSettingsController*		replication_settings_controller,
+																									u_int																	port )	{
 
 	replication_settings_controller->port = port;
 
@@ -665,9 +674,9 @@ void RPDB_ReplicationSettingsController_setPort(	RPDB_ReplicationSettingsControl
 		&&	environment->wrapped_bdb_environment != NULL )	{
 	
 		environment->wrapped_bdb_environment->repmgr_set_local_site( environment->wrapped_bdb_environment, 
-											replication_settings_controller->host, 
-											replication_settings_controller->port, 
-											RPDB_ReplicationSettingsController_internal_localSiteFlags( replication_settings_controller ) );
+																																	replication_settings_controller->host, 
+																																	replication_settings_controller->port, 
+																																	RPDB_ReplicationSettingsController_internal_localSiteFlags( replication_settings_controller ) );
 	}
 }
 

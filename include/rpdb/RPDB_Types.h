@@ -354,7 +354,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							int																						log_sequence_number_offset;
 							uint64_t																			page_size_in_bytes;
 							uint64_t																			max_file_size_in_bytes;
-							RPDB_Record*																	cookie;
+							RPDB_Data*																		cookie;
 
 							RPDB_MemoryPoolFileCacheSettingsController*		cache_settings_controller;
 							RPDB_MemoryPoolFilePageSettingsController*		page_settings_controller;
@@ -458,7 +458,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							//	Parent
 							RPDB_LockSettingsController*								parent_lock_settings_controller;
 
-							uint32_t													deadlock_settings;
+							uint32_t																					deadlock_settings;
 
 							RPDB_LockDeadlockDetectorVerbositySettingsController*		verbosity_settings_controller;
 

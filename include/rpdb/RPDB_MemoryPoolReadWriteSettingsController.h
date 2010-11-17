@@ -26,8 +26,8 @@
 	int												RPDB_MemoryPoolReadWriteSettingsController_timeToSleepBeforeNextWrite(		RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller );
 	void											RPDB_MemoryPoolReadWriteSettingsController_setTimeToSleepBeforeNextWrite(	RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller, 
 																																db_timeout_t										time_to_sleep_before_next_write );
-	int												RPDB_MemoryPoolReadWriteSettingsController_maxMappedDBSize(				RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller );
-	void											RPDB_MemoryPoolReadWriteSettingsController_setMaxMappedDBSize(				RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller,
+	size_t										RPDB_MemoryPoolReadWriteSettingsController_maxMappedDatabaseSize(				RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller );
+	void											RPDB_MemoryPoolReadWriteSettingsController_setMaxMappedDatabaseSize(				RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller,
 																																size_t												max_mapped_db_size );
 
 	BOOL											RPDB_MemoryPoolReadWriteSettingsController_pagefaultSharedRegions(			RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller );

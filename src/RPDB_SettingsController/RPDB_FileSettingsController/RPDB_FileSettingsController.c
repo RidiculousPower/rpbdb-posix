@@ -67,7 +67,7 @@ char* RPDB_FileSettingsController_intermediateDirectoryMode( RPDB_FileSettingsCo
 
 		if ( environment->wrapped_bdb_environment != NULL )	{
 			environment->wrapped_bdb_environment->get_intermediate_dir_mode(	environment->wrapped_bdb_environment, 
-																				(const char**) &( file_settings_controller->intermediate_directory_mode ) );
+																																				(const char**) &( file_settings_controller->intermediate_directory_mode ) );
 		}
 	}
 
@@ -78,15 +78,16 @@ char* RPDB_FileSettingsController_intermediateDirectoryMode( RPDB_FileSettingsCo
 *  setIntermediateDirectoryMode  *
 *************************************/
 
+//	9 character string for unix-style directory permissions
 void RPDB_FileSettingsController_setIntermediateDirectoryMode( RPDB_FileSettingsController* file_settings_controller, const char* mode )	{
 
-	RPDB_Environment*			environment;
+	RPDB_Environment*			environment	= file_settings_controller->parent_settings_controller->parent_environment;
 
-	environment = file_settings_controller->parent_settings_controller->parent_environment;
+	file_settings_controller->intermediate_directory_mode	=	(char*) mode;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 		environment->wrapped_bdb_environment->set_intermediate_dir_mode(	environment->wrapped_bdb_environment, 
-																			mode );
+																																			mode );
 	}
 }
 
@@ -105,7 +106,7 @@ char* RPDB_FileSettingsController_tempDirectory( RPDB_FileSettingsController* fi
 
 		if ( environment->wrapped_bdb_environment != NULL )	{
 			environment->wrapped_bdb_environment->get_tmp_dir(	environment->wrapped_bdb_environment, 
-																(const char**) &( file_settings_controller->temp_directory ) );
+																													(const char**) &( file_settings_controller->temp_directory ) );
 		}
 	}
 

@@ -27,7 +27,7 @@
 	double RPDB_EnvironmentCacheSettingsController_sizeInMBytes( RPDB_EnvironmentCacheSettingsController* cache_settings_controller );
 	double RPDB_EnvironmentCacheSettingsController_sizeInGBytes( RPDB_EnvironmentCacheSettingsController* cache_settings_controller );
 	void RPDB_EnvironmentCacheSettingsController_setSizeInBytes(	RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
-																																uint32_t																	size_in_bytes );
+																																uint64_t																	size_in_bytes );
 	void RPDB_EnvironmentCacheSettingsController_setSizeInKBytes( RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
 																																uint32_t																	size_kbytes  );
 	void RPDB_EnvironmentCacheSettingsController_setSizeInMBytes( RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
@@ -47,7 +47,7 @@
 																																		uint32_t																		size_kbytes, 
 																																		uint32_t																		additional_size_in_bytes  );
 	void RPDB_EnvironmentCacheSettingsController_setSizeInBytesWithRegions(	RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
-																																					uint32_t																	size_in_bytes,
+																																					uint64_t																	size_in_bytes,
 																																					int																				number_of_regions );
 	void RPDB_EnvironmentCacheSettingsController_setSizeInKBytesWithRegions(	RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
 																																						uint32_t																	size_kbytes,
@@ -78,7 +78,7 @@
 	double										RPDB_EnvironmentCacheSettingsController_maxSizeInKBytes(						RPDB_EnvironmentCacheSettingsController*		cache_settings_controller );
 	double										RPDB_EnvironmentCacheSettingsController_maxSizeInMBytes(						RPDB_EnvironmentCacheSettingsController*		cache_settings_controller );
 	double										RPDB_EnvironmentCacheSettingsController_maxSizeInGBytes(						RPDB_EnvironmentCacheSettingsController*		cache_settings_controller );
-	void										RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes(						RPDB_EnvironmentCacheSettingsController*		cache_settings_controller, uint32_t max_size_in_bytes );
+	void										RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes(						RPDB_EnvironmentCacheSettingsController*		cache_settings_controller, uint64_t max_size_in_bytes );
 	void										RPDB_EnvironmentCacheSettingsController_setMaxSizeInKBytes(					RPDB_EnvironmentCacheSettingsController*		cache_settings_controller, uint32_t max_size_kbytes );
 	void										RPDB_EnvironmentCacheSettingsController_setMaxSizeInMBytes(					RPDB_EnvironmentCacheSettingsController*		cache_settings_controller, uint32_t max_size_mbytes );
 	void										RPDB_EnvironmentCacheSettingsController_setMaxSizeInGBytes(					RPDB_EnvironmentCacheSettingsController*		cache_settings_controller, uint32_t max_size_gbytes );
