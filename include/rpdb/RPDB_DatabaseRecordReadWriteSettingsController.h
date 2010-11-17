@@ -31,9 +31,9 @@
 	BOOL											RPDB_DatabaseRecordReadWriteSettingsController_returnMultiple(						RPDB_DatabaseRecordReadWriteSettingsController*				database_record_read_write_settings_controller );
 	void										RPDB_DatabaseRecordReadWriteSettingsController_turnReturnMultipleOn(					RPDB_DatabaseRecordReadWriteSettingsController*				database_record_read_write_settings_controller );
 	void										RPDB_DatabaseRecordReadWriteSettingsController_turnReturnMultipleOff(				RPDB_DatabaseRecordReadWriteSettingsController*				database_record_read_write_settings_controller );
-	BOOL											RPDB_DatabaseRecordReadWriteSettingsController_prohibitDuplicateData(				RPDB_DatabaseRecordReadWriteSettingsController*				database_record_read_write_settings_controller );
-	void										RPDB_DatabaseRecordReadWriteSettingsController_turnProhibitDuplicateDataOn(			RPDB_DatabaseRecordReadWriteSettingsController*				database_record_read_write_settings_controller );
-	void										RPDB_DatabaseRecordReadWriteSettingsController_turnProhibitDuplicateDataOff(			RPDB_DatabaseRecordReadWriteSettingsController*				database_record_read_write_settings_controller );
+	BOOL											RPDB_DatabaseRecordReadWriteSettingsController_writeDataOnlyIfNonDuplicate(				RPDB_DatabaseRecordReadWriteSettingsController*				database_record_read_write_settings_controller );
+	void										RPDB_DatabaseRecordReadWriteSettingsController_turnWriteDataOnlyIfNonDuplicateOn(			RPDB_DatabaseRecordReadWriteSettingsController*				database_record_read_write_settings_controller );
+	void										RPDB_DatabaseRecordReadWriteSettingsController_turnWriteDataOnlyIfNonDuplicateOff(			RPDB_DatabaseRecordReadWriteSettingsController*				database_record_read_write_settings_controller );
 	BOOL 										RPDB_DatabaseRecordReadWriteSettingsController_prohibitOverwrite(					RPDB_DatabaseRecordReadWriteSettingsController*				database_record_read_write_settings_controller );
 	void										RPDB_DatabaseRecordReadWriteSettingsController_turnProhibitOverwriteOn(				RPDB_DatabaseRecordReadWriteSettingsController*				database_record_read_write_settings_controller );
 	void										RPDB_DatabaseRecordReadWriteSettingsController_turnProhibitOverwriteOff(				RPDB_DatabaseRecordReadWriteSettingsController*				database_record_read_write_settings_controller );

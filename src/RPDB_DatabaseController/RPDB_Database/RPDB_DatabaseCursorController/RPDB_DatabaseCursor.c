@@ -147,6 +147,9 @@ RPDB_DatabaseCursor* RPDB_DatabaseCursor_open( RPDB_DatabaseCursor* database_cur
 	
 	int					connection_error	= 0;
 
+	RPDB_Database*		parent_database	=	database_cursor->parent_database_cursor_controller->parent_database;
+	RPDB_Database_internal_ensureOpen( parent_database );
+
 	RPDB_Environment*	environment	=	database_cursor->parent_database_cursor_controller->parent_database->parent_database_controller->parent_environment;
 
 	DB_TXN*	transaction_id	=	NULL;
@@ -158,8 +161,6 @@ RPDB_DatabaseCursor* RPDB_DatabaseCursor_open( RPDB_DatabaseCursor* database_cur
 	RPDB_DatabaseCursorSettingsController*	database_cursor_settings_controller	=	RPDB_DatabaseSettingsController_cursorSettingsController( database_settings_controller );
 	
 	uint32_t	open_flags	=	RPDB_DatabaseCursorSettingsController_internal_openFlags( database_cursor_settings_controller );
-	
-	RPDB_Database*	parent_database	=	database_cursor->parent_database_cursor_controller->parent_database;
 	
 	//	Open our BDB database_cursor
 	if ( ( connection_error = parent_database->wrapped_bdb_database->cursor(	parent_database->wrapped_bdb_database,

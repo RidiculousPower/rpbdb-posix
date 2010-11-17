@@ -804,7 +804,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							BOOL													ignore_lease;
 							BOOL													return_multiple;
 							BOOL													append_data;
-							BOOL													prohibit_duplicate_data;
+							BOOL													write_data_only_if_non_duplicate;
 							BOOL													prohibit_overwrite;
 							BOOL													prohibit_page_compaction;
 							BOOL													return_pages_to_filesystem;

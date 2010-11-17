@@ -194,38 +194,38 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_returnMultiple( RPDB_Databas
 	}
 
 /****************************
-*  prohibitDuplicateData  *
+*  writeDataOnlyIfNonDuplicate  *
 ****************************/
 
 //	DB_NODUPDATA			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
 //	Btree and Hash only
-BOOL RPDB_DatabaseRecordReadWriteSettingsController_prohibitDuplicateData( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+BOOL RPDB_DatabaseRecordReadWriteSettingsController_writeDataOnlyIfNonDuplicate( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 
-	if ( database_record_read_write_settings_controller->prohibit_duplicate_data == TRUE )	{
+	if ( database_record_read_write_settings_controller->write_data_only_if_non_duplicate == TRUE )	{
 		return DB_NODUPDATA;
 	}
 	return FALSE;
 }
 
 	/*************************************
-	*  turnProhibitDuplicateDataOn  *
+	*  turnWriteDataOnlyIfNonDuplicateOn  *
 	*************************************/
 
 	//	DB_NODUPDATA			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
 	//	Btree and Hash only
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnProhibitDuplicateDataOn( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
-		database_record_read_write_settings_controller->prohibit_duplicate_data = TRUE;
+	void RPDB_DatabaseRecordReadWriteSettingsController_turnWriteDataOnlyIfNonDuplicateOn( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+		database_record_read_write_settings_controller->write_data_only_if_non_duplicate = TRUE;
 		RPDB_DatabaseRecordReadWriteSettingsController_turnProhibitOverwriteOff( database_record_read_write_settings_controller );
 	}
 
 	/************************************
-	*  turnProhibitDuplicateDataOff  *
+	*  turnWriteDataOnlyIfNonDuplicateOff  *
 	************************************/
 
 	//	DB_NODUPDATA			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
 	//	Btree and Hash only
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnProhibitDuplicateDataOff( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
-		database_record_read_write_settings_controller->prohibit_duplicate_data = FALSE;
+	void RPDB_DatabaseRecordReadWriteSettingsController_turnWriteDataOnlyIfNonDuplicateOff( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+		database_record_read_write_settings_controller->write_data_only_if_non_duplicate = FALSE;
 	}
 
 /*************************
@@ -248,7 +248,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_prohibitOverwrite( RPDB_Data
 	//	DB_NOOVERWRITE			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
 	void RPDB_DatabaseRecordReadWriteSettingsController_turnProhibitOverwriteOn( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 		database_record_read_write_settings_controller->prohibit_overwrite = TRUE;
-		RPDB_DatabaseRecordReadWriteSettingsController_turnProhibitDuplicateDataOff( database_record_read_write_settings_controller );
+		RPDB_DatabaseRecordReadWriteSettingsController_turnWriteDataOnlyIfNonDuplicateOff( database_record_read_write_settings_controller );
 	}
 
 	/********************************
@@ -505,6 +505,9 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_sortedDuplicates( RPDB_Datab
 			}
 		}
 		
+		//	if we are sorting duplicates we don't want errors for overwriting the same record - just ignore
+		RPDB_DatabaseRecordReadWriteSettingsController_turnWriteDataOnlyIfNonDuplicateOn( database_read_write_settings_controller );
+		
 		database_read_write_settings_controller->sort_duplicates = TRUE;
 	}
 
@@ -538,6 +541,9 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_sortedDuplicates( RPDB_Datab
 																																			"Duplicate records are only supported by Btree and Hash database types." );
 			}
 		}
+
+		//	this flag only makes sense with sorted duplicates, so if they're not on it goes off
+		RPDB_DatabaseRecordReadWriteSettingsController_turnWriteDataOnlyIfNonDuplicateOff( database_read_write_settings_controller );
 		
 		database_read_write_settings_controller->sort_duplicates = FALSE;
 	}
@@ -932,7 +938,7 @@ RPDB_DatabaseRecordReadWriteSettingsController* RPDB_DatabaseRecordReadWriteSett
 
 	database_record_read_write_settings_controller_copy->return_multiple				= database_record_read_write_settings_controller->return_multiple;	
 	database_record_read_write_settings_controller_copy->append_data					= database_record_read_write_settings_controller->append_data;	
-	database_record_read_write_settings_controller_copy->prohibit_duplicate_data		= database_record_read_write_settings_controller->prohibit_duplicate_data;	
+	database_record_read_write_settings_controller_copy->write_data_only_if_non_duplicate		= database_record_read_write_settings_controller->write_data_only_if_non_duplicate;	
 	
 	database_record_read_write_settings_controller_copy->prohibit_overwrite			= database_record_read_write_settings_controller->prohibit_overwrite;	
 	database_record_read_write_settings_controller_copy->prohibit_page_compaction		= database_record_read_write_settings_controller->prohibit_page_compaction;	
@@ -951,7 +957,7 @@ RPDB_DatabaseRecordReadWriteSettingsController* RPDB_DatabaseRecordReadWriteSett
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
 int RPDB_DatabaseRecordReadWriteSettingsController_internal_writeFlags( RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller)	{
 	//	Setter functions ensure exclusivity, so we should be able to simply | together the results
-	return	RPDB_DatabaseRecordReadWriteSettingsController_prohibitDuplicateData( database_record_read_write_settings_controller )
+	return	RPDB_DatabaseRecordReadWriteSettingsController_writeDataOnlyIfNonDuplicate( database_record_read_write_settings_controller )
 			|	RPDB_DatabaseRecordReadWriteSettingsController_prohibitOverwrite( database_record_read_write_settings_controller );
 }
 
@@ -996,7 +1002,7 @@ RPDB_DatabaseRecordReadWriteSettingsController* RPDB_DatabaseRecordReadWriteSett
 	database_record_read_write_settings_controller_copy->filename							=	database_record_read_write_settings_controller->filename;
 	database_record_read_write_settings_controller_copy->truncate							=	database_record_read_write_settings_controller->truncate;
 	database_record_read_write_settings_controller_copy->multiple_targets					=	database_record_read_write_settings_controller->multiple_targets;
-	database_record_read_write_settings_controller_copy->prohibit_duplicate_data			=	database_record_read_write_settings_controller->prohibit_duplicate_data;
+	database_record_read_write_settings_controller_copy->write_data_only_if_non_duplicate			=	database_record_read_write_settings_controller->write_data_only_if_non_duplicate;
 	database_record_read_write_settings_controller_copy->prohibit_sync_on_close			=	database_record_read_write_settings_controller->prohibit_sync_on_close;
 	database_record_read_write_settings_controller_copy->permit_duplicates					=	database_record_read_write_settings_controller->permit_duplicates;
 	database_record_read_write_settings_controller_copy->sort_duplicates					=	database_record_read_write_settings_controller->sort_duplicates;

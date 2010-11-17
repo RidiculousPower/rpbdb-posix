@@ -461,17 +461,22 @@ uint32_t RPDB_Database_empty( RPDB_Database* database )	{
 	}
 
 	uint32_t	number_of_records_emptied	=	0;
-	int	connection_error	=	RP_NO_ERROR;
-	if ( ( connection_error = database->wrapped_bdb_database->truncate(	database->wrapped_bdb_database,
-																																			( current_transaction ? current_transaction->wrapped_bdb_transaction : NULL ),
-																																			& number_of_records_emptied,
-																																			RPDB_FUNCTION_HAS_NO_FLAGS ) ) )	{
 	
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( environment ),
-																										connection_error, 
-																										"RPDB_Database_empty" );
-	}
+	if (		database != NULL
+			&&	database->wrapped_bdb_database != NULL )	{
 
+		int	connection_error	=	RP_NO_ERROR;
+		if ( ( connection_error = database->wrapped_bdb_database->truncate(	database->wrapped_bdb_database,
+																																				( current_transaction ? current_transaction->wrapped_bdb_transaction : NULL ),
+																																				& number_of_records_emptied,
+																																				RPDB_FUNCTION_HAS_NO_FLAGS ) ) )	{
+		
+				RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( environment ),
+																											connection_error, 
+																											"RPDB_Database_empty" );
+		}
+	}
+	
 	return number_of_records_emptied;
 }
 
@@ -2130,11 +2135,17 @@ RPDB_Record* RPDB_Database_internal_writeRecord(	RPDB_Database*		database,
 																																	record->data->wrapped_bdb_dbt,
 																																	flags ) ) ) {
 		
-		RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database->parent_database_controller->parent_environment ), 
-																									connection_error, 
-																									"RPDB_Database_internal_writeRecord" );
-		return NULL;
+		if ( connection_error != DB_KEYEXIST )	{
+			record->result = FALSE;
+			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database->parent_database_controller->parent_environment ), 
+																										connection_error, 
+																										"RPDB_Database_internal_writeRecord" );
+		}
 	}
+	else {
+		record->result = TRUE;
+	}
+
 	
 	return record;
 }
