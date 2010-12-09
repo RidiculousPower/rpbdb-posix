@@ -1,6 +1,6 @@
-#ifndef RPDB_DIRECTORY_INTERNAL
-	#define RPDB_DIRECTORY_INTERNAL
+#ifndef Rbdb_DIRECTORY_INTERNAL
+	#define Rbdb_DIRECTORY_INTERNAL
 
-	void RPDB_Directory_internal_ensureDirectoryPathExistsForFile( char* file_path );
+	void Rbdb_Directory_internal_ensureDirectoryPathExistsForFile( char* file_path );
 
 #endif

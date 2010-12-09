@@ -1,5 +1,5 @@
-#ifndef RPDB_DEBUG_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_DEBUG_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_DEBUG_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_DEBUG_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,7 +7,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_DebugSettingsController* RPDB_DebugSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DebugSettingsController* debug_settings_controller );
+Rbdb_DebugSettingsController* Rbdb_DebugSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DebugSettingsController* debug_settings_controller );
 
 
 

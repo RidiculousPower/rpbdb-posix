@@ -1,5 +1,5 @@
 /*
- *		RPDB_settingsController:RPDB_DebugSettingsController
+ *		Rbdb_settingsController:Rbdb_DebugSettingsController
  *
  *
  */
@@ -10,9 +10,9 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_DebugSettingsController.h"
+#include "Rbdb_DebugSettingsController.h"
 
-#include "RPDB_DebugVerbositySettingsController.h"
+#include "Rbdb_DebugVerbositySettingsController.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -24,9 +24,9 @@
 *  new  *
 *************/
 
-RPDB_DebugSettingsController* RPDB_DebugSettingsController_new( RPDB_SettingsController* settings_controller )	{
+Rbdb_DebugSettingsController* Rbdb_DebugSettingsController_new( Rbdb_SettingsController* settings_controller )	{
 
-	RPDB_DebugSettingsController*		debug_settings_controller = calloc( 1, sizeof( RPDB_DebugSettingsController ) );
+	Rbdb_DebugSettingsController*		debug_settings_controller = calloc( 1, sizeof( Rbdb_DebugSettingsController ) );
 
 	debug_settings_controller->parent_settings_controller = settings_controller;
 
@@ -36,10 +36,10 @@ RPDB_DebugSettingsController* RPDB_DebugSettingsController_new( RPDB_SettingsCon
 /***************************
 *  free  *
 ***************************/
-void RPDB_DebugSettingsController_free(	RPDB_DebugSettingsController** debug_settings_controller )	{
+void Rbdb_DebugSettingsController_free(	Rbdb_DebugSettingsController** debug_settings_controller )	{
 
 	if ( ( *debug_settings_controller )->verbosity_settings_controller != NULL )	{
-		RPDB_DebugVerbositySettingsController_free( & ( ( *debug_settings_controller )->verbosity_settings_controller ) );
+		Rbdb_DebugVerbositySettingsController_free( & ( ( *debug_settings_controller )->verbosity_settings_controller ) );
 	}
 	
 	free( *debug_settings_controller );
@@ -49,7 +49,7 @@ void RPDB_DebugSettingsController_free(	RPDB_DebugSettingsController** debug_set
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_DebugSettingsController_parentEnvironment(	RPDB_DebugSettingsController* debug_settings_controller )	{
+Rbdb_Environment* Rbdb_DebugSettingsController_parentEnvironment(	Rbdb_DebugSettingsController* debug_settings_controller )	{
 	return debug_settings_controller->parent_settings_controller->parent_environment;
 }
 
@@ -58,7 +58,7 @@ RPDB_Environment* RPDB_DebugSettingsController_parentEnvironment(	RPDB_DebugSett
 *********************************************************/
 
 //	DB_FAILCHK
-int RPDB_DebugSettingsController_checkForEnvironmentFailureDuringOpen( RPDB_DebugSettingsController* debug_settings_controller )	{
+int Rbdb_DebugSettingsController_checkForEnvironmentFailureDuringOpen( Rbdb_DebugSettingsController* debug_settings_controller )	{
 	if ( debug_settings_controller->check_for_environment_failure_during_open == TRUE )	{
 		return DB_FAILCHK;
 	}
@@ -69,7 +69,7 @@ int RPDB_DebugSettingsController_checkForEnvironmentFailureDuringOpen( RPDB_Debu
 	 *  turnRunNormalRecoveryBeforeOpeningEnvironmentOn  *
 	 *************************************************************/
 
-	void RPDB_DebugSettingsController_turnCheckForEnvironmentFailureDuringOpenOn( RPDB_DebugSettingsController* debug_settings_controller )	{
+	void Rbdb_DebugSettingsController_turnCheckForEnvironmentFailureDuringOpenOn( Rbdb_DebugSettingsController* debug_settings_controller )	{
 		debug_settings_controller->check_for_environment_failure_during_open = TRUE;
 	}
 
@@ -77,7 +77,7 @@ int RPDB_DebugSettingsController_checkForEnvironmentFailureDuringOpen( RPDB_Debu
 	 *  turnRunNormalRecoveryBeforeOpeningEnvironmentOff  *
 	 **************************************************************/
 
-	void RPDB_DebugSettingsController_turnCheckForEnvironmentFailureDuringOpenOff( RPDB_DebugSettingsController* debug_settings_controller )	{
+	void Rbdb_DebugSettingsController_turnCheckForEnvironmentFailureDuringOpenOff( Rbdb_DebugSettingsController* debug_settings_controller )	{
 		debug_settings_controller->check_for_environment_failure_during_open = FALSE;
 	}
 
@@ -89,7 +89,7 @@ int RPDB_DebugSettingsController_checkForEnvironmentFailureDuringOpen( RPDB_Debu
 //	Run normal recovery on this environment before opening it for normal use. 
 //	If this flag is set, the DB_CREATE and DB_INIT_TXN flags must also be set, because the regions will be removed and re-created, 
 //	and transactions are required for application recovery.
-int RPDB_DebugSettingsController_runNormalRecoveryBeforeOpeningEnvironment( RPDB_DebugSettingsController* debug_settings_controller )	{
+int Rbdb_DebugSettingsController_runNormalRecoveryBeforeOpeningEnvironment( Rbdb_DebugSettingsController* debug_settings_controller )	{
 	if ( debug_settings_controller->run_normal_recovery_before_opening_environment == TRUE )	{
 		return DB_RECOVER;
 	}
@@ -100,7 +100,7 @@ int RPDB_DebugSettingsController_runNormalRecoveryBeforeOpeningEnvironment( RPDB
 	*  turnRunNormalRecoveryBeforeOpeningEnvironmentOn  *
 	*************************************************************/
 
-	void RPDB_DebugSettingsController_turnRunNormalRecoveryBeforeOpeningEnvironmentOn( RPDB_DebugSettingsController* debug_settings_controller )	{
+	void Rbdb_DebugSettingsController_turnRunNormalRecoveryBeforeOpeningEnvironmentOn( Rbdb_DebugSettingsController* debug_settings_controller )	{
 		debug_settings_controller->run_normal_recovery_before_opening_environment = TRUE;
 	}
 
@@ -108,7 +108,7 @@ int RPDB_DebugSettingsController_runNormalRecoveryBeforeOpeningEnvironment( RPDB
 	*  turnRunNormalRecoveryBeforeOpeningEnvironmentOff  *
 	**************************************************************/
 
-	void RPDB_DebugSettingsController_turnRunNormalRecoveryBeforeOpeningEnvironmentOff( RPDB_DebugSettingsController* debug_settings_controller )	{
+	void Rbdb_DebugSettingsController_turnRunNormalRecoveryBeforeOpeningEnvironmentOff( Rbdb_DebugSettingsController* debug_settings_controller )	{
 		debug_settings_controller->run_normal_recovery_before_opening_environment = FALSE;
 	}
 
@@ -120,7 +120,7 @@ int RPDB_DebugSettingsController_runNormalRecoveryBeforeOpeningEnvironment( RPDB
 //	Run catastrophic recovery on this environment before opening it for normal use. 
 //	If this flag is set, the DB_CREATE and DB_INIT_TXN flags must also be set, because the regions will be removed and re-created, 
 //	and transactions are required for application recovery.
-int RPDB_DebugSettingsController_runCatastrophicRecoveryBeforeOpeningEnvironment( RPDB_DebugSettingsController* debug_settings_controller )	{
+int Rbdb_DebugSettingsController_runCatastrophicRecoveryBeforeOpeningEnvironment( Rbdb_DebugSettingsController* debug_settings_controller )	{
 	if ( debug_settings_controller->run_catastrophic_recovery_before_opening_environment == TRUE )	{
 		return DB_RECOVER_FATAL;
 	}
@@ -132,7 +132,7 @@ int RPDB_DebugSettingsController_runCatastrophicRecoveryBeforeOpeningEnvironment
 	********************************************************************/
 
 	//	DB_RECOVER_FATAL        http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
-	void RPDB_DebugSettingsController_turnRunCatastrophicRecoveryBeforeOpeningEnvironmentOn( RPDB_DebugSettingsController* debug_settings_controller )	{
+	void Rbdb_DebugSettingsController_turnRunCatastrophicRecoveryBeforeOpeningEnvironmentOn( Rbdb_DebugSettingsController* debug_settings_controller )	{
 		debug_settings_controller->run_catastrophic_recovery_before_opening_environment = TRUE;
 	}
 
@@ -141,7 +141,7 @@ int RPDB_DebugSettingsController_runCatastrophicRecoveryBeforeOpeningEnvironment
 	********************************************************************/
 
 	//	DB_RECOVER_FATAL        http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
-	void RPDB_DebugSettingsController_turnRunCatastrophicRecoveryBeforeOpeningEnvironmentOff( RPDB_DebugSettingsController* debug_settings_controller )	{
+	void Rbdb_DebugSettingsController_turnRunCatastrophicRecoveryBeforeOpeningEnvironmentOff( Rbdb_DebugSettingsController* debug_settings_controller )	{
 		debug_settings_controller->run_catastrophic_recovery_before_opening_environment = FALSE;
 	}
 
@@ -151,7 +151,7 @@ int RPDB_DebugSettingsController_runCatastrophicRecoveryBeforeOpeningEnvironment
 
 //	DB_LOCKDOWN             http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
 //	Lock shared Berkeley DB environment files and memory-mapped databases into memory.
-int RPDB_DebugSettingsController_openInLockdown( RPDB_DebugSettingsController* debug_settings_controller )	{
+int Rbdb_DebugSettingsController_openInLockdown( Rbdb_DebugSettingsController* debug_settings_controller )	{
 	if ( debug_settings_controller->open_in_lockdown == TRUE )	{
 		return DB_LOCKDOWN;
 	}
@@ -164,7 +164,7 @@ int RPDB_DebugSettingsController_openInLockdown( RPDB_DebugSettingsController* d
 
 	//	DB_LOCKDOWN             http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
 	//	Lock shared Berkeley DB environment files and memory-mapped databases into memory.
-	void RPDB_DebugSettingsController_turnOpenInLockdownOn( RPDB_DebugSettingsController* debug_settings_controller )	{
+	void Rbdb_DebugSettingsController_turnOpenInLockdownOn( Rbdb_DebugSettingsController* debug_settings_controller )	{
 		debug_settings_controller->open_in_lockdown = TRUE;	
 	}
 
@@ -174,7 +174,7 @@ int RPDB_DebugSettingsController_openInLockdown( RPDB_DebugSettingsController* d
 
 	//	DB_LOCKDOWN             http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
 	//	Lock shared Berkeley DB environment files and memory-mapped databases into memory.
-	void RPDB_DebugSettingsController_turnOpenInLockdownOff( RPDB_DebugSettingsController* debug_settings_controller )	{
+	void Rbdb_DebugSettingsController_turnOpenInLockdownOff( Rbdb_DebugSettingsController* debug_settings_controller )	{
 		debug_settings_controller->open_in_lockdown = FALSE;	
 	}
 
@@ -189,7 +189,7 @@ int RPDB_DebugSettingsController_openInLockdown( RPDB_DebugSettingsController* d
 //	recovery will be performed and the open will proceed normally. If recovery needs to be performed and DB_RECOVER is not specified, 
 //	DB_RUNRECOVERY will be returned. If recovery does not need to be performed, the DB_RECOVER flag will be ignored. 
 //	See Architecting Transactional Data Store applications for more information.
-int RPDB_DebugSettingsController_registerForRecovery( RPDB_DebugSettingsController* debug_settings_controller )	{
+int Rbdb_DebugSettingsController_registerForRecovery( Rbdb_DebugSettingsController* debug_settings_controller )	{
 	if ( debug_settings_controller->check_for_recovery_on_load == TRUE )	{
 		return DB_REGISTER;
 	}
@@ -200,7 +200,7 @@ int RPDB_DebugSettingsController_registerForRecovery( RPDB_DebugSettingsControll
 	*  turnCheckForRecoveryBeforeOpeningEnvironmentOn  *
 	**************************************************************/
 
-	void RPDB_DebugSettingsController_turnRegisterForRecoveryOn( RPDB_DebugSettingsController* debug_settings_controller )	{
+	void Rbdb_DebugSettingsController_turnRegisterForRecoveryOn( Rbdb_DebugSettingsController* debug_settings_controller )	{
 		debug_settings_controller->check_for_recovery_on_load = TRUE;
 	}
 
@@ -208,7 +208,7 @@ int RPDB_DebugSettingsController_registerForRecovery( RPDB_DebugSettingsControll
 	*  turnCheckForRecoveryBeforeOpeningEnvironmentOff  *
 	**************************************************************/
 
-	void RPDB_DebugSettingsController_turnRegisterForRecoveryOff( RPDB_DebugSettingsController* debug_settings_controller )	{
+	void Rbdb_DebugSettingsController_turnRegisterForRecoveryOff( Rbdb_DebugSettingsController* debug_settings_controller )	{
 		debug_settings_controller->check_for_recovery_on_load = FALSE;
 	}
 
@@ -227,7 +227,7 @@ int RPDB_DebugSettingsController_registerForRecovery( RPDB_DebugSettingsControll
 //
 //	The DB_NOPANIC flag may be used to configure Berkeley DB at any time during the life of the application.
 //
-int RPDB_DebugSettingsController_prohibitPanic( RPDB_DebugSettingsController* debug_settings_controller )	{
+int Rbdb_DebugSettingsController_prohibitPanic( Rbdb_DebugSettingsController* debug_settings_controller )	{
 	if ( debug_settings_controller->prohibit_panic )	{
 		return DB_NOPANIC;
 	}
@@ -238,7 +238,7 @@ int RPDB_DebugSettingsController_prohibitPanic( RPDB_DebugSettingsController* de
 *  turnProhibitPanicOn  *
 ******************************/
 
-void RPDB_DebugSettingsController_turnProhibitPanicOn( RPDB_DebugSettingsController* debug_settings_controller )	{
+void Rbdb_DebugSettingsController_turnProhibitPanicOn( Rbdb_DebugSettingsController* debug_settings_controller )	{
 	debug_settings_controller->prohibit_panic = TRUE;
 }
 
@@ -246,7 +246,7 @@ void RPDB_DebugSettingsController_turnProhibitPanicOn( RPDB_DebugSettingsControl
 *  turnProhibitPanicOff  *
 ******************************/
 
-void RPDB_DebugSettingsController_turnProhibitPanicOff( RPDB_DebugSettingsController* debug_settings_controller )	{
+void Rbdb_DebugSettingsController_turnProhibitPanicOff( Rbdb_DebugSettingsController* debug_settings_controller )	{
 	debug_settings_controller->prohibit_panic = FALSE;
 }
 
@@ -265,7 +265,7 @@ void RPDB_DebugSettingsController_turnProhibitPanicOff( RPDB_DebugSettingsContro
 //	Calling DB_ENV->set_flags with the DB_PANIC_ENVIRONMENT flag affects the database environment, including all threads of control accessing the database environment.
 //
 //	The DB_PANIC_ENVIRONMENT flag may be used to configure Berkeley DB only after the DB_ENV->open method is called.
-int RPDB_DebugSettingsController_panic( RPDB_DebugSettingsController* debug_settings_controller )	{
+int Rbdb_DebugSettingsController_panic( Rbdb_DebugSettingsController* debug_settings_controller )	{
 	if ( debug_settings_controller->panic == TRUE )	{
 		return DB_PANIC_ENVIRONMENT;
 	}
@@ -277,7 +277,7 @@ int RPDB_DebugSettingsController_panic( RPDB_DebugSettingsController* debug_sett
 	**********************/
 
 	//	DB_PANIC_ENVIRONMENT    http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-	void RPDB_DebugSettingsController_turnPanicOn( RPDB_DebugSettingsController* debug_settings_controller )	{
+	void Rbdb_DebugSettingsController_turnPanicOn( Rbdb_DebugSettingsController* debug_settings_controller )	{
 		debug_settings_controller->panic = TRUE;
 	}
 
@@ -286,7 +286,7 @@ int RPDB_DebugSettingsController_panic( RPDB_DebugSettingsController* debug_sett
 	**********************/
 
 	//	DB_PANIC_ENVIRONMENT    http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-	void RPDB_DebugSettingsController_turnPanicOff( RPDB_DebugSettingsController* debug_settings_controller )	{
+	void Rbdb_DebugSettingsController_turnPanicOff( Rbdb_DebugSettingsController* debug_settings_controller )	{
 		debug_settings_controller->panic = FALSE;
 	}
 
@@ -307,7 +307,7 @@ int RPDB_DebugSettingsController_panic( RPDB_DebugSettingsController* debug_sett
 //	DB_YIELDCPU flag or the flag should be specified in the DB_CONFIG configuration file.
 //
 //	The DB_YIELDCPU flag may be used to configure Berkeley DB at any time during the life of the application.
-int RPDB_DebugSettingsController_yieldCPUForStressTest( RPDB_DebugSettingsController* debug_settings_controller )	{
+int Rbdb_DebugSettingsController_yieldCPUForStressTest( Rbdb_DebugSettingsController* debug_settings_controller )	{
 	if ( debug_settings_controller->yield_cpu_for_stress_test == TRUE )	{
 		return DB_YIELDCPU;
 	}
@@ -318,7 +318,7 @@ int RPDB_DebugSettingsController_yieldCPUForStressTest( RPDB_DebugSettingsContro
 	*  turnYieldCPUForStressTestOn  *
 	**************************************/
 
-	void RPDB_DebugSettingsController_turnYieldCPUForStressTestOn( RPDB_DebugSettingsController* debug_settings_controller )	{
+	void Rbdb_DebugSettingsController_turnYieldCPUForStressTestOn( Rbdb_DebugSettingsController* debug_settings_controller )	{
 		debug_settings_controller->yield_cpu_for_stress_test = TRUE;
 	}
 
@@ -326,7 +326,7 @@ int RPDB_DebugSettingsController_yieldCPUForStressTest( RPDB_DebugSettingsContro
 	*  turnYieldCPUForStressTestOff  *
 	**************************************/
 
-	void RPDB_DebugSettingsController_turnYieldCPUForStressTestOff( RPDB_DebugSettingsController* debug_settings_controller )	{
+	void Rbdb_DebugSettingsController_turnYieldCPUForStressTestOff( Rbdb_DebugSettingsController* debug_settings_controller )	{
 		debug_settings_controller->yield_cpu_for_stress_test = FALSE;
 	}
 
@@ -334,11 +334,11 @@ int RPDB_DebugSettingsController_yieldCPUForStressTest( RPDB_DebugSettingsContro
 *  verbositySettingsController  *
 *************************************/
 
-RPDB_DebugVerbositySettingsController* RPDB_DebugSettingsController_verbositySettingsController( RPDB_DebugSettingsController* debug_settings_controller )	{
+Rbdb_DebugVerbositySettingsController* Rbdb_DebugSettingsController_verbositySettingsController( Rbdb_DebugSettingsController* debug_settings_controller )	{
 
 	if ( debug_settings_controller->verbosity_settings_controller == NULL )	{
 	
-		debug_settings_controller->verbosity_settings_controller = RPDB_DebugVerbositySettingsController_new( debug_settings_controller );
+		debug_settings_controller->verbosity_settings_controller = Rbdb_DebugVerbositySettingsController_new( debug_settings_controller );
 	}
 	
 	return debug_settings_controller->verbosity_settings_controller;
@@ -353,9 +353,9 @@ RPDB_DebugVerbositySettingsController* RPDB_DebugSettingsController_verbositySet
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_DebugSettingsController* RPDB_DebugSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DebugSettingsController* debug_settings_controller )	{
+Rbdb_DebugSettingsController* Rbdb_DebugSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DebugSettingsController* debug_settings_controller )	{
 
-	RPDB_DebugSettingsController* debug_settings_controller_copy	=	RPDB_DebugSettingsController_new( debug_settings_controller->parent_settings_controller );
+	Rbdb_DebugSettingsController* debug_settings_controller_copy	=	Rbdb_DebugSettingsController_new( debug_settings_controller->parent_settings_controller );
 
 	//	Instances and Pointers
 	debug_settings_controller_copy->check_for_recovery_on_load	=	debug_settings_controller->check_for_recovery_on_load;

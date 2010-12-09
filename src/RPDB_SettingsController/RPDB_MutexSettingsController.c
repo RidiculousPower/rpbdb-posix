@@ -1,5 +1,5 @@
 /*
- *		RPDB::SettingsController::MutexSettingsController
+ *		Rbdb::SettingsController::MutexSettingsController
  *
  *
  */
@@ -10,11 +10,11 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_MutexSettingsController.h" 
+#include "Rbdb_MutexSettingsController.h" 
 
-#include "RPDB_Environment.h"
+#include "Rbdb_Environment.h"
 
-#include "RPDB_MutexSettingsController_internal.h" 
+#include "Rbdb_MutexSettingsController_internal.h" 
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -26,9 +26,9 @@
 *  new  *
 *************/
 
-RPDB_MutexSettingsController* RPDB_MutexSettingsController_new( RPDB_SettingsController* settings_controller )	{
+Rbdb_MutexSettingsController* Rbdb_MutexSettingsController_new( Rbdb_SettingsController* settings_controller )	{
 	
-	RPDB_MutexSettingsController*		mutex_settings_controller = calloc( 1, sizeof( RPDB_MutexSettingsController ) );
+	Rbdb_MutexSettingsController*		mutex_settings_controller = calloc( 1, sizeof( Rbdb_MutexSettingsController ) );
 
 	mutex_settings_controller->parent_settings_controller = settings_controller;
 
@@ -38,7 +38,7 @@ RPDB_MutexSettingsController* RPDB_MutexSettingsController_new( RPDB_SettingsCon
 /***************************
 *  free  *
 ***************************/
-void RPDB_MutexSettingsController_free(	RPDB_MutexSettingsController** mutex_settings_controller )	{
+void Rbdb_MutexSettingsController_free(	Rbdb_MutexSettingsController** mutex_settings_controller )	{
 
 	free( *mutex_settings_controller );
 	*mutex_settings_controller	=	NULL;
@@ -47,7 +47,7 @@ void RPDB_MutexSettingsController_free(	RPDB_MutexSettingsController** mutex_set
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_MutexSettingsController_parentEnvironment(	RPDB_MutexSettingsController* mutex_settings_controller )	{
+Rbdb_Environment* Rbdb_MutexSettingsController_parentEnvironment(	Rbdb_MutexSettingsController* mutex_settings_controller )	{
 	return mutex_settings_controller->parent_settings_controller->parent_environment;
 }
 
@@ -56,9 +56,9 @@ RPDB_Environment* RPDB_MutexSettingsController_parentEnvironment(	RPDB_MutexSett
 *****************************************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/mutex_set_tas_spins.html
-uint32_t RPDB_MutexSettingsController_spinTimesBeforeBlockingForTestAndSpinMutexes( RPDB_MutexSettingsController* mutex_settings_controller )	{
+uint32_t Rbdb_MutexSettingsController_spinTimesBeforeBlockingForTestAndSpinMutexes( Rbdb_MutexSettingsController* mutex_settings_controller )	{
 	
-	RPDB_Environment*		environment	= mutex_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment	= mutex_settings_controller->parent_settings_controller->parent_environment;
 	
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -73,10 +73,10 @@ uint32_t RPDB_MutexSettingsController_spinTimesBeforeBlockingForTestAndSpinMutex
 *  setSpinTimesBeforeBlockingForTestAndSpinMutexes  *
 *********************************************************/
 
-void RPDB_MutexSettingsController_setSpinTimesBeforeBlockingForTestAndSpinMutexes(	RPDB_MutexSettingsController*	mutex_settings_controller, 
+void Rbdb_MutexSettingsController_setSpinTimesBeforeBlockingForTestAndSpinMutexes(	Rbdb_MutexSettingsController*	mutex_settings_controller, 
 																					uint32_t						spin_times_before_blocking_for_test_and_spin_mutexes )	{
 
-	RPDB_Environment*		environment	= mutex_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment	= mutex_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -92,9 +92,9 @@ void RPDB_MutexSettingsController_setSpinTimesBeforeBlockingForTestAndSpinMutexe
 *****************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/mutex_set_max.html
-uint32_t RPDB_MutexSettingsController_maxAllowableMutexes( RPDB_MutexSettingsController* mutex_settings_controller )	{
+uint32_t Rbdb_MutexSettingsController_maxAllowableMutexes( Rbdb_MutexSettingsController* mutex_settings_controller )	{
 	
-	RPDB_Environment*		environment	= mutex_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment	= mutex_settings_controller->parent_settings_controller->parent_environment;
 	
 	if ( environment->wrapped_bdb_environment != NULL )	{
 		environment->wrapped_bdb_environment->mutex_get_max(	environment->wrapped_bdb_environment, 
@@ -109,10 +109,10 @@ uint32_t RPDB_MutexSettingsController_maxAllowableMutexes( RPDB_MutexSettingsCon
 *****************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/mutex_set_max.html
-void RPDB_MutexSettingsController_setMaxAllowableMutexes(	RPDB_MutexSettingsController*		mutex_settings_controller, 
+void Rbdb_MutexSettingsController_setMaxAllowableMutexes(	Rbdb_MutexSettingsController*		mutex_settings_controller, 
 															uint32_t							max_allowable_mutexes )	{
 
-	RPDB_Environment*		environment	= mutex_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment	= mutex_settings_controller->parent_settings_controller->parent_environment;
 	
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -128,9 +128,9 @@ void RPDB_MutexSettingsController_setMaxAllowableMutexes(	RPDB_MutexSettingsCont
 *********************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/mutex_set_max.html
-uint32_t RPDB_MutexSettingsController_incrementForAddingMutexes( RPDB_MutexSettingsController* mutex_settings_controller )	{
+uint32_t Rbdb_MutexSettingsController_incrementForAddingMutexes( Rbdb_MutexSettingsController* mutex_settings_controller )	{
 
-	RPDB_Environment*		environment	= mutex_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment	= mutex_settings_controller->parent_settings_controller->parent_environment;
 	
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -146,10 +146,10 @@ uint32_t RPDB_MutexSettingsController_incrementForAddingMutexes( RPDB_MutexSetti
 *************************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/mutex_set_max.html
-void RPDB_MutexSettingsController_setIncrementForAddingMutexes(	RPDB_MutexSettingsController*	mutex_settings_controller, 
+void Rbdb_MutexSettingsController_setIncrementForAddingMutexes(	Rbdb_MutexSettingsController*	mutex_settings_controller, 
 																	uint32_t						increment_for_adding_mutexes )	{
 
-	RPDB_Environment*		environment	= mutex_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment	= mutex_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -165,9 +165,9 @@ void RPDB_MutexSettingsController_setIncrementForAddingMutexes(	RPDB_MutexSettin
 *********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/mutex_set_max.html
-uint32_t RPDB_MutexSettingsController_mutexAlignment( RPDB_MutexSettingsController* mutex_settings_controller )	{
+uint32_t Rbdb_MutexSettingsController_mutexAlignment( Rbdb_MutexSettingsController* mutex_settings_controller )	{
 
-	RPDB_Environment*		environment	= mutex_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment	= mutex_settings_controller->parent_settings_controller->parent_environment;
 	
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -183,10 +183,10 @@ uint32_t RPDB_MutexSettingsController_mutexAlignment( RPDB_MutexSettingsControll
 *************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/mutex_set_max.html
-void RPDB_MutexSettingsController_setMutexAlignment(	RPDB_MutexSettingsController*		mutex_settings_controller, 
+void Rbdb_MutexSettingsController_setMutexAlignment(	Rbdb_MutexSettingsController*		mutex_settings_controller, 
 																											uint32_t												mutex_alignment )	{
 
-	RPDB_Environment*		environment	= mutex_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment	= mutex_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -201,7 +201,7 @@ void RPDB_MutexSettingsController_setMutexAlignment(	RPDB_MutexSettingsControlle
 *  setMutexAlignment  *
 *************************/
 
-BOOL RPDB_MutexSettingsController_associatedWithSingleProcess( RPDB_MutexSettingsController* mutex_settings_controller )	{
+BOOL Rbdb_MutexSettingsController_associatedWithSingleProcess( Rbdb_MutexSettingsController* mutex_settings_controller )	{
 
 	if ( mutex_settings_controller->associated_with_single_process == TRUE )	{
 	
@@ -215,7 +215,7 @@ BOOL RPDB_MutexSettingsController_associatedWithSingleProcess( RPDB_MutexSetting
 *  setMutexAlignment  *
 *************************/
 
-void RPDB_MutexSettingsController_turnAssociatedWithSingleProcessOn( RPDB_MutexSettingsController* mutex_settings_controller )	{
+void Rbdb_MutexSettingsController_turnAssociatedWithSingleProcessOn( Rbdb_MutexSettingsController* mutex_settings_controller )	{
 
 	mutex_settings_controller->associated_with_single_process = TRUE;
 }
@@ -224,7 +224,7 @@ void RPDB_MutexSettingsController_turnAssociatedWithSingleProcessOn( RPDB_MutexS
 *  turnAssociatedWithSingleProcessOff  *
 *****************************************/
 
-void RPDB_MutexSettingsController_turnAssociatedWithSingleProcessOff( RPDB_MutexSettingsController* mutex_settings_controller )	{
+void Rbdb_MutexSettingsController_turnAssociatedWithSingleProcessOff( Rbdb_MutexSettingsController* mutex_settings_controller )	{
 
 	mutex_settings_controller->associated_with_single_process = FALSE;
 }
@@ -233,7 +233,7 @@ void RPDB_MutexSettingsController_turnAssociatedWithSingleProcessOff( RPDB_Mutex
 *  selfBlocking  *
 *********************/
 
-BOOL RPDB_MutexSettingsController_selfBlocking( RPDB_MutexSettingsController* mutex_settings_controller )	{
+BOOL Rbdb_MutexSettingsController_selfBlocking( Rbdb_MutexSettingsController* mutex_settings_controller )	{
 
 	if ( mutex_settings_controller->self_blocking == TRUE )	{
 	
@@ -247,7 +247,7 @@ BOOL RPDB_MutexSettingsController_selfBlocking( RPDB_MutexSettingsController* mu
 *  turnSelfBlockingOn  *
 *************************/
 
-void RPDB_MutexSettingsController_turnSelfBlockingOn( RPDB_MutexSettingsController* mutex_settings_controller )	{
+void Rbdb_MutexSettingsController_turnSelfBlockingOn( Rbdb_MutexSettingsController* mutex_settings_controller )	{
 
 	mutex_settings_controller->self_blocking = TRUE;
 }
@@ -256,7 +256,7 @@ void RPDB_MutexSettingsController_turnSelfBlockingOn( RPDB_MutexSettingsControll
 *  turnSelfBlockingOff  *
 *****************************/
 
-void RPDB_MutexSettingsController_turnSelfBlockingOff( RPDB_MutexSettingsController* mutex_settings_controller )	{
+void Rbdb_MutexSettingsController_turnSelfBlockingOff( Rbdb_MutexSettingsController* mutex_settings_controller )	{
 
 	mutex_settings_controller->self_blocking = FALSE;
 }
@@ -272,22 +272,22 @@ void RPDB_MutexSettingsController_turnSelfBlockingOff( RPDB_MutexSettingsControl
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/mutex_alloc.html
-BOOL RPDB_MutexSettingsController_internal_openFlags( RPDB_MutexSettingsController* mutex_settings_controller )	{
+BOOL Rbdb_MutexSettingsController_internal_openFlags( Rbdb_MutexSettingsController* mutex_settings_controller )	{
 
-	if ( RPDB_MutexSettingsController_associatedWithSingleProcess( mutex_settings_controller ) )	{
-		return RPDB_MutexSettingsController_associatedWithSingleProcess( mutex_settings_controller );
+	if ( Rbdb_MutexSettingsController_associatedWithSingleProcess( mutex_settings_controller ) )	{
+		return Rbdb_MutexSettingsController_associatedWithSingleProcess( mutex_settings_controller );
 	}
 	else	{
-		return RPDB_MutexSettingsController_selfBlocking( mutex_settings_controller );
+		return Rbdb_MutexSettingsController_selfBlocking( mutex_settings_controller );
 	}
 }	
 
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_MutexSettingsController* RPDB_MutexSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_MutexSettingsController* mutex_settings_controller )	{
+Rbdb_MutexSettingsController* Rbdb_MutexSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_MutexSettingsController* mutex_settings_controller )	{
 
-	RPDB_MutexSettingsController* mutex_settings_controller_copy	=	RPDB_MutexSettingsController_new( mutex_settings_controller->parent_settings_controller );
+	Rbdb_MutexSettingsController* mutex_settings_controller_copy	=	Rbdb_MutexSettingsController_new( mutex_settings_controller->parent_settings_controller );
 
 	//	Instances and Pointers
 	mutex_settings_controller_copy->associated_with_single_process	=	mutex_settings_controller->associated_with_single_process;

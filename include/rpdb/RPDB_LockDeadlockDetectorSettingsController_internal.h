@@ -1,5 +1,5 @@
-#ifndef RPDB_LOCK_DEADLOCK_DETECTOR_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_LOCK_DEADLOCK_DETECTOR_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_LOCK_DEADLOCK_DETECTOR_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_LOCK_DEADLOCK_DETECTOR_SETTINGS_CONTROLLER_INTERNAL
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,13 +7,13 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-void	RPDB_LockDeadlockDetectorSettingsController_internal_set(			RPDB_LockDeadlockDetectorSettingsController*	lock_deadlock_detector_settings_controller );
-BOOL		RPDB_LockDeadlockDetectorSettingsController_internal_isSetTo(		RPDB_LockDeadlockDetectorSettingsController*	lock_deadlock_detector_settings_controller,
+void	Rbdb_LockDeadlockDetectorSettingsController_internal_set(			Rbdb_LockDeadlockDetectorSettingsController*	lock_deadlock_detector_settings_controller );
+BOOL		Rbdb_LockDeadlockDetectorSettingsController_internal_isSetTo(		Rbdb_LockDeadlockDetectorSettingsController*	lock_deadlock_detector_settings_controller,
  																			uint32_t										deadlock_settings );
-void	RPDB_LockDeadlockDetectorSettingsController_internal_setTo(		RPDB_LockDeadlockDetectorSettingsController*	lock_deadlock_detector_settings_controller, 
+void	Rbdb_LockDeadlockDetectorSettingsController_internal_setTo(		Rbdb_LockDeadlockDetectorSettingsController*	lock_deadlock_detector_settings_controller, 
 																			uint32_t										deadlock_settings );
 
-RPDB_LockDeadlockDetectorSettingsController* RPDB_LockDeadlockDetectorSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller );
+Rbdb_LockDeadlockDetectorSettingsController* Rbdb_LockDeadlockDetectorSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller );
 
 #endif
 

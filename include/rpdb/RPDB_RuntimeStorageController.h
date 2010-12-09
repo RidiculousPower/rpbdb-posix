@@ -1,35 +1,35 @@
 /*
- *		RPDB::RuntimeStorageController
+ *		Rbdb::RuntimeStorageController
  *
  *
  */
 
-#ifndef RPDB_RUNTIME_STORAGE_CONTROLLER
-	#define RPDB_RUNTIME_STORAGE_CONTROLLER
+#ifndef Rbdb_RUNTIME_STORAGE_CONTROLLER
+	#define Rbdb_RUNTIME_STORAGE_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_RuntimeStorageController*		RPDB_RuntimeStorageController_sharedInstance();
+	Rbdb_RuntimeStorageController*		Rbdb_RuntimeStorageController_sharedInstance();
 
-	void								RPDB_RuntimeStorageController_free(	RPDB_RuntimeStorageController** runtime_storage_controller );
-	RPDB_RuntimeStorageSettingsController*		RPDB_RuntimeStorageController_settingsController(	RPDB_RuntimeStorageController*		runtime_storage_controller );
-	RPDB_Environment*			RPDB_RuntimeStorageController_parentEnvironment(	RPDB_RuntimeStorageController* runtime_storage_controller );
+	void								Rbdb_RuntimeStorageController_free(	Rbdb_RuntimeStorageController** runtime_storage_controller );
+	Rbdb_RuntimeStorageSettingsController*		Rbdb_RuntimeStorageController_settingsController(	Rbdb_RuntimeStorageController*		runtime_storage_controller );
+	Rbdb_Environment*			Rbdb_RuntimeStorageController_parentEnvironment(	Rbdb_RuntimeStorageController* runtime_storage_controller );
 
-	RPDB_RuntimeStorageController*		RPDB_RuntimeStorageController_internal_initRuntimeEnvironment(						RPDB_RuntimeStorageController*		runtime_storage_controller );
-	void								RPDB_RuntimeStorageController_internal_initRuntimeStoragesDatabases(					RPDB_RuntimeStorageController*		runtime_storage_controller );
-	void								RPDB_RuntimeStorageController_internal_initRuntimeStoragesDatabaseAssociations(	RPDB_RuntimeStorageController*		runtime_storage_controller );
-	void								RPDB_RuntimeStorageController_internal_initRuntimeStoragesCursors(					RPDB_RuntimeStorageController*		runtime_storage_controller );
-	RPDB_Environment*					RPDB_RuntimeStorageController_currentWorkingEnvironment(	RPDB_RuntimeStorageController*		runtime_storage_controller );
-	RPDB_Environment* RPDB_RuntimeStorageController_requireDefaultEnvironment(	RPDB_RuntimeStorageController*		runtime_storage_controller );
-	void					RPDB_RuntimeStorageController_setCurrentWorkingEnvironment(	RPDB_RuntimeStorageController*		runtime_storage_controller,
-																								RPDB_Environment*					environment );
+	Rbdb_RuntimeStorageController*		Rbdb_RuntimeStorageController_internal_initRuntimeEnvironment(						Rbdb_RuntimeStorageController*		runtime_storage_controller );
+	void								Rbdb_RuntimeStorageController_internal_initRuntimeStoragesDatabases(					Rbdb_RuntimeStorageController*		runtime_storage_controller );
+	void								Rbdb_RuntimeStorageController_internal_initRuntimeStoragesDatabaseAssociations(	Rbdb_RuntimeStorageController*		runtime_storage_controller );
+	void								Rbdb_RuntimeStorageController_internal_initRuntimeStoragesCursors(					Rbdb_RuntimeStorageController*		runtime_storage_controller );
+	Rbdb_Environment*					Rbdb_RuntimeStorageController_currentWorkingEnvironment(	Rbdb_RuntimeStorageController*		runtime_storage_controller );
+	Rbdb_Environment* Rbdb_RuntimeStorageController_requireDefaultEnvironment(	Rbdb_RuntimeStorageController*		runtime_storage_controller );
+	void					Rbdb_RuntimeStorageController_setCurrentWorkingEnvironment(	Rbdb_RuntimeStorageController*		runtime_storage_controller,
+																								Rbdb_Environment*					environment );
 
-	void RPDB_RuntimeStorageController_internal_initEnvironmentAndDatabaseReferenceDatabases(	RPDB_RuntimeStorageController*		runtime_storage_controller );
-	RPDB_Environment* RPDB_RuntimeStorageController_environmentWithName(	RPDB_RuntimeStorageController*		runtime_storage_controller,
+	void Rbdb_RuntimeStorageController_internal_initEnvironmentAndDatabaseReferenceDatabases(	Rbdb_RuntimeStorageController*		runtime_storage_controller );
+	Rbdb_Environment* Rbdb_RuntimeStorageController_environmentWithName(	Rbdb_RuntimeStorageController*		runtime_storage_controller,
 																																					char*								environment_name	);
 
 #endif

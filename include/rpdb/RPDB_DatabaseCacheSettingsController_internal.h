@@ -1,5 +1,5 @@
-#ifndef RPDB_DATABASE_CACHE_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_DATABASE_CACHE_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_DATABASE_CACHE_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_DATABASE_CACHE_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,8 +7,8 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-BOOL									RPDB_DatabaseCacheSettingsController_internal_isInEnvironment(						RPDB_DatabaseCacheSettingsController*		database_cache_settings_controller );
-RPDB_DatabaseCacheSettingsController* RPDB_DatabaseCacheSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseCacheSettingsController* database_cache_settings_controller );
+BOOL									Rbdb_DatabaseCacheSettingsController_internal_isInEnvironment(						Rbdb_DatabaseCacheSettingsController*		database_cache_settings_controller );
+Rbdb_DatabaseCacheSettingsController* Rbdb_DatabaseCacheSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseCacheSettingsController* database_cache_settings_controller );
 
 #endif
 

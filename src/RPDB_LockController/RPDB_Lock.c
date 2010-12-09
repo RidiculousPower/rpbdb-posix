@@ -1,5 +1,5 @@
 /*
- *		RPDB::LockController::Lock
+ *		Rbdb::LockController::Lock
  *
  *		Reference - http://www.oracle.com/technology/documentation/berkeley-db/db/ref/lock/am_conv.html
  */
@@ -10,20 +10,20 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_Lock.h"
-#include "RPDB_Lock_internal.h"
+#include "Rbdb_Lock.h"
+#include "Rbdb_Lock_internal.h"
 
-#include "RPDB_Database_internal.h"
+#include "Rbdb_Database_internal.h"
 
-#include "RPDB_LockController.h"
+#include "Rbdb_LockController.h"
 
-#include "RPDB_Environment.h"
+#include "Rbdb_Environment.h"
 
-#include "RPDB_Record.h"
+#include "Rbdb_Record.h"
 
-#include "RPDB_SettingsController.h"
-#include "RPDB_LockSettingsController.h"
-#include "RPDB_LockSettingsController_internal.h"
+#include "Rbdb_SettingsController.h"
+#include "Rbdb_LockSettingsController.h"
+#include "Rbdb_LockSettingsController_internal.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -35,19 +35,19 @@
 *  new  *
 *************/
 
-RPDB_Lock* RPDB_Lock_new( RPDB_LockController* parent_lock_controller )	{
+Rbdb_Lock* Rbdb_Lock_new( Rbdb_LockController* parent_lock_controller )	{
 
-	RPDB_Lock*		lock = calloc( 1, sizeof( RPDB_Lock ) );
+	Rbdb_Lock*		lock = calloc( 1, sizeof( Rbdb_Lock ) );
 
 	if ( parent_lock_controller->runtime_storage_database != NULL )	{
-		lock->runtime_identifier =	RPDB_Database_internal_storeRuntimeAddress(	parent_lock_controller->runtime_storage_database,
+		lock->runtime_identifier =	Rbdb_Database_internal_storeRuntimeAddress(	parent_lock_controller->runtime_storage_database,
 																																						(void*) lock );
 	}
 
 	lock->parent_lock_controller = parent_lock_controller;
 
 	//	Make call to instantiate local settings controller
-	lock->settings_controller	=	RPDB_LockSettingsController_internal_copyOfSettingsControllerForInstance( RPDB_SettingsController_lockSettingsController( RPDB_Environment_settingsController( parent_lock_controller->parent_environment )) );
+	lock->settings_controller	=	Rbdb_LockSettingsController_internal_copyOfSettingsControllerForInstance( Rbdb_SettingsController_lockSettingsController( Rbdb_Environment_settingsController( parent_lock_controller->parent_environment )) );
 	
 	return lock;
 
@@ -57,23 +57,23 @@ RPDB_Lock* RPDB_Lock_new( RPDB_LockController* parent_lock_controller )	{
 *  free  *
 ***************************/
 
-void RPDB_Lock_free(	RPDB_Lock** lock )	{
+void Rbdb_Lock_free(	Rbdb_Lock** lock )	{
 
 	if ( ( *lock )->parent_lock_controller->runtime_storage_database != NULL )	{
-		RPDB_Database_internal_freeStoredRuntimeAddress(	( *lock )->parent_lock_controller->runtime_storage_database,
+		Rbdb_Database_internal_freeStoredRuntimeAddress(	( *lock )->parent_lock_controller->runtime_storage_database,
 																											( *lock )->runtime_identifier );
 	}
-	RPDB_Lock_internal_freeFromRuntimeStorage( lock );
+	Rbdb_Lock_internal_freeFromRuntimeStorage( lock );
 }
 
 /***************************
 *  free  *
 ***************************/
 
-void RPDB_Lock_internal_freeFromRuntimeStorage(	RPDB_Lock** lock )	{
+void Rbdb_Lock_internal_freeFromRuntimeStorage(	Rbdb_Lock** lock )	{
 
 	if ( ( *lock )->settings_controller != NULL )	{
-		RPDB_LockSettingsController_free( & ( ( *lock )->settings_controller ) );
+		Rbdb_LockSettingsController_free( & ( ( *lock )->settings_controller ) );
 	}
 
 	free( *lock );
@@ -83,14 +83,14 @@ void RPDB_Lock_internal_freeFromRuntimeStorage(	RPDB_Lock** lock )	{
 /***************************
 *  settingsController  *
 ***************************/
-RPDB_LockSettingsController* RPDB_Lock_settingsController(	RPDB_Lock* lock )	{
+Rbdb_LockSettingsController* Rbdb_Lock_settingsController(	Rbdb_Lock* lock )	{
 	return lock->settings_controller;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_Lock_parentEnvironment(	RPDB_Lock* lock )	{
+Rbdb_Environment* Rbdb_Lock_parentEnvironment(	Rbdb_Lock* lock )	{
 	return lock->parent_lock_controller->parent_environment;
 }
 
@@ -99,16 +99,16 @@ RPDB_Environment* RPDB_Lock_parentEnvironment(	RPDB_Lock* lock )	{
 *************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/lock_get.html
-RPDB_Lock* RPDB_Lock_lock(	RPDB_Lock*		lock, 
-								RPDB_Record*	record )	{
+Rbdb_Lock* Rbdb_Lock_lock(	Rbdb_Lock*		lock, 
+								Rbdb_Record*	record )	{
 
-	RPDB_Environment*		environment	=	lock->parent_lock_controller->parent_environment;
+	Rbdb_Environment*		environment	=	lock->parent_lock_controller->parent_environment;
 								
 	environment->wrapped_bdb_environment->lock_get(	environment->wrapped_bdb_environment,
-							RPDB_LockController_lockerID( lock->parent_lock_controller ),
-							RPDB_LockSettingsController_internal_openFlags( RPDB_SettingsController_lockSettingsController( RPDB_Environment_settingsController( environment ) ) ),
+							Rbdb_LockController_lockerID( lock->parent_lock_controller ),
+							Rbdb_LockSettingsController_internal_openFlags( Rbdb_SettingsController_lockSettingsController( Rbdb_Environment_settingsController( environment ) ) ),
 							record->data->wrapped_bdb_dbt->data,
-							RPDB_Lock_internal_lockMode( lock ),
+							Rbdb_Lock_internal_lockMode( lock ),
 							&( lock->wrapped_bdb_lock ) );
 	return lock;
 }
@@ -118,7 +118,7 @@ RPDB_Lock* RPDB_Lock_lock(	RPDB_Lock*		lock,
 **************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/lock_put.html
-void RPDB_Lock_unlock( RPDB_Lock* lock )	{
+void Rbdb_Lock_unlock( Rbdb_Lock* lock )	{
 
 	DB_ENV*		environment	=	lock->parent_lock_controller->parent_environment->wrapped_bdb_environment;
 
@@ -130,7 +130,7 @@ void RPDB_Lock_unlock( RPDB_Lock* lock )	{
 *  isReadLock  *
 *****************/
 
-BOOL RPDB_Lock_isReadLock( RPDB_Lock* lock )	{
+BOOL Rbdb_Lock_isReadLock( Rbdb_Lock* lock )	{
 	
 	if ( lock->mode == DB_LOCK_READ )	{
 		return TRUE;
@@ -142,7 +142,7 @@ BOOL RPDB_Lock_isReadLock( RPDB_Lock* lock )	{
 *  setToReadLock  *
 *********************/
 
-void RPDB_Lock_setToReadLock( RPDB_Lock* lock )	{
+void Rbdb_Lock_setToReadLock( Rbdb_Lock* lock )	{
 	
 	lock->mode	= DB_LOCK_READ;
 }
@@ -151,7 +151,7 @@ void RPDB_Lock_setToReadLock( RPDB_Lock* lock )	{
 *  isWriteLock  *
 *********************/
 
-BOOL RPDB_Lock_isWriteLock( RPDB_Lock* lock )	{
+BOOL Rbdb_Lock_isWriteLock( Rbdb_Lock* lock )	{
 	
 	if ( lock->mode == DB_LOCK_WRITE )	{
 		return TRUE;
@@ -163,7 +163,7 @@ BOOL RPDB_Lock_isWriteLock( RPDB_Lock* lock )	{
 *  setToWriteLock  *
 *********************/
 
-void RPDB_Lock_setToWriteLock( RPDB_Lock* lock )	{
+void Rbdb_Lock_setToWriteLock( Rbdb_Lock* lock )	{
 	
 	lock->mode	= DB_LOCK_WRITE;
 }
@@ -172,7 +172,7 @@ void RPDB_Lock_setToWriteLock( RPDB_Lock* lock )	{
 *  isIntentToWriteLock  *
 *****************************/
 
-BOOL RPDB_Lock_isIntentToWriteLock( RPDB_Lock* lock )	{
+BOOL Rbdb_Lock_isIntentToWriteLock( Rbdb_Lock* lock )	{
 	
 	if ( lock->mode == DB_LOCK_IWRITE )	{
 		return TRUE;
@@ -184,7 +184,7 @@ BOOL RPDB_Lock_isIntentToWriteLock( RPDB_Lock* lock )	{
 *  setToIntentToWriteLock  *
 *****************************/
 
-void RPDB_Lock_setToIntentToWriteLock( RPDB_Lock* lock )	{
+void Rbdb_Lock_setToIntentToWriteLock( Rbdb_Lock* lock )	{
 	
 	lock->mode	= DB_LOCK_IWRITE;
 }
@@ -193,7 +193,7 @@ void RPDB_Lock_setToIntentToWriteLock( RPDB_Lock* lock )	{
 *  isIntentToReadLock  *
 *************************/
 
-BOOL RPDB_Lock_isIntentToReadLock( RPDB_Lock* lock )	{
+BOOL Rbdb_Lock_isIntentToReadLock( Rbdb_Lock* lock )	{
 	
 	if ( lock->mode == DB_LOCK_IREAD )	{
 		return TRUE;
@@ -205,7 +205,7 @@ BOOL RPDB_Lock_isIntentToReadLock( RPDB_Lock* lock )	{
 *  setToIntentToReadLock  *
 *****************************/
 
-void RPDB_Lock_setToIntentToReadLock( RPDB_Lock* lock )	{
+void Rbdb_Lock_setToIntentToReadLock( Rbdb_Lock* lock )	{
 	
 	lock->mode	= DB_LOCK_IREAD;
 }
@@ -214,7 +214,7 @@ void RPDB_Lock_setToIntentToReadLock( RPDB_Lock* lock )	{
 *  isIntentToReadAndWriteLock  *
 *********************************/
 
-BOOL RPDB_Lock_isIntentToReadAndWriteLock( RPDB_Lock* lock )	{
+BOOL Rbdb_Lock_isIntentToReadAndWriteLock( Rbdb_Lock* lock )	{
 	
 	if ( lock->mode == DB_LOCK_IWR )	{
 		return TRUE;
@@ -226,7 +226,7 @@ BOOL RPDB_Lock_isIntentToReadAndWriteLock( RPDB_Lock* lock )	{
 *  setToIntentToReadAndWriteLock  *
 *************************************/
 
-void RPDB_Lock_setToIntentToReadAndWriteLock( RPDB_Lock* lock )	{
+void Rbdb_Lock_setToIntentToReadAndWriteLock( Rbdb_Lock* lock )	{
 	
 	lock->mode	= DB_LOCK_IWR;
 }
@@ -241,7 +241,7 @@ void RPDB_Lock_setToIntentToReadAndWriteLock( RPDB_Lock* lock )	{
 *  lockMode  *
 *****************************/
 
-int RPDB_Lock_internal_lockMode( RPDB_Lock* lock )	{
+int Rbdb_Lock_internal_lockMode( Rbdb_Lock* lock )	{
 
 	return lock->mode;
 }

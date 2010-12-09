@@ -1,5 +1,5 @@
 /*
- *		RPDB::LogController::Log::LogSequenceNumber
+ *		Rbdb::LogController::Log::LogSequenceNumber
  *
  *	
  */
@@ -10,9 +10,9 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_LogSequenceNumber.h"
+#include "Rbdb_LogSequenceNumber.h"
 
-#include "RPDB_LogCursorController.h"
+#include "Rbdb_LogCursorController.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -24,9 +24,9 @@
 *  new  *
 *************/
 
-RPDB_LogSequenceNumber* RPDB_LogSequenceNumber_new( RPDB_Log* parent_log )	{
+Rbdb_LogSequenceNumber* Rbdb_LogSequenceNumber_new( Rbdb_Log* parent_log )	{
 	
-	RPDB_LogSequenceNumber*		log_sequence_number = calloc( 1, sizeof( RPDB_LogSequenceNumber ) );
+	Rbdb_LogSequenceNumber*		log_sequence_number = calloc( 1, sizeof( Rbdb_LogSequenceNumber ) );
 
 	log_sequence_number->parent_log = parent_log;
 
@@ -36,7 +36,7 @@ RPDB_LogSequenceNumber* RPDB_LogSequenceNumber_new( RPDB_Log* parent_log )	{
 /***************************
 *  free  *
 ***************************/
-void RPDB_LogSequenceNumber_free(	RPDB_LogSequenceNumber** log_sequence_number )	{
+void Rbdb_LogSequenceNumber_free(	Rbdb_LogSequenceNumber** log_sequence_number )	{
 
 	free( log_sequence_number );
 }
@@ -44,14 +44,14 @@ void RPDB_LogSequenceNumber_free(	RPDB_LogSequenceNumber** log_sequence_number )
 /***************************
 *  settingsController  *
 ***************************/
-RPDB_LogSettingsController* RPDB_LogSequenceNumber_settingsController(	RPDB_LogSequenceNumber* log_sequence_number )	{
+Rbdb_LogSettingsController* Rbdb_LogSequenceNumber_settingsController(	Rbdb_LogSequenceNumber* log_sequence_number )	{
 	return log_sequence_number->settings_controller;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_LogSequenceNumber_parentEnvironment(	RPDB_LogSequenceNumber* log_sequence_number )	{
+Rbdb_Environment* Rbdb_LogSequenceNumber_parentEnvironment(	Rbdb_LogSequenceNumber* log_sequence_number )	{
 	return log_sequence_number->parent_log->parent_log_controller->parent_environment;
 }
 
@@ -60,8 +60,8 @@ RPDB_Environment* RPDB_LogSequenceNumber_parentEnvironment(	RPDB_LogSequenceNumb
 ****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/log_compare.html
-RPDB_SequenceComparison RPDB_LogSequenceNumber_compare(	RPDB_LogSequenceNumber*	log_sequence_number_one,
- 															RPDB_LogSequenceNumber*	log_sequence_number_two)	{
+Rbdb_SequenceComparison Rbdb_LogSequenceNumber_compare(	Rbdb_LogSequenceNumber*	log_sequence_number_one,
+ 															Rbdb_LogSequenceNumber*	log_sequence_number_two)	{
 	
 	switch ( log_compare(	log_sequence_number_one->wrapped_bdb_log_sequence_number,
 							log_sequence_number_two->wrapped_bdb_log_sequence_number ) )	{

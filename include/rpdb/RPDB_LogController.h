@@ -1,5 +1,5 @@
 /*
- *		RPDB::LogController
+ *		Rbdb::LogController
  *
  *		BDB logging implementation for applications described here: 
  *      http://www.oracle.com/technology/documentation/berkeley-db/db/ref/apprec/def.html
@@ -9,29 +9,29 @@
  *	
  */
 
-#ifndef RPDB_LOG_CONTROLLER
-	#define RPDB_LOG_CONTROLLER
+#ifndef Rbdb_LOG_CONTROLLER
+	#define Rbdb_LOG_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_LogController*			RPDB_LogController_new(				RPDB_Environment*							parent_environment );
+	Rbdb_LogController*			Rbdb_LogController_new(				Rbdb_Environment*							parent_environment );
 
-	void							RPDB_LogController_free(	RPDB_LogController** log_controller );
-	RPDB_LogSettingsController*	RPDB_LogController_settingsController(	RPDB_LogController* log_controller );
-	RPDB_Environment*		RPDB_LogController_parentEnvironment(	RPDB_LogController* log_controller );
+	void							Rbdb_LogController_free(	Rbdb_LogController** log_controller );
+	Rbdb_LogSettingsController*	Rbdb_LogController_settingsController(	Rbdb_LogController* log_controller );
+	Rbdb_Environment*		Rbdb_LogController_parentEnvironment(	Rbdb_LogController* log_controller );
 
-	void							RPDB_LogController_appendStringToCurrentLog(		RPDB_LogController*			log_controller,
+	void							Rbdb_LogController_appendStringToCurrentLog(		Rbdb_LogController*			log_controller,
 			  						 										char*							log_string,
 			  						 										... );
-	void						RPDB_LogController_appendLogRecord(		RPDB_LogController*					log_controller,
-				 							   								RPDB_Record*				log_record );
-	void							RPDB_LogController_flushLogsToDisk(	RPDB_LogController*			log_controller,
-	 								   										RPDB_LogSequenceNumber*		log_sequence_number );
-	RPDB_LogCursorController*		RPDB_LogController_cursorController(	RPDB_LogController*			log_controller );
+	void						Rbdb_LogController_appendLogRecord(		Rbdb_LogController*					log_controller,
+				 							   								Rbdb_Record*				log_record );
+	void							Rbdb_LogController_flushLogsToDisk(	Rbdb_LogController*			log_controller,
+	 								   										Rbdb_LogSequenceNumber*		log_sequence_number );
+	Rbdb_LogCursorController*		Rbdb_LogController_cursorController(	Rbdb_LogController*			log_controller );
 
 
 #endif

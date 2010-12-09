@@ -1,5 +1,5 @@
-#ifndef RPDB_MUTEX_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_MUTEX_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_MUTEX_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_MUTEX_SETTINGS_CONTROLLER_INTERNAL
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,9 +7,9 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-BOOL		RPDB_MutexSettingsController_internal_openFlags(		RPDB_MutexSettingsController*		mutex_settings_controller );
+BOOL		Rbdb_MutexSettingsController_internal_openFlags(		Rbdb_MutexSettingsController*		mutex_settings_controller );
 
-RPDB_MutexSettingsController* RPDB_MutexSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_MutexSettingsController* mutex_settings_controller );
+Rbdb_MutexSettingsController* Rbdb_MutexSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_MutexSettingsController* mutex_settings_controller );
 	
 #endif
 

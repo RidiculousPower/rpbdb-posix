@@ -1,5 +1,5 @@
 /*
- *		RPDB::SettingsController::FileSettingsController
+ *		Rbdb::SettingsController::FileSettingsController
  *
  *
  */
@@ -10,7 +10,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_LockDeadlockDetectorVerbositySettingsController.h"
+#include "Rbdb_LockDeadlockDetectorVerbositySettingsController.h"
  
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -22,9 +22,9 @@
 *  new  *
 *************/
 
-RPDB_LockDeadlockDetectorVerbositySettingsController* RPDB_LockDeadlockDetectorVerbositySettingsController_new( RPDB_LockDeadlockDetectorSettingsController* deadlock_detector_settings_controller )	{
+Rbdb_LockDeadlockDetectorVerbositySettingsController* Rbdb_LockDeadlockDetectorVerbositySettingsController_new( Rbdb_LockDeadlockDetectorSettingsController* deadlock_detector_settings_controller )	{
 
-	RPDB_LockDeadlockDetectorVerbositySettingsController*		lock_deadlock_detector_verbosity_settings_controller = calloc( 1, sizeof( RPDB_LockDeadlockDetectorVerbositySettingsController ) );
+	Rbdb_LockDeadlockDetectorVerbositySettingsController*		lock_deadlock_detector_verbosity_settings_controller = calloc( 1, sizeof( Rbdb_LockDeadlockDetectorVerbositySettingsController ) );
 
 	lock_deadlock_detector_verbosity_settings_controller->parent_lock_deadlock_detector_settings_controller = deadlock_detector_settings_controller;
 
@@ -34,7 +34,7 @@ RPDB_LockDeadlockDetectorVerbositySettingsController* RPDB_LockDeadlockDetectorV
 /***************************
 *  free  *
 ***************************/
-void RPDB_LockDeadlockDetectorVerbositySettingsController_free(	RPDB_LockDeadlockDetectorVerbositySettingsController** lock_deadlock_detector_verbosity_settings_controller )	{
+void Rbdb_LockDeadlockDetectorVerbositySettingsController_free(	Rbdb_LockDeadlockDetectorVerbositySettingsController** lock_deadlock_detector_verbosity_settings_controller )	{
 
 	free( *lock_deadlock_detector_verbosity_settings_controller );
 	*lock_deadlock_detector_verbosity_settings_controller	=	NULL;
@@ -43,7 +43,7 @@ void RPDB_LockDeadlockDetectorVerbositySettingsController_free(	RPDB_LockDeadloc
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_LockDeadlockDetectorVerbositySettingsController_parentEnvironment(	RPDB_LockDeadlockDetectorVerbositySettingsController* lock_deadlock_detector_verbosity_settings_controller )	{
+Rbdb_Environment* Rbdb_LockDeadlockDetectorVerbositySettingsController_parentEnvironment(	Rbdb_LockDeadlockDetectorVerbositySettingsController* lock_deadlock_detector_verbosity_settings_controller )	{
 	return lock_deadlock_detector_verbosity_settings_controller->parent_lock_deadlock_detector_settings_controller->parent_lock_settings_controller->parent_settings_controller->parent_environment;
 }
 
@@ -52,7 +52,7 @@ RPDB_Environment* RPDB_LockDeadlockDetectorVerbositySettingsController_parentEnv
 *************************************************************/
 
 //	DB_VERB_DEADLOCK        	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_verbose.html
-BOOL RPDB_LockDeadlockDetectorVerbositySettingsController_displayAdditionalInformationDuringDeadlockDetection( RPDB_LockDeadlockDetectorVerbositySettingsController* lock_deadlock_detector_verbosity_settings_controller )	{
+BOOL Rbdb_LockDeadlockDetectorVerbositySettingsController_displayAdditionalInformationDuringDeadlockDetection( Rbdb_LockDeadlockDetectorVerbositySettingsController* lock_deadlock_detector_verbosity_settings_controller )	{
 
 	if ( lock_deadlock_detector_verbosity_settings_controller->display_additional_information_during_deadlock_detection )	{
 		return DB_VERB_DEADLOCK;
@@ -64,7 +64,7 @@ BOOL RPDB_LockDeadlockDetectorVerbositySettingsController_displayAdditionalInfor
 	*  turnDisplayAdditionalInformationDuringDeadlockDetectionOn  *
 	*****************************************************************/
 
-	void RPDB_LockDeadlockDetectorVerbositySettingsController_turnDisplayAdditionalInformationDuringDeadlockDetectionOn( RPDB_LockDeadlockDetectorVerbositySettingsController* lock_deadlock_detector_verbosity_settings_controller )	{
+	void Rbdb_LockDeadlockDetectorVerbositySettingsController_turnDisplayAdditionalInformationDuringDeadlockDetectionOn( Rbdb_LockDeadlockDetectorVerbositySettingsController* lock_deadlock_detector_verbosity_settings_controller )	{
 
 		lock_deadlock_detector_verbosity_settings_controller->display_additional_information_during_deadlock_detection = TRUE;
 	}
@@ -73,7 +73,7 @@ BOOL RPDB_LockDeadlockDetectorVerbositySettingsController_displayAdditionalInfor
 	*  turnDisplayAdditionalInformationDuringDeadlockDetectionOff  *
 	*****************************************************************/
 
-	void RPDB_LockDeadlockDetectorVerbositySettingsController_turnDisplayAdditionalInformationDuringDeadlockDetectionOff( RPDB_LockDeadlockDetectorVerbositySettingsController* lock_deadlock_detector_verbosity_settings_controller )	{
+	void Rbdb_LockDeadlockDetectorVerbositySettingsController_turnDisplayAdditionalInformationDuringDeadlockDetectionOff( Rbdb_LockDeadlockDetectorVerbositySettingsController* lock_deadlock_detector_verbosity_settings_controller )	{
 
 		lock_deadlock_detector_verbosity_settings_controller->display_additional_information_during_deadlock_detection = FALSE;
 	}
@@ -83,7 +83,7 @@ BOOL RPDB_LockDeadlockDetectorVerbositySettingsController_displayAdditionalInfor
 *************************************************/
 
 //	DB_VERB_WAITSFOR			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_verbose.html
-BOOL RPDB_LockDeadlockDetectorVerbositySettingsController_displayWaitTableDuringDeadlockDetection( RPDB_LockDeadlockDetectorVerbositySettingsController* lock_deadlock_detector_verbosity_settings_controller )	{
+BOOL Rbdb_LockDeadlockDetectorVerbositySettingsController_displayWaitTableDuringDeadlockDetection( Rbdb_LockDeadlockDetectorVerbositySettingsController* lock_deadlock_detector_verbosity_settings_controller )	{
 
 	if ( lock_deadlock_detector_verbosity_settings_controller->display_wait_table_during_deadlock_detection == TRUE )	{
 		return DB_VERB_WAITSFOR;
@@ -96,7 +96,7 @@ BOOL RPDB_LockDeadlockDetectorVerbositySettingsController_displayWaitTableDuring
 	*  turnDisplayWaitTableDuringDeadlockDetectionOn  *
 	*****************************************************/
 
-	void RPDB_LockDeadlockDetectorVerbositySettingsController_turnDisplayWaitTableDuringDeadlockDetectionOn( RPDB_LockDeadlockDetectorVerbositySettingsController* lock_deadlock_detector_verbosity_settings_controller )	{
+	void Rbdb_LockDeadlockDetectorVerbositySettingsController_turnDisplayWaitTableDuringDeadlockDetectionOn( Rbdb_LockDeadlockDetectorVerbositySettingsController* lock_deadlock_detector_verbosity_settings_controller )	{
 		lock_deadlock_detector_verbosity_settings_controller->display_wait_table_during_deadlock_detection = TRUE;
 	}
 
@@ -104,7 +104,7 @@ BOOL RPDB_LockDeadlockDetectorVerbositySettingsController_displayWaitTableDuring
 	*  turnDisplayWaitTableDuringDeadlockDetectionOff  *
 	*****************************************************/
 
-	void RPDB_LockDeadlockDetectorVerbositySettingsController_turnDisplayWaitTableDuringDeadlockDetectionOff( RPDB_LockDeadlockDetectorVerbositySettingsController* lock_deadlock_detector_verbosity_settings_controller )	{
+	void Rbdb_LockDeadlockDetectorVerbositySettingsController_turnDisplayWaitTableDuringDeadlockDetectionOff( Rbdb_LockDeadlockDetectorVerbositySettingsController* lock_deadlock_detector_verbosity_settings_controller )	{
 		lock_deadlock_detector_verbosity_settings_controller->display_wait_table_during_deadlock_detection = FALSE;
 	}
 
@@ -117,9 +117,9 @@ BOOL RPDB_LockDeadlockDetectorVerbositySettingsController_displayWaitTableDuring
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_LockDeadlockDetectorVerbositySettingsController* RPDB_LockDeadlockDetectorVerbositySettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_LockDeadlockDetectorVerbositySettingsController* lock_deadlock_detector_verbosity_settings_controller )	{
+Rbdb_LockDeadlockDetectorVerbositySettingsController* Rbdb_LockDeadlockDetectorVerbositySettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_LockDeadlockDetectorVerbositySettingsController* lock_deadlock_detector_verbosity_settings_controller )	{
 
-	RPDB_LockDeadlockDetectorVerbositySettingsController* lock_deadlock_detector_verbosity_settings_controller_copy	=	RPDB_LockDeadlockDetectorVerbositySettingsController_new( lock_deadlock_detector_verbosity_settings_controller->parent_lock_deadlock_detector_settings_controller );
+	Rbdb_LockDeadlockDetectorVerbositySettingsController* lock_deadlock_detector_verbosity_settings_controller_copy	=	Rbdb_LockDeadlockDetectorVerbositySettingsController_new( lock_deadlock_detector_verbosity_settings_controller->parent_lock_deadlock_detector_settings_controller );
 
 	//	Instances and Pointers
 	lock_deadlock_detector_verbosity_settings_controller_copy->display_wait_table_during_deadlock_detection	=	lock_deadlock_detector_verbosity_settings_controller->display_wait_table_during_deadlock_detection;

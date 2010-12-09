@@ -1,31 +1,31 @@
 /*
- *		RPDB::RPDB_DatabaseController::RPDB_Database::(RPDB_DatabaseCursorController::RPDB_DatabaseCursor::)RPDB_Record::RPDB_DBT => RPDB_Data
+ *		Rbdb::Rbdb_DatabaseController::Rbdb_Database::(Rbdb_DatabaseCursorController::Rbdb_DatabaseCursor::)Rbdb_Record::Rbdb_DBT => Rbdb_Data
  *
  *
  */
 
-#ifndef RPDB_DATA
-	#define RPDB_DATA
+#ifndef Rbdb_DATA
+	#define Rbdb_DATA
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 /****************
 *  Prototypes  *
 ****************/
 
-RPDB_Data*		RPDB_Data_new(			RPDB_Record*	parent_record );
+Rbdb_Data*		Rbdb_Data_new(			Rbdb_Record*	parent_record );
 
-void			RPDB_Data_free(	RPDB_Data** data );
-RPDB_DatabaseRecordSettingsController*	RPDB_Data_settingsController(	RPDB_Data* data );
-RPDB_Environment*		RPDB_Data_parentEnvironment(	RPDB_Data* data );
-RPDB_Database* RPDB_Data_parentDatabase(	RPDB_Data* data );
-RPDB_Record* RPDB_Data_parentRecord(	RPDB_DatabaseRecordSettingsController* data );
+void			Rbdb_Data_free(	Rbdb_Data** data );
+Rbdb_DatabaseRecordSettingsController*	Rbdb_Data_settingsController(	Rbdb_Data* data );
+Rbdb_Environment*		Rbdb_Data_parentEnvironment(	Rbdb_Data* data );
+Rbdb_Database* Rbdb_Data_parentDatabase(	Rbdb_Data* data );
+Rbdb_Record* Rbdb_Data_parentRecord(	Rbdb_DatabaseRecordSettingsController* data );
 
-void*			RPDB_Data_rawData(		RPDB_Data*		data );
-void RPDB_Data_setRawData(	RPDB_Data*	data,
+void*			Rbdb_Data_rawData(		Rbdb_Data*		data );
+void Rbdb_Data_setRawData(	Rbdb_Data*	data,
 							void*		data_raw,
 							uint32_t	data_size );
-uint32_t RPDB_Data_size( RPDB_Data* data );
+uint32_t Rbdb_Data_size( Rbdb_Data* data );
 
 #endif
 

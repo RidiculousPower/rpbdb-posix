@@ -1,119 +1,119 @@
-#ifndef RPDB_TYPES
-	#define RPDB_TYPES
+#ifndef Rbdb_TYPES
+	#define Rbdb_TYPES
 
 	#include <db.h>
-	#include "RPDB_Constants.h"
+	#include "Rbdb_Constants.h"
 
 	//	File is listed in inverse order of type hierarchy - hierarchy goes bottom to top
 
-typedef struct RPDB_Environment											RPDB_Environment;
-typedef struct RPDB_Database												RPDB_Database;
-typedef struct RPDB_DatabaseCursorController								RPDB_DatabaseCursorController;
-typedef struct RPDB_DatabaseCursor											RPDB_DatabaseCursor;
-typedef struct RPDB_DatabaseController										RPDB_DatabaseController;
-typedef struct RPDB_DatabaseSequenceController								RPDB_DatabaseSequenceController;
-typedef struct RPDB_DatabaseSequence										RPDB_DatabaseSequence;
-typedef struct RPDB_Error													RPDB_Error;
-typedef struct RPDB_ErrorController										RPDB_ErrorController;
-typedef struct RPDB_DatabaseJoinController											RPDB_DatabaseJoinController;
-typedef struct RPDB_DatabaseJoinCursor												RPDB_DatabaseJoinCursor;
-typedef struct RPDB_Lock													RPDB_Lock;
-typedef struct RPDB_LockController											RPDB_LockController;
-typedef struct RPDB_Log													RPDB_Log;
-typedef struct RPDB_LogController											RPDB_LogController;
-typedef struct RPDB_LogCursorController									RPDB_LogCursorController;
-typedef struct RPDB_LogCursor												RPDB_LogCursor;
-typedef struct RPDB_LogSequenceNumber										RPDB_LogSequenceNumber;
-typedef struct RPDB_Record													RPDB_Record;
-typedef struct RPDB_DBT													RPDB_DBT;
-typedef RPDB_DBT 															RPDB_Key;
-typedef struct RPDB_SecondaryKeys											RPDB_SecondaryKeys;
-typedef RPDB_DBT 															RPDB_Data;
-typedef struct RPDB_MemoryPoolFilePageController							RPDB_MemoryPoolFilePageController;
-typedef struct RPDB_MemoryPoolFilePage										RPDB_MemoryPoolFilePage;
-typedef struct RPDB_MemoryPoolFileController								RPDB_MemoryPoolFileController;
-typedef struct RPDB_MemoryPoolFile											RPDB_MemoryPoolFile;
-typedef struct RPDB_MemoryPoolController									RPDB_MemoryPoolController;
-typedef struct RPDB_Mutex													RPDB_Mutex;
-typedef struct RPDB_MutexController										RPDB_MutexController;
-typedef struct RPDB_ReplicationController									RPDB_ReplicationController;
-typedef struct RPDB_RemoteSite												RPDB_RemoteSite;
-typedef struct RPDB_RuntimeStorage											RPDB_RuntimeStorage;
-typedef struct RPDB_RuntimeStorageController								RPDB_RuntimeStorageController;
-typedef struct RPDB_Transaction											RPDB_Transaction;
-typedef struct RPDB_TransactionController									RPDB_TransactionController;
-typedef struct RPDB_TransactionSettingsController							RPDB_TransactionSettingsController;
-typedef struct RPDB_ThreadSettingsController								RPDB_ThreadSettingsController;
-typedef struct RPDB_StatusSettingsController								RPDB_StatusSettingsController;
-typedef struct RPDB_SettingsController										RPDB_SettingsController;
-typedef struct RPDB_RuntimeStorageSettingsController						RPDB_RuntimeStorageSettingsController;
-typedef struct RPDB_ReplicationVerbositySettingsController					RPDB_ReplicationVerbositySettingsController;
-typedef struct RPDB_ReplicationTimeoutSettingsController					RPDB_ReplicationTimeoutSettingsController;
-typedef struct RPDB_ReplicationSettingsController							RPDB_ReplicationSettingsController;
-typedef struct RPDB_ReplicationElectionSettingsController					RPDB_ReplicationElectionSettingsController;
-typedef struct RPDB_DatabaseRecordSettingsController								RPDB_DatabaseRecordSettingsController;
-typedef struct RPDB_MutexSettingsController								RPDB_MutexSettingsController;
-typedef struct RPDB_MessageSettingsController								RPDB_MessageSettingsController;
-typedef struct RPDB_MemoryPoolSettingsController							RPDB_MemoryPoolSettingsController;
-typedef struct RPDB_MemoryPoolReadWriteSettingsController					RPDB_MemoryPoolReadWriteSettingsController;
-typedef struct RPDB_MemoryPoolFileSettingsController						RPDB_MemoryPoolFileSettingsController;
-typedef struct RPDB_MemoryPoolFilePageSettingsController					RPDB_MemoryPoolFilePageSettingsController;
-typedef struct RPDB_MemoryPoolFileCacheSettingsController					RPDB_MemoryPoolFileCacheSettingsController;
-typedef struct RPDB_MemoryPoolFileCachePrioritySettingsController			RPDB_MemoryPoolFileCachePrioritySettingsController;
-typedef struct RPDB_LogSettingsController									RPDB_LogSettingsController;
-typedef struct RPDB_LockSettingsController									RPDB_LockSettingsController;
-typedef struct RPDB_LockDeadlockDetectorVerbositySettingsController		RPDB_LockDeadlockDetectorVerbositySettingsController;
-typedef struct RPDB_LockDeadlockDetectorSettingsController					RPDB_LockDeadlockDetectorSettingsController;
-typedef struct RPDB_DatabaseJoinSettingsController									RPDB_DatabaseJoinSettingsController;
-typedef struct RPDB_FileVerbositySettingsController						RPDB_FileVerbositySettingsController;
-typedef struct RPDB_FileSettingsController									RPDB_FileSettingsController;
-typedef struct RPDB_ErrorSettingsController								RPDB_ErrorSettingsController;
-typedef struct RPDB_EnvironmentCacheSettingsController						RPDB_EnvironmentCacheSettingsController;
-typedef struct RPDB_DirectorySettingsController							RPDB_DirectorySettingsController;
-typedef struct RPDB_DebugVerbositySettingsController						RPDB_DebugVerbositySettingsController;
-typedef struct RPDB_DebugSettingsController								RPDB_DebugSettingsController;
-typedef struct RPDB_DatabaseVerificationSettingsController					RPDB_DatabaseVerificationSettingsController;
-typedef struct RPDB_DatabaseVerbositySettingsController					RPDB_DatabaseVerbositySettingsController;
-typedef struct RPDB_DatabaseRecordVariableLengthSettingsController				RPDB_DatabaseRecordVariableLengthSettingsController;
-typedef struct RPDB_DatabaseTypeSettingsController							RPDB_DatabaseTypeSettingsController;
-typedef struct RPDB_DatabaseTypeRecnoSettingsController					RPDB_DatabaseTypeRecnoSettingsController;
-typedef struct RPDB_DatabaseTypeQueueSettingsController					RPDB_DatabaseTypeQueueSettingsController;
-typedef struct RPDB_DatabaseTypeHashSettingsController						RPDB_DatabaseTypeHashSettingsController;
-typedef struct RPDB_DatabaseTypeBtreeSettingsController					RPDB_DatabaseTypeBtreeSettingsController;
-typedef struct RPDB_DatabaseSettingsController								RPDB_DatabaseSettingsController;
-typedef struct RPDB_DatabaseSequenceSettingsController						RPDB_DatabaseSequenceSettingsController;
-typedef struct RPDB_DatabaseRecordReadWriteSettingsController					RPDB_DatabaseRecordReadWriteSettingsController;
-typedef struct RPDB_DatabaseRecordFixedLengthSettingsController					RPDB_DatabaseRecordFixedLengthSettingsController;
-typedef struct RPDB_DatabaseErrorSettingsController						RPDB_DatabaseErrorSettingsController;
-typedef struct RPDB_DatabaseEncryptionSettingsController					RPDB_DatabaseEncryptionSettingsController;
-typedef struct RPDB_DatabaseCursorCacheSettingsController					RPDB_DatabaseCursorCacheSettingsController;
-typedef struct RPDB_DatabaseCursorCachePrioritySettingsController			RPDB_DatabaseCursorCachePrioritySettingsController;
-typedef struct RPDB_DatabaseCursorSettingsController						RPDB_DatabaseCursorSettingsController;
-typedef struct RPDB_DatabaseCursorReadWriteSettingsController				RPDB_DatabaseCursorReadWriteSettingsController;
-typedef struct RPDB_DatabaseCompactSettingsController						RPDB_DatabaseCompactSettingsController;
-typedef struct RPDB_DatabaseCacheSettingsController						RPDB_DatabaseCacheSettingsController;
-typedef struct RPDB_DatabaseCachePrioritySettingsController				RPDB_DatabaseCachePrioritySettingsController;
-typedef struct RPDB_DatabaseAssociationSettingsController					RPDB_DatabaseAssociationSettingsController;
-typedef struct RPDB_CompactStatus											RPDB_CompactStatus;
-typedef struct RPDB_Directory												RPDB_Directory;
-typedef struct RPDB_DatabaseOpenedDuringTransaction						RPDB_DatabaseOpenedDuringTransaction;
+typedef struct Rbdb_Environment											Rbdb_Environment;
+typedef struct Rbdb_Database												Rbdb_Database;
+typedef struct Rbdb_DatabaseCursorController								Rbdb_DatabaseCursorController;
+typedef struct Rbdb_DatabaseCursor											Rbdb_DatabaseCursor;
+typedef struct Rbdb_DatabaseController										Rbdb_DatabaseController;
+typedef struct Rbdb_DatabaseSequenceController								Rbdb_DatabaseSequenceController;
+typedef struct Rbdb_DatabaseSequence										Rbdb_DatabaseSequence;
+typedef struct Rbdb_Error													Rbdb_Error;
+typedef struct Rbdb_ErrorController										Rbdb_ErrorController;
+typedef struct Rbdb_DatabaseJoinController											Rbdb_DatabaseJoinController;
+typedef struct Rbdb_DatabaseJoinCursor												Rbdb_DatabaseJoinCursor;
+typedef struct Rbdb_Lock													Rbdb_Lock;
+typedef struct Rbdb_LockController											Rbdb_LockController;
+typedef struct Rbdb_Log													Rbdb_Log;
+typedef struct Rbdb_LogController											Rbdb_LogController;
+typedef struct Rbdb_LogCursorController									Rbdb_LogCursorController;
+typedef struct Rbdb_LogCursor												Rbdb_LogCursor;
+typedef struct Rbdb_LogSequenceNumber										Rbdb_LogSequenceNumber;
+typedef struct Rbdb_Record													Rbdb_Record;
+typedef struct Rbdb_DBT													Rbdb_DBT;
+typedef Rbdb_DBT 															Rbdb_Key;
+typedef struct Rbdb_SecondaryKeys											Rbdb_SecondaryKeys;
+typedef Rbdb_DBT 															Rbdb_Data;
+typedef struct Rbdb_MemoryPoolFilePageController							Rbdb_MemoryPoolFilePageController;
+typedef struct Rbdb_MemoryPoolFilePage										Rbdb_MemoryPoolFilePage;
+typedef struct Rbdb_MemoryPoolFileController								Rbdb_MemoryPoolFileController;
+typedef struct Rbdb_MemoryPoolFile											Rbdb_MemoryPoolFile;
+typedef struct Rbdb_MemoryPoolController									Rbdb_MemoryPoolController;
+typedef struct Rbdb_Mutex													Rbdb_Mutex;
+typedef struct Rbdb_MutexController										Rbdb_MutexController;
+typedef struct Rbdb_ReplicationController									Rbdb_ReplicationController;
+typedef struct Rbdb_RemoteSite												Rbdb_RemoteSite;
+typedef struct Rbdb_RuntimeStorage											Rbdb_RuntimeStorage;
+typedef struct Rbdb_RuntimeStorageController								Rbdb_RuntimeStorageController;
+typedef struct Rbdb_Transaction											Rbdb_Transaction;
+typedef struct Rbdb_TransactionController									Rbdb_TransactionController;
+typedef struct Rbdb_TransactionSettingsController							Rbdb_TransactionSettingsController;
+typedef struct Rbdb_ThreadSettingsController								Rbdb_ThreadSettingsController;
+typedef struct Rbdb_StatusSettingsController								Rbdb_StatusSettingsController;
+typedef struct Rbdb_SettingsController										Rbdb_SettingsController;
+typedef struct Rbdb_RuntimeStorageSettingsController						Rbdb_RuntimeStorageSettingsController;
+typedef struct Rbdb_ReplicationVerbositySettingsController					Rbdb_ReplicationVerbositySettingsController;
+typedef struct Rbdb_ReplicationTimeoutSettingsController					Rbdb_ReplicationTimeoutSettingsController;
+typedef struct Rbdb_ReplicationSettingsController							Rbdb_ReplicationSettingsController;
+typedef struct Rbdb_ReplicationElectionSettingsController					Rbdb_ReplicationElectionSettingsController;
+typedef struct Rbdb_DatabaseRecordSettingsController								Rbdb_DatabaseRecordSettingsController;
+typedef struct Rbdb_MutexSettingsController								Rbdb_MutexSettingsController;
+typedef struct Rbdb_MessageSettingsController								Rbdb_MessageSettingsController;
+typedef struct Rbdb_MemoryPoolSettingsController							Rbdb_MemoryPoolSettingsController;
+typedef struct Rbdb_MemoryPoolReadWriteSettingsController					Rbdb_MemoryPoolReadWriteSettingsController;
+typedef struct Rbdb_MemoryPoolFileSettingsController						Rbdb_MemoryPoolFileSettingsController;
+typedef struct Rbdb_MemoryPoolFilePageSettingsController					Rbdb_MemoryPoolFilePageSettingsController;
+typedef struct Rbdb_MemoryPoolFileCacheSettingsController					Rbdb_MemoryPoolFileCacheSettingsController;
+typedef struct Rbdb_MemoryPoolFileCachePrioritySettingsController			Rbdb_MemoryPoolFileCachePrioritySettingsController;
+typedef struct Rbdb_LogSettingsController									Rbdb_LogSettingsController;
+typedef struct Rbdb_LockSettingsController									Rbdb_LockSettingsController;
+typedef struct Rbdb_LockDeadlockDetectorVerbositySettingsController		Rbdb_LockDeadlockDetectorVerbositySettingsController;
+typedef struct Rbdb_LockDeadlockDetectorSettingsController					Rbdb_LockDeadlockDetectorSettingsController;
+typedef struct Rbdb_DatabaseJoinSettingsController									Rbdb_DatabaseJoinSettingsController;
+typedef struct Rbdb_FileVerbositySettingsController						Rbdb_FileVerbositySettingsController;
+typedef struct Rbdb_FileSettingsController									Rbdb_FileSettingsController;
+typedef struct Rbdb_ErrorSettingsController								Rbdb_ErrorSettingsController;
+typedef struct Rbdb_EnvironmentCacheSettingsController						Rbdb_EnvironmentCacheSettingsController;
+typedef struct Rbdb_DirectorySettingsController							Rbdb_DirectorySettingsController;
+typedef struct Rbdb_DebugVerbositySettingsController						Rbdb_DebugVerbositySettingsController;
+typedef struct Rbdb_DebugSettingsController								Rbdb_DebugSettingsController;
+typedef struct Rbdb_DatabaseVerificationSettingsController					Rbdb_DatabaseVerificationSettingsController;
+typedef struct Rbdb_DatabaseVerbositySettingsController					Rbdb_DatabaseVerbositySettingsController;
+typedef struct Rbdb_DatabaseRecordVariableLengthSettingsController				Rbdb_DatabaseRecordVariableLengthSettingsController;
+typedef struct Rbdb_DatabaseTypeSettingsController							Rbdb_DatabaseTypeSettingsController;
+typedef struct Rbdb_DatabaseTypeRecnoSettingsController					Rbdb_DatabaseTypeRecnoSettingsController;
+typedef struct Rbdb_DatabaseTypeQueueSettingsController					Rbdb_DatabaseTypeQueueSettingsController;
+typedef struct Rbdb_DatabaseTypeHashSettingsController						Rbdb_DatabaseTypeHashSettingsController;
+typedef struct Rbdb_DatabaseTypeBtreeSettingsController					Rbdb_DatabaseTypeBtreeSettingsController;
+typedef struct Rbdb_DatabaseSettingsController								Rbdb_DatabaseSettingsController;
+typedef struct Rbdb_DatabaseSequenceSettingsController						Rbdb_DatabaseSequenceSettingsController;
+typedef struct Rbdb_DatabaseRecordReadWriteSettingsController					Rbdb_DatabaseRecordReadWriteSettingsController;
+typedef struct Rbdb_DatabaseRecordFixedLengthSettingsController					Rbdb_DatabaseRecordFixedLengthSettingsController;
+typedef struct Rbdb_DatabaseErrorSettingsController						Rbdb_DatabaseErrorSettingsController;
+typedef struct Rbdb_DatabaseEncryptionSettingsController					Rbdb_DatabaseEncryptionSettingsController;
+typedef struct Rbdb_DatabaseCursorCacheSettingsController					Rbdb_DatabaseCursorCacheSettingsController;
+typedef struct Rbdb_DatabaseCursorCachePrioritySettingsController			Rbdb_DatabaseCursorCachePrioritySettingsController;
+typedef struct Rbdb_DatabaseCursorSettingsController						Rbdb_DatabaseCursorSettingsController;
+typedef struct Rbdb_DatabaseCursorReadWriteSettingsController				Rbdb_DatabaseCursorReadWriteSettingsController;
+typedef struct Rbdb_DatabaseCompactSettingsController						Rbdb_DatabaseCompactSettingsController;
+typedef struct Rbdb_DatabaseCacheSettingsController						Rbdb_DatabaseCacheSettingsController;
+typedef struct Rbdb_DatabaseCachePrioritySettingsController				Rbdb_DatabaseCachePrioritySettingsController;
+typedef struct Rbdb_DatabaseAssociationSettingsController					Rbdb_DatabaseAssociationSettingsController;
+typedef struct Rbdb_CompactStatus											Rbdb_CompactStatus;
+typedef struct Rbdb_Directory												Rbdb_Directory;
+typedef struct Rbdb_DatabaseOpenedDuringTransaction						Rbdb_DatabaseOpenedDuringTransaction;
 
-typedef		RPDB_SECONDARY_KEY_CREATION_RETURN	(*RPDB_SecondaryKeyCallbackMethod)(	RPDB_Database*			secondary_database,
-																																									RPDB_Record*			primary_record,
-																																									RPDB_SecondaryKeys*	secondary_keys_to_return );
+typedef		Rbdb_SECONDARY_KEY_CREATION_RETURN	(*Rbdb_SecondaryKeyCallbackMethod)(	Rbdb_Database*			secondary_database,
+																																									Rbdb_Record*			primary_record,
+																																									Rbdb_SecondaryKeys*	secondary_keys_to_return );
 
 /*************************************
 *  Thread Settings Callback Methods  *
 *************************************/
 
-typedef		BOOL	(*RPDB_IsThreadAliveCallbackMethod)(	RPDB_Environment*		environment,
+typedef		BOOL	(*Rbdb_IsThreadAliveCallbackMethod)(	Rbdb_Environment*		environment,
 																											pid_t								process_id,
 																											db_threadid_t				thread_id,
 																											BOOL								associated_with_single_process );
-typedef		void	(*RPDB_UniqueThreadIdentifierCallbackMethod)(	RPDB_Environment*		environment,
+typedef		void	(*Rbdb_UniqueThreadIdentifierCallbackMethod)(	Rbdb_Environment*		environment,
 																															pid_t*							process_id,
 																															db_threadid_t*			thread_id	);
-typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(	RPDB_Environment*		environment,
+typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(	Rbdb_Environment*		environment,
 																																									pid_t								process_id,
 																																									db_threadid_t				thread_id,
 																																									char*								string_buffer );
@@ -122,10 +122,10 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_TransactionSettingsController	{
+					struct Rbdb_TransactionSettingsController	{
 	
 						//	Parent
-						RPDB_SettingsController*				parent_settings_controller;
+						Rbdb_SettingsController*				parent_settings_controller;
 	
 						BOOL									on;
 	
@@ -150,35 +150,35 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						BOOL									started_transaction_recover;
 	/*
 						//	Callback Public Methods
-						int (*rollbackward_callback_method)(	RPDB_Environment*				environment,                                                                                                                                                                	
-																RPDB_Record*		transaction_log_record );
-						int (*rollforward_callback_method)(		RPDB_Environment*				environment,                                                           				
-														   		RPDB_Record*		transaction_log_record );
-						int (*abort_callback_method)(			RPDB_Environment*				environment,                                                           				
-													 			RPDB_Record*		transaction_log_record );
-						int (*apply_callback_method)(			RPDB_Environment*				environment,                                                           				
-													 			RPDB_Record*		transaction_log_record );
+						int (*rollbackward_callback_method)(	Rbdb_Environment*				environment,                                                                                                                                                                	
+																Rbdb_Record*		transaction_log_record );
+						int (*rollforward_callback_method)(		Rbdb_Environment*				environment,                                                           				
+														   		Rbdb_Record*		transaction_log_record );
+						int (*abort_callback_method)(			Rbdb_Environment*				environment,                                                           				
+													 			Rbdb_Record*		transaction_log_record );
+						int (*apply_callback_method)(			Rbdb_Environment*				environment,                                                           				
+													 			Rbdb_Record*		transaction_log_record );
 	*/
 	
-						RPDB_SettingsController*				environment_settings_controller;
+						Rbdb_SettingsController*				environment_settings_controller;
 					};
 
 					/****************************
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_DatabaseRecordSettingsController	{
+					struct Rbdb_DatabaseRecordSettingsController	{
 
 						//	Parent
-						RPDB_DatabaseSettingsController*		parent_database_settings_controller;
+						Rbdb_DatabaseSettingsController*		parent_database_settings_controller;
 						                                        
-						RPDB_Record*							parent_record;
+						Rbdb_Record*							parent_record;
                                                                 						                                        
-						RPDB_DatabaseRecordReadWriteSettingsController*							record_read_write_settings_controller;
-						RPDB_DatabaseRecordVariableLengthSettingsController*				record_variable_length_settings_controller;
-						RPDB_DatabaseRecordFixedLengthSettingsController*						record_fixed_length_settings_controller;
+						Rbdb_DatabaseRecordReadWriteSettingsController*							record_read_write_settings_controller;
+						Rbdb_DatabaseRecordVariableLengthSettingsController*				record_variable_length_settings_controller;
+						Rbdb_DatabaseRecordFixedLengthSettingsController*						record_fixed_length_settings_controller;
 
-						RPDB_SettingsController*				environment_settings_controller;
+						Rbdb_SettingsController*				environment_settings_controller;
 
 					};
 
@@ -187,10 +187,10 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 								*	Data Type Definitions	*
 								****************************/
 
-								struct RPDB_MemoryPoolFilePage	{
+								struct Rbdb_MemoryPoolFilePage	{
 
 									//	Parent
-									RPDB_MemoryPoolFilePageController*										parent_memory_pool_file_page_controller;
+									Rbdb_MemoryPoolFilePageController*										parent_memory_pool_file_page_controller;
 
 									db_recno_t					runtime_identifier;
 
@@ -200,78 +200,78 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 
 									DB_MPOOLFILE*															wrapped_bdb_memory_pool_file;
 
-									RPDB_SettingsController*													environment_settings_controller;
-									RPDB_MemoryPoolFilePageSettingsController*				settings_controller;
-									RPDB_MemoryPoolFilePageSettingsController*				environment_level_settings_controller;
+									Rbdb_SettingsController*													environment_settings_controller;
+									Rbdb_MemoryPoolFilePageSettingsController*				settings_controller;
+									Rbdb_MemoryPoolFilePageSettingsController*				environment_level_settings_controller;
 								};
 
 								/****************************
 								*	Data Type Definitions	*
 								****************************/
 
-								struct RPDB_MemoryPoolFilePageController	{
+								struct Rbdb_MemoryPoolFilePageController	{
 
 									//	Parent
-									RPDB_MemoryPoolFile*										parent_memory_pool_file;
+									Rbdb_MemoryPoolFile*										parent_memory_pool_file;
 
-									RPDB_Database*													runtime_storage_database;
+									Rbdb_Database*													runtime_storage_database;
 
-									RPDB_SettingsController*								environment_settings_controller;
-									RPDB_MemoryPoolFilePageSettingsController*				settings_controller;
-									RPDB_MemoryPoolFilePageSettingsController*				environment_level_settings_controller;
+									Rbdb_SettingsController*								environment_settings_controller;
+									Rbdb_MemoryPoolFilePageSettingsController*				settings_controller;
+									Rbdb_MemoryPoolFilePageSettingsController*				environment_level_settings_controller;
 								};
 
 							/****************************
 							*	Data Type Definitions	*
 							****************************/
 
-							struct RPDB_MemoryPoolFile	{
+							struct Rbdb_MemoryPoolFile	{
 
 								//	Parent
-								RPDB_MemoryPoolFileController*								parent_memory_pool_file_controller;
+								Rbdb_MemoryPoolFileController*								parent_memory_pool_file_controller;
 
 								db_recno_t					runtime_identifier;
 
 								//	Wrapped BDB memory pool file
 								DB_MPOOLFILE*												wrapped_bdb_memory_pool_file;
 								
-								RPDB_SettingsController*							environment_settings_controller;
-								RPDB_MemoryPoolFileSettingsController*				settings_controller;
-								RPDB_MemoryPoolFileSettingsController*				environment_level_settings_controller;
+								Rbdb_SettingsController*							environment_settings_controller;
+								Rbdb_MemoryPoolFileSettingsController*				settings_controller;
+								Rbdb_MemoryPoolFileSettingsController*				environment_level_settings_controller;
 							};
 
 						/****************************
 						*	Data Type Definitions	*
 						****************************/
 
-						struct RPDB_MemoryPoolFileController	{
+						struct Rbdb_MemoryPoolFileController	{
 
 							//	Parent
-							RPDB_MemoryPoolController*			parent_memory_pool_controller;
+							Rbdb_MemoryPoolController*			parent_memory_pool_controller;
 							
-							RPDB_Database*									runtime_storage_database;
+							Rbdb_Database*									runtime_storage_database;
 /*
-							int									(*page_in_method)(	RPDB_Environment*			environment,
+							int									(*page_in_method)(	Rbdb_Environment*			environment,
 							   														void*			page_data,
-							   														RPDB_Data*		page_cookie	);
+							   														Rbdb_Data*		page_cookie	);
 
-							int									(*page_out_method)(	RPDB_Environment*			environment,
+							int									(*page_out_method)(	Rbdb_Environment*			environment,
 							   														void*			page_data,
-							   														RPDB_Data*		page_cookie	);
+							   														Rbdb_Data*		page_cookie	);
 */
-							RPDB_SettingsController*							environment_settings_controller;
-							RPDB_MemoryPoolFileSettingsController*				settings_controller;
-							RPDB_MemoryPoolFileSettingsController*				environment_level_settings_controller;
+							Rbdb_SettingsController*							environment_settings_controller;
+							Rbdb_MemoryPoolFileSettingsController*				settings_controller;
+							Rbdb_MemoryPoolFileSettingsController*				environment_level_settings_controller;
 						};
 
 						/****************************
 						 *	Data Type Definitions	*
 						 ****************************/
 
-						struct RPDB_MemoryPoolReadWriteSettingsController	{
+						struct Rbdb_MemoryPoolReadWriteSettingsController	{
 
 							//	Parent
-							RPDB_MemoryPoolSettingsController*							parent_memory_pool_settings_controller;
+							Rbdb_MemoryPoolSettingsController*							parent_memory_pool_settings_controller;
 
 							int															memory_pool_record_read_write_settings_controller;
 							int															max_open_files;
@@ -288,7 +288,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						BOOL													application_allocates_memory;
 						BOOL													database_free_memory;
 
-							RPDB_SettingsController*									environment_settings_controller;
+							Rbdb_SettingsController*									environment_settings_controller;
 
 						};
 
@@ -296,10 +296,10 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							 *	Data Type Definitions	*
 							 ****************************/
 
-							struct RPDB_MemoryPoolFilePageSettingsController	{
+							struct Rbdb_MemoryPoolFilePageSettingsController	{
 
 								//	Parent
-								RPDB_MemoryPoolFileSettingsController*						parent_memory_pool_file_settings_controller;
+								Rbdb_MemoryPoolFileSettingsController*						parent_memory_pool_file_settings_controller;
 
 								BOOL														get_page_creates_page_if_does_not_exist;
 								BOOL														get_page_writes_copy_before_eviction;
@@ -307,7 +307,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 								BOOL														get_page_returns_last_page;
 								BOOL														get_page_creates_new_page;
 
-								RPDB_SettingsController*									environment_settings_controller;
+								Rbdb_SettingsController*									environment_settings_controller;
 
 							};
 
@@ -315,38 +315,38 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 								 *	Data Type Definitions	*
 								 ****************************/
 
-								struct RPDB_MemoryPoolFileCachePrioritySettingsController	{
+								struct Rbdb_MemoryPoolFileCachePrioritySettingsController	{
 
 									//	Parent
-									RPDB_MemoryPoolFileCacheSettingsController*				parent_memory_pool_file_cache_settings_controller;
+									Rbdb_MemoryPoolFileCacheSettingsController*				parent_memory_pool_file_cache_settings_controller;
 
 									DB_CACHE_PRIORITY											priority;
 
-									RPDB_SettingsController*									environment_settings_controller;
+									Rbdb_SettingsController*									environment_settings_controller;
 								};
 
 							/****************************
 							 *	Data Type Definitions	*
 							 ****************************/
 
-							struct RPDB_MemoryPoolFileCacheSettingsController	{
+							struct Rbdb_MemoryPoolFileCacheSettingsController	{
 
 								//	Parent
-								RPDB_MemoryPoolFileSettingsController*												parent_memory_pool_file_settings_controller;
+								Rbdb_MemoryPoolFileSettingsController*												parent_memory_pool_file_settings_controller;
 
-								RPDB_MemoryPoolFileCachePrioritySettingsController*						priority_settings_controller;
+								Rbdb_MemoryPoolFileCachePrioritySettingsController*						priority_settings_controller;
 							};
 
 						/****************************
 						 *	Data Type Definitions	*
 						 ****************************/
 
-						struct RPDB_MemoryPoolFileSettingsController	{
+						struct Rbdb_MemoryPoolFileSettingsController	{
 
 							//	Parent
-							RPDB_MemoryPoolSettingsController*						parent_memory_pool_settings_controller;
+							Rbdb_MemoryPoolSettingsController*						parent_memory_pool_settings_controller;
 
-							RPDB_MemoryPoolFile*													parent_memory_pool_file;
+							Rbdb_MemoryPoolFile*													parent_memory_pool_file;
 
 							uint																					create_with_number_initial_bytes;
 							uint8_t*																			file_id;
@@ -354,22 +354,22 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							int																						log_sequence_number_offset;
 							uint64_t																			page_size_in_bytes;
 							uint64_t																			max_file_size_in_bytes;
-							RPDB_Data*																		cookie;
+							Rbdb_Data*																		cookie;
 
-							RPDB_MemoryPoolFileCacheSettingsController*		cache_settings_controller;
-							RPDB_MemoryPoolFilePageSettingsController*		page_settings_controller;
+							Rbdb_MemoryPoolFileCacheSettingsController*		cache_settings_controller;
+							Rbdb_MemoryPoolFilePageSettingsController*		page_settings_controller;
 
-							RPDB_SettingsController*											environment_settings_controller;
+							Rbdb_SettingsController*											environment_settings_controller;
 						};
 
 					/****************************
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_MemoryPoolSettingsController	{
+					struct Rbdb_MemoryPoolSettingsController	{
 	
 						//	Parent
-						RPDB_SettingsController*								parent_settings_controller;
+						Rbdb_SettingsController*								parent_settings_controller;
 	
 						BOOL													on;
 						BOOL													memory_mapping;						
@@ -377,52 +377,52 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						BOOL													remove_file_with_last_reference;
 						BOOL													pagesize_factor_mismatch_should_fail;
 	
-						RPDB_MemoryPoolFileSettingsController*					file_settings_controller;
-						RPDB_MemoryPoolReadWriteSettingsController*			record_read_write_settings_controller;
+						Rbdb_MemoryPoolFileSettingsController*					file_settings_controller;
+						Rbdb_MemoryPoolReadWriteSettingsController*			record_read_write_settings_controller;
 	
-						RPDB_SettingsController*								environment_settings_controller;
+						Rbdb_SettingsController*								environment_settings_controller;
 					};
 
 					/****************************
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_DatabaseJoinSettingsController	{
+					struct Rbdb_DatabaseJoinSettingsController	{
 
 						//	Parent
-						RPDB_DatabaseSettingsController*								parent_database_settings_controller;
+						Rbdb_DatabaseSettingsController*								parent_database_settings_controller;
 
 						BOOL													degree_one_isolation;
 						BOOL													use_write_locks_instead_of_read_locks;
 						BOOL													sort_before_join;
 
-						RPDB_SettingsController*								environment_settings_controller;
+						Rbdb_SettingsController*								environment_settings_controller;
 					};
 
 					/****************************
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_DirectorySettingsController	{
+					struct Rbdb_DirectorySettingsController	{
 
 						//	Parent
-						RPDB_SettingsController*								parent_settings_controller;
+						Rbdb_SettingsController*								parent_settings_controller;
 
 						char*													home_directory_path;
 						
-						RPDB_Directory*										directories;
+						Rbdb_Directory*										directories;
 
-						RPDB_SettingsController*								environment_settings_controller;
+						Rbdb_SettingsController*								environment_settings_controller;
 					};
 
 					/****************************
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_RuntimeStorageSettingsController	{
+					struct Rbdb_RuntimeStorageSettingsController	{
 							
 						//	Parent
-						RPDB_SettingsController*								parent_settings_controller;
+						Rbdb_SettingsController*								parent_settings_controller;
 		
 						BOOL													store_in_application_memory;
 						BOOL													store_in_system_memory;
@@ -431,48 +431,48 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 
 						BOOL													automatic_default_environment;
 						
-						RPDB_SettingsController*								environment_settings_controller;
+						Rbdb_SettingsController*								environment_settings_controller;
 					};
 	
 							/****************************
 							 *	Data Type Definitions	*
 							 ****************************/
 
-							struct RPDB_LockDeadlockDetectorVerbositySettingsController	{
+							struct Rbdb_LockDeadlockDetectorVerbositySettingsController	{
 
 								//	Parent
-								RPDB_LockDeadlockDetectorSettingsController*								parent_lock_deadlock_detector_settings_controller;
+								Rbdb_LockDeadlockDetectorSettingsController*								parent_lock_deadlock_detector_settings_controller;
 
 								BOOL																		display_additional_information_during_deadlock_detection;
 								BOOL																		display_wait_table_during_deadlock_detection;
 
-								RPDB_SettingsController*								environment_settings_controller;
+								Rbdb_SettingsController*								environment_settings_controller;
 							};
 
 						/****************************
 						 *	Data Type Definitions	*
 						 ****************************/
 
-						struct RPDB_LockDeadlockDetectorSettingsController	{
+						struct Rbdb_LockDeadlockDetectorSettingsController	{
 
 							//	Parent
-							RPDB_LockSettingsController*								parent_lock_settings_controller;
+							Rbdb_LockSettingsController*								parent_lock_settings_controller;
 
 							uint32_t																					deadlock_settings;
 
-							RPDB_LockDeadlockDetectorVerbositySettingsController*		verbosity_settings_controller;
+							Rbdb_LockDeadlockDetectorVerbositySettingsController*		verbosity_settings_controller;
 
-							RPDB_SettingsController*									environment_settings_controller;
+							Rbdb_SettingsController*									environment_settings_controller;
 						};
 
 					/****************************
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_LockSettingsController	{
+					struct Rbdb_LockSettingsController	{
 
 						//	Parent
-						RPDB_SettingsController*								parent_settings_controller;
+						Rbdb_SettingsController*								parent_settings_controller;
 
 						//	Variables
 						BOOL													on;
@@ -488,19 +488,19 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						uint32_t														max_objects;
 						uint32_t														partitions;
 
-						RPDB_LockDeadlockDetectorSettingsController*			deadlock_detector_settings_controller;
+						Rbdb_LockDeadlockDetectorSettingsController*			deadlock_detector_settings_controller;
 
-						RPDB_SettingsController*								environment_settings_controller;
+						Rbdb_SettingsController*								environment_settings_controller;
 					};
 
 					/****************************
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_LogSettingsController	{
+					struct Rbdb_LogSettingsController	{
 
 						//	Parent
-						RPDB_SettingsController*								parent_settings_controller;
+						Rbdb_SettingsController*								parent_settings_controller;
 
 						//	Variables
 						BOOL													on;
@@ -517,17 +517,17 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						uint32_t												max_size;
 						uint32_t												max_region_size;
 
-						RPDB_SettingsController*								environment_settings_controller;
+						Rbdb_SettingsController*								environment_settings_controller;
 					};
 
 						/****************************
 						 *	Data Type Definitions	*
 						 ****************************/
 
-						struct RPDB_ReplicationVerbositySettingsController	{
+						struct Rbdb_ReplicationVerbositySettingsController	{
 	
 							//	Parent
-							RPDB_ReplicationSettingsController*								parent_replication_settings_controller;
+							Rbdb_ReplicationSettingsController*								parent_replication_settings_controller;
 	
 							BOOL																display_all_replication_information;
 							BOOL																display_election_information;
@@ -538,17 +538,17 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							BOOL																display_manager_connection_failure_information;
 							BOOL																display_manager_misc_processing;
 	
-							RPDB_SettingsController*											environment_settings_controller;
+							Rbdb_SettingsController*											environment_settings_controller;
 						};
 
 						/****************************
 						 *	Data Type Definitions	*
 						 ****************************/
 
-						struct RPDB_ReplicationTimeoutSettingsController	{
+						struct Rbdb_ReplicationTimeoutSettingsController	{
 	
 							//	Parent
-							RPDB_ReplicationSettingsController*								parent_replication_settings_controller;
+							Rbdb_ReplicationSettingsController*								parent_replication_settings_controller;
 	
 							uint32_t															timeout;
 							uint32_t															wait_time_before_checkpoint_write;
@@ -560,17 +560,17 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							uint32_t															heartbeat_broadcast_pulse;
 							uint32_t															lease_timeout;
 	
-							RPDB_SettingsController*											environment_settings_controller;
+							Rbdb_SettingsController*											environment_settings_controller;
 						};
 
 						/****************************
 						 *	Data Type Definitions	*
 						 ****************************/
 
-						struct RPDB_ReplicationElectionSettingsController	{
+						struct Rbdb_ReplicationElectionSettingsController	{
 	
 							//	Parent
-							RPDB_ReplicationSettingsController*								parent_replication_settings_controller;
+							Rbdb_ReplicationSettingsController*								parent_replication_settings_controller;
 	
 							int																	number_of_sites_required_for_election;
 							int																	number_of_votes_required_for_election;
@@ -584,7 +584,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							
 							int																	current_ack_policy;
 	
-							RPDB_SettingsController*											environment_settings_controller;
+							Rbdb_SettingsController*											environment_settings_controller;
 						};
 
 
@@ -592,10 +592,10 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_ReplicationSettingsController	{
+					struct Rbdb_ReplicationSettingsController	{
 	
 						//	Parent
-						RPDB_SettingsController*								parent_settings_controller;
+						Rbdb_SettingsController*								parent_settings_controller;
 	
 						BOOL													on;
 						BOOL													client_to_client_synchronization;
@@ -620,13 +620,13 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						uint32_t												slowest_clock_value;
 						uint32_t												fastest_clock_value;
 	
-						RPDB_Record*											additional_start_information;
+						Rbdb_Record*											additional_start_information;
 	
-						RPDB_ReplicationElectionSettingsController*			acknowledgement_policy_settings_controller;
-						RPDB_ReplicationTimeoutSettingsController*				timeout_settings_controller;	
-						RPDB_ReplicationVerbositySettingsController*			verbosity_settings_controller;	
+						Rbdb_ReplicationElectionSettingsController*			acknowledgement_policy_settings_controller;
+						Rbdb_ReplicationTimeoutSettingsController*				timeout_settings_controller;	
+						Rbdb_ReplicationVerbositySettingsController*			verbosity_settings_controller;	
 	
-						RPDB_SettingsController*							environment_settings_controller;
+						Rbdb_SettingsController*							environment_settings_controller;
 	
 					};
 
@@ -634,10 +634,10 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_MutexSettingsController	{
+					struct Rbdb_MutexSettingsController	{
 	
 						//	Parent
-						RPDB_SettingsController*								parent_settings_controller;
+						Rbdb_SettingsController*								parent_settings_controller;
 	
 						uint32_t												spin_times_before_blocking_for_test_and_spin_mutexes;
 						uint32_t												max_allowable_mutexes;
@@ -646,7 +646,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						BOOL													associated_with_single_process;
 						BOOL													self_blocking;
 	
-						RPDB_SettingsController*								environment_settings_controller;
+						Rbdb_SettingsController*								environment_settings_controller;
 	
 					};
 
@@ -654,10 +654,10 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						 *	Data Type Definitions	*
 						 ****************************/
 
-						struct RPDB_DatabaseVerificationSettingsController	{
+						struct Rbdb_DatabaseVerificationSettingsController	{
 
 							//	Parent
-							RPDB_DatabaseSettingsController*						parent_database_settings_controller;
+							Rbdb_DatabaseSettingsController*						parent_database_settings_controller;
 
 							FILE*													file;
 							BOOL													file_is_open;
@@ -670,7 +670,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							BOOL													force_order_check;
 							BOOL													has_done_unordered_check;
 							
-							RPDB_SettingsController*								environment_settings_controller;
+							Rbdb_SettingsController*								environment_settings_controller;
 							
 						};
 
@@ -678,17 +678,17 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						 *	Data Type Definitions	*
 						 ****************************/
 
-						struct RPDB_DatabaseRecordVariableLengthSettingsController	{
+						struct Rbdb_DatabaseRecordVariableLengthSettingsController	{
 
 							//	Parent
-							RPDB_DatabaseRecordSettingsController*						parent_database_record_settings_controller;
+							Rbdb_DatabaseRecordSettingsController*						parent_database_record_settings_controller;
 
 							int														delimeter_byte;
 							//	FIX	- what happened to these??
 							BOOL													index_primary;
 							BOOL													secondary_key_is_immutable;
 
-							RPDB_SettingsController*								environment_settings_controller;
+							Rbdb_SettingsController*								environment_settings_controller;
 
 						};
 
@@ -696,10 +696,10 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							 *	Data Type Definitions	*
 							 ****************************/
 
-							struct RPDB_DatabaseCursorReadWriteSettingsController	{
+							struct Rbdb_DatabaseCursorReadWriteSettingsController	{
 
 								//	Parent
-								RPDB_DatabaseCursorSettingsController*						parent_database_cursor_settings_controller;
+								Rbdb_DatabaseCursorSettingsController*						parent_database_cursor_settings_controller;
 
 								BOOL														permit_write;
 								BOOL														ignore_lease;
@@ -707,7 +707,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 								BOOL														multiple_data_items;
 								BOOL														return_multiple_key_data_pairs;
 
-								RPDB_SettingsController*									environment_settings_controller;
+								Rbdb_SettingsController*									environment_settings_controller;
 
 							};
 
@@ -715,14 +715,14 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 								 *	Data Type Definitions	*
 								 ****************************/
 
-								struct RPDB_DatabaseCursorCachePrioritySettingsController	{
+								struct Rbdb_DatabaseCursorCachePrioritySettingsController	{
 		
 									//	Parent
-									RPDB_DatabaseCursorCacheSettingsController*						parent_database_cursor_cache_settings_controller;
+									Rbdb_DatabaseCursorCacheSettingsController*						parent_database_cursor_cache_settings_controller;
 		
 									DB_CACHE_PRIORITY													priority;
 		
-									RPDB_SettingsController*											environment_settings_controller;
+									Rbdb_SettingsController*											environment_settings_controller;
 		
 								};
 
@@ -730,18 +730,18 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							 *	Data Type Definitions	*
 							 ****************************/
 
-							struct RPDB_DatabaseCursorCacheSettingsController	{
+							struct Rbdb_DatabaseCursorCacheSettingsController	{
 
 								//	Parent
-								RPDB_DatabaseCursorSettingsController*						parent_database_cursor_settings_controller;
+								Rbdb_DatabaseCursorSettingsController*						parent_database_cursor_settings_controller;
 
 								//	FIX - seems like these are missing function-wise? did something get deleted? check out this controller
 								int															number_cache_regions;
 								uint32_t													max_size_in_bytes;
 
-								RPDB_DatabaseCursorCachePrioritySettingsController*		priority_settings_controller;
+								Rbdb_DatabaseCursorCachePrioritySettingsController*		priority_settings_controller;
 
-								RPDB_SettingsController*									environment_settings_controller;
+								Rbdb_SettingsController*									environment_settings_controller;
 
 							};
 
@@ -749,20 +749,20 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						 *	Data Type Definitions	*
 						 ****************************/
 
-						struct RPDB_DatabaseCursorSettingsController	{
+						struct Rbdb_DatabaseCursorSettingsController	{
 
 							//	Parent
-							RPDB_DatabaseSettingsController*						parent_database_settings_controller;
-							RPDB_DatabaseCursor*									parent_database_cursor;
+							Rbdb_DatabaseSettingsController*						parent_database_settings_controller;
+							Rbdb_DatabaseCursor*									parent_database_cursor;
 
 							//	Variables
 							BOOL													duplicate_retains_location;
 
 							//	Controllers
-							RPDB_DatabaseCursorCacheSettingsController*			cache_controller;
-							RPDB_DatabaseCursorReadWriteSettingsController*		record_read_write_settings_controller;
+							Rbdb_DatabaseCursorCacheSettingsController*			cache_controller;
+							Rbdb_DatabaseCursorReadWriteSettingsController*		record_read_write_settings_controller;
 
-							RPDB_SettingsController*								environment_settings_controller;
+							Rbdb_SettingsController*								environment_settings_controller;
 
 						};
 
@@ -770,12 +770,12 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						 *	Data Type Definitions	*
 						 ****************************/
 
-						struct RPDB_DatabaseSequenceSettingsController	{
+						struct Rbdb_DatabaseSequenceSettingsController	{
 	
 							//	Parent
-							RPDB_DatabaseSettingsController*						parent_database_settings_controller;
+							Rbdb_DatabaseSettingsController*						parent_database_settings_controller;
 	
-							RPDB_DatabaseSequence*									parent_sequence;
+							Rbdb_DatabaseSequence*									parent_sequence;
 	
 							BOOL													increasing;
 							BOOL													decreasing;
@@ -786,7 +786,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							db_seq_t												initial_value;
 							int32_t													default_step_value;
 	
-							RPDB_SettingsController*								environment_settings_controller;
+							Rbdb_SettingsController*								environment_settings_controller;
 	
 						};
 
@@ -794,10 +794,10 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						 *	Data Type Definitions	*
 						 ****************************/
 
-						struct RPDB_DatabaseRecordReadWriteSettingsController	{
+						struct Rbdb_DatabaseRecordReadWriteSettingsController	{
 	
 							//	Parent
-							RPDB_DatabaseRecordSettingsController*						parent_database_record_settings_controller;
+							Rbdb_DatabaseRecordSettingsController*						parent_database_record_settings_controller;
 	
 							char*													filename;
 							BOOL													prohibit_sync_on_close;
@@ -827,7 +827,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							uint32_t								partial_read_write_size;
 							uint32_t								partial_read_write_offset;
 
-							RPDB_SettingsController*								environment_settings_controller;
+							Rbdb_SettingsController*								environment_settings_controller;
 	
 						};
 
@@ -835,19 +835,19 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						 *	Data Type Definitions	*
 						 ****************************/
 
-						struct RPDB_DatabaseTypeRecnoSettingsController	{
+						struct Rbdb_DatabaseTypeRecnoSettingsController	{
 	
 							//	Parent
-							RPDB_DatabaseTypeSettingsController*		parent_database_type_settings_controller;
+							Rbdb_DatabaseTypeSettingsController*		parent_database_type_settings_controller;
 	
 							BOOL										record_renumbering;
 							BOOL										snapshot_isolation;
 							char*										source_file_path;
 	/*
-							void										(*append_callback_method)(	RPDB_Database*		database,
-																								  struct RPDB_Record*		record );
+							void										(*append_callback_method)(	Rbdb_Database*		database,
+																								  struct Rbdb_Record*		record );
 	*/
-							RPDB_SettingsController*					environment_settings_controller;
+							Rbdb_SettingsController*					environment_settings_controller;
 
 						};
 
@@ -855,15 +855,15 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						 *	Data Type Definitions	*
 						 ****************************/
 
-						struct RPDB_DatabaseTypeQueueSettingsController	{
+						struct Rbdb_DatabaseTypeQueueSettingsController	{
 	
 							//	Parent
-							RPDB_DatabaseTypeSettingsController*						parent_database_type_settings_controller;
+							Rbdb_DatabaseTypeSettingsController*						parent_database_type_settings_controller;
 	
 							BOOL														return_key_data_pairs_in_order;
 							uint32_t													number_of_pages_for_underlying_data;
 	
-							RPDB_SettingsController*									environment_settings_controller;
+							Rbdb_SettingsController*									environment_settings_controller;
 	
 						};
 
@@ -871,10 +871,10 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						 *	Data Type Definitions	*
 						 ****************************/
 
-						struct RPDB_DatabaseTypeHashSettingsController	{
+						struct Rbdb_DatabaseTypeHashSettingsController	{
 	
 							//	Parent
-							RPDB_DatabaseTypeSettingsController*		parent_database_type_settings_controller;
+							Rbdb_DatabaseTypeSettingsController*		parent_database_type_settings_controller;
 	
 							//	Variables                               
 							uint32_t									table_size;
@@ -882,17 +882,17 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 	
 	/*
 							//	Callback Public Methods
-							uint32_t									(*hash_method)(					RPDB_Database*		database, 
+							uint32_t									(*hash_method)(					Rbdb_Database*		database, 
 																					   const void*			bytes,    
 																					   uint32_t			length );
-							int											(*compare_method)(				RPDB_Database*		database, 
+							int											(*compare_method)(				Rbdb_Database*		database, 
 																						  const DBT*			data_one, 
 																						  const DBT*			data_two );
-							int											(*duplicate_compare_method)(	RPDB_Database*		database, 
+							int											(*duplicate_compare_method)(	Rbdb_Database*		database, 
 																									const DBT*			data_one, 
 																									const DBT*			data_two );
 	*/
-							RPDB_SettingsController*				environment_settings_controller;
+							Rbdb_SettingsController*				environment_settings_controller;
 
 						};
 
@@ -900,27 +900,27 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						 *	Data Type Definitions	*
 						 ****************************/
 
-						struct RPDB_DatabaseTypeBtreeSettingsController	{
+						struct Rbdb_DatabaseTypeBtreeSettingsController	{
 	
 							//	Parent
-							RPDB_DatabaseTypeSettingsController*		parent_database_type_settings_controller;
+							Rbdb_DatabaseTypeSettingsController*		parent_database_type_settings_controller;
 	
 							BOOL										record_number_retrieval;
 							BOOL										reverse_splitting;
 							uint32_t									minimum_keys_per_page;
 	/*
-							size_t										(*prefix_compare_method)(		RPDB_Database*		database, 
+							size_t										(*prefix_compare_method)(		Rbdb_Database*		database, 
 																								 const DBT*			data_one, 
 																								 const DBT*			data_two );
-							int											(*compare_method)(				DBRPDB_Database*	database, 
+							int											(*compare_method)(				DBRbdb_Database*	database, 
 																						  const DBT*			data_one, 
 																						  const DBT*			data_two );
-							int											(*duplicate_compare_method)(	RPDB_Database*		database, 
+							int											(*duplicate_compare_method)(	Rbdb_Database*		database, 
 																									const DBT*			data_one, 
 																									const DBT*			data_two );
 	*/
 	
-							RPDB_SettingsController*				environment_settings_controller;
+							Rbdb_SettingsController*				environment_settings_controller;
 
 						};
 
@@ -928,20 +928,20 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_DatabaseTypeSettingsController	{
+					struct Rbdb_DatabaseTypeSettingsController	{
 	
 						//	Parent
-						RPDB_DatabaseSettingsController*						parent_database_settings_controller;
+						Rbdb_DatabaseSettingsController*						parent_database_settings_controller;
 
-						RPDB_Database*											parent_database;
+						Rbdb_Database*											parent_database;
 
 						DBTYPE													default_database_type;
-						RPDB_DatabaseTypeBtreeSettingsController*				btree_settings_controller;
-						RPDB_DatabaseTypeHashSettingsController*				hash_settings_controller;
-						RPDB_DatabaseTypeQueueSettingsController*				queue_settings_controller;
-						RPDB_DatabaseTypeRecnoSettingsController*				recno_settings_controller;
+						Rbdb_DatabaseTypeBtreeSettingsController*				btree_settings_controller;
+						Rbdb_DatabaseTypeHashSettingsController*				hash_settings_controller;
+						Rbdb_DatabaseTypeQueueSettingsController*				queue_settings_controller;
+						Rbdb_DatabaseTypeRecnoSettingsController*				recno_settings_controller;
 	
-						RPDB_SettingsController*								environment_settings_controller;
+						Rbdb_SettingsController*								environment_settings_controller;
 	
 					};
 
@@ -949,14 +949,14 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_DatabaseVerbositySettingsController	{
+					struct Rbdb_DatabaseVerbositySettingsController	{
 	
 						//	Parent
-						RPDB_DatabaseSettingsController*						parent_database_settings_controller;
+						Rbdb_DatabaseSettingsController*						parent_database_settings_controller;
 	
 						BOOL													display_additional_information_for_db_register_flag;
 	
-						RPDB_SettingsController*								environment_settings_controller;
+						Rbdb_SettingsController*								environment_settings_controller;
 	
 					};
 
@@ -964,16 +964,16 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_DatabaseEncryptionSettingsController	{
+					struct Rbdb_DatabaseEncryptionSettingsController	{
 	
 						//	Parent
-						RPDB_DatabaseSettingsController*						parent_database_settings_controller;
+						Rbdb_DatabaseSettingsController*						parent_database_settings_controller;
 	
 						BOOL													encrypted;
 						
 						char*													password;
 	
-						RPDB_SettingsController*								environment_settings_controller;
+						Rbdb_SettingsController*								environment_settings_controller;
 	
 					};
 
@@ -981,16 +981,16 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_DatabaseCompactSettingsController	{
+					struct Rbdb_DatabaseCompactSettingsController	{
 	
 						//	Parent
-						RPDB_DatabaseSettingsController*						parent_database_settings_controller;
+						Rbdb_DatabaseSettingsController*						parent_database_settings_controller;
 	
 						int														fill_percent;
 						int														max_pages_to_compact;
 						int														timeout;
 	
-						RPDB_SettingsController*								environment_settings_controller;
+						Rbdb_SettingsController*								environment_settings_controller;
 	
 					};
 
@@ -998,15 +998,15 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_DatabaseAssociationSettingsController	{
+					struct Rbdb_DatabaseAssociationSettingsController	{
 	
 						//	Parent
-						RPDB_DatabaseSettingsController*						parent_database_settings_controller;
+						Rbdb_DatabaseSettingsController*						parent_database_settings_controller;
 	
 						BOOL													index_primary_database;
 						BOOL													secondary_key_is_immutable;
 	
-						RPDB_SettingsController*								environment_settings_controller;
+						Rbdb_SettingsController*								environment_settings_controller;
 	
 					};
 
@@ -1014,14 +1014,14 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						 *	Data Type Definitions	*
 						 ****************************/
 
-						struct RPDB_DatabaseCachePrioritySettingsController	{
+						struct Rbdb_DatabaseCachePrioritySettingsController	{
 	
 							//	Parent
-							RPDB_DatabaseCacheSettingsController*						parent_database_cache_settings_controller;
+							Rbdb_DatabaseCacheSettingsController*						parent_database_cache_settings_controller;
 	
 							DB_CACHE_PRIORITY											priority;
 	
-							RPDB_SettingsController*								environment_settings_controller;
+							Rbdb_SettingsController*								environment_settings_controller;
 	
 						};
 	
@@ -1029,17 +1029,17 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_DatabaseCacheSettingsController	{
+					struct Rbdb_DatabaseCacheSettingsController	{
 	
 						//	Parent
-						RPDB_DatabaseSettingsController*						parent_database_settings_controller;
+						Rbdb_DatabaseSettingsController*						parent_database_settings_controller;
 	
 						int														number_cache_regions;
 						uint32_t												max_size_in_bytes;
 	
-						RPDB_DatabaseCachePrioritySettingsController*			priority_settings_controller;
+						Rbdb_DatabaseCachePrioritySettingsController*			priority_settings_controller;
 		
-						RPDB_SettingsController*								environment_settings_controller;
+						Rbdb_SettingsController*								environment_settings_controller;
 		
 					};
 
@@ -1047,15 +1047,15 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_DatabaseRecordFixedLengthSettingsController	{
+					struct Rbdb_DatabaseRecordFixedLengthSettingsController	{
 
 						//	Parent
-						RPDB_DatabaseRecordSettingsController*						parent_database_record_settings_controller;
+						Rbdb_DatabaseRecordSettingsController*						parent_database_record_settings_controller;
 
 						uint32_t												record_length;
 						int														record_padding_byte;
 
-						RPDB_SettingsController*								environment_settings_controller;
+						Rbdb_SettingsController*								environment_settings_controller;
 
 					};
 
@@ -1063,10 +1063,10 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_DatabaseErrorSettingsController	{
+					struct Rbdb_DatabaseErrorSettingsController	{
 	
 						//	Parent
-						RPDB_DatabaseSettingsController*		parent_database_settings_controller;
+						Rbdb_DatabaseSettingsController*		parent_database_settings_controller;
 	
 						//	Variables               
 						FILE*									error_file;
@@ -1075,12 +1075,12 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						char*									error_prefix;
 	/*
 						//	Callback Public Methods
-						void									(*error_callback_method)(	RPDB_Environment*			environment,                                                                                                                                             
+						void									(*error_callback_method)(	Rbdb_Environment*			environment,                                                                                                                                             
 																						 const char*		error_prefix_string,                                                                                                                                                            
 																						 const char*		error_message	);
 	*/
 	
-						RPDB_SettingsController*				environment_settings_controller;
+						Rbdb_SettingsController*				environment_settings_controller;
 
 					};
 
@@ -1088,12 +1088,12 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 				 *	Data Type Definitions	*
 				 ****************************/
 
-				struct RPDB_DatabaseSettingsController	{
+				struct Rbdb_DatabaseSettingsController	{
 	
 					//	Parent
-					RPDB_SettingsController*								parent_settings_controller;
+					Rbdb_SettingsController*								parent_settings_controller;
 	
-					RPDB_Database*											parent_database;
+					Rbdb_Database*											parent_database;
 	
 					BOOL													on;
 					BOOL													checksum;
@@ -1103,20 +1103,20 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					BOOL													little_endian;
 					BOOL													is_byteswapped;
 	
-					RPDB_DatabaseJoinSettingsController*							join_settings_controller;
-					RPDB_DatabaseErrorSettingsController*					error_settings_controller;
-					RPDB_DatabaseCacheSettingsController*					cache_settings_controller;
-					RPDB_DatabaseAssociationSettingsController*			association_settings_controller;
-					RPDB_DatabaseCompactSettingsController*				compact_settings_controller;
-					RPDB_DatabaseEncryptionSettingsController*				encryption_settings_controller;
-					RPDB_DatabaseVerbositySettingsController*				verbosity_settings_controller;
-					RPDB_DatabaseTypeSettingsController*					type_settings_controller;
-					RPDB_DatabaseSequenceSettingsController*					sequence_settings_controller;
-					RPDB_DatabaseCursorSettingsController*					cursor_settings_controller;
-					RPDB_DatabaseVerificationSettingsController*					verification_settings_controller;
-					RPDB_DatabaseRecordSettingsController*							record_settings_controller;
+					Rbdb_DatabaseJoinSettingsController*							join_settings_controller;
+					Rbdb_DatabaseErrorSettingsController*					error_settings_controller;
+					Rbdb_DatabaseCacheSettingsController*					cache_settings_controller;
+					Rbdb_DatabaseAssociationSettingsController*			association_settings_controller;
+					Rbdb_DatabaseCompactSettingsController*				compact_settings_controller;
+					Rbdb_DatabaseEncryptionSettingsController*				encryption_settings_controller;
+					Rbdb_DatabaseVerbositySettingsController*				verbosity_settings_controller;
+					Rbdb_DatabaseTypeSettingsController*					type_settings_controller;
+					Rbdb_DatabaseSequenceSettingsController*					sequence_settings_controller;
+					Rbdb_DatabaseCursorSettingsController*					cursor_settings_controller;
+					Rbdb_DatabaseVerificationSettingsController*					verification_settings_controller;
+					Rbdb_DatabaseRecordSettingsController*							record_settings_controller;
 
-					RPDB_SettingsController*								environment_settings_controller;
+					Rbdb_SettingsController*								environment_settings_controller;
 
 				};
 
@@ -1124,10 +1124,10 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 				 *	Data Type Definitions	*
 				 ****************************/
 
-				struct RPDB_StatusSettingsController	{
+				struct Rbdb_StatusSettingsController	{
 
 					//	Parent
-					RPDB_SettingsController*								parent_settings_controller;
+					Rbdb_SettingsController*								parent_settings_controller;
 
 					BOOL													display_all;
 					BOOL													reset_after_display;
@@ -1136,7 +1136,7 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					BOOL													degree_two_isolation;
 					BOOL													degree_one_isolation;
 
-					RPDB_SettingsController*								environment_settings_controller;
+					Rbdb_SettingsController*								environment_settings_controller;
 
 				};
 				
@@ -1144,27 +1144,27 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 				 *	Data Type Definitions	*
 				 ****************************/
 
-				struct RPDB_MessageSettingsController	{
+				struct Rbdb_MessageSettingsController	{
 	
 					//	Parent
-					RPDB_SettingsController*			parent_settings_controller;
+					Rbdb_SettingsController*			parent_settings_controller;
 	
 					FILE*								message_file;
 					BOOL								message_file_is_open;
 					char*								message_file_path;
 	/*
-					void								(*message_callback_method)(										RPDB_Environment*			environment, 
+					void								(*message_callback_method)(										Rbdb_Environment*			environment, 
 																				   const char*		message );
-					void								*(panic_callback_method)(										RPDB_Environment*			environment );									
-					void								*(site_is_now_replication_client_callback_method)(				RPDB_Environment*			environment );			
-					void								*(site_won_replication_election_callback_method)(				RPDB_Environment*			environment );			
-					void								*(site_is_now_master_of_replication_group_callback_method)(		RPDB_Environment*			environment );	
-					void								*(replication_group_has_new_master_callback_method)(			RPDB_Environment*			environment );		
-					void								*(replication_acknowledgement_failed_callback_method)(			RPDB_Environment*			environment );		
-					void								*(replication_startup_completed_callback_method)(				RPDB_Environment*			environment );			
-					void								*(write_failed_callback_method)(								RPDB_Environment*			environment );						
+					void								*(panic_callback_method)(										Rbdb_Environment*			environment );									
+					void								*(site_is_now_replication_client_callback_method)(				Rbdb_Environment*			environment );			
+					void								*(site_won_replication_election_callback_method)(				Rbdb_Environment*			environment );			
+					void								*(site_is_now_master_of_replication_group_callback_method)(		Rbdb_Environment*			environment );	
+					void								*(replication_group_has_new_master_callback_method)(			Rbdb_Environment*			environment );		
+					void								*(replication_acknowledgement_failed_callback_method)(			Rbdb_Environment*			environment );		
+					void								*(replication_startup_completed_callback_method)(				Rbdb_Environment*			environment );			
+					void								*(write_failed_callback_method)(								Rbdb_Environment*			environment );						
 */
-					RPDB_SettingsController*				environment_settings_controller;
+					Rbdb_SettingsController*				environment_settings_controller;
 
 				};
 
@@ -1172,21 +1172,21 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 				 *	Data Type Definitions	*
 				 ****************************/
 
-				struct RPDB_ErrorSettingsController	{
+				struct Rbdb_ErrorSettingsController	{
 
 					//	Parent
-					RPDB_SettingsController*		parent_settings_controller;
+					Rbdb_SettingsController*		parent_settings_controller;
 
 					FILE*							error_file;
 					char*							error_file_path;
 					BOOL							error_file_is_open;
 					char*							prefix;
 /*
-					void							(*error_callback_method)(	RPDB_Environment*					environment,                                                                                                                  
+					void							(*error_callback_method)(	Rbdb_Environment*					environment,                                                                                                                  
 																			 const char*				error_prefix,                                                                                                                               
 																			 const char*				error_message );
 */
-					RPDB_SettingsController*				environment_settings_controller;
+					Rbdb_SettingsController*				environment_settings_controller;
 
 				};
 
@@ -1194,19 +1194,19 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 				 *	Data Type Definitions	*
 				 ****************************/
 
-				struct RPDB_ThreadSettingsController	{
+				struct Rbdb_ThreadSettingsController	{
 
 					//	Parent
-					RPDB_SettingsController*													parent_settings_controller;
+					Rbdb_SettingsController*													parent_settings_controller;
 
 					//	Variables
 					BOOL																		on;
 					uint32_t																	thread_count;
 
-					RPDB_IsThreadAliveCallbackMethod											is_thread_alive_callback_method;
-					RPDB_UniqueThreadIdentifierCallbackMethod									unique_thread_identifier_callback_method;
-					RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod				format_thread_and_process_identifier_for_display_callback_method;
-					RPDB_SettingsController*													environment_settings_controller;
+					Rbdb_IsThreadAliveCallbackMethod											is_thread_alive_callback_method;
+					Rbdb_UniqueThreadIdentifierCallbackMethod									unique_thread_identifier_callback_method;
+					Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod				format_thread_and_process_identifier_for_display_callback_method;
+					Rbdb_SettingsController*													environment_settings_controller;
 
 				};
 
@@ -1214,15 +1214,15 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_FileVerbositySettingsController	{
+					struct Rbdb_FileVerbositySettingsController	{
 
 						//	Parent
-						RPDB_FileSettingsController*								parent_file_settings_controller;
+						Rbdb_FileSettingsController*								parent_file_settings_controller;
 
 						BOOL														display_additional_information_during_open_close_rename_file_operations;
 						BOOL														display_additional_information_during_all_file_operations;
 						
-						RPDB_SettingsController*								environment_settings_controller;
+						Rbdb_SettingsController*								environment_settings_controller;
 						
 					};
 
@@ -1230,10 +1230,10 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 				 *	Data Type Definitions	*
 				 ****************************/
 
-				struct RPDB_FileSettingsController	{
+				struct Rbdb_FileSettingsController	{
 
 					//	Parent
-					RPDB_SettingsController*								parent_settings_controller;
+					Rbdb_SettingsController*								parent_settings_controller;
 
 					char*													intermediate_directory_mode;
 					char*													temp_directory;
@@ -1246,9 +1246,9 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					BOOL													xa_compliant;
 					int														file_creation_mode;
 
-					RPDB_FileVerbositySettingsController*					verbosity_settings_controller;
+					Rbdb_FileVerbositySettingsController*					verbosity_settings_controller;
 
-					RPDB_SettingsController*								environment_settings_controller;
+					Rbdb_SettingsController*								environment_settings_controller;
 
 				};
 		
@@ -1256,41 +1256,41 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 				 *	Data Type Definitions	*
 				 ****************************/
 
-				struct RPDB_EnvironmentCacheSettingsController	{
+				struct Rbdb_EnvironmentCacheSettingsController	{
 
 					//	Parent
-					RPDB_SettingsController*								parent_settings_controller;
+					Rbdb_SettingsController*								parent_settings_controller;
 
 					BOOL													buffering;
 					uint64_t												size_in_bytes;
 					uint64_t												max_size_in_bytes;
 
 
-					RPDB_SettingsController*								environment_settings_controller;
+					Rbdb_SettingsController*								environment_settings_controller;
 				};
 
 					/****************************
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_DebugVerbositySettingsController	{
+					struct Rbdb_DebugVerbositySettingsController	{
 
 						//	Parent
-						RPDB_DebugSettingsController*								parent_debug_settings_controller;
+						Rbdb_DebugSettingsController*								parent_debug_settings_controller;
 
 						BOOL														display_additional_information_during_recovery;
 
-						RPDB_SettingsController*									environment_settings_controller;
+						Rbdb_SettingsController*									environment_settings_controller;
 					};
 
 				/****************************
 				 *	Data Type Definitions	*
 				 ****************************/
 
-				struct RPDB_DebugSettingsController	{
+				struct Rbdb_DebugSettingsController	{
 
 					//	Parent
-					RPDB_SettingsController*								parent_settings_controller;
+					Rbdb_SettingsController*								parent_settings_controller;
 					BOOL													check_for_environment_failure_during_open;
 					BOOL													run_normal_recovery_before_opening_environment;
 					BOOL													run_catastrophic_recovery_before_opening_environment;
@@ -1300,50 +1300,50 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					BOOL													panic;
 					BOOL													yield_cpu_for_stress_test;
 
-					RPDB_DebugVerbositySettingsController*					verbosity_settings_controller;
+					Rbdb_DebugVerbositySettingsController*					verbosity_settings_controller;
 
-					RPDB_SettingsController*								environment_settings_controller;
+					Rbdb_SettingsController*								environment_settings_controller;
 				};
 
 			/****************************
 			 *	Data Type Definitions	*
 			 ****************************/
 
-			struct RPDB_SettingsController	{
+			struct Rbdb_SettingsController	{
 	
 				//	Parent
-				RPDB_Environment*										parent_environment;
+				Rbdb_Environment*										parent_environment;
 				
 				//	Variables
 				long													shm_key;
 	
 				//	Controllers
-				RPDB_DatabaseSettingsController*						database_settings_controller;
-				RPDB_DebugSettingsController*							debug_settings_controller;
-				RPDB_EnvironmentCacheSettingsController*				cache_settings_controller;
-				RPDB_FileSettingsController*							file_settings_controller;
-				RPDB_ThreadSettingsController*							thread_settings_controller;
-				RPDB_ErrorSettingsController*							error_settings_controller;
-				RPDB_MessageSettingsController*							message_settings_controller;
-				RPDB_StatusSettingsController*							status_settings_controller;
-				RPDB_MutexSettingsController*							mutex_settings_controller;
-				RPDB_ReplicationSettingsController*							replication_settings_controller;
-				RPDB_LogSettingsController*							log_settings_controller;
-				RPDB_LockSettingsController*							lock_settings_controller;
-				RPDB_RuntimeStorageSettingsController*							runtime_storage_settings_controller;
-				RPDB_DirectorySettingsController*							directory_settings_controller;
-				RPDB_MemoryPoolSettingsController*							memory_pool_settings_controller;
-				RPDB_TransactionSettingsController*					transaction_settings_controller;
+				Rbdb_DatabaseSettingsController*						database_settings_controller;
+				Rbdb_DebugSettingsController*							debug_settings_controller;
+				Rbdb_EnvironmentCacheSettingsController*				cache_settings_controller;
+				Rbdb_FileSettingsController*							file_settings_controller;
+				Rbdb_ThreadSettingsController*							thread_settings_controller;
+				Rbdb_ErrorSettingsController*							error_settings_controller;
+				Rbdb_MessageSettingsController*							message_settings_controller;
+				Rbdb_StatusSettingsController*							status_settings_controller;
+				Rbdb_MutexSettingsController*							mutex_settings_controller;
+				Rbdb_ReplicationSettingsController*							replication_settings_controller;
+				Rbdb_LogSettingsController*							log_settings_controller;
+				Rbdb_LockSettingsController*							lock_settings_controller;
+				Rbdb_RuntimeStorageSettingsController*							runtime_storage_settings_controller;
+				Rbdb_DirectorySettingsController*							directory_settings_controller;
+				Rbdb_MemoryPoolSettingsController*							memory_pool_settings_controller;
+				Rbdb_TransactionSettingsController*					transaction_settings_controller;
 			};
 
 				/****************************
 				*	Data Type Definitions	*
 				****************************/
 
-				struct RPDB_Transaction	{
+				struct Rbdb_Transaction	{
 
 					//	Parent
-					RPDB_TransactionController*							parent_transaction_controller;
+					Rbdb_TransactionController*							parent_transaction_controller;
 					
 					db_recno_t										runtime_identifier;
 					
@@ -1354,36 +1354,36 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 
 					uint8_t													global_id;
 
-					RPDB_DatabaseOpenedDuringTransaction*				databases_opened_during_transaction;
+					Rbdb_DatabaseOpenedDuringTransaction*				databases_opened_during_transaction;
 
 					//	Wrapped BDB Transaction
 					DB_TXN*													wrapped_bdb_transaction;
 
-					RPDB_SettingsController*							environment_settings_controller;
-					RPDB_TransactionSettingsController*				settings_controller;
-					RPDB_TransactionSettingsController*				environment_level_settings_controller;
+					Rbdb_SettingsController*							environment_settings_controller;
+					Rbdb_TransactionSettingsController*				settings_controller;
+					Rbdb_TransactionSettingsController*				environment_level_settings_controller;
 				};
 
 			/****************************
 			*	Data Type Definitions	*
 			****************************/
 
-			struct RPDB_TransactionController	{
+			struct Rbdb_TransactionController	{
 
 				//	Parent
-				RPDB_Environment*										parent_environment;
+				Rbdb_Environment*										parent_environment;
 
-				RPDB_Database*	runtime_storage_database;
+				Rbdb_Database*	runtime_storage_database;
 
 				uint32_t												current_transaction_index;
-				RPDB_Transaction**										transactions;
+				Rbdb_Transaction**										transactions;
 
 				//	Variables
 				u_int32_t												maximum_number_of_transactions_to_recover;
 				u_int32_t												current_transaction_depth;
 
-				RPDB_SettingsController*							environment_settings_controller;
-				RPDB_TransactionSettingsController*				settings_controller;
+				Rbdb_SettingsController*							environment_settings_controller;
+				Rbdb_TransactionSettingsController*				settings_controller;
 			};
 
 
@@ -1391,33 +1391,33 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 			*	Data Type Definitions	*
 			****************************/
 
-			struct RPDB_RuntimeStorageController	{
+			struct Rbdb_RuntimeStorageController	{
 
 				//	Variables
-				RPDB_Environment*												runtime_environment;
-				RPDB_Environment*												default_environment;
+				Rbdb_Environment*												runtime_environment;
+				Rbdb_Environment*												default_environment;
 
-				RPDB_DatabaseCursor*										database_cursor;
+				Rbdb_DatabaseCursor*										database_cursor;
 
 				//	Runtime Storage instances are stored by name--&db_env
-				RPDB_Database*													runtime_storages_database;
+				Rbdb_Database*													runtime_storages_database;
 
-				//	All RPDB_Environment* and RPDB_Database* are stored by their wrapped_bdb_database DB* in these databases
-				RPDB_Database*													environment_reference_database;
-				RPDB_Database*													database_reference_database;
+				//	All Rbdb_Environment* and Rbdb_Database* are stored by their wrapped_bdb_database DB* in these databases
+				Rbdb_Database*													environment_reference_database;
+				Rbdb_Database*													database_reference_database;
 
 				//	Unlike other controllers, the environmental runtime storage settings controller is stored inside the runtime storage controller
-				RPDB_RuntimeStorageSettingsController*							settings_controller;
+				Rbdb_RuntimeStorageSettingsController*							settings_controller;
 			};
 
 				/****************************
 				 *	Data Type Definitions	*
 				 ****************************/
 
-				struct RPDB_RemoteSite	{
+				struct Rbdb_RemoteSite	{
 	
 					//	Parent
-					RPDB_ReplicationController*							parent_replication_controller;
+					Rbdb_ReplicationController*							parent_replication_controller;
 	
 					db_recno_t										runtime_identifier;
 
@@ -1433,75 +1433,75 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					long													hard_timeout;
 					long													soft_timeout;
 	
-					RPDB_SettingsController*							environment_settings_controller;
-					RPDB_ReplicationSettingsController*				settings_controller;
-					RPDB_ReplicationSettingsController*				environment_level_settings_controller;
+					Rbdb_SettingsController*							environment_settings_controller;
+					Rbdb_ReplicationSettingsController*				settings_controller;
+					Rbdb_ReplicationSettingsController*				environment_level_settings_controller;
 				};
 
 			/****************************
 			*	Data Type Definitions	*
 			****************************/
 
-			struct RPDB_ReplicationController	{
+			struct Rbdb_ReplicationController	{
 
 				//	Parent
-				RPDB_Environment*													parent_environment;
+				Rbdb_Environment*													parent_environment;
 
-				RPDB_Database*	runtime_storage_database;
+				Rbdb_Database*	runtime_storage_database;
 
 				u_int													site_count;
 
 				//	Variables
 				int														replication_environment_id;
-				RPDB_RemoteSite**										remote_site_list;
+				Rbdb_RemoteSite**										remote_site_list;
 
-				RPDB_SettingsController*							environment_settings_controller;
-				RPDB_ReplicationSettingsController*				settings_controller;
-				RPDB_ReplicationSettingsController*				environment_level_settings_controller;
+				Rbdb_SettingsController*							environment_settings_controller;
+				Rbdb_ReplicationSettingsController*				settings_controller;
+				Rbdb_ReplicationSettingsController*				environment_level_settings_controller;
 			};
 
 				/****************************
 				*	Data Type Definitions	*
 				****************************/
 
-				struct RPDB_Mutex	{
+				struct Rbdb_Mutex	{
 
 					//	Parent
-					RPDB_MutexController*										parent_mutex_controller;
+					Rbdb_MutexController*										parent_mutex_controller;
 
 					db_recno_t										runtime_identifier;
 
 					db_mutex_t													wrapped_bdb_mutex;
 
-					RPDB_SettingsController*					environment_settings_controller;
-					RPDB_MutexSettingsController*				settings_controller;
-					RPDB_MutexSettingsController*				environment_level_settings_controller;
+					Rbdb_SettingsController*					environment_settings_controller;
+					Rbdb_MutexSettingsController*				settings_controller;
+					Rbdb_MutexSettingsController*				environment_level_settings_controller;
 				};
 
 			/****************************
 			*	Data Type Definitions	*
 			****************************/
 
-			struct RPDB_MutexController	{
+			struct Rbdb_MutexController	{
 
 				//	Parent
-				RPDB_Environment*													parent_environment;
+				Rbdb_Environment*													parent_environment;
 
-				RPDB_Database*	runtime_storage_database;
+				Rbdb_Database*	runtime_storage_database;
 
-				RPDB_SettingsController*					environment_settings_controller;
-				RPDB_MutexSettingsController*				settings_controller;
-				RPDB_MutexSettingsController*				environment_level_settings_controller;
+				Rbdb_SettingsController*					environment_settings_controller;
+				Rbdb_MutexSettingsController*				settings_controller;
+				Rbdb_MutexSettingsController*				environment_level_settings_controller;
 			};
 
 			/****************************
 			*	Data Type Definitions	*
 			****************************/
 
-			struct RPDB_MemoryPoolController	{
+			struct Rbdb_MemoryPoolController	{
 
 				//	Parent
-				RPDB_Environment*											parent_environment;
+				Rbdb_Environment*											parent_environment;
 
 				//	Variables
 				int												memory_space_for_pages;
@@ -1512,113 +1512,113 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 																					size_t );
 				void*											(*free_method)(		void* );
 */
-				RPDB_MemoryPoolFileController*					file_controller;
+				Rbdb_MemoryPoolFileController*					file_controller;
 
-				RPDB_SettingsController*						environment_settings_controller;
-				RPDB_MemoryPoolSettingsController*				settings_controller;
-				RPDB_MemoryPoolSettingsController*				environment_level_settings_controller;
+				Rbdb_SettingsController*						environment_settings_controller;
+				Rbdb_MemoryPoolSettingsController*				settings_controller;
+				Rbdb_MemoryPoolSettingsController*				environment_level_settings_controller;
 			};
 
 				/****************************
 				*	Data Type Definitions	*
 				****************************/
 
-				struct RPDB_LogCursor	{
+				struct Rbdb_LogCursor	{
 
 					//	Parent
-					RPDB_LogCursorController*					parent_log_cursor_controller;
+					Rbdb_LogCursorController*					parent_log_cursor_controller;
 
 					db_recno_t										runtime_identifier;
 
 					//	Wrapped BDB log database_cursor
 					DB_LOGC*									wrapped_bdb_log_cursor;
 
-					RPDB_SettingsController*					environment_settings_controller;
-					RPDB_LogSettingsController*				settings_controller;
-					RPDB_LogSettingsController*				environment_level_settings_controller;
+					Rbdb_SettingsController*					environment_settings_controller;
+					Rbdb_LogSettingsController*				settings_controller;
+					Rbdb_LogSettingsController*				environment_level_settings_controller;
 				};
 
 							/****************************
 							*	Data Type Definitions	*
 							****************************/
 
-							struct RPDB_LogSequenceNumber	{
+							struct Rbdb_LogSequenceNumber	{
 
 								//	Parent
-								RPDB_Log*									parent_log;
+								Rbdb_Log*									parent_log;
 
 								//	Wrapped BDB log database_cursor
 								DB_LSN*										wrapped_bdb_log_sequence_number;
 
-								RPDB_SettingsController*					environment_settings_controller;
-								RPDB_LogSettingsController*				settings_controller;
-								RPDB_LogSettingsController*				environment_level_settings_controller;
+								Rbdb_SettingsController*					environment_settings_controller;
+								Rbdb_LogSettingsController*				settings_controller;
+								Rbdb_LogSettingsController*				environment_level_settings_controller;
 							};
 
 						/****************************
 						*	Data Type Definitions	*
 						****************************/
 
-						struct RPDB_Log	{
+						struct Rbdb_Log	{
 
 							//	Parent
-							RPDB_LogController*						parent_log_controller;
+							Rbdb_LogController*						parent_log_controller;
 
 							db_recno_t										runtime_identifier;
 
 							//	Variables
-							RPDB_Record*								record;
-							RPDB_LogSequenceNumber*					log_sequence_number;
+							Rbdb_Record*								record;
+							Rbdb_LogSequenceNumber*					log_sequence_number;
 							
 							char*										filename;
 
-							RPDB_SettingsController*					environment_settings_controller;
-							RPDB_LogSettingsController*				settings_controller;
-							RPDB_LogSettingsController*				environment_level_settings_controller;
+							Rbdb_SettingsController*					environment_settings_controller;
+							Rbdb_LogSettingsController*				settings_controller;
+							Rbdb_LogSettingsController*				environment_level_settings_controller;
 						};
 
 					/****************************
 					*	Data Type Definitions	*
 					****************************/
 
-					struct RPDB_LogController	{
+					struct Rbdb_LogController	{
 
 						//	Parent
-						RPDB_Environment*								parent_environment;
+						Rbdb_Environment*								parent_environment;
 
-						RPDB_Database*									runtime_storage_database;
+						Rbdb_Database*									runtime_storage_database;
 
-						RPDB_LogCursorController*						cursor_controller;
+						Rbdb_LogCursorController*						cursor_controller;
 
-						RPDB_SettingsController*					environment_settings_controller;
-						RPDB_LogSettingsController*				settings_controller;
-						RPDB_LogSettingsController*				environment_level_settings_controller;
+						Rbdb_SettingsController*					environment_settings_controller;
+						Rbdb_LogSettingsController*				settings_controller;
+						Rbdb_LogSettingsController*				environment_level_settings_controller;
 					};
 
 				/****************************
 				 *	Data Type Definitions	*
 				 ****************************/
 
-				struct RPDB_LogCursorController	{
+				struct Rbdb_LogCursorController	{
 					
 					//	Parent
-					RPDB_LogController*						parent_log_controller;
+					Rbdb_LogController*						parent_log_controller;
 
-					RPDB_Database*	runtime_storage_database;
+					Rbdb_Database*	runtime_storage_database;
 					
-					RPDB_SettingsController*					environment_settings_controller;
-					RPDB_LogSettingsController*				settings_controller;
-					RPDB_LogSettingsController*				environment_level_settings_controller;
+					Rbdb_SettingsController*					environment_settings_controller;
+					Rbdb_LogSettingsController*				settings_controller;
+					Rbdb_LogSettingsController*				environment_level_settings_controller;
 				};
 
 				/****************************
 				*	Data Type Definitions	*
 				****************************/
 
-				struct RPDB_Lock	{
+				struct Rbdb_Lock	{
 
 					//	Parent
-					RPDB_LockController*						parent_lock_controller;
+					Rbdb_LockController*						parent_lock_controller;
 
 					db_recno_t										runtime_identifier;
 
@@ -1633,50 +1633,50 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					//	Wrapped BDB lock
 					DB_LOCK										wrapped_bdb_lock;
 
-					RPDB_SettingsController*					environment_settings_controller;
-					RPDB_LockSettingsController*				settings_controller;
-					RPDB_LockSettingsController*				environment_level_settings_controller;
+					Rbdb_SettingsController*					environment_settings_controller;
+					Rbdb_LockSettingsController*				settings_controller;
+					Rbdb_LockSettingsController*				environment_level_settings_controller;
 				};
 	
 			/****************************
 			*	Data Type Definitions	*
 			****************************/
 
-			struct RPDB_LockController	{
+			struct Rbdb_LockController	{
 
 				//	Parent
-				RPDB_Environment*							parent_environment;
+				Rbdb_Environment*							parent_environment;
 				
-				RPDB_Database*	runtime_storage_database;
+				Rbdb_Database*	runtime_storage_database;
 				
 				//	Variables
 				uint32_t									locker_id;
-				RPDB_Lock**									queued_locks;
+				Rbdb_Lock**									queued_locks;
 				int											number_of_queued_locks;
 				int											number_of_locks_last_cleared;
 
-				RPDB_SettingsController*					environment_settings_controller;
-				RPDB_LockSettingsController*				settings_controller;
-				RPDB_LockSettingsController*				environment_level_settings_controller;
+				Rbdb_SettingsController*					environment_settings_controller;
+				Rbdb_LockSettingsController*				settings_controller;
+				Rbdb_LockSettingsController*				environment_level_settings_controller;
 			};
 
 				/****************************
 				*	Data Type Definitions	*
 				****************************/
 
-				struct RPDB_DatabaseJoinCursor	{
+				struct Rbdb_DatabaseJoinCursor	{
 
 					//	Parent
-					RPDB_DatabaseJoinController*						parent_join_controller;
+					Rbdb_DatabaseJoinController*						parent_join_controller;
 
 					db_recno_t										runtime_identifier;
 
 					char*										name;
 
 					//	Variables
-					RPDB_Database*								primary_database;
+					Rbdb_Database*								primary_database;
 
-					RPDB_DatabaseCursor**						cursor_list;
+					Rbdb_DatabaseCursor**						cursor_list;
 					
 					BOOL										is_open;
 					
@@ -1684,25 +1684,25 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					DBC*										wrapped_bdb_join_cursor;
 					DBC**										wrapped_bdb_cursor_list;
 
-					RPDB_SettingsController*					environment_settings_controller;
-					RPDB_DatabaseJoinSettingsController*				settings_controller;
-					RPDB_DatabaseJoinSettingsController*				environment_level_settings_controller;
+					Rbdb_SettingsController*					environment_settings_controller;
+					Rbdb_DatabaseJoinSettingsController*				settings_controller;
+					Rbdb_DatabaseJoinSettingsController*				environment_level_settings_controller;
 				};
 			
 			/****************************
 			*	Data Type Definitions	*
 			****************************/
 
-			struct RPDB_DatabaseJoinController	{
+			struct Rbdb_DatabaseJoinController	{
 
 				//	Parent
-				RPDB_Database*										parent_database;
+				Rbdb_Database*										parent_database;
 
-				RPDB_Database*	runtime_storage_database;
+				Rbdb_Database*	runtime_storage_database;
 
-				RPDB_SettingsController*							environment_settings_controller;
-				RPDB_DatabaseJoinSettingsController*						settings_controller;
-				RPDB_DatabaseJoinSettingsController*						environment_level_settings_controller;
+				Rbdb_SettingsController*							environment_settings_controller;
+				Rbdb_DatabaseJoinSettingsController*						settings_controller;
+				Rbdb_DatabaseJoinSettingsController*						environment_level_settings_controller;
 			};
 
 	
@@ -1710,10 +1710,10 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						 *	Data Type Definitions	*
 						 ****************************/
 
-						struct RPDB_DatabaseCursor	{
+						struct Rbdb_DatabaseCursor	{
 							
 							//	Parent
-							RPDB_DatabaseCursorController*				parent_database_cursor_controller;
+							Rbdb_DatabaseCursorController*				parent_database_cursor_controller;
 
 							db_recno_t										runtime_identifier;
 							
@@ -1729,37 +1729,37 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							BOOL										iteration_started;
 							int											duplicate_iteration_started;
 							
-							RPDB_SettingsController*							environment_settings_controller;
-							RPDB_DatabaseCursorSettingsController*				settings_controller;
-							RPDB_DatabaseCursorSettingsController*				environment_level_settings_controller;
+							Rbdb_SettingsController*							environment_settings_controller;
+							Rbdb_DatabaseCursorSettingsController*				settings_controller;
+							Rbdb_DatabaseCursorSettingsController*				environment_level_settings_controller;
 						};
 
 					/****************************
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_DatabaseCursorController	{
+					struct Rbdb_DatabaseCursorController	{
 
 						//	Parent
-						RPDB_Database*								parent_database;
+						Rbdb_Database*								parent_database;
 
-						RPDB_Database*	runtime_storage_database;
+						Rbdb_Database*	runtime_storage_database;
 	
 						int											auto_name_count;
 						
-						RPDB_SettingsController*							environment_settings_controller;
-						RPDB_DatabaseCursorSettingsController*				settings_controller;
-						RPDB_DatabaseCursorSettingsController*				environment_level_settings_controller;
+						Rbdb_SettingsController*							environment_settings_controller;
+						Rbdb_DatabaseCursorSettingsController*				settings_controller;
+						Rbdb_DatabaseCursorSettingsController*				environment_level_settings_controller;
 					};
 
 						/****************************
 						 *	Data Type Definitions	*
 						 ****************************/
 
-						struct RPDB_DatabaseSequence	{
+						struct Rbdb_DatabaseSequence	{
 
 							//	Parent
-							RPDB_DatabaseSequenceController*				parent_database_sequence_controller;
+							Rbdb_DatabaseSequenceController*				parent_database_sequence_controller;
 
 							db_recno_t										runtime_identifier;
 							
@@ -1769,35 +1769,35 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							//	Wrapped BDB sequence
 							DB_SEQUENCE*									wrapped_bdb_sequence;
 
-							RPDB_SettingsController*								environment_settings_controller;
-							RPDB_DatabaseSequenceSettingsController*				settings_controller;
-							RPDB_DatabaseSequenceSettingsController*				environment_level_settings_controller;
+							Rbdb_SettingsController*								environment_settings_controller;
+							Rbdb_DatabaseSequenceSettingsController*				settings_controller;
+							Rbdb_DatabaseSequenceSettingsController*				environment_level_settings_controller;
 						};
 
 					/****************************
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_DatabaseSequenceController	{
+					struct Rbdb_DatabaseSequenceController	{
 
 						//	Parent
-						RPDB_Database*									parent_database;
+						Rbdb_Database*									parent_database;
 
-						RPDB_Database*	runtime_storage_database;
+						Rbdb_Database*	runtime_storage_database;
 	
-						RPDB_SettingsController*								environment_settings_controller;
-						RPDB_DatabaseSequenceSettingsController*				settings_controller;
-						RPDB_DatabaseSequenceSettingsController*				environment_level_settings_controller;
+						Rbdb_SettingsController*								environment_settings_controller;
+						Rbdb_DatabaseSequenceSettingsController*				settings_controller;
+						Rbdb_DatabaseSequenceSettingsController*				environment_level_settings_controller;
 					};
 
 						/****************************
 						*	Data Type Definitions	*
 						****************************/
 
-						struct RPDB_DBT	{
+						struct Rbdb_DBT	{
 
 							//	Parent
-							RPDB_Record*											parent_record;
+							Rbdb_Record*											parent_record;
 
 							uint32_t*												size;
 							uint32_t*												buffer_size;
@@ -1808,20 +1808,20 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							//	Wrapped BDB DBT
 							DBT*													wrapped_bdb_dbt;
 
-							RPDB_SettingsController*							environment_settings_controller;
-							RPDB_DatabaseRecordSettingsController*				settings_controller;
-							RPDB_DatabaseRecordSettingsController*				environment_level_settings_controller;
+							Rbdb_SettingsController*							environment_settings_controller;
+							Rbdb_DatabaseRecordSettingsController*				settings_controller;
+							Rbdb_DatabaseRecordSettingsController*				environment_level_settings_controller;
 						};
 
 						/****************************
 						*	Data Type Definitions	*
 						****************************/
 
-						struct RPDB_SecondaryKeys	{
+						struct Rbdb_SecondaryKeys	{
 
-							RPDB_Record*											parent_record;
+							Rbdb_Record*											parent_record;
 							uint32_t												key_count;
-							RPDB_Key**												key_pointers_array;
+							Rbdb_Key**												key_pointers_array;
 
 							//	Wrapped BDB DBT
 							DBT*													wrapped_bdb_dbt;							
@@ -1831,35 +1831,35 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					 *	Data Type Definitions	*
 					 ****************************/
 
-					struct RPDB_Record	{
+					struct Rbdb_Record	{
 	
 						//	Parent
-						RPDB_Database*											parent_database;
+						Rbdb_Database*											parent_database;
 	
 						db_recno_t													runtime_identifier;
 
 						//	Variables
-						RPDB_Key*														key;
-						RPDB_Key*														primary_key;
-						RPDB_SecondaryKeys*									secondary_keys;	
-						RPDB_Data*													data;
+						Rbdb_Key*														key;
+						Rbdb_Key*														primary_key;
+						Rbdb_SecondaryKeys*									secondary_keys;	
+						Rbdb_Data*													data;
 	
 						BOOL																result;
 	
 						BOOL										exists_in_database;
 						BOOL										requires_update_to_database;
 	
-						RPDB_DatabaseRecordSettingsController*				settings_controller;
+						Rbdb_DatabaseRecordSettingsController*				settings_controller;
 					};
 
 				/****************************
 				 *	Data Type Definitions	*
 				 ****************************/
 
-				struct RPDB_Database	{
+				struct Rbdb_Database	{
 
 					//	Parent
-					RPDB_DatabaseController*						parent_database_controller;
+					Rbdb_DatabaseController*						parent_database_controller;
 
 					db_recno_t										runtime_identifier;
 
@@ -1868,11 +1868,11 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					char*											name;
 					DBTYPE											type;
 					
-					RPDB_Database*	runtime_storage_database;
+					Rbdb_Database*	runtime_storage_database;
 					
 					BOOL											is_secondary;
-					RPDB_Database*									secondary_database;
-					RPDB_Database*									primary_database;
+					Rbdb_Database*									secondary_database;
+					Rbdb_Database*									primary_database;
 					char*											index_name;
 					BOOL											is_open;
 					BOOL											opened_in_transaction;
@@ -1883,80 +1883,80 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					char*											verification_file_path;
 					
 					//	Controllers
-					RPDB_DatabaseCursorController*					cursor_controller;
-					RPDB_DatabaseJoinController*					join_controller;
-					RPDB_DatabaseSequenceController*				sequence_controller;
+					Rbdb_DatabaseCursorController*					cursor_controller;
+					Rbdb_DatabaseJoinController*					join_controller;
+					Rbdb_DatabaseSequenceController*				sequence_controller;
 					//	Callback Public Methods
-					RPDB_SecondaryKeyCallbackMethod					secondary_key_creation_callback_method;
+					Rbdb_SecondaryKeyCallbackMethod					secondary_key_creation_callback_method;
 
-					RPDB_Environment*								default_environment;
+					Rbdb_Environment*								default_environment;
 
 					//	The wrapped BDB database
 					DB*												wrapped_bdb_database;
 
-					RPDB_SettingsController*						environment_settings_controller;
-					RPDB_DatabaseSettingsController*				settings_controller;
-					RPDB_DatabaseSettingsController*				environment_level_settings_controller;
+					Rbdb_SettingsController*						environment_settings_controller;
+					Rbdb_DatabaseSettingsController*				settings_controller;
+					Rbdb_DatabaseSettingsController*				environment_level_settings_controller;
 				};
 
 			/****************************
 			 *	Data Type Definitions	*
 			 ****************************/
 
-			struct RPDB_DatabaseController	{
+			struct Rbdb_DatabaseController	{
 	
 				//	Parent
-				RPDB_Environment*								parent_environment;
+				Rbdb_Environment*								parent_environment;
 	
 				db_recno_t											record_number;
 
-				RPDB_Database*	runtime_storage_database;
+				Rbdb_Database*	runtime_storage_database;
 	
-				RPDB_SettingsController*						environment_settings_controller;
-				RPDB_DatabaseSettingsController*				settings_controller;
-				RPDB_DatabaseSettingsController*				environment_level_settings_controller;
+				Rbdb_SettingsController*						environment_settings_controller;
+				Rbdb_DatabaseSettingsController*				settings_controller;
+				Rbdb_DatabaseSettingsController*				environment_level_settings_controller;
 			};
 
 				/****************************
 				 *	Data Type Definitions	*
 				 ****************************/
 
-				struct RPDB_Error	{
+				struct Rbdb_Error	{
 
 					//	Parent
-					RPDB_ErrorController*						parent_error_controller;
+					Rbdb_ErrorController*						parent_error_controller;
 
 					int											number;
 					char*										function;
 					char*										message;
 
-					RPDB_SettingsController*					environment_settings_controller;
-					RPDB_ErrorSettingsController*				settings_controller;
-					RPDB_ErrorSettingsController*				environment_level_settings_controller;
+					Rbdb_SettingsController*					environment_settings_controller;
+					Rbdb_ErrorSettingsController*				settings_controller;
+					Rbdb_ErrorSettingsController*				environment_level_settings_controller;
 				};
 
 			/****************************
 			 *	Data Type Definitions	*
 			 ****************************/
 
-			struct RPDB_ErrorController	{
+			struct Rbdb_ErrorController	{
 	
 				//	Parent
-				RPDB_Environment*								parent_environment;
+				Rbdb_Environment*								parent_environment;
 	
 				//	Variables
-				RPDB_Error*							error_stack;
+				Rbdb_Error*							error_stack;
 	
-				RPDB_SettingsController*				environment_settings_controller;
-				RPDB_ErrorSettingsController*				settings_controller;
-				RPDB_ErrorSettingsController*				environment_level_settings_controller;
+				Rbdb_SettingsController*				environment_settings_controller;
+				Rbdb_ErrorSettingsController*				settings_controller;
+				Rbdb_ErrorSettingsController*				environment_level_settings_controller;
 			};
 
 		/************************
 		*	Class Descriptors	*
 		************************/
 
-		struct RPDB_Environment	{
+		struct Rbdb_Environment	{
 
 			//	Variables
 			char*									directory;
@@ -1966,33 +1966,33 @@ typedef		char* (*RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 			BOOL									is_open;
 			
 			//	Controllers
-			RPDB_ErrorController*					error_controller;
-			RPDB_DatabaseController*				database_controller;
-			RPDB_LockController*					lock_controller;
-			RPDB_LogController*					log_controller;
-			RPDB_MemoryPoolController*				memory_pool_controller;
-			RPDB_MutexController*					mutex_controller;
-			RPDB_ReplicationController*			replication_controller;
-	//		RPDB_StatusController*					status_controller;
-			RPDB_TransactionController*			transaction_controller;
-			RPDB_SettingsController*				settings_controller;
-			RPDB_SettingsController*				environment_level_settings_controller;
+			Rbdb_ErrorController*					error_controller;
+			Rbdb_DatabaseController*				database_controller;
+			Rbdb_LockController*					lock_controller;
+			Rbdb_LogController*					log_controller;
+			Rbdb_MemoryPoolController*				memory_pool_controller;
+			Rbdb_MutexController*					mutex_controller;
+			Rbdb_ReplicationController*			replication_controller;
+	//		Rbdb_StatusController*					status_controller;
+			Rbdb_TransactionController*			transaction_controller;
+			Rbdb_SettingsController*				settings_controller;
+			Rbdb_SettingsController*				environment_level_settings_controller;
 			//	The wrapped BDB environment
 			DB_ENV*									wrapped_bdb_environment;
 
 		};
 
-struct RPDB_Directory {
+struct Rbdb_Directory {
 	
 	char*				path;
-	RPDB_Directory*	next;
+	Rbdb_Directory*	next;
 	
 };
 
-struct RPDB_DatabaseOpenedDuringTransaction	{
+struct Rbdb_DatabaseOpenedDuringTransaction	{
 	
-	RPDB_Database*								database;
-	RPDB_DatabaseOpenedDuringTransaction*		next;
+	Rbdb_Database*								database;
+	Rbdb_DatabaseOpenedDuringTransaction*		next;
 	
 };
 

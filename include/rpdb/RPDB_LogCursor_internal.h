@@ -1,5 +1,5 @@
-#ifndef RPDB_LOG_CURSOR_INTERNAL
-	#define RPDB_LOG_CURSOR_INTERNAL
+#ifndef Rbdb_LOG_CURSOR_INTERNAL
+	#define Rbdb_LOG_CURSOR_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,9 +7,9 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_Log*	RPDB_LogCursor_internal_retrieveLogRecord(	RPDB_LogCursor*	log_cursor,
+Rbdb_Log*	Rbdb_LogCursor_internal_retrieveLogRecord(	Rbdb_LogCursor*	log_cursor,
 																 uint32_t			which_record	);
 
-void RPDB_LogCursor_internal_freeFromRuntimeStorage(	RPDB_LogCursor** log_cursor );
+void Rbdb_LogCursor_internal_freeFromRuntimeStorage(	Rbdb_LogCursor** log_cursor );
 
 #endif

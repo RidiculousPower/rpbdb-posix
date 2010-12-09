@@ -1,28 +1,28 @@
 /*
- *		RPDB::DatabaseController::Database::DatabaseSettingsController::DatabaseSettingsVariableRecordController
+ *		Rbdb::DatabaseController::Database::DatabaseSettingsController::DatabaseSettingsVariableRecordController
  *
  *
  */
 
-#ifndef RPDB_DATABASE_VARIABLE_RECORD_SETTINGS_CONTROLLER
-	#define RPDB_DATABASE_VARIABLE_RECORD_SETTINGS_CONTROLLER
+#ifndef Rbdb_DATABASE_VARIABLE_RECORD_SETTINGS_CONTROLLER
+	#define Rbdb_DATABASE_VARIABLE_RECORD_SETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 	 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_DatabaseRecordVariableLengthSettingsController*		RPDB_DatabaseRecordVariableLengthSettingsController_new(		RPDB_DatabaseRecordSettingsController*					database_record_settings_controller );
+	Rbdb_DatabaseRecordVariableLengthSettingsController*		Rbdb_DatabaseRecordVariableLengthSettingsController_new(		Rbdb_DatabaseRecordSettingsController*					database_record_settings_controller );
 
-	void												RPDB_DatabaseRecordVariableLengthSettingsController_free(										RPDB_DatabaseRecordVariableLengthSettingsController** database_record_variable_length_settings_controller );
-	RPDB_Environment*							RPDB_DatabaseRecordVariableLengthSettingsController_parentEnvironment(				RPDB_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller );
-	RPDB_Database* RPDB_DatabaseRecordVariableLengthSettingsController_parentDatabase(	RPDB_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller );
+	void												Rbdb_DatabaseRecordVariableLengthSettingsController_free(										Rbdb_DatabaseRecordVariableLengthSettingsController** database_record_variable_length_settings_controller );
+	Rbdb_Environment*							Rbdb_DatabaseRecordVariableLengthSettingsController_parentEnvironment(				Rbdb_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller );
+	Rbdb_Database* Rbdb_DatabaseRecordVariableLengthSettingsController_parentDatabase(	Rbdb_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller );
 
-	int													RPDB_DatabaseRecordVariableLengthSettingsController_delimeterByte(								RPDB_DatabaseRecordVariableLengthSettingsController*		database_record_variable_length_settings_controller );
-	void												RPDB_DatabaseRecordVariableLengthSettingsController_setDelimeterByte(							RPDB_DatabaseRecordVariableLengthSettingsController*		database_record_variable_length_settings_controller,
+	int													Rbdb_DatabaseRecordVariableLengthSettingsController_delimeterByte(								Rbdb_DatabaseRecordVariableLengthSettingsController*		database_record_variable_length_settings_controller );
+	void												Rbdb_DatabaseRecordVariableLengthSettingsController_setDelimeterByte(							Rbdb_DatabaseRecordVariableLengthSettingsController*		database_record_variable_length_settings_controller,
 																																					int													delimeter_byte );
 														
-	RPDB_DatabaseRecordVariableLengthSettingsController*		RPDB_DatabaseRecordVariableLengthSettingsController_internal_copyOfDefaultSettingsForInstance(	RPDB_DatabaseRecordVariableLengthSettingsController*		database_record_variable_length_settings_controller );
+	Rbdb_DatabaseRecordVariableLengthSettingsController*		Rbdb_DatabaseRecordVariableLengthSettingsController_internal_copyOfDefaultSettingsForInstance(	Rbdb_DatabaseRecordVariableLengthSettingsController*		database_record_variable_length_settings_controller );
 
 #endif

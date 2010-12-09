@@ -1,5 +1,5 @@
-#ifndef RPDB_DATABASE_CURSOR_CACHE_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_DATABASE_CURSOR_CACHE_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_DATABASE_CURSOR_CACHE_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_DATABASE_CURSOR_CACHE_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,7 +7,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_DatabaseCursorCacheSettingsController* RPDB_DatabaseCursorCacheSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseCursorCacheSettingsController* database_cursor_cache_settings_controller );
+Rbdb_DatabaseCursorCacheSettingsController* Rbdb_DatabaseCursorCacheSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseCursorCacheSettingsController* database_cursor_cache_settings_controller );
 
 
 #endif

@@ -1,25 +1,25 @@
 /*
- *		RPDB::MemoryPoolController::MemoryPoolFile::MemoryPoolFilePageController::MemoryPoolFilePage
+ *		Rbdb::MemoryPoolController::MemoryPoolFile::MemoryPoolFilePageController::MemoryPoolFilePage
  *
  *	
  */
 
-#ifndef RPDB_MEMORY_POOL_FILE_PAGE
-	#define RPDB_MEMORY_POOL_FILE_PAGE
+#ifndef Rbdb_MEMORY_POOL_FILE_PAGE
+	#define Rbdb_MEMORY_POOL_FILE_PAGE
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_MemoryPoolFilePage*								RPDB_MemoryPoolFilePage_new(									RPDB_MemoryPoolFilePageController*		memory_pool_file_page_controller );
+	Rbdb_MemoryPoolFilePage*								Rbdb_MemoryPoolFilePage_new(									Rbdb_MemoryPoolFilePageController*		memory_pool_file_page_controller );
 
-	void													RPDB_MemoryPoolFilePage_free(	RPDB_MemoryPoolFilePage** memory_pool_file_page );
-	RPDB_MemoryPoolFilePageSettingsController*				RPDB_MemoryPoolFilePage_settingsController(	RPDB_MemoryPoolFilePage* memory_pool_file_page );
-	RPDB_Environment*								RPDB_MemoryPoolFilePage_parentEnvironment(	RPDB_MemoryPoolFilePage* memory_pool_file_page );
+	void													Rbdb_MemoryPoolFilePage_free(	Rbdb_MemoryPoolFilePage** memory_pool_file_page );
+	Rbdb_MemoryPoolFilePageSettingsController*				Rbdb_MemoryPoolFilePage_settingsController(	Rbdb_MemoryPoolFilePage* memory_pool_file_page );
+	Rbdb_Environment*								Rbdb_MemoryPoolFilePage_parentEnvironment(	Rbdb_MemoryPoolFilePage* memory_pool_file_page );
 
-	RPDB_MemoryPoolFilePage*								RPDB_MemoryPoolFilePageController_writePageToCache(			RPDB_MemoryPoolFilePage*				memory_pool_file_page );
+	Rbdb_MemoryPoolFilePage*								Rbdb_MemoryPoolFilePageController_writePageToCache(			Rbdb_MemoryPoolFilePage*				memory_pool_file_page );
 
 
 #endif

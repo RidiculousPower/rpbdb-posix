@@ -1,5 +1,5 @@
 /*
- *		RPDB::SettingsController::ReplicationTimeoutSettingsController
+ *		Rbdb::SettingsController::ReplicationTimeoutSettingsController
  *
  *
  */
@@ -10,9 +10,9 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_ReplicationTimeoutSettingsController.h"
+#include "Rbdb_ReplicationTimeoutSettingsController.h"
 
-#include "RPDB_Environment.h"
+#include "Rbdb_Environment.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -24,9 +24,9 @@
 *  new  *
 ************/
 
-RPDB_ReplicationTimeoutSettingsController* RPDB_ReplicationTimeoutSettingsController_new( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+Rbdb_ReplicationTimeoutSettingsController* Rbdb_ReplicationTimeoutSettingsController_new( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_ReplicationTimeoutSettingsController*	replication_timeout_settings_controller = calloc( 1, sizeof( RPDB_ReplicationTimeoutSettingsController ) );
+	Rbdb_ReplicationTimeoutSettingsController*	replication_timeout_settings_controller = calloc( 1, sizeof( Rbdb_ReplicationTimeoutSettingsController ) );
 
 	replication_timeout_settings_controller->parent_replication_settings_controller = replication_settings_controller;
 
@@ -36,7 +36,7 @@ RPDB_ReplicationTimeoutSettingsController* RPDB_ReplicationTimeoutSettingsContro
 /***************************
 *  free  *
 ***************************/
-void RPDB_ReplicationTimeoutSettingsController_free(	RPDB_ReplicationTimeoutSettingsController** replication_timeout_settings_controller )	{
+void Rbdb_ReplicationTimeoutSettingsController_free(	Rbdb_ReplicationTimeoutSettingsController** replication_timeout_settings_controller )	{
 
 	free( *replication_timeout_settings_controller );
 	*replication_timeout_settings_controller	=	NULL;
@@ -45,7 +45,7 @@ void RPDB_ReplicationTimeoutSettingsController_free(	RPDB_ReplicationTimeoutSett
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_ReplicationTimeoutSettingsController_parentEnvironment(	RPDB_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
+Rbdb_Environment* Rbdb_ReplicationTimeoutSettingsController_parentEnvironment(	Rbdb_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
 	return replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 }
 
@@ -55,9 +55,9 @@ RPDB_Environment* RPDB_ReplicationTimeoutSettingsController_parentEnvironment(	R
 
 //	DB_REP_ACK_TIMEOUT
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_timeout.html
-uint32_t RPDB_ReplicationTimeoutSettingsController_timeout( RPDB_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
+uint32_t Rbdb_ReplicationTimeoutSettingsController_timeout( Rbdb_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
 
-	RPDB_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if (	! replication_timeout_settings_controller->timeout
 		&&	environment->wrapped_bdb_environment != NULL )	{
@@ -74,10 +74,10 @@ uint32_t RPDB_ReplicationTimeoutSettingsController_timeout( RPDB_ReplicationTime
 *  setTimeout  *
 ******************/
 
-void RPDB_ReplicationTimeoutSettingsController_setTimeout(		RPDB_ReplicationTimeoutSettingsController*		replication_timeout_settings_controller, 
+void Rbdb_ReplicationTimeoutSettingsController_setTimeout(		Rbdb_ReplicationTimeoutSettingsController*		replication_timeout_settings_controller, 
 																uint32_t										timeout )	{
 
-	RPDB_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 
 	replication_timeout_settings_controller->timeout = timeout;
 
@@ -92,9 +92,9 @@ void RPDB_ReplicationTimeoutSettingsController_setTimeout(		RPDB_ReplicationTime
 
 //	DB_REP_CHECKPOINT_DELAY
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_timeout.html
-uint32_t RPDB_ReplicationTimeoutSettingsController_waitTimeBeforeCheckpointWrite( RPDB_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
+uint32_t Rbdb_ReplicationTimeoutSettingsController_waitTimeBeforeCheckpointWrite( Rbdb_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
 
-	RPDB_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if (	! replication_timeout_settings_controller->wait_time_before_checkpoint_write
 		&&	environment->wrapped_bdb_environment != NULL )	{	
@@ -111,10 +111,10 @@ uint32_t RPDB_ReplicationTimeoutSettingsController_waitTimeBeforeCheckpointWrite
 *  setWaitTimeBeforeCheckpointWrite  *
 *****************************************/
 
-void RPDB_ReplicationTimeoutSettingsController_setWaitTimeBeforeCheckpointWrite(	RPDB_ReplicationTimeoutSettingsController*		replication_timeout_settings_controller, 
+void Rbdb_ReplicationTimeoutSettingsController_setWaitTimeBeforeCheckpointWrite(	Rbdb_ReplicationTimeoutSettingsController*		replication_timeout_settings_controller, 
 																					uint32_t										wait_time_before_checkpoint_write )	{
 
-	RPDB_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 
 	replication_timeout_settings_controller->wait_time_before_checkpoint_write = wait_time_before_checkpoint_write;
 
@@ -131,9 +131,9 @@ void RPDB_ReplicationTimeoutSettingsController_setWaitTimeBeforeCheckpointWrite(
 
 //	DB_REP_CONNECTION_RETRY
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_timeout.html
-uint32_t RPDB_ReplicationTimeoutSettingsController_waitTimeBeforeRetryConnection( RPDB_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
+uint32_t Rbdb_ReplicationTimeoutSettingsController_waitTimeBeforeRetryConnection( Rbdb_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
 
-	RPDB_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if (	! replication_timeout_settings_controller->wait_time_before_retry_connection
 		&&	environment->wrapped_bdb_environment != NULL )	{
@@ -150,10 +150,10 @@ uint32_t RPDB_ReplicationTimeoutSettingsController_waitTimeBeforeRetryConnection
 *  setWaitTimeBeforeRetryConnection  *
 *****************************************/
 
-void RPDB_ReplicationTimeoutSettingsController_setWaitTimeBeforeRetryConnection(	RPDB_ReplicationTimeoutSettingsController*		replication_timeout_settings_controller,
+void Rbdb_ReplicationTimeoutSettingsController_setWaitTimeBeforeRetryConnection(	Rbdb_ReplicationTimeoutSettingsController*		replication_timeout_settings_controller,
 																					uint32_t										wait_time_before_retry_connection )	{
 
-	RPDB_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 
 	replication_timeout_settings_controller->wait_time_before_retry_connection = wait_time_before_retry_connection;
 
@@ -168,9 +168,9 @@ void RPDB_ReplicationTimeoutSettingsController_setWaitTimeBeforeRetryConnection(
 
 //	DB_REP_ELECTION_TIMEOUT
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_timeout.html
-uint32_t RPDB_ReplicationTimeoutSettingsController_electionTimeout( RPDB_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
+uint32_t Rbdb_ReplicationTimeoutSettingsController_electionTimeout( Rbdb_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
 
-	RPDB_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if (	! replication_timeout_settings_controller->election_timeout
 		&&	environment->wrapped_bdb_environment != NULL )	{
@@ -187,10 +187,10 @@ uint32_t RPDB_ReplicationTimeoutSettingsController_electionTimeout( RPDB_Replica
 *  setElectionTimeout  *
 *************************/
 
-void RPDB_ReplicationTimeoutSettingsController_setElectionTimeout(	RPDB_ReplicationTimeoutSettingsController*		replication_timeout_settings_controller, 
+void Rbdb_ReplicationTimeoutSettingsController_setElectionTimeout(	Rbdb_ReplicationTimeoutSettingsController*		replication_timeout_settings_controller, 
 																	uint32_t										election_timeout )	{
 
-	RPDB_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 
 	replication_timeout_settings_controller->election_timeout = election_timeout;
 
@@ -207,9 +207,9 @@ void RPDB_ReplicationTimeoutSettingsController_setElectionTimeout(	RPDB_Replicat
 
 //	DB_REP_ELECTION_RETRY
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_timeout.html
-uint32_t RPDB_ReplicationTimeoutSettingsController_waitTimeBeforeRetryElection( RPDB_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
+uint32_t Rbdb_ReplicationTimeoutSettingsController_waitTimeBeforeRetryElection( Rbdb_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
 
-	RPDB_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 	
 	if (	! replication_timeout_settings_controller->wait_time_before_retry_election
 		&&	environment->wrapped_bdb_environment != NULL )	{
@@ -226,10 +226,10 @@ uint32_t RPDB_ReplicationTimeoutSettingsController_waitTimeBeforeRetryElection( 
 *  setWaitTimeBeforeRetryElection  *
 *****************************************/
 
-void RPDB_ReplicationTimeoutSettingsController_setWaitTimeBeforeRetryElection(	RPDB_ReplicationTimeoutSettingsController*		replication_timeout_settings_controller, 
+void Rbdb_ReplicationTimeoutSettingsController_setWaitTimeBeforeRetryElection(	Rbdb_ReplicationTimeoutSettingsController*		replication_timeout_settings_controller, 
 																				uint32_t										wait_time_before_retry_election )	{
 
-	RPDB_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 
 	replication_timeout_settings_controller->wait_time_before_retry_election = wait_time_before_retry_election;
 
@@ -244,9 +244,9 @@ void RPDB_ReplicationTimeoutSettingsController_setWaitTimeBeforeRetryElection(	R
 
 //	DB_REP_FULL_ELECTION_TIMEOUT
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_timeout.html
-uint32_t RPDB_ReplicationTimeoutSettingsController_fullElectionParticipationTimeout( RPDB_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
+uint32_t Rbdb_ReplicationTimeoutSettingsController_fullElectionParticipationTimeout( Rbdb_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
 
-	RPDB_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 	
 	if (	! replication_timeout_settings_controller->full_election_participation_timeout
 		&&	environment->wrapped_bdb_environment != NULL )	{
@@ -263,10 +263,10 @@ uint32_t RPDB_ReplicationTimeoutSettingsController_fullElectionParticipationTime
 *  setFullElectionParticipationTimeout  *
 ********************************************/
 
-void RPDB_ReplicationTimeoutSettingsController_setFullElectionParticipationTimeout(	RPDB_ReplicationTimeoutSettingsController*		replication_timeout_settings_controller, 
+void Rbdb_ReplicationTimeoutSettingsController_setFullElectionParticipationTimeout(	Rbdb_ReplicationTimeoutSettingsController*		replication_timeout_settings_controller, 
 																						uint32_t										full_election_participation_timeout )	{
 
-	RPDB_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 
 	replication_timeout_settings_controller->full_election_participation_timeout = full_election_participation_timeout;
 
@@ -283,9 +283,9 @@ void RPDB_ReplicationTimeoutSettingsController_setFullElectionParticipationTimeo
 
 //	DB_REP_HEARTBEAT_MONITOR
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_timeout.html
-uint32_t RPDB_ReplicationTimeoutSettingsController_heartbeatMonitorPulse( RPDB_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
+uint32_t Rbdb_ReplicationTimeoutSettingsController_heartbeatMonitorPulse( Rbdb_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
 
-	RPDB_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 	
 	if (	! replication_timeout_settings_controller->heartbeat_monitor_pulse
 		&&	environment->wrapped_bdb_environment != NULL )	{
@@ -302,10 +302,10 @@ uint32_t RPDB_ReplicationTimeoutSettingsController_heartbeatMonitorPulse( RPDB_R
 *  setHeartbeatMonitorPulse  *
 *************************************/
 
-void RPDB_ReplicationTimeoutSettingsController_setHeartbeatMonitorPulse(	RPDB_ReplicationTimeoutSettingsController*		replication_timeout_settings_controller, 
+void Rbdb_ReplicationTimeoutSettingsController_setHeartbeatMonitorPulse(	Rbdb_ReplicationTimeoutSettingsController*		replication_timeout_settings_controller, 
 																			uint32_t										heartbeat_monitor_pulse )	{
 
-	RPDB_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 
 	replication_timeout_settings_controller->heartbeat_monitor_pulse = heartbeat_monitor_pulse;
 
@@ -322,9 +322,9 @@ void RPDB_ReplicationTimeoutSettingsController_setHeartbeatMonitorPulse(	RPDB_Re
 
 //	DB_REP_HEARTBEAT_SEND
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_timeout.html
-uint32_t RPDB_ReplicationTimeoutSettingsController_heartbeatBroadcastPulse( RPDB_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
+uint32_t Rbdb_ReplicationTimeoutSettingsController_heartbeatBroadcastPulse( Rbdb_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
 
-	RPDB_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 	
 	if (	! replication_timeout_settings_controller->heartbeat_broadcast_pulse
 		&&	environment->wrapped_bdb_environment != NULL )	{
@@ -341,10 +341,10 @@ uint32_t RPDB_ReplicationTimeoutSettingsController_heartbeatBroadcastPulse( RPDB
 *  setHeartbeatBroadcastPulse  *
 *************************************/
 
-void RPDB_ReplicationTimeoutSettingsController_setHeartbeatBroadcastPulse(	RPDB_ReplicationTimeoutSettingsController*		replication_timeout_settings_controller, 
+void Rbdb_ReplicationTimeoutSettingsController_setHeartbeatBroadcastPulse(	Rbdb_ReplicationTimeoutSettingsController*		replication_timeout_settings_controller, 
 																			uint32_t										heartbeat_broadcast_pulse )	{
 
-	RPDB_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 
 	replication_timeout_settings_controller->heartbeat_broadcast_pulse = heartbeat_broadcast_pulse;
 
@@ -359,9 +359,9 @@ void RPDB_ReplicationTimeoutSettingsController_setHeartbeatBroadcastPulse(	RPDB_
 
 //	DB_REP_LEASE_TIMEOUT
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_timeout.html
-uint32_t RPDB_ReplicationTimeoutSettingsController_leaseTimeout( RPDB_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
+uint32_t Rbdb_ReplicationTimeoutSettingsController_leaseTimeout( Rbdb_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
 
-	RPDB_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 	
 	if (	! replication_timeout_settings_controller->lease_timeout
 		&&	environment->wrapped_bdb_environment != NULL )	{
@@ -378,10 +378,10 @@ uint32_t RPDB_ReplicationTimeoutSettingsController_leaseTimeout( RPDB_Replicatio
 *  setLeaseTimeout  *
 ************************/
 
-void RPDB_ReplicationTimeoutSettingsController_setLeaseTimeout( RPDB_ReplicationTimeoutSettingsController*	replication_timeout_settings_controller,
+void Rbdb_ReplicationTimeoutSettingsController_setLeaseTimeout( Rbdb_ReplicationTimeoutSettingsController*	replication_timeout_settings_controller,
 																uint32_t										lease_timeout )	{
 
-	RPDB_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_timeout_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 
 	replication_timeout_settings_controller->lease_timeout = lease_timeout;
 
@@ -399,9 +399,9 @@ void RPDB_ReplicationTimeoutSettingsController_setLeaseTimeout( RPDB_Replication
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_ReplicationTimeoutSettingsController* RPDB_ReplicationTimeoutSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
+Rbdb_ReplicationTimeoutSettingsController* Rbdb_ReplicationTimeoutSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_ReplicationTimeoutSettingsController* replication_timeout_settings_controller )	{
 
-	RPDB_ReplicationTimeoutSettingsController* replication_timeout_settings_controller_copy	=	RPDB_ReplicationTimeoutSettingsController_new( replication_timeout_settings_controller->parent_replication_settings_controller );
+	Rbdb_ReplicationTimeoutSettingsController* replication_timeout_settings_controller_copy	=	Rbdb_ReplicationTimeoutSettingsController_new( replication_timeout_settings_controller->parent_replication_settings_controller );
 
 	//	Instances and Pointers
 	replication_timeout_settings_controller_copy->wait_time_before_checkpoint_write	=	replication_timeout_settings_controller->wait_time_before_checkpoint_write;

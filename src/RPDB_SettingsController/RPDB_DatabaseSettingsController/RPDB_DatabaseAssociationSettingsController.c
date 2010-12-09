@@ -1,5 +1,5 @@
 /*
- *		RPDB::Database::DatabaseSettingsController::DatabaseAssociationSettingsController
+ *		Rbdb::Database::DatabaseSettingsController::DatabaseAssociationSettingsController
  *
  *
  */
@@ -10,13 +10,13 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_DatabaseAssociationSettingsController.h"
+#include "Rbdb_DatabaseAssociationSettingsController.h"
 
-	#include "RPDB_DatabaseCursorSettingsController.h"
-	#include "RPDB_DatabaseSettingsController.h"
+	#include "Rbdb_DatabaseCursorSettingsController.h"
+	#include "Rbdb_DatabaseSettingsController.h"
 	
-	#include "RPDB_DatabaseCursorSettingsController_internal.h"
-	#include "RPDB_DatabaseAssociationSettingsController_internal.h"
+	#include "Rbdb_DatabaseCursorSettingsController_internal.h"
+	#include "Rbdb_DatabaseAssociationSettingsController_internal.h"
  
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -28,9 +28,9 @@
 *  new  *
 *************/
 
-RPDB_DatabaseAssociationSettingsController* RPDB_DatabaseAssociationSettingsController_new( RPDB_DatabaseSettingsController* database_settings_controller )	{
+Rbdb_DatabaseAssociationSettingsController* Rbdb_DatabaseAssociationSettingsController_new( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
-	RPDB_DatabaseAssociationSettingsController*		database_association_settings_controller = calloc( 1, sizeof( RPDB_DatabaseAssociationSettingsController ) );
+	Rbdb_DatabaseAssociationSettingsController*		database_association_settings_controller = calloc( 1, sizeof( Rbdb_DatabaseAssociationSettingsController ) );
 
 	database_association_settings_controller->parent_database_settings_controller = database_settings_controller;
 
@@ -40,7 +40,7 @@ RPDB_DatabaseAssociationSettingsController* RPDB_DatabaseAssociationSettingsCont
 /***************************
 *  free  *
 ***************************/
-void RPDB_DatabaseAssociationSettingsController_free(	RPDB_DatabaseAssociationSettingsController** database_association_settings_controller )	{
+void Rbdb_DatabaseAssociationSettingsController_free(	Rbdb_DatabaseAssociationSettingsController** database_association_settings_controller )	{
 	
 	free( *database_association_settings_controller );
 	*database_association_settings_controller	=	NULL;
@@ -49,14 +49,14 @@ void RPDB_DatabaseAssociationSettingsController_free(	RPDB_DatabaseAssociationSe
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_DatabaseAssociationSettingsController_parentEnvironment(	RPDB_DatabaseAssociationSettingsController* database_association_settings_controller )	{
+Rbdb_Environment* Rbdb_DatabaseAssociationSettingsController_parentEnvironment(	Rbdb_DatabaseAssociationSettingsController* database_association_settings_controller )	{
 	return database_association_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment;
 }
 
 /***************************************
 *  parentDatabase  *
 ***************************************/
-RPDB_Database* RPDB_DatabaseAssociationSettingsController_parentDatabase(	RPDB_DatabaseAssociationSettingsController* database_association_settings_controller )	{
+Rbdb_Database* Rbdb_DatabaseAssociationSettingsController_parentDatabase(	Rbdb_DatabaseAssociationSettingsController* database_association_settings_controller )	{
 	return database_association_settings_controller->parent_database_settings_controller->parent_database;
 }
 
@@ -70,7 +70,7 @@ RPDB_Database* RPDB_DatabaseAssociationSettingsController_parentDatabase(	RPDB_D
 //	If transactions are not being used, care should be taken not to modify a primary database being used to populate a secondary database in another thread of control, 
 //	until the DB->associate call has returned successfully in the first thread. 
 //	If transactions are being used, Berkeley DB will perform appropriate locking and the application need not do any special operation ordering.
-BOOL RPDB_DatabaseAssociationSettingsController_secondaryAssociationCreatesIndex( RPDB_DatabaseAssociationSettingsController* database_association_settings_controller )	{
+BOOL Rbdb_DatabaseAssociationSettingsController_secondaryAssociationCreatesIndex( Rbdb_DatabaseAssociationSettingsController* database_association_settings_controller )	{
 
 	if ( database_association_settings_controller->index_primary_database == TRUE )	{
 		return DB_CREATE;
@@ -82,7 +82,7 @@ BOOL RPDB_DatabaseAssociationSettingsController_secondaryAssociationCreatesIndex
 	*  indexPrimaryOn  *
 	*********************/
 
-	void RPDB_DatabaseAssociationSettingsController_turnSecondaryAssociationCreatesIndexOn( RPDB_DatabaseAssociationSettingsController* database_association_settings_controller )	{
+	void Rbdb_DatabaseAssociationSettingsController_turnSecondaryAssociationCreatesIndexOn( Rbdb_DatabaseAssociationSettingsController* database_association_settings_controller )	{
 		database_association_settings_controller->index_primary_database = TRUE;
 	}
 
@@ -90,7 +90,7 @@ BOOL RPDB_DatabaseAssociationSettingsController_secondaryAssociationCreatesIndex
 	*  indexPrimaryOff  *
 	************************/
 
-	void RPDB_DatabaseAssociationSettingsController_turnSecondaryAssociationCreatesIndexOff( RPDB_DatabaseAssociationSettingsController* database_association_settings_controller )	{
+	void Rbdb_DatabaseAssociationSettingsController_turnSecondaryAssociationCreatesIndexOff( Rbdb_DatabaseAssociationSettingsController* database_association_settings_controller )	{
 		database_association_settings_controller->index_primary_database = FALSE;
 	}
 
@@ -104,7 +104,7 @@ BOOL RPDB_DatabaseAssociationSettingsController_secondaryAssociationCreatesIndex
 //	This optimization may reduce the overhead of update operations significantly if the callback function is expensive.
 //	Be sure to specify this flag only if the secondary key in the primary record is never changed. 
 //	If this rule is violated, the secondary index will become corrupted, that is, it will become out of sync with the primary.
-BOOL RPDB_DatabaseAssociationSettingsController_immutableSecondaryKey( RPDB_DatabaseAssociationSettingsController* database_association_settings_controller )	{
+BOOL Rbdb_DatabaseAssociationSettingsController_immutableSecondaryKey( Rbdb_DatabaseAssociationSettingsController* database_association_settings_controller )	{
 
 	if ( database_association_settings_controller->secondary_key_is_immutable == TRUE )	{
 		return DB_IMMUTABLE_KEY;
@@ -116,7 +116,7 @@ BOOL RPDB_DatabaseAssociationSettingsController_immutableSecondaryKey( RPDB_Data
 	*  immutableSecondaryKeyOn  *
 	********************************/
 
-	void RPDB_DatabaseAssociationSettingsController_turnImmutableSecondaryKeyOn( RPDB_DatabaseAssociationSettingsController* database_association_settings_controller )	{
+	void Rbdb_DatabaseAssociationSettingsController_turnImmutableSecondaryKeyOn( Rbdb_DatabaseAssociationSettingsController* database_association_settings_controller )	{
 		database_association_settings_controller->secondary_key_is_immutable = TRUE;
 	}
 
@@ -124,7 +124,7 @@ BOOL RPDB_DatabaseAssociationSettingsController_immutableSecondaryKey( RPDB_Data
 	*  immutableSecondaryKeyOff  *
 	********************************/
 
-	void RPDB_DatabaseAssociationSettingsController_turnImmutableSecondaryKeyOff( RPDB_DatabaseAssociationSettingsController* database_association_settings_controller )	{
+	void Rbdb_DatabaseAssociationSettingsController_turnImmutableSecondaryKeyOff( Rbdb_DatabaseAssociationSettingsController* database_association_settings_controller )	{
 		database_association_settings_controller->secondary_key_is_immutable = FALSE;
 	}
 
@@ -138,19 +138,19 @@ BOOL RPDB_DatabaseAssociationSettingsController_immutableSecondaryKey( RPDB_Data
 *  associateFlags  *
 **************************/
 
-int RPDB_DatabaseCursorSettingsController_internal_associateFlags( RPDB_DatabaseAssociationSettingsController* database_association_settings_controller )	{
+int Rbdb_DatabaseCursorSettingsController_internal_associateFlags( Rbdb_DatabaseAssociationSettingsController* database_association_settings_controller )	{
 
-	return	RPDB_DatabaseAssociationSettingsController_secondaryAssociationCreatesIndex( database_association_settings_controller )
-			|	RPDB_DatabaseAssociationSettingsController_immutableSecondaryKey( database_association_settings_controller );
+	return	Rbdb_DatabaseAssociationSettingsController_secondaryAssociationCreatesIndex( database_association_settings_controller )
+			|	Rbdb_DatabaseAssociationSettingsController_immutableSecondaryKey( database_association_settings_controller );
 
 }
 
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_DatabaseAssociationSettingsController* RPDB_DatabaseAssociationSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseAssociationSettingsController* database_association_settings_controller )	{
+Rbdb_DatabaseAssociationSettingsController* Rbdb_DatabaseAssociationSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseAssociationSettingsController* database_association_settings_controller )	{
 
-	RPDB_DatabaseAssociationSettingsController* database_association_settings_controller_copy	=	RPDB_DatabaseAssociationSettingsController_new( database_association_settings_controller->parent_database_settings_controller );
+	Rbdb_DatabaseAssociationSettingsController* database_association_settings_controller_copy	=	Rbdb_DatabaseAssociationSettingsController_new( database_association_settings_controller->parent_database_settings_controller );
 
 	//	Instances and Pointers
 	database_association_settings_controller_copy->secondary_key_is_immutable	=	database_association_settings_controller->secondary_key_is_immutable;

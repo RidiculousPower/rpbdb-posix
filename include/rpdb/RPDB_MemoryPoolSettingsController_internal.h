@@ -1,5 +1,5 @@
-#ifndef RPDB_MEMORY_POOL_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_MEMORY_POOL_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_MEMORY_POOL_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_MEMORY_POOL_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,10 +7,10 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-void		RPDB_MemoryPoolSettingsController_internal_initDefaultSettings(	RPDB_MemoryPoolSettingsController*		memory_pool_settings_controller );
-int			RPDB_MemoryPoolSettingsController_internal_closeFlags(				RPDB_MemoryPoolFile*					memory_pool_file );
+void		Rbdb_MemoryPoolSettingsController_internal_initDefaultSettings(	Rbdb_MemoryPoolSettingsController*		memory_pool_settings_controller );
+int			Rbdb_MemoryPoolSettingsController_internal_closeFlags(				Rbdb_MemoryPoolFile*					memory_pool_file );
 
-RPDB_MemoryPoolSettingsController* RPDB_MemoryPoolSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_MemoryPoolSettingsController* memory_pool_settings_controller );
+Rbdb_MemoryPoolSettingsController* Rbdb_MemoryPoolSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_MemoryPoolSettingsController* memory_pool_settings_controller );
 
 #endif
 

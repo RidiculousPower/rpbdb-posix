@@ -1,5 +1,5 @@
 /*
- *		RPDB::RPDB_DatabaseController::RPDB_Database::(RPDB_DatabaseCursorController::RPDB_DatabaseCursor::)RPDB_Record::RPDB_DBT => RPDB_SecondaryKeys
+ *		Rbdb::Rbdb_DatabaseController::Rbdb_Database::(Rbdb_DatabaseCursorController::Rbdb_DatabaseCursor::)Rbdb_Record::Rbdb_DBT => Rbdb_SecondaryKeys
  *
  *
  */
@@ -10,12 +10,12 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_SecondaryKeys.h"
+#include "Rbdb_SecondaryKeys.h"
 
-#include "RPDB_Key.h"
-#include "RPDB_Key_internal.h"
-#include "RPDB_Data.h"
-#include "RPDB_Data_internal.h"
+#include "Rbdb_Key.h"
+#include "Rbdb_Key_internal.h"
+#include "Rbdb_Data.h"
+#include "Rbdb_Data_internal.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -27,9 +27,9 @@
 *  new  *
 *************/
 
-RPDB_SecondaryKeys* RPDB_SecondaryKeys_new( RPDB_Record* parent_record )	{
+Rbdb_SecondaryKeys* Rbdb_SecondaryKeys_new( Rbdb_Record* parent_record )	{
 
-	RPDB_SecondaryKeys*	secondary_keys	=	calloc( 1, sizeof( RPDB_SecondaryKeys ) );
+	Rbdb_SecondaryKeys*	secondary_keys	=	calloc( 1, sizeof( Rbdb_SecondaryKeys ) );
 	
 	secondary_keys->parent_record	=	parent_record;
 	
@@ -42,7 +42,7 @@ RPDB_SecondaryKeys* RPDB_SecondaryKeys_new( RPDB_Record* parent_record )	{
 /***************************
 *  free  *
 ***************************/
-void RPDB_SecondaryKeys_free(	RPDB_SecondaryKeys** keys )	{
+void Rbdb_SecondaryKeys_free(	Rbdb_SecondaryKeys** keys )	{
 
 	free( *keys );
 	*keys	=	NULL;
@@ -51,7 +51,7 @@ void RPDB_SecondaryKeys_free(	RPDB_SecondaryKeys** keys )	{
 /***************************************
 *  parentRecord  *
 ***************************************/
-RPDB_Record* RPDB_SecondaryKeys_parentRecord(	RPDB_DatabaseRecordSettingsController* key )	{
+Rbdb_Record* Rbdb_SecondaryKeys_parentRecord(	Rbdb_DatabaseRecordSettingsController* key )	{
 	return key->parent_record;
 }
 
@@ -59,11 +59,11 @@ RPDB_Record* RPDB_SecondaryKeys_parentRecord(	RPDB_DatabaseRecordSettingsControl
 *  keyData  *
 *****************/
 
-void RPDB_SecondaryKeys_addSecondaryKey(	RPDB_SecondaryKeys*	keys,
- 											RPDB_Key*				key )	{
+void Rbdb_SecondaryKeys_addSecondaryKey(	Rbdb_SecondaryKeys*	keys,
+ 											Rbdb_Key*				key )	{
 
 	//	allocate a new pointer of count *  wrapped_bdb_dbt  * size (DBT**)
-	RPDB_Key**	key_pointers_array	=	calloc( keys->key_count + 1, sizeof( RPDB_Key* ) );
+	Rbdb_Key**	key_pointers_array	=	calloc( keys->key_count + 1, sizeof( Rbdb_Key* ) );
 
 	//	if we already have keys
 	if ( keys->key_count > 0 )	{
@@ -71,7 +71,7 @@ void RPDB_SecondaryKeys_addSecondaryKey(	RPDB_SecondaryKeys*	keys,
 		//	copy existing data over
 		memcpy( key_pointers_array,
 				keys->key_pointers_array,
-				keys->key_count * sizeof( RPDB_Key* ) );
+				keys->key_count * sizeof( Rbdb_Key* ) );
 
 //			free memory space pointed to by the existing pointer
 		free( keys->key_pointers_array );
@@ -91,10 +91,10 @@ void RPDB_SecondaryKeys_addSecondaryKey(	RPDB_SecondaryKeys*	keys,
 *  setKeyData  *
 ******************/
 
-RPDB_Key* RPDB_SecondaryKeys_secondaryKeyForIndex(	RPDB_SecondaryKeys*	keys,
+Rbdb_Key* Rbdb_SecondaryKeys_secondaryKeyForIndex(	Rbdb_SecondaryKeys*	keys,
 														int						index )	{
 
-	return (RPDB_Key*) RPDB_Data_internal_newrb_RPDB_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT( NULL, & ( (DBT*) keys->wrapped_bdb_dbt->data )[ index ] );
+	return (Rbdb_Key*) Rbdb_Data_internal_newrb_Rbdb_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT( NULL, & ( (DBT*) keys->wrapped_bdb_dbt->data )[ index ] );
 }
 
 
@@ -102,12 +102,12 @@ RPDB_Key* RPDB_SecondaryKeys_secondaryKeyForIndex(	RPDB_SecondaryKeys*	keys,
 *  keyData  *
 *****************/
 
-void RPDB_SecondaryKeys_addRawSecondaryKey(	RPDB_SecondaryKeys*	keys,
+void Rbdb_SecondaryKeys_addRawSecondaryKey(	Rbdb_SecondaryKeys*	keys,
  												void*					raw_key,
  												uint32_t				key_size )	{
 
 	//	allocate a new pointer of count *  wrapped_bdb_dbt  * size (DBT**)
-	RPDB_Key**	key_pointers_array	=	calloc( keys->key_count + 1, sizeof( RPDB_Key* ) );
+	Rbdb_Key**	key_pointers_array	=	calloc( keys->key_count + 1, sizeof( Rbdb_Key* ) );
 
 	//	if we already have keys
 	if ( keys->key_count > 0 )	{
@@ -115,7 +115,7 @@ void RPDB_SecondaryKeys_addRawSecondaryKey(	RPDB_SecondaryKeys*	keys,
 		//	copy existing data over
 		memcpy( key_pointers_array,
 				keys->key_pointers_array,
-				keys->key_count * sizeof( RPDB_Key* ) );
+				keys->key_count * sizeof( Rbdb_Key* ) );
 
 //			free memory space pointed to by the existing pointer
 		free( keys->key_pointers_array );
@@ -125,7 +125,7 @@ void RPDB_SecondaryKeys_addRawSecondaryKey(	RPDB_SecondaryKeys*	keys,
 	keys->key_pointers_array	=	key_pointers_array;
 
 	//	allocate space for DBT at pointer location
-	keys->key_pointers_array[ keys->key_count ]	=	RPDB_Key_new( NULL );
+	keys->key_pointers_array[ keys->key_count ]	=	Rbdb_Key_new( NULL );
 
 	//	store data in new DBT
 	keys->key_pointers_array[ keys->key_count ]->wrapped_bdb_dbt->data = raw_key;
@@ -139,7 +139,7 @@ void RPDB_SecondaryKeys_addRawSecondaryKey(	RPDB_SecondaryKeys*	keys,
 *  setKeyData  *
 ******************/
 
-void* RPDB_SecondaryKeys_rawSecondaryKeyForIndex(	RPDB_SecondaryKeys*	keys,
+void* Rbdb_SecondaryKeys_rawSecondaryKeyForIndex(	Rbdb_SecondaryKeys*	keys,
 													int						index )	{
 
 	return ( (DBT*)( keys->wrapped_bdb_dbt->data ) )[ index ].data;

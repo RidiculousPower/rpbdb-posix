@@ -1,5 +1,5 @@
 /*
- *		RPDB::RPDB_SettingsController::RPDB_ConcurrentDataStoreSettingsController
+ *		Rbdb::Rbdb_SettingsController::Rbdb_ConcurrentDataStoreSettingsController
  *
  *
  */
@@ -10,17 +10,17 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_TransactionSettingsController.h"
+#include "Rbdb_TransactionSettingsController.h"
 
-#include "RPDB_Environment.h"
-#include "RPDB_TransactionSettingsController.h"
-#include "RPDB_RuntimeStorageController.h"
-#include "RPDB_Record.h"
-#include "RPDB_SettingsController.h"
+#include "Rbdb_Environment.h"
+#include "Rbdb_TransactionSettingsController.h"
+#include "Rbdb_RuntimeStorageController.h"
+#include "Rbdb_Record.h"
+#include "Rbdb_SettingsController.h"
 
-#include "RPDB_TransactionSettingsController.h"
+#include "Rbdb_TransactionSettingsController.h"
 
-#include "RPDB_TransactionSettingsController_internal.h"
+#include "Rbdb_TransactionSettingsController_internal.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -32,9 +32,9 @@
 *  new  *
 *************/
 
-RPDB_TransactionSettingsController* RPDB_TransactionSettingsController_new( RPDB_SettingsController* settings_controller )	{
+Rbdb_TransactionSettingsController* Rbdb_TransactionSettingsController_new( Rbdb_SettingsController* settings_controller )	{
 
-	RPDB_TransactionSettingsController*		transaction_settings_controller = calloc( 1, sizeof( RPDB_TransactionSettingsController ) );
+	Rbdb_TransactionSettingsController*		transaction_settings_controller = calloc( 1, sizeof( Rbdb_TransactionSettingsController ) );
 
 	transaction_settings_controller->parent_settings_controller = settings_controller;
 	
@@ -42,11 +42,11 @@ RPDB_TransactionSettingsController* RPDB_TransactionSettingsController_new( RPDB
 	//	However, no events are set before the TransactionSettingsController is created, so we can set the callback here,
 	//	at least as long as the environment has not been opened
 	/*
-	if (	RPDB_Environment_isOpen( environment ) == FALSE 
+	if (	Rbdb_Environment_isOpen( environment ) == FALSE 
 		&&	environment->wrapped_bdb_database != NULL )	{
 
 		environment->wrapped_bdb_environment->wrapped_bdb_environment->wrapped_bdb_environment->set_app_dispatch(	environment->wrapped_bdb_environment->wrapped_bdb_environment->wrapped_bdb_environment, 
-																& RPDB_TransactionSettingsController_internal_transactionRecoveryCallbackMethod );
+																& Rbdb_TransactionSettingsController_internal_transactionRecoveryCallbackMethod );
 	}
 	*/
 	
@@ -56,7 +56,7 @@ RPDB_TransactionSettingsController* RPDB_TransactionSettingsController_new( RPDB
 /***************************
 *  free  *
 ***************************/
-void RPDB_TransactionSettingsController_free(	RPDB_TransactionSettingsController** transaction_settings_controller )	{
+void Rbdb_TransactionSettingsController_free(	Rbdb_TransactionSettingsController** transaction_settings_controller )	{
 
 	free( *transaction_settings_controller );
 	*transaction_settings_controller	=	NULL;
@@ -65,7 +65,7 @@ void RPDB_TransactionSettingsController_free(	RPDB_TransactionSettingsController
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_TransactionSettingsController_parentEnvironment(	RPDB_TransactionSettingsController* transaction_settings_controller )	{
+Rbdb_Environment* Rbdb_TransactionSettingsController_parentEnvironment(	Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 	return transaction_settings_controller->parent_settings_controller->parent_environment;
 }
 
@@ -79,7 +79,7 @@ RPDB_Environment* RPDB_TransactionSettingsController_parentEnvironment(	RPDB_Tra
 
 //	DB_INIT_TXN             http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
 //	Returns DB_INIT_TXN or FALSE
-int RPDB_TransactionSettingsController_on( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+int Rbdb_TransactionSettingsController_on( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 	if ( transaction_settings_controller->on == TRUE )	{
 		return DB_INIT_TXN;
 	}
@@ -92,7 +92,7 @@ int RPDB_TransactionSettingsController_on( RPDB_TransactionSettingsController* t
 
 //	DB_INIT_TXN             http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
 //	Doesn't seem like off should return the flag, so TRUE/FALSE
-BOOL RPDB_TransactionSettingsController_off( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+BOOL Rbdb_TransactionSettingsController_off( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 	if ( transaction_settings_controller->on == FALSE )	{
 		return TRUE;
 	}
@@ -104,7 +104,7 @@ BOOL RPDB_TransactionSettingsController_off( RPDB_TransactionSettingsController*
 	**************/
 
 	//	DB_INIT_TXN             http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
-	void RPDB_TransactionSettingsController_turnOn( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnOn( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->on = TRUE;
 	}
 
@@ -114,7 +114,7 @@ BOOL RPDB_TransactionSettingsController_off( RPDB_TransactionSettingsController*
 
 	//	DB_INIT_TXN             http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
 	//	Returns DB_INIT_TXN or FALSE
-	void RPDB_TransactionSettingsController_turnOff( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnOff( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->on = FALSE;
 	}
 
@@ -123,7 +123,7 @@ BOOL RPDB_TransactionSettingsController_off( RPDB_TransactionSettingsController*
 *****************************/
 
 //	DB_TXN_WRITE_NOSYNC     http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-int RPDB_TransactionSettingsController_prohibitSyncOnWrite( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+int Rbdb_TransactionSettingsController_prohibitSyncOnWrite( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 	if ( transaction_settings_controller->prohibit_sync_on_write == TRUE )	{
 		return DB_TXN_WRITE_NOSYNC;
 	}
@@ -135,7 +135,7 @@ int RPDB_TransactionSettingsController_prohibitSyncOnWrite( RPDB_TransactionSett
 	********************************/
 
 	//	DB_TXN_WRITE_NOSYNC     http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-	void RPDB_TransactionSettingsController_turnProhibitSyncOnWriteTransactionOn( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnProhibitSyncOnWriteTransactionOn( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->prohibit_sync_on_write = TRUE;
 	}
 	
@@ -144,7 +144,7 @@ int RPDB_TransactionSettingsController_prohibitSyncOnWrite( RPDB_TransactionSett
 	********************************/
 
 	//	DB_TXN_WRITE_NOSYNC     http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-	void RPDB_TransactionSettingsController_turnProhibitSyncOnWriteTransactionOff( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnProhibitSyncOnWriteTransactionOff( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->prohibit_sync_on_write = FALSE;
 	}
 	
@@ -153,7 +153,7 @@ int RPDB_TransactionSettingsController_prohibitSyncOnWrite( RPDB_TransactionSett
 ********************************************/
 
 //	DB_TXN_NOSYNC           http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-int RPDB_TransactionSettingsController_prohibitSyncOnCommit( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+int Rbdb_TransactionSettingsController_prohibitSyncOnCommit( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 	if ( transaction_settings_controller->prohibit_sync_on_commit == TRUE )	{
 		return DB_TXN_NOSYNC;
 	}
@@ -165,9 +165,9 @@ int RPDB_TransactionSettingsController_prohibitSyncOnCommit( RPDB_TransactionSet
 	********************************************/
 
 	//	DB_TXN_NOSYNC           http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-	void RPDB_TransactionSettingsController_turnProhibitSyncOnCommitOn( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnProhibitSyncOnCommitOn( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->prohibit_sync_on_commit = TRUE;
-		RPDB_TransactionSettingsController_turnSyncOnCommitOff( transaction_settings_controller );
+		Rbdb_TransactionSettingsController_turnSyncOnCommitOff( transaction_settings_controller );
 	}
 
 	/********************************************
@@ -175,7 +175,7 @@ int RPDB_TransactionSettingsController_prohibitSyncOnCommit( RPDB_TransactionSet
 	********************************************/
 
 	//	DB_TXN_NOSYNC           http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-	void RPDB_TransactionSettingsController_turnProhibitSyncOnCommitOff( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnProhibitSyncOnCommitOff( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->prohibit_sync_on_commit = FALSE;
 	}
 
@@ -184,7 +184,7 @@ int RPDB_TransactionSettingsController_prohibitSyncOnCommit( RPDB_TransactionSet
 ****************************************/
 
 //	DB_TIME_NOTGRANTED      http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-int RPDB_TransactionSettingsController_timeoutInMicrosecondsReturnsDenyNotDeadlock( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+int Rbdb_TransactionSettingsController_timeoutInMicrosecondsReturnsDenyNotDeadlock( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 	if ( transaction_settings_controller->timeout_returns_deny_not_deadlock == TRUE )	{
 		return DB_TIME_NOTGRANTED;	
 	}
@@ -196,7 +196,7 @@ int RPDB_TransactionSettingsController_timeoutInMicrosecondsReturnsDenyNotDeadlo
 	********************************************/
 
 	//	DB_TIME_NOTGRANTED      http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-	void RPDB_TransactionSettingsController_turnTimeoutInMicrosecondsReturnsDenyNotDeadlockOn( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnTimeoutInMicrosecondsReturnsDenyNotDeadlockOn( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->timeout_returns_deny_not_deadlock = TRUE;
 	}
 
@@ -205,7 +205,7 @@ int RPDB_TransactionSettingsController_timeoutInMicrosecondsReturnsDenyNotDeadlo
 	********************************************/
 
 	//	DB_TIME_NOTGRANTED      http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-	void RPDB_TransactionSettingsController_turnTimeoutInMicrosecondsReturnsDenyNotDeadlockOff( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnTimeoutInMicrosecondsReturnsDenyNotDeadlockOff( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->timeout_returns_deny_not_deadlock = FALSE;
 	}
 
@@ -215,7 +215,7 @@ int RPDB_TransactionSettingsController_timeoutInMicrosecondsReturnsDenyNotDeadlo
 
 //	DB_INIT_CDB - 			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
 //	only other flag allowed concurrently is DB_INIT_MPOOL; multiple reader single write mode
-int RPDB_TransactionSettingsController_concurrentDataStoreLocking( RPDB_TransactionSettingsController*							transaction_settings_controller )	{
+int Rbdb_TransactionSettingsController_concurrentDataStoreLocking( Rbdb_TransactionSettingsController*							transaction_settings_controller )	{
 	if ( transaction_settings_controller->concurrent_data_store_locking == TRUE )	{
 		return DB_INIT_CDB;
 	}
@@ -226,7 +226,7 @@ int RPDB_TransactionSettingsController_concurrentDataStoreLocking( RPDB_Transact
 	*  concurrentDataStoreLockingOn  *
 	************************************/
 
-	void RPDB_TransactionSettingsController_turnConcurrentDataStoreLockingOn( RPDB_TransactionSettingsController*							transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnConcurrentDataStoreLockingOn( Rbdb_TransactionSettingsController*							transaction_settings_controller )	{
 		transaction_settings_controller->concurrent_data_store_locking = TRUE;
 	}
 
@@ -234,7 +234,7 @@ int RPDB_TransactionSettingsController_concurrentDataStoreLocking( RPDB_Transact
 	*  concurrentDataStoreLockingOff  *
 	****************************************/
 
-	void RPDB_TransactionSettingsController_turnConcurrentDataStoreLockingOff( RPDB_TransactionSettingsController*							transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnConcurrentDataStoreLockingOff( Rbdb_TransactionSettingsController*							transaction_settings_controller )	{
 		transaction_settings_controller->concurrent_data_store_locking = FALSE;
 	}
 
@@ -244,7 +244,7 @@ int RPDB_TransactionSettingsController_concurrentDataStoreLocking( RPDB_Transact
 
 //	DB_TXN_SNAPSHOT         http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
 //	DB_TXN_SNAPSHOT			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_cursor.html
-int RPDB_TransactionSettingsController_snapshotIsolation( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+int Rbdb_TransactionSettingsController_snapshotIsolation( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 
 	if ( transaction_settings_controller->snapshot_isolation == TRUE )	{
 		return DB_TXN_SNAPSHOT;
@@ -259,7 +259,7 @@ int RPDB_TransactionSettingsController_snapshotIsolation( RPDB_TransactionSettin
 
 	//	DB_TXN_SNAPSHOT         http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
 	//	DB_TXN_SNAPSHOT			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_cursor.html
-	void RPDB_TransactionSettingsController_turnSnapshotIsolationOn( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnSnapshotIsolationOn( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->snapshot_isolation = TRUE;
 	}
 
@@ -269,7 +269,7 @@ int RPDB_TransactionSettingsController_snapshotIsolation( RPDB_TransactionSettin
 
 	//	DB_TXN_SNAPSHOT         http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
 	//	DB_TXN_SNAPSHOT			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_cursor.html
-	void RPDB_TransactionSettingsController_turnSnapshotIsolationOff( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnSnapshotIsolationOff( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->snapshot_isolation = FALSE;
 	}
 
@@ -280,7 +280,7 @@ int RPDB_TransactionSettingsController_snapshotIsolation( RPDB_TransactionSettin
 //	DB_READ_UNCOMMITTED		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_cursor.html
 //	This should also make sure that the ThreadSettingsController flag was on with the DB Open
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/ref/transapp/read.html
-int RPDB_TransactionSettingsController_degreeOneIsolation( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+int Rbdb_TransactionSettingsController_degreeOneIsolation( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 
 	if ( transaction_settings_controller->degree_one_isolation == TRUE )	{
 		return DB_READ_UNCOMMITTED;
@@ -293,7 +293,7 @@ int RPDB_TransactionSettingsController_degreeOneIsolation( RPDB_TransactionSetti
 	*  turnDegreeOneIsolationOn  *
 	****************************************/
 
-	void RPDB_TransactionSettingsController_turnDegreeOneIsolationOn( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnDegreeOneIsolationOn( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->degree_one_isolation = TRUE;
 	}
 
@@ -301,7 +301,7 @@ int RPDB_TransactionSettingsController_degreeOneIsolation( RPDB_TransactionSetti
 	*  turnDegreeOneIsolationOff  *
 	****************************************/
 
-	void RPDB_TransactionSettingsController_turnDegreeOneIsolationOff( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnDegreeOneIsolationOff( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->degree_one_isolation = FALSE;
 	}
 
@@ -311,7 +311,7 @@ int RPDB_TransactionSettingsController_degreeOneIsolation( RPDB_TransactionSetti
 
 //	DB_READ_COMMITTED		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_cursor.html
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/ref/transapp/read.html
-int RPDB_TransactionSettingsController_degreeTwoIsolation( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+int Rbdb_TransactionSettingsController_degreeTwoIsolation( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 
 	if ( transaction_settings_controller->degree_two_isolation == TRUE )	{
 		return DB_READ_COMMITTED;
@@ -323,7 +323,7 @@ int RPDB_TransactionSettingsController_degreeTwoIsolation( RPDB_TransactionSetti
 	*  degreeTwoIsolationOn  *
 	****************************/
 
-	void RPDB_TransactionSettingsController_turnDegreeTwoIsolationOn( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnDegreeTwoIsolationOn( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->degree_two_isolation = TRUE;
 	}
 
@@ -331,7 +331,7 @@ int RPDB_TransactionSettingsController_degreeTwoIsolation( RPDB_TransactionSetti
 	*  degreeTwoIsolationOff  *
 	****************************/
 
-	void RPDB_TransactionSettingsController_turnDegreeTwoIsolationOff( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnDegreeTwoIsolationOff( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->degree_two_isolation = FALSE;
 	}
 
@@ -340,7 +340,7 @@ int RPDB_TransactionSettingsController_degreeTwoIsolation( RPDB_TransactionSetti
 **********************************************/
 
 //	DB_AUTO_COMMIT			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-int RPDB_TransactionSettingsController_encloseAllActivityInTransaction( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+int Rbdb_TransactionSettingsController_encloseAllActivityInTransaction( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 
 	if ( transaction_settings_controller->enclose_all_activity_in_transaction == TRUE )	{
 		return DB_AUTO_COMMIT;	
@@ -352,7 +352,7 @@ int RPDB_TransactionSettingsController_encloseAllActivityInTransaction( RPDB_Tra
 	*  turnEncloseAllActivityInTransactionOn  *
 	*****************************************************/
 
-	void RPDB_TransactionSettingsController_turnEncloseAllActivityInTransactionOn( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnEncloseAllActivityInTransactionOn( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->enclose_all_activity_in_transaction = TRUE;
 	}
 
@@ -360,7 +360,7 @@ int RPDB_TransactionSettingsController_encloseAllActivityInTransaction( RPDB_Tra
 	*  turnEncloseAllActivityInTransactionOff  *
 	*****************************************************/
 
-	void RPDB_TransactionSettingsController_turnEncloseAllActivityInTransactionOff( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnEncloseAllActivityInTransactionOff( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->enclose_all_activity_in_transaction = FALSE;
 	}
 
@@ -369,7 +369,7 @@ int RPDB_TransactionSettingsController_encloseAllActivityInTransaction( RPDB_Tra
 ******************************************/
 
 //	DB_MULTIVERSION         http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-int RPDB_TransactionSettingsController_environmentalSnapshotIsolation( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+int Rbdb_TransactionSettingsController_environmentalSnapshotIsolation( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 
 	if ( transaction_settings_controller->environmental_snapshot_isolation == TRUE )	{
 		return DB_MULTIVERSION;
@@ -381,7 +381,7 @@ int RPDB_TransactionSettingsController_environmentalSnapshotIsolation( RPDB_Tran
 	*  turnEnvironmentalSnapshotIsolationOn  *
 	*********************************************/
 
-	void RPDB_TransactionSettingsController_turnEnvironmentalSnapshotIsolationOn( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnEnvironmentalSnapshotIsolationOn( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->environmental_snapshot_isolation = TRUE;
 	}
 
@@ -389,7 +389,7 @@ int RPDB_TransactionSettingsController_environmentalSnapshotIsolation( RPDB_Tran
 	*  turnEnvironmentalSnapshotIsolationOff  *
 	*********************************************/
 
-	void RPDB_TransactionSettingsController_turnEnvironmentalSnapshotIsolationOff( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnEnvironmentalSnapshotIsolationOff( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->environmental_snapshot_isolation = FALSE;
 	}
 
@@ -398,7 +398,7 @@ int RPDB_TransactionSettingsController_environmentalSnapshotIsolation( RPDB_Tran
 ******************************************/
 
 //	DB_TXN_SYNC         http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/txn_begin.html
-int RPDB_TransactionSettingsController_syncOnCommit( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+int Rbdb_TransactionSettingsController_syncOnCommit( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 
 	if ( transaction_settings_controller->sync_on_commit == TRUE )	{
 		return DB_TXN_SYNC;
@@ -410,7 +410,7 @@ int RPDB_TransactionSettingsController_syncOnCommit( RPDB_TransactionSettingsCon
 	*  turnSyncOnCommitOn  *
 	*********************************************/
 
-	void RPDB_TransactionSettingsController_turnSyncOnCommitOn( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnSyncOnCommitOn( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->sync_on_commit = TRUE;
 	}
 
@@ -418,7 +418,7 @@ int RPDB_TransactionSettingsController_syncOnCommit( RPDB_TransactionSettingsCon
 	*  turnSyncOnCommitOff  *
 	*********************************************/
 
-	void RPDB_TransactionSettingsController_turnSyncOnCommitOff( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnSyncOnCommitOff( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->sync_on_commit = FALSE;
 	}
 
@@ -427,7 +427,7 @@ int RPDB_TransactionSettingsController_syncOnCommit( RPDB_TransactionSettingsCon
 ******************************************/
 
 //	DB_TXN_WAIT         http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/txn_begin.html
-int RPDB_TransactionSettingsController_waitForLocks( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+int Rbdb_TransactionSettingsController_waitForLocks( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 
 	if ( transaction_settings_controller->wait_for_locks == TRUE )	{
 		return DB_TXN_WAIT;
@@ -439,7 +439,7 @@ int RPDB_TransactionSettingsController_waitForLocks( RPDB_TransactionSettingsCon
 	*  turnSyncOnCommitOn  *
 	*********************************************/
 
-	void RPDB_TransactionSettingsController_turnWaitForLocksOn( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnWaitForLocksOn( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->wait_for_locks = TRUE;
 	}
 
@@ -447,7 +447,7 @@ int RPDB_TransactionSettingsController_waitForLocks( RPDB_TransactionSettingsCon
 	*  turnSyncOnCommitOff  *
 	*********************************************/
 
-	void RPDB_TransactionSettingsController_turnWaitForLocksOff( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+	void Rbdb_TransactionSettingsController_turnWaitForLocksOff( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 		transaction_settings_controller->wait_for_locks = FALSE;
 	}
 
@@ -459,7 +459,7 @@ int RPDB_TransactionSettingsController_waitForLocks( RPDB_TransactionSettingsCon
 *  maximumNumberOfTransactionsToRecover  *
 ************************************************/
 
-long RPDB_TransactionSettingsController_maximumNumberOfTransactionsToRecover( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+long Rbdb_TransactionSettingsController_maximumNumberOfTransactionsToRecover( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 	
 	return transaction_settings_controller->maximum_number_of_transactions_to_recover;
 }
@@ -468,7 +468,7 @@ long RPDB_TransactionSettingsController_maximumNumberOfTransactionsToRecover( RP
 *  setMaximumNumberOfTransactionsToRecover  *
 ****************************************************/
 
-void RPDB_TransactionSettingsController_setMaximumNumberOfTransactionsToRecover(	RPDB_TransactionSettingsController*	transaction_settings_controller,
+void Rbdb_TransactionSettingsController_setMaximumNumberOfTransactionsToRecover(	Rbdb_TransactionSettingsController*	transaction_settings_controller,
 																					long									maximum_number_of_transactions_to_recover )	{
 
 	transaction_settings_controller->maximum_number_of_transactions_to_recover = maximum_number_of_transactions_to_recover;
@@ -479,9 +479,9 @@ void RPDB_TransactionSettingsController_setMaximumNumberOfTransactionsToRecover(
 ****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_timeout.html
-uint32_t RPDB_TransactionSettingsController_timeoutInMicroseconds( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+uint32_t Rbdb_TransactionSettingsController_timeoutInMicroseconds( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 
-	RPDB_Environment*		environment = transaction_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = transaction_settings_controller->parent_settings_controller->parent_environment;
 
 	//	an unsigned 32-bit number of microseconds, limiting the maximum timeout to roughly 71 minutes.
 	
@@ -501,10 +501,10 @@ uint32_t RPDB_TransactionSettingsController_timeoutInMicroseconds( RPDB_Transact
 ********************/
 
 //	DB_SET_TXN_TIMEOUT		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_timeout.html
-void RPDB_TransactionSettingsController_setTimeoutInMicroseconds(	RPDB_TransactionSettingsController*	transaction_settings_controller, 
+void Rbdb_TransactionSettingsController_setTimeoutInMicroseconds(	Rbdb_TransactionSettingsController*	transaction_settings_controller, 
 																	uint32_t								timeout_in_microseconds )	{
 
-	RPDB_Environment*		environment = transaction_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = transaction_settings_controller->parent_settings_controller->parent_environment;
 
 	transaction_settings_controller->timeout_in_microseconds = timeout_in_microseconds;
 	if ( environment->wrapped_bdb_environment != NULL )	{
@@ -517,9 +517,9 @@ void RPDB_TransactionSettingsController_setTimeoutInMicroseconds(	RPDB_Transacti
 ****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_tx_max.html
-uint32_t RPDB_TransactionSettingsController_maxOpen( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+uint32_t Rbdb_TransactionSettingsController_maxOpen( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 
-	RPDB_Environment*		environment = transaction_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = transaction_settings_controller->parent_settings_controller->parent_environment;
 
 	//	If we already have timeout stored in the settings controller then we know we've asked for it from the DB;
 	//	Otherwise we need to ask the DB for it. 
@@ -537,10 +537,10 @@ uint32_t RPDB_TransactionSettingsController_maxOpen( RPDB_TransactionSettingsCon
 ********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_tx_max.html
-void RPDB_TransactionSettingsController_setMaxOpen(	RPDB_TransactionSettingsController*	transaction_settings_controller, 
+void Rbdb_TransactionSettingsController_setMaxOpen(	Rbdb_TransactionSettingsController*	transaction_settings_controller, 
 														uint32_t								max_open )	{
 
-	RPDB_Environment*		environment = transaction_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = transaction_settings_controller->parent_settings_controller->parent_environment;
 
 	transaction_settings_controller->max_open = max_open;
 	if ( environment->wrapped_bdb_environment != NULL )	{
@@ -553,9 +553,9 @@ void RPDB_TransactionSettingsController_setMaxOpen(	RPDB_TransactionSettingsCont
 ********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_tx_timestamp.html
-time_t RPDB_TransactionSettingsController_recoveryTimestamp( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+time_t Rbdb_TransactionSettingsController_recoveryTimestamp( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 
-	RPDB_Environment*		environment = transaction_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = transaction_settings_controller->parent_settings_controller->parent_environment;
 
 	//	If we already have timeout stored in the settings controller then we know we've asked for it from the DB;
 	//	Otherwise we need to ask the DB for it. 
@@ -575,10 +575,10 @@ time_t RPDB_TransactionSettingsController_recoveryTimestamp( RPDB_TransactionSet
 ********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_tx_timestamp.html
-void RPDB_TransactionSettingsController_setRecoveryTimestamp(	RPDB_TransactionSettingsController*	transaction_settings_controller, 
+void Rbdb_TransactionSettingsController_setRecoveryTimestamp(	Rbdb_TransactionSettingsController*	transaction_settings_controller, 
 																															time_t									recovery_timestamp )	{
 
-	RPDB_Environment*		environment = transaction_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = transaction_settings_controller->parent_settings_controller->parent_environment;
 	
 	transaction_settings_controller->recovery_timestamp = recovery_timestamp;
 	
@@ -597,9 +597,9 @@ void RPDB_TransactionSettingsController_setRecoveryTimestamp(	RPDB_TransactionSe
 *  setRollbackwardCallbackMethod  *
 ****************************************/
 /*
-void RPDB_TransactionSettingsController_setRollbackwardCallbackMethod(	RPDB_TransactionSettingsController*						transaction_settings_controller,
-																		int (*rollbackward_callback_method)(	RPDB_Environment*				environment->wrapped_bdb_environment,
-																												RPDB_Record*		transaction_log_record ) )	{
+void Rbdb_TransactionSettingsController_setRollbackwardCallbackMethod(	Rbdb_TransactionSettingsController*						transaction_settings_controller,
+																		int (*rollbackward_callback_method)(	Rbdb_Environment*				environment->wrapped_bdb_environment,
+																												Rbdb_Record*		transaction_log_record ) )	{
 																													
 	transaction_settings_controller->roll_backward_callback_method = roll_backward_callback_method;
 }
@@ -608,8 +608,8 @@ void RPDB_TransactionSettingsController_setRollbackwardCallbackMethod(	RPDB_Tran
 *  rollbackwardCallbackMethod  *
 ************************************/
 /*
-int (*rollbackward_callback_method)(	RPDB_Environment*				environment->wrapped_bdb_environment,
-										RPDB_Record*		transaction_log_record ) RPDB_TransactionSettingsController_rollbackwardCallbackMethod( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+int (*rollbackward_callback_method)(	Rbdb_Environment*				environment->wrapped_bdb_environment,
+										Rbdb_Record*		transaction_log_record ) Rbdb_TransactionSettingsController_rollbackwardCallbackMethod( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 
 	return transaction_settings_controller->roll_backward_callback_method;
 }
@@ -618,9 +618,9 @@ int (*rollbackward_callback_method)(	RPDB_Environment*				environment->wrapped_b
 *  setRollforwardCallbackMethod  *
 ****************************************/
 /*
-void RPDB_TransactionSettingsController_setRollforwardCallbackMethod(	RPDB_TransactionSettingsController*					transaction_settings_controller,
-																		int (*rollforward_callback_method)(	RPDB_Environment*				environment->wrapped_bdb_environment,
-																											RPDB_Record*		transaction_log_record ) )	{
+void Rbdb_TransactionSettingsController_setRollforwardCallbackMethod(	Rbdb_TransactionSettingsController*					transaction_settings_controller,
+																		int (*rollforward_callback_method)(	Rbdb_Environment*				environment->wrapped_bdb_environment,
+																											Rbdb_Record*		transaction_log_record ) )	{
 																													
 	transaction_settings_controller->roll_forward_callback_method = roll_forward_callback_method;																							
 }
@@ -629,8 +629,8 @@ void RPDB_TransactionSettingsController_setRollforwardCallbackMethod(	RPDB_Trans
 *  rollforwardCallbackMethod  *
 ************************************/
 /*
-int (*rollforward_callback_method)(	RPDB_Environment*				environment->wrapped_bdb_environment,
-									RPDB_Record*		transaction_log_record ) RPDB_TransactionSettingsController_rollforwardCallbackMethod( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+int (*rollforward_callback_method)(	Rbdb_Environment*				environment->wrapped_bdb_environment,
+									Rbdb_Record*		transaction_log_record ) Rbdb_TransactionSettingsController_rollforwardCallbackMethod( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 
 	return transaction_settings_controller->roll_forward_callback_method;
 }
@@ -639,9 +639,9 @@ int (*rollforward_callback_method)(	RPDB_Environment*				environment->wrapped_bd
 *  setAbortCallbackMethod  *
 ********************************/
 /*
-void RPDB_TransactionSettingsController_setAbortCallbackMethod(	RPDB_TransactionSettingsController* 						transaction_settings_controller,
-																	int (*abort_callback_method)(	RPDB_Environment*						environment->wrapped_bdb_environment,
-																									RPDB_Record*				transaction_log_record ) )	{
+void Rbdb_TransactionSettingsController_setAbortCallbackMethod(	Rbdb_TransactionSettingsController* 						transaction_settings_controller,
+																	int (*abort_callback_method)(	Rbdb_Environment*						environment->wrapped_bdb_environment,
+																									Rbdb_Record*				transaction_log_record ) )	{
 																													
 	transaction_settings_controller->abort_callback_method = abort_callback_method;																							
 }
@@ -650,8 +650,8 @@ void RPDB_TransactionSettingsController_setAbortCallbackMethod(	RPDB_Transaction
 *  abortCallbackMethod  *
 ********************************/
 /*
-int (*abort_callback_method)(	RPDB_Environment*				environment->wrapped_bdb_environment,
-								RPDB_Record*		transaction_log_record ) RPDB_TransactionSettingsController_abortCallbackMethod( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+int (*abort_callback_method)(	Rbdb_Environment*				environment->wrapped_bdb_environment,
+								Rbdb_Record*		transaction_log_record ) Rbdb_TransactionSettingsController_abortCallbackMethod( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 
 	return transaction_settings_controller->abort_callback_method;
 }
@@ -660,9 +660,9 @@ int (*abort_callback_method)(	RPDB_Environment*				environment->wrapped_bdb_envi
 *  setApplyCallbackMethod  *
 ********************************/
 /*
-void RPDB_TransactionSettingsController_setApplyCallbackMethod(	RPDB_TransactionSettingsController*				transaction_settings_controller,
-																	int (*apply_callback_method)(	RPDB_Environment*				environment->wrapped_bdb_environment,
-																									RPDB_Record*		transaction_log_record ) )	{
+void Rbdb_TransactionSettingsController_setApplyCallbackMethod(	Rbdb_TransactionSettingsController*				transaction_settings_controller,
+																	int (*apply_callback_method)(	Rbdb_Environment*				environment->wrapped_bdb_environment,
+																									Rbdb_Record*		transaction_log_record ) )	{
 																													
 	transaction_settings_controller->apply_callback_method = apply_callback_method;																							
 }
@@ -671,8 +671,8 @@ void RPDB_TransactionSettingsController_setApplyCallbackMethod(	RPDB_Transaction
 *  applyCallbackMethod  *
 ********************************/
 /*
-int (*apply_callback_method)(	RPDB_Environment*				environment->wrapped_bdb_environment,
-								RPDB_Record*		transaction_log_record ) RPDB_TransactionSettingsController_applyCallbackMethod( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+int (*apply_callback_method)(	Rbdb_Environment*				environment->wrapped_bdb_environment,
+								Rbdb_Record*		transaction_log_record ) Rbdb_TransactionSettingsController_applyCallbackMethod( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 
 	return transaction_settings_controller->apply_callback_method;
 }
@@ -681,9 +681,9 @@ int (*apply_callback_method)(	RPDB_Environment*				environment->wrapped_bdb_envi
 *  setPrintCallbackMethod  *
 ********************************/
 /*
-void RPDB_TransactionSettingsController_setPrintCallbackMethod(	RPDB_TransactionSettingsController*				transaction_settings_controller,
-																	int (*print_callback_method)(	RPDB_Environment*				environment->wrapped_bdb_environment,
-																									RPDB_Record*		transaction_log_record ) )	{
+void Rbdb_TransactionSettingsController_setPrintCallbackMethod(	Rbdb_TransactionSettingsController*				transaction_settings_controller,
+																	int (*print_callback_method)(	Rbdb_Environment*				environment->wrapped_bdb_environment,
+																									Rbdb_Record*		transaction_log_record ) )	{
 					
 	transaction_settings_controller->print_callback_method = print_callback_method;																							
 }
@@ -692,8 +692,8 @@ void RPDB_TransactionSettingsController_setPrintCallbackMethod(	RPDB_Transaction
 *  printCallbackMethod  *
 ********************************/
 /*
-int (*print_callback_method)(	RPDB_Environment*				environment->wrapped_bdb_environment,
-								RPDB_Record*		transaction_log_record ) RPDB_TransactionSettingsController_printCallbackMethod( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+int (*print_callback_method)(	Rbdb_Environment*				environment->wrapped_bdb_environment,
+								Rbdb_Record*		transaction_log_record ) Rbdb_TransactionSettingsController_printCallbackMethod( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 
 	return transaction_settings_controller->print_callback_method;
 }
@@ -707,17 +707,17 @@ int (*print_callback_method)(	RPDB_Environment*				environment->wrapped_bdb_envi
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_app_dispatch.html
 //	From http://www.oracle.com/technology/documentation/berkeley-db/db/ref/apprec/intro.html
 //	The recovery functions must not use Berkeley DB methods to access data in the environment as there is no way to coordinate these accesses with either the aborting transaction or the updates done by recovery or replication.)
-int RPDB_TransactionSettingsController_internal_transactionRecoveryCallbackMethod(	DB_ENV*			bdb_environment->wrapped_bdb_environment, 
+int Rbdb_TransactionSettingsController_internal_transactionRecoveryCallbackMethod(	DB_ENV*			bdb_environment->wrapped_bdb_environment, 
 																					DBT*			transaction_log_record, 
 																					DB_LSN*			lsn, 
 																					db_recops		recovery_operation )	{
 	
-	RPDB_Environment*									environment				= RPDB_RuntimeStorageController_environmentForBDBEnvironment( bdb_environment );
-	RPDB_Record*							transaction_log_record	= RPDB_Record_newFromRawKeyDBTDataPair(	lsn,
+	Rbdb_Environment*									environment				= Rbdb_RuntimeStorageController_environmentForBDBEnvironment( bdb_environment );
+	Rbdb_Record*							transaction_log_record	= Rbdb_Record_newFromRawKeyDBTDataPair(	lsn,
 																												transaction_log_record );
 
-	RPDB_TransactionSettingsController*	transaction_settings_controller	=	RPDB_SettingsController_transactionSettingsController(
-																					RPDB_Environment_settingsController( environment ) );
+	Rbdb_TransactionSettingsController*	transaction_settings_controller	=	Rbdb_SettingsController_transactionSettingsController(
+																					Rbdb_Environment_settingsController( environment ) );
 
 	switch ( recovery_operation )	{
 		
@@ -765,16 +765,16 @@ int RPDB_TransactionSettingsController_internal_transactionRecoveryCallbackMetho
 ************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/txn_discard.html
-int RPDB_TransactionSettingsController_internal_beginFlags( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+int Rbdb_TransactionSettingsController_internal_beginFlags( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 	
-	return RPDB_TransactionSettingsController_degreeTwoIsolation( transaction_settings_controller )
-			|	RPDB_TransactionSettingsController_degreeOneIsolation( transaction_settings_controller )
-			|	RPDB_TransactionSettingsController_prohibitSyncOnCommit( transaction_settings_controller )
-			|	RPDB_TransactionSettingsController_waitForLocks( transaction_settings_controller )
-			|	RPDB_TransactionSettingsController_snapshotIsolation( transaction_settings_controller )
-			|	RPDB_TransactionSettingsController_syncOnCommit( transaction_settings_controller )
-			|	RPDB_TransactionSettingsController_waitForLocks( transaction_settings_controller )
-			|	RPDB_TransactionSettingsController_prohibitSyncOnWrite( transaction_settings_controller );
+	return Rbdb_TransactionSettingsController_degreeTwoIsolation( transaction_settings_controller )
+			|	Rbdb_TransactionSettingsController_degreeOneIsolation( transaction_settings_controller )
+			|	Rbdb_TransactionSettingsController_prohibitSyncOnCommit( transaction_settings_controller )
+			|	Rbdb_TransactionSettingsController_waitForLocks( transaction_settings_controller )
+			|	Rbdb_TransactionSettingsController_snapshotIsolation( transaction_settings_controller )
+			|	Rbdb_TransactionSettingsController_syncOnCommit( transaction_settings_controller )
+			|	Rbdb_TransactionSettingsController_waitForLocks( transaction_settings_controller )
+			|	Rbdb_TransactionSettingsController_prohibitSyncOnWrite( transaction_settings_controller );
 }
 
 /************************
@@ -782,10 +782,10 @@ int RPDB_TransactionSettingsController_internal_beginFlags( RPDB_TransactionSett
 ************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/txn_discard.html
-int RPDB_TransactionSettingsController_internal_discardFlags( RPDB_TransactionSettingsController* transaction_settings_controller __attribute__((unused)) )	{
+int Rbdb_TransactionSettingsController_internal_discardFlags( Rbdb_TransactionSettingsController* transaction_settings_controller __attribute__((unused)) )	{
 	
 	//	Currently unused
-	return RPDB_NO_FLAGS;
+	return Rbdb_NO_FLAGS;
 }
 
 /************************
@@ -793,10 +793,10 @@ int RPDB_TransactionSettingsController_internal_discardFlags( RPDB_TransactionSe
 ************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/txn_commit.html
-int RPDB_TransactionSettingsController_internal_commitFlags( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+int Rbdb_TransactionSettingsController_internal_commitFlags( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 	
-	return	RPDB_TransactionSettingsController_prohibitSyncOnCommit( transaction_settings_controller )
-			|	RPDB_TransactionSettingsController_syncOnCommit( transaction_settings_controller );
+	return	Rbdb_TransactionSettingsController_prohibitSyncOnCommit( transaction_settings_controller )
+			|	Rbdb_TransactionSettingsController_syncOnCommit( transaction_settings_controller );
 }
 
 /********************************
@@ -804,14 +804,14 @@ int RPDB_TransactionSettingsController_internal_commitFlags( RPDB_TransactionSet
 ********************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/txn_checkpoint.html
-int RPDB_TransactionSettingsController_internal_commitCheckpointFlags( RPDB_TransactionSettingsController* transaction_settings_controller __attribute__((unused)) )	{
+int Rbdb_TransactionSettingsController_internal_commitCheckpointFlags( Rbdb_TransactionSettingsController* transaction_settings_controller __attribute__((unused)) )	{
 	
 	//	we need to add a forceCheckpoint function instead of this flag
 	//	FIX
 	
 	//	We have one flag - DB_FORCE - which has its own function
 	//	Otherwise, we have no flags; this function is here only in the case future support of other flags becomes relevant. 
-	return RPDB_NO_FLAGS;
+	return Rbdb_NO_FLAGS;
 }
 
 /************************
@@ -819,7 +819,7 @@ int RPDB_TransactionSettingsController_internal_commitCheckpointFlags( RPDB_Tran
 ************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/txn_recover.html
-int RPDB_TransactionSettingsController_internal_recoverFlags( RPDB_TransactionSettingsController* transaction_settings_controller )	{
+int Rbdb_TransactionSettingsController_internal_recoverFlags( Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 	
 	if ( transaction_settings_controller->started_transaction_recover == FALSE )	{
 		return DB_FIRST;
@@ -833,9 +833,9 @@ int RPDB_TransactionSettingsController_internal_recoverFlags( RPDB_TransactionSe
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_TransactionSettingsController* RPDB_TransactionSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_TransactionSettingsController* transaction_settings_controller )	{
+Rbdb_TransactionSettingsController* Rbdb_TransactionSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_TransactionSettingsController* transaction_settings_controller )	{
 
-	RPDB_TransactionSettingsController* transaction_settings_controller_copy	=	RPDB_TransactionSettingsController_new( transaction_settings_controller->parent_settings_controller );
+	Rbdb_TransactionSettingsController* transaction_settings_controller_copy	=	Rbdb_TransactionSettingsController_new( transaction_settings_controller->parent_settings_controller );
 
 	//	Instances and Pointers
 	transaction_settings_controller_copy->environmental_snapshot_isolation	=	transaction_settings_controller->environmental_snapshot_isolation;

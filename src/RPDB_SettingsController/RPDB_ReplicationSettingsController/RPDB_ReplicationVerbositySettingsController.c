@@ -1,5 +1,5 @@
 /*
- *		RPDB::SettingsController::SettingsVerbosityController::SettingsVerbosityReplicationController
+ *		Rbdb::SettingsController::SettingsVerbosityController::SettingsVerbosityReplicationController
  *
  *
  */
@@ -10,7 +10,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_ReplicationVerbositySettingsController.h"
+#include "Rbdb_ReplicationVerbositySettingsController.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -22,9 +22,9 @@
 *  new  *
 *************/
 
-RPDB_ReplicationVerbositySettingsController* RPDB_ReplicationVerbositySettingsController_new( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+Rbdb_ReplicationVerbositySettingsController* Rbdb_ReplicationVerbositySettingsController_new( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller = calloc( 1, sizeof( RPDB_ReplicationVerbositySettingsController ) );
+	Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller = calloc( 1, sizeof( Rbdb_ReplicationVerbositySettingsController ) );
 
 	replication_verbosity_settings_controller->parent_replication_settings_controller = replication_settings_controller;
 
@@ -34,7 +34,7 @@ RPDB_ReplicationVerbositySettingsController* RPDB_ReplicationVerbositySettingsCo
 /***************************
 *  free  *
 ***************************/
-void RPDB_ReplicationVerbositySettingsController_free(	RPDB_ReplicationVerbositySettingsController** replication_verbosity_settings_controller )	{
+void Rbdb_ReplicationVerbositySettingsController_free(	Rbdb_ReplicationVerbositySettingsController** replication_verbosity_settings_controller )	{
 
 	free( replication_verbosity_settings_controller );
 }
@@ -42,7 +42,7 @@ void RPDB_ReplicationVerbositySettingsController_free(	RPDB_ReplicationVerbosity
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_ReplicationVerbositySettingsController_parentEnvironment(	RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+Rbdb_Environment* Rbdb_ReplicationVerbositySettingsController_parentEnvironment(	Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 	return replication_verbosity_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 }
 
@@ -51,7 +51,7 @@ RPDB_Environment* RPDB_ReplicationVerbositySettingsController_parentEnvironment(
 *****************************************/
 
 //	DB_VERB_REPLICATION     	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_verbose.html
-BOOL RPDB_ReplicationVerbositySettingsController_displayAllReplicationInformation( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+BOOL Rbdb_ReplicationVerbositySettingsController_displayAllReplicationInformation( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 	if ( replication_verbosity_settings_controller->display_all_replication_information )	{
 		return DB_VERB_REPLICATION;
@@ -64,7 +64,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayAllReplicationInformatio
 	*  turnDisplayAllReplicationInformationOn  *
 	*********************************************/
 
-	void RPDB_ReplicationVerbositySettingsController_turnDisplayAllReplicationInformationOn( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+	void Rbdb_ReplicationVerbositySettingsController_turnDisplayAllReplicationInformationOn( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 		
 		replication_verbosity_settings_controller->display_all_replication_information = TRUE;
 	}
@@ -73,7 +73,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayAllReplicationInformatio
 	*  turnDisplayAllReplicationInformationOff  *
 	*************************************************/
 
-	void RPDB_ReplicationVerbositySettingsController_turnDisplayAllReplicationInformationOff( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+	void Rbdb_ReplicationVerbositySettingsController_turnDisplayAllReplicationInformationOff( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 		
 		replication_verbosity_settings_controller->display_all_replication_information = FALSE;
 	}
@@ -83,7 +83,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayAllReplicationInformatio
 *********************************/
 
 //	DB_VERB_REP_ELECT    		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_verbose.html
-BOOL RPDB_ReplicationVerbositySettingsController_displayElectionInformation( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+BOOL Rbdb_ReplicationVerbositySettingsController_displayElectionInformation( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 	if ( replication_verbosity_settings_controller->display_election_information )	{
 		return DB_VERB_REP_ELECT;
@@ -95,7 +95,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayElectionInformation( RPD
 	*  turnDisplayElectionInformationOn  *
 	*****************************************/
 
-	void RPDB_ReplicationVerbositySettingsController_turnDisplayElectionInformationOn( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+	void Rbdb_ReplicationVerbositySettingsController_turnDisplayElectionInformationOn( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 		replication_verbosity_settings_controller->display_election_information = TRUE;
 	}
@@ -104,7 +104,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayElectionInformation( RPD
 	*  turnDisplayElectionInformationOff  *
 	*****************************************/
 
-	void RPDB_ReplicationVerbositySettingsController_turnDisplayElectionInformationOff( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+	void Rbdb_ReplicationVerbositySettingsController_turnDisplayElectionInformationOff( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 		replication_verbosity_settings_controller->display_election_information = FALSE;
 	}
@@ -114,7 +114,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayElectionInformation( RPD
 *************************************************/
 
 //	DB_VERB_REP_LEASE       	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_verbose.html
-BOOL RPDB_ReplicationVerbositySettingsController_displayReplicationMasterLeaseInformation( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+BOOL Rbdb_ReplicationVerbositySettingsController_displayReplicationMasterLeaseInformation( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 	if ( replication_verbosity_settings_controller->display_replication_master_lease_information )	{
 		return DB_VERB_REP_LEASE;
@@ -126,7 +126,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayReplicationMasterLeaseIn
 	*  turnDisplayReplicationMasterLeaseInformationOn  *
 	*****************************************************/
 
-	void RPDB_ReplicationVerbositySettingsController_turnDisplayReplicationMasterLeaseInformationOn( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+	void Rbdb_ReplicationVerbositySettingsController_turnDisplayReplicationMasterLeaseInformationOn( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 		replication_verbosity_settings_controller->display_replication_master_lease_information = TRUE;
 	}
@@ -135,7 +135,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayReplicationMasterLeaseIn
 	*  turnDisplayReplicationMasterLeaseInformationOff  *
 	*********************************************************/
 
-	void RPDB_ReplicationVerbositySettingsController_turnDisplayReplicationMasterLeaseInformationOff( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+	void Rbdb_ReplicationVerbositySettingsController_turnDisplayReplicationMasterLeaseInformationOff( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 		replication_verbosity_settings_controller->display_replication_master_lease_information = FALSE;
 	}
@@ -145,7 +145,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayReplicationMasterLeaseIn
 *****************************************/
 
 //	DB_VERB_REP_MISC        	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_verbose.html
-BOOL RPDB_ReplicationVerbositySettingsController_displayMiscProcessingInformation( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+BOOL Rbdb_ReplicationVerbositySettingsController_displayMiscProcessingInformation( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 	if ( replication_verbosity_settings_controller->display_misc_processing_information )	{
 		return DB_VERB_REP_MISC;
@@ -158,7 +158,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayMiscProcessingInformatio
 	*  turnDisplayMiscProcessingInformationOn  *
 	*********************************************/
 
-	void RPDB_ReplicationVerbositySettingsController_turnDisplayMiscProcessingInformationOn( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+	void Rbdb_ReplicationVerbositySettingsController_turnDisplayMiscProcessingInformationOn( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 		replication_verbosity_settings_controller->display_misc_processing_information = TRUE;
 	}
@@ -167,7 +167,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayMiscProcessingInformatio
 	*  turnDisplayMiscProcessingInformationOff  *
 	*************************************************/
 
-	void RPDB_ReplicationVerbositySettingsController_turnDisplayMiscProcessingInformationOff( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+	void Rbdb_ReplicationVerbositySettingsController_turnDisplayMiscProcessingInformationOff( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 		replication_verbosity_settings_controller->display_misc_processing_information = FALSE;
 	}
@@ -177,7 +177,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayMiscProcessingInformatio
 *********************************************/
 
 //	DB_VERB_REP_MSGS        	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_verbose.html
-BOOL RPDB_ReplicationVerbositySettingsController_displayMessageProcessingInformation( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+BOOL Rbdb_ReplicationVerbositySettingsController_displayMessageProcessingInformation( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 	if ( replication_verbosity_settings_controller->display_message_processing_information )	{
 		return DB_VERB_REP_MSGS;
@@ -190,7 +190,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayMessageProcessingInforma
 	*  turnDisplayMessageProcessingInformationOn  *
 	*************************************************/
 
-	void RPDB_ReplicationVerbositySettingsController_turnDisplayMessageProcessingInformationOn( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+	void Rbdb_ReplicationVerbositySettingsController_turnDisplayMessageProcessingInformationOn( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 		replication_verbosity_settings_controller->display_message_processing_information = TRUE;
 	}
@@ -199,7 +199,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayMessageProcessingInforma
 	*  turnDisplayMessageProcessingInformationOff  *
 	*************************************************/
 
-	void RPDB_ReplicationVerbositySettingsController_turnDisplayMessageProcessingInformationOff( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+	void Rbdb_ReplicationVerbositySettingsController_turnDisplayMessageProcessingInformationOff( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 		replication_verbosity_settings_controller->display_message_processing_information = FALSE;
 	}
@@ -209,7 +209,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayMessageProcessingInforma
 *************************************************/
 
 //	DB_VERB_REP_SYNC        	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_verbose.html
-BOOL RPDB_ReplicationVerbositySettingsController_displayClientSynchronizationInformation( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+BOOL Rbdb_ReplicationVerbositySettingsController_displayClientSynchronizationInformation( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 	if ( replication_verbosity_settings_controller->display_client_synchronization_information )	{
 		return DB_VERB_REP_SYNC;
@@ -222,7 +222,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayClientSynchronizationInf
 	*  turnDisplayClientSynchronizationInformationOn  *
 	*****************************************************/
 
-	void RPDB_ReplicationVerbositySettingsController_turnDisplayClientSynchronizationInformationOn( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+	void Rbdb_ReplicationVerbositySettingsController_turnDisplayClientSynchronizationInformationOn( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 		replication_verbosity_settings_controller->display_client_synchronization_information = TRUE;
 	}
@@ -231,7 +231,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayClientSynchronizationInf
 	*  turnDisplayClientSynchronizationInformationOff  *
 	*****************************************************/
 
-	void RPDB_ReplicationVerbositySettingsController_turnDisplayClientSynchronizationInformationOff( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+	void Rbdb_ReplicationVerbositySettingsController_turnDisplayClientSynchronizationInformationOff( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 		replication_verbosity_settings_controller->display_client_synchronization_information = FALSE;
 	}
@@ -241,7 +241,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayClientSynchronizationInf
 *************************************************/
 
 //	DB_VERB_REPMGR_CONNFAIL 	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_verbose.html
-BOOL RPDB_ReplicationVerbositySettingsController_displayManagerConnectionFailureInformation( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+BOOL Rbdb_ReplicationVerbositySettingsController_displayManagerConnectionFailureInformation( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 	if ( replication_verbosity_settings_controller->display_manager_connection_failure_information )	{
 		return DB_VERB_REPMGR_CONNFAIL;
@@ -253,7 +253,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayManagerConnectionFailure
 	*  turnDisplayManagerConnectionFailureInformationOn  *
 	*********************************************************/
 
-	void RPDB_ReplicationVerbositySettingsController_turnDisplayManagerConnectionFailureInformationOn( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+	void Rbdb_ReplicationVerbositySettingsController_turnDisplayManagerConnectionFailureInformationOn( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 		replication_verbosity_settings_controller->display_manager_connection_failure_information = TRUE;
 	}
@@ -262,7 +262,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayManagerConnectionFailure
 	*  turnDisplayManagerConnectionFailureInformationOff  *
 	*********************************************************/
 
-	void RPDB_ReplicationVerbositySettingsController_turnDisplayManagerConnectionFailureInformationOff( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+	void Rbdb_ReplicationVerbositySettingsController_turnDisplayManagerConnectionFailureInformationOff( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 		replication_verbosity_settings_controller->display_manager_connection_failure_information = FALSE;
 	}
@@ -272,7 +272,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayManagerConnectionFailure
 *************************************/
 
 //	DB_VERB_REPMGR_MISC     	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_verbose.html
-BOOL RPDB_ReplicationVerbositySettingsController_displayManagerMiscProcessing( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+BOOL Rbdb_ReplicationVerbositySettingsController_displayManagerMiscProcessing( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 	if ( replication_verbosity_settings_controller->display_manager_misc_processing )	{
 		return DB_VERB_REPMGR_MISC;
@@ -284,7 +284,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayManagerMiscProcessing( R
 	*  turnDisplayManagerMiscProcessingOn  *
 	*****************************************/
 
-	void RPDB_ReplicationVerbositySettingsController_turnDisplayManagerMiscProcessingOn( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+	void Rbdb_ReplicationVerbositySettingsController_turnDisplayManagerMiscProcessingOn( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 		replication_verbosity_settings_controller->display_manager_misc_processing = TRUE;
 	}
@@ -293,7 +293,7 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayManagerMiscProcessing( R
 	*  turnDisplayManagerMiscProcessingOff  *
 	*********************************************/
 
-	void RPDB_ReplicationVerbositySettingsController_turnDisplayManagerMiscProcessingOff( RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+	void Rbdb_ReplicationVerbositySettingsController_turnDisplayManagerMiscProcessingOff( Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
 		replication_verbosity_settings_controller->display_manager_misc_processing = FALSE;
 	}
@@ -307,9 +307,9 @@ BOOL RPDB_ReplicationVerbositySettingsController_displayManagerMiscProcessing( R
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_ReplicationVerbositySettingsController* RPDB_ReplicationVerbositySettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
+Rbdb_ReplicationVerbositySettingsController* Rbdb_ReplicationVerbositySettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller )	{
 
-	RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller_copy	=	RPDB_ReplicationVerbositySettingsController_new( replication_verbosity_settings_controller->parent_replication_settings_controller );
+	Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller_copy	=	Rbdb_ReplicationVerbositySettingsController_new( replication_verbosity_settings_controller->parent_replication_settings_controller );
 
 	//	Instances and Pointers
 	replication_verbosity_settings_controller_copy->display_manager_misc_processing	=	replication_verbosity_settings_controller->display_manager_misc_processing;

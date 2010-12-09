@@ -1,27 +1,27 @@
 /*
- *		RPDB::LogController::Log
+ *		Rbdb::LogController::Log
  *
  *	
  */
 
-#ifndef RPDB_LOG
-	#define RPDB_LOG
+#ifndef Rbdb_LOG
+	#define Rbdb_LOG
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_Log*					RPDB_Log_new(					RPDB_LogController*		parent_log_controller );
+	Rbdb_Log*					Rbdb_Log_new(					Rbdb_LogController*		parent_log_controller );
 
-	void						RPDB_Log_free(	RPDB_Log** log );
-	RPDB_LogSettingsController*	RPDB_Log_settingsController(	RPDB_Log* log );
-	RPDB_Environment*		RPDB_Log_parentEnvironment(	RPDB_Log* log );
+	void						Rbdb_Log_free(	Rbdb_Log** log );
+	Rbdb_LogSettingsController*	Rbdb_Log_settingsController(	Rbdb_Log* log );
+	Rbdb_Environment*		Rbdb_Log_parentEnvironment(	Rbdb_Log* log );
 
-	RPDB_Record*				RPDB_Log_logRecord(			RPDB_Log*					log );
-	RPDB_LogSequenceNumber*	RPDB_Log_logSequenceNumber(	RPDB_Log*					log );
-	char*						RPDB_Log_filename(				RPDB_Log*					log );
+	Rbdb_Record*				Rbdb_Log_logRecord(			Rbdb_Log*					log );
+	Rbdb_LogSequenceNumber*	Rbdb_Log_logSequenceNumber(	Rbdb_Log*					log );
+	char*						Rbdb_Log_filename(				Rbdb_Log*					log );
 
 
 #endif

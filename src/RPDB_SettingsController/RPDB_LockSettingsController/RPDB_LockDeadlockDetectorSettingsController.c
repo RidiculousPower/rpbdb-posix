@@ -1,5 +1,5 @@
 /*
- *		RPDB::SettingsController::FileSettingsController
+ *		Rbdb::SettingsController::FileSettingsController
  *
  *
  */
@@ -10,13 +10,13 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
  
-#include "RPDB_LockDeadlockDetectorSettingsController.h"
+#include "Rbdb_LockDeadlockDetectorSettingsController.h"
 
-#include "RPDB_LockDeadlockDetectorSettingsController.h"
-#include "RPDB_LockDeadlockDetectorVerbositySettingsController.h"
-#include "RPDB_Environment.h"
+#include "Rbdb_LockDeadlockDetectorSettingsController.h"
+#include "Rbdb_LockDeadlockDetectorVerbositySettingsController.h"
+#include "Rbdb_Environment.h"
 
-#include "RPDB_LockDeadlockDetectorSettingsController_internal.h"
+#include "Rbdb_LockDeadlockDetectorSettingsController_internal.h"
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -28,9 +28,9 @@
 *  new  *
 *************/
 
-RPDB_LockDeadlockDetectorSettingsController* RPDB_LockDeadlockDetectorSettingsController_new( RPDB_LockSettingsController* lock_settings_controller )	{
+Rbdb_LockDeadlockDetectorSettingsController* Rbdb_LockDeadlockDetectorSettingsController_new( Rbdb_LockSettingsController* lock_settings_controller )	{
 
-	RPDB_LockDeadlockDetectorSettingsController*		lock_deadlock_detector_settings_controller = calloc( 1, sizeof( RPDB_LockDeadlockDetectorSettingsController ) );
+	Rbdb_LockDeadlockDetectorSettingsController*		lock_deadlock_detector_settings_controller = calloc( 1, sizeof( Rbdb_LockDeadlockDetectorSettingsController ) );
 
 	lock_deadlock_detector_settings_controller->parent_lock_settings_controller = lock_settings_controller;
 
@@ -40,9 +40,9 @@ RPDB_LockDeadlockDetectorSettingsController* RPDB_LockDeadlockDetectorSettingsCo
 /***************************
 *  free  *
 ***************************/
-void RPDB_LockDeadlockDetectorSettingsController_free(	RPDB_LockDeadlockDetectorSettingsController** lock_deadlock_detector_settings_controller )	{
+void Rbdb_LockDeadlockDetectorSettingsController_free(	Rbdb_LockDeadlockDetectorSettingsController** lock_deadlock_detector_settings_controller )	{
 	if ( ( *lock_deadlock_detector_settings_controller )->verbosity_settings_controller != NULL )	{
-		RPDB_LockDeadlockDetectorVerbositySettingsController_free( & ( ( *lock_deadlock_detector_settings_controller )->verbosity_settings_controller ) );
+		Rbdb_LockDeadlockDetectorVerbositySettingsController_free( & ( ( *lock_deadlock_detector_settings_controller )->verbosity_settings_controller ) );
 	}
 
 	free( *lock_deadlock_detector_settings_controller );
@@ -52,7 +52,7 @@ void RPDB_LockDeadlockDetectorSettingsController_free(	RPDB_LockDeadlockDetector
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_LockDeadlockDetectorSettingsController_parentEnvironment(	RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+Rbdb_Environment* Rbdb_LockDeadlockDetectorSettingsController_parentEnvironment(	Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
 	return lock_deadlock_detector_settings_controller->parent_lock_settings_controller->parent_settings_controller->parent_environment;
 }
 
@@ -60,8 +60,8 @@ RPDB_Environment* RPDB_LockDeadlockDetectorSettingsController_parentEnvironment(
 *  isDefault  *
 *********************/
 
-BOOL RPDB_LockDeadlockDetectorSettingsController_isDefault( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
-	return RPDB_LockDeadlockDetectorSettingsController_internal_isSetTo( lock_deadlock_detector_settings_controller, DB_LOCK_DEFAULT );
+BOOL Rbdb_LockDeadlockDetectorSettingsController_isDefault( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+	return Rbdb_LockDeadlockDetectorSettingsController_internal_isSetTo( lock_deadlock_detector_settings_controller, DB_LOCK_DEFAULT );
 }
 
 /*********************
@@ -69,147 +69,147 @@ BOOL RPDB_LockDeadlockDetectorSettingsController_isDefault( RPDB_LockDeadlockDet
 *********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_lk_detect.html
-void RPDB_LockDeadlockDetectorSettingsController_setToDefault( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
-	RPDB_LockDeadlockDetectorSettingsController_internal_setTo( lock_deadlock_detector_settings_controller, DB_LOCK_DEFAULT );
+void Rbdb_LockDeadlockDetectorSettingsController_setToDefault( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+	Rbdb_LockDeadlockDetectorSettingsController_internal_setTo( lock_deadlock_detector_settings_controller, DB_LOCK_DEFAULT );
 }
 
 /*****************************
 *  rejectExpired  *
 *****************************/
 
-BOOL RPDB_LockDeadlockDetectorSettingsController_rejectExpired( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
-	return RPDB_LockDeadlockDetectorSettingsController_internal_isSetTo( lock_deadlock_detector_settings_controller, DB_LOCK_EXPIRE );
+BOOL Rbdb_LockDeadlockDetectorSettingsController_rejectExpired( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+	return Rbdb_LockDeadlockDetectorSettingsController_internal_isSetTo( lock_deadlock_detector_settings_controller, DB_LOCK_EXPIRE );
 }
 
 /*************************
 *  turnRejectExpiredOn  *
 *************************/
 
-void RPDB_LockDeadlockDetectorSettingsController_setToRejectExpired( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
-	RPDB_LockDeadlockDetectorSettingsController_internal_setTo( lock_deadlock_detector_settings_controller, DB_LOCK_EXPIRE );
+void Rbdb_LockDeadlockDetectorSettingsController_setToRejectExpired( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+	Rbdb_LockDeadlockDetectorSettingsController_internal_setTo( lock_deadlock_detector_settings_controller, DB_LOCK_EXPIRE );
 }
 
 /*****************************************
 *  rejectLockerWithMostLocks  *
 *****************************************/
 
-BOOL RPDB_LockDeadlockDetectorSettingsController_rejectLockerWithMostLocks( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
-	return RPDB_LockDeadlockDetectorSettingsController_internal_isSetTo( lock_deadlock_detector_settings_controller, DB_LOCK_MAXLOCKS );
+BOOL Rbdb_LockDeadlockDetectorSettingsController_rejectLockerWithMostLocks( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+	return Rbdb_LockDeadlockDetectorSettingsController_internal_isSetTo( lock_deadlock_detector_settings_controller, DB_LOCK_MAXLOCKS );
 }
 
 /*************************************
 *  turnRejectLockerWithMostLocksOn  *
 *************************************/
 
-void RPDB_LockDeadlockDetectorSettingsController_setToRejectLockerWithMostLocks( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
-	RPDB_LockDeadlockDetectorSettingsController_internal_setTo( lock_deadlock_detector_settings_controller, DB_LOCK_MAXLOCKS );
+void Rbdb_LockDeadlockDetectorSettingsController_setToRejectLockerWithMostLocks( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+	Rbdb_LockDeadlockDetectorSettingsController_internal_setTo( lock_deadlock_detector_settings_controller, DB_LOCK_MAXLOCKS );
 }
 
 /*********************************************
 *  rejectLockerWithMostWriteLocks  *
 *********************************************/
 
-BOOL RPDB_LockDeadlockDetectorSettingsController_rejectLockerWithMostWriteLocks( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
-	return RPDB_LockDeadlockDetectorSettingsController_internal_isSetTo( lock_deadlock_detector_settings_controller, DB_LOCK_MAXWRITE );
+BOOL Rbdb_LockDeadlockDetectorSettingsController_rejectLockerWithMostWriteLocks( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+	return Rbdb_LockDeadlockDetectorSettingsController_internal_isSetTo( lock_deadlock_detector_settings_controller, DB_LOCK_MAXWRITE );
 }
 
 /*********************************************
 *  turnRejectLockerWithMostWriteLocksOn  *
 *********************************************/
 
-void RPDB_LockDeadlockDetectorSettingsController_setToRejectLockerWithMostWriteLocks( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
-	RPDB_LockDeadlockDetectorSettingsController_internal_setTo( lock_deadlock_detector_settings_controller, DB_LOCK_MAXWRITE );
+void Rbdb_LockDeadlockDetectorSettingsController_setToRejectLockerWithMostWriteLocks( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+	Rbdb_LockDeadlockDetectorSettingsController_internal_setTo( lock_deadlock_detector_settings_controller, DB_LOCK_MAXWRITE );
 }
 
 /*****************************************
 *  rejectLockerWithFewestLocks  *
 *****************************************/
 
-BOOL RPDB_LockDeadlockDetectorSettingsController_rejectLockerWithFewestLocks( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
-	return RPDB_LockDeadlockDetectorSettingsController_internal_isSetTo( lock_deadlock_detector_settings_controller, DB_LOCK_MINLOCKS );
+BOOL Rbdb_LockDeadlockDetectorSettingsController_rejectLockerWithFewestLocks( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+	return Rbdb_LockDeadlockDetectorSettingsController_internal_isSetTo( lock_deadlock_detector_settings_controller, DB_LOCK_MINLOCKS );
 }
 
 /*****************************************
 *  turnRejectLockerWithFewestLocksOn  *
 *****************************************/
 
-void RPDB_LockDeadlockDetectorSettingsController_setToRejectLockerWithFewestLocks( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
-	RPDB_LockDeadlockDetectorSettingsController_internal_setTo( lock_deadlock_detector_settings_controller, DB_LOCK_MINLOCKS );
+void Rbdb_LockDeadlockDetectorSettingsController_setToRejectLockerWithFewestLocks( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+	Rbdb_LockDeadlockDetectorSettingsController_internal_setTo( lock_deadlock_detector_settings_controller, DB_LOCK_MINLOCKS );
 }
 
 /*************************************************
 *  rejectLockerWithFewestWriteLocks  *
 *************************************************/
 
-BOOL RPDB_LockDeadlockDetectorSettingsController_rejectLockerWithFewestWriteLocks( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
-	return RPDB_LockDeadlockDetectorSettingsController_internal_isSetTo( lock_deadlock_detector_settings_controller, DB_LOCK_MINWRITE );
+BOOL Rbdb_LockDeadlockDetectorSettingsController_rejectLockerWithFewestWriteLocks( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+	return Rbdb_LockDeadlockDetectorSettingsController_internal_isSetTo( lock_deadlock_detector_settings_controller, DB_LOCK_MINWRITE );
 }
 
 /*********************************************
 *  turnRejectLockerWithFewestWriteLocksOn  *
 *********************************************/
 
-void RPDB_LockDeadlockDetectorSettingsController_setToRejectLockerWithFewestWriteLocks( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
-	RPDB_LockDeadlockDetectorSettingsController_internal_setTo( lock_deadlock_detector_settings_controller, DB_LOCK_MINWRITE );
+void Rbdb_LockDeadlockDetectorSettingsController_setToRejectLockerWithFewestWriteLocks( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+	Rbdb_LockDeadlockDetectorSettingsController_internal_setTo( lock_deadlock_detector_settings_controller, DB_LOCK_MINWRITE );
 }
 
 /*****************************************
 *  rejectLockerWithOldestLock  *
 *****************************************/
 
-BOOL RPDB_LockDeadlockDetectorSettingsController_rejectLockerWithOldestLock( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
-	return RPDB_LockDeadlockDetectorSettingsController_internal_isSetTo( lock_deadlock_detector_settings_controller, DB_LOCK_OLDEST );
+BOOL Rbdb_LockDeadlockDetectorSettingsController_rejectLockerWithOldestLock( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+	return Rbdb_LockDeadlockDetectorSettingsController_internal_isSetTo( lock_deadlock_detector_settings_controller, DB_LOCK_OLDEST );
 }
 
 /*****************************************
 *  turnRejectLockerWithOldestLockOn  *
 *****************************************/
 
-void RPDB_LockDeadlockDetectorSettingsController_setToRejectLockerWithOldestLock( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
-	RPDB_LockDeadlockDetectorSettingsController_internal_setTo( lock_deadlock_detector_settings_controller, DB_LOCK_OLDEST );
+void Rbdb_LockDeadlockDetectorSettingsController_setToRejectLockerWithOldestLock( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+	Rbdb_LockDeadlockDetectorSettingsController_internal_setTo( lock_deadlock_detector_settings_controller, DB_LOCK_OLDEST );
 }
 
 /*********************************************
 *  rejectLockerWithYoungestLock  *
 *********************************************/
 
-BOOL RPDB_LockDeadlockDetectorSettingsController_rejectLockerWithYoungestLock( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
-	return RPDB_LockDeadlockDetectorSettingsController_internal_isSetTo( lock_deadlock_detector_settings_controller, DB_LOCK_YOUNGEST );
+BOOL Rbdb_LockDeadlockDetectorSettingsController_rejectLockerWithYoungestLock( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+	return Rbdb_LockDeadlockDetectorSettingsController_internal_isSetTo( lock_deadlock_detector_settings_controller, DB_LOCK_YOUNGEST );
 }
 
 /*****************************************
 *  turnRejectLockerWithYoungestLockOn  *
 *****************************************/
 
-void RPDB_LockDeadlockDetectorSettingsController_setToRejectLockerWithYoungestLock( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
-	RPDB_LockDeadlockDetectorSettingsController_internal_setTo( lock_deadlock_detector_settings_controller, DB_LOCK_YOUNGEST );
+void Rbdb_LockDeadlockDetectorSettingsController_setToRejectLockerWithYoungestLock( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+	Rbdb_LockDeadlockDetectorSettingsController_internal_setTo( lock_deadlock_detector_settings_controller, DB_LOCK_YOUNGEST );
 }
 
 /*****************************
 *  rejectRandom  *
 *****************************/
 
-BOOL RPDB_LockDeadlockDetectorSettingsController_rejectRandom( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
-	return RPDB_LockDeadlockDetectorSettingsController_internal_isSetTo( lock_deadlock_detector_settings_controller, DB_LOCK_RANDOM );
+BOOL Rbdb_LockDeadlockDetectorSettingsController_rejectRandom( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+	return Rbdb_LockDeadlockDetectorSettingsController_internal_isSetTo( lock_deadlock_detector_settings_controller, DB_LOCK_RANDOM );
 }
 
 /*************************
 *  turnRejectRandomOn  *
 *************************/
 
-void RPDB_LockDeadlockDetectorSettingsController_setToRejectRandom( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
-	RPDB_LockDeadlockDetectorSettingsController_internal_setTo( lock_deadlock_detector_settings_controller, DB_LOCK_RANDOM );
+void Rbdb_LockDeadlockDetectorSettingsController_setToRejectRandom( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+	Rbdb_LockDeadlockDetectorSettingsController_internal_setTo( lock_deadlock_detector_settings_controller, DB_LOCK_RANDOM );
 }
 
 /*************************************
 *  verbositySettingsController  *
 *************************************/
 
-RPDB_LockDeadlockDetectorVerbositySettingsController* RPDB_LockDeadlockDetectorSettingsController_verbositySettingsController( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+Rbdb_LockDeadlockDetectorVerbositySettingsController* Rbdb_LockDeadlockDetectorSettingsController_verbositySettingsController( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
 
 	if ( lock_deadlock_detector_settings_controller->verbosity_settings_controller == NULL )	{
 	
-		lock_deadlock_detector_settings_controller->verbosity_settings_controller = RPDB_LockDeadlockDetectorVerbositySettingsController_new( lock_deadlock_detector_settings_controller );
+		lock_deadlock_detector_settings_controller->verbosity_settings_controller = Rbdb_LockDeadlockDetectorVerbositySettingsController_new( lock_deadlock_detector_settings_controller );
 	}
 	
 	return lock_deadlock_detector_settings_controller->verbosity_settings_controller;
@@ -226,9 +226,9 @@ RPDB_LockDeadlockDetectorVerbositySettingsController* RPDB_LockDeadlockDetectorS
 *************/
 
 //	sets lock detection by making call internally
-void RPDB_LockDeadlockDetectorSettingsController_internal_set( RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+void Rbdb_LockDeadlockDetectorSettingsController_internal_set( Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
 
-	RPDB_Environment*			environment;
+	Rbdb_Environment*			environment;
 
 	environment = lock_deadlock_detector_settings_controller->parent_lock_settings_controller->parent_settings_controller->parent_environment;
 
@@ -243,9 +243,9 @@ void RPDB_LockDeadlockDetectorSettingsController_internal_set( RPDB_LockDeadlock
 *  isSetTo  *
 *****************/
 
-BOOL RPDB_LockDeadlockDetectorSettingsController_internal_isSetTo(	RPDB_LockDeadlockDetectorSettingsController*	lock_deadlock_detector_settings_controller, 
+BOOL Rbdb_LockDeadlockDetectorSettingsController_internal_isSetTo(	Rbdb_LockDeadlockDetectorSettingsController*	lock_deadlock_detector_settings_controller, 
 																																		uint32_t										deadlock_settings )	{
-	RPDB_LockDeadlockDetectorSettingsController_internal_set( lock_deadlock_detector_settings_controller );
+	Rbdb_LockDeadlockDetectorSettingsController_internal_set( lock_deadlock_detector_settings_controller );
 
 	if ( lock_deadlock_detector_settings_controller->deadlock_settings == deadlock_settings )	{
 		return TRUE;
@@ -257,10 +257,10 @@ BOOL RPDB_LockDeadlockDetectorSettingsController_internal_isSetTo(	RPDB_LockDead
 *  setTo  *
 *************/
 
-void RPDB_LockDeadlockDetectorSettingsController_internal_setTo(	RPDB_LockDeadlockDetectorSettingsController*	lock_deadlock_detector_settings_controller, 
+void Rbdb_LockDeadlockDetectorSettingsController_internal_setTo(	Rbdb_LockDeadlockDetectorSettingsController*	lock_deadlock_detector_settings_controller, 
 																																	uint32_t										deadlock_settings )	{
 
-	RPDB_Environment*		environment	= lock_deadlock_detector_settings_controller->parent_lock_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment	= lock_deadlock_detector_settings_controller->parent_lock_settings_controller->parent_settings_controller->parent_environment;
 	
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -274,9 +274,9 @@ void RPDB_LockDeadlockDetectorSettingsController_internal_setTo(	RPDB_LockDeadlo
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_LockDeadlockDetectorSettingsController* RPDB_LockDeadlockDetectorSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
+Rbdb_LockDeadlockDetectorSettingsController* Rbdb_LockDeadlockDetectorSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller )	{
 
-	RPDB_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller_copy	=	RPDB_LockDeadlockDetectorSettingsController_new( lock_deadlock_detector_settings_controller->parent_lock_settings_controller );
+	Rbdb_LockDeadlockDetectorSettingsController* lock_deadlock_detector_settings_controller_copy	=	Rbdb_LockDeadlockDetectorSettingsController_new( lock_deadlock_detector_settings_controller->parent_lock_settings_controller );
 
 	//	Instances and Pointers
 	lock_deadlock_detector_settings_controller_copy->deadlock_settings	=	lock_deadlock_detector_settings_controller->deadlock_settings;

@@ -1,30 +1,30 @@
 /*
- *		RPDB::Database::DatabaseSettingsController::DatabaseAssociationSettingsController
+ *		Rbdb::Database::DatabaseSettingsController::DatabaseAssociationSettingsController
  *
  *
  */
 
-#ifndef RPDB_DATABASE_ASSOCIATION_SETTINGS_CONTROLLER
-	#define RPDB_DATABASE_ASSOCIATION_SETTINGS_CONTROLLER
+#ifndef Rbdb_DATABASE_ASSOCIATION_SETTINGS_CONTROLLER
+	#define Rbdb_DATABASE_ASSOCIATION_SETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_DatabaseAssociationSettingsController*		RPDB_DatabaseAssociationSettingsController_new(								RPDB_DatabaseSettingsController*		database_settings_controller );
+	Rbdb_DatabaseAssociationSettingsController*		Rbdb_DatabaseAssociationSettingsController_new(								Rbdb_DatabaseSettingsController*		database_settings_controller );
 
-	void												RPDB_DatabaseAssociationSettingsController_free(	RPDB_DatabaseAssociationSettingsController** database_association_settings_controller );
-	RPDB_Environment*							RPDB_DatabaseAssociationSettingsController_parentEnvironment(	RPDB_DatabaseAssociationSettingsController* database_association_settings_controller );
-	RPDB_Database* RPDB_DatabaseAssociationSettingsController_parentDatabase(	RPDB_DatabaseAssociationSettingsController* database_association_settings_controller );
+	void												Rbdb_DatabaseAssociationSettingsController_free(	Rbdb_DatabaseAssociationSettingsController** database_association_settings_controller );
+	Rbdb_Environment*							Rbdb_DatabaseAssociationSettingsController_parentEnvironment(	Rbdb_DatabaseAssociationSettingsController* database_association_settings_controller );
+	Rbdb_Database* Rbdb_DatabaseAssociationSettingsController_parentDatabase(	Rbdb_DatabaseAssociationSettingsController* database_association_settings_controller );
 
-	BOOL												RPDB_DatabaseAssociationSettingsController_secondaryAssociationCreatesIndex(						RPDB_DatabaseAssociationSettingsController*		database_association_settings_controller );
-	void												RPDB_DatabaseAssociationSettingsController_turnSecondaryAssociationCreatesIndexOn(					RPDB_DatabaseAssociationSettingsController*		database_association_settings_controller );
-	void												RPDB_DatabaseAssociationSettingsController_turnSecondaryAssociationCreatesIndexOff(				RPDB_DatabaseAssociationSettingsController*		database_association_settings_controller );
-	BOOL												RPDB_DatabaseAssociationSettingsController_immutableSecondaryKey(				RPDB_DatabaseAssociationSettingsController*		database_association_settings_controller );
-	void												RPDB_DatabaseAssociationSettingsController_turnImmutableSecondaryKeyOn(		RPDB_DatabaseAssociationSettingsController*		database_association_settings_controller );
-	void													RPDB_DatabaseAssociationSettingsController_turnImmutableSecondaryKeyOff(		RPDB_DatabaseAssociationSettingsController*		database_association_settings_controller );
+	BOOL												Rbdb_DatabaseAssociationSettingsController_secondaryAssociationCreatesIndex(						Rbdb_DatabaseAssociationSettingsController*		database_association_settings_controller );
+	void												Rbdb_DatabaseAssociationSettingsController_turnSecondaryAssociationCreatesIndexOn(					Rbdb_DatabaseAssociationSettingsController*		database_association_settings_controller );
+	void												Rbdb_DatabaseAssociationSettingsController_turnSecondaryAssociationCreatesIndexOff(				Rbdb_DatabaseAssociationSettingsController*		database_association_settings_controller );
+	BOOL												Rbdb_DatabaseAssociationSettingsController_immutableSecondaryKey(				Rbdb_DatabaseAssociationSettingsController*		database_association_settings_controller );
+	void												Rbdb_DatabaseAssociationSettingsController_turnImmutableSecondaryKeyOn(		Rbdb_DatabaseAssociationSettingsController*		database_association_settings_controller );
+	void													Rbdb_DatabaseAssociationSettingsController_turnImmutableSecondaryKeyOff(		Rbdb_DatabaseAssociationSettingsController*		database_association_settings_controller );
 
 #endif
 

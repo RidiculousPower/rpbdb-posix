@@ -1,8 +1,8 @@
-#ifndef RPDB_DIRECTORY
-	#define RPDB_DIRECTORY
+#ifndef Rbdb_DIRECTORY
+	#define Rbdb_DIRECTORY
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
-	RPDB_Directory* RPDB_Directory_new( char* directory_path );
+	Rbdb_Directory* Rbdb_Directory_new( char* directory_path );
 
 #endif

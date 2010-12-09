@@ -1,34 +1,34 @@
 /*
- *		RPDB::DatabaseController::Database::DatabaseSequenceController::DatabaseSequence
+ *		Rbdb::DatabaseController::Database::DatabaseSequenceController::DatabaseSequence
  *
  *
  */
 
-#ifndef RPDB_DATABASE_SEQUENCE
-	#define RPDB_DATABASE_SEQUENCE
+#ifndef Rbdb_DATABASE_SEQUENCE
+	#define Rbdb_DATABASE_SEQUENCE
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_DatabaseSequence*		RPDB_DatabaseSequence_new(				RPDB_DatabaseSequenceController*	parent_database_sequence_controller );
+	Rbdb_DatabaseSequence*		Rbdb_DatabaseSequence_new(				Rbdb_DatabaseSequenceController*	parent_database_sequence_controller );
 
-	void						RPDB_DatabaseSequence_free(	RPDB_DatabaseSequence** database_sequence );
-	RPDB_DatabaseSequenceSettingsController*	RPDB_DatabaseSequence_settingsController(	RPDB_DatabaseSequence* database_sequence );
-	RPDB_Environment*					RPDB_DatabaseSequence_parentEnvironment(	RPDB_DatabaseSequence* database_sequence );
-	RPDB_Database* RPDB_DatabaseSequence_parentDatabase(	RPDB_DatabaseSequence* database_sequence );
+	void						Rbdb_DatabaseSequence_free(	Rbdb_DatabaseSequence** database_sequence );
+	Rbdb_DatabaseSequenceSettingsController*	Rbdb_DatabaseSequence_settingsController(	Rbdb_DatabaseSequence* database_sequence );
+	Rbdb_Environment*					Rbdb_DatabaseSequence_parentEnvironment(	Rbdb_DatabaseSequence* database_sequence );
+	Rbdb_Database* Rbdb_DatabaseSequence_parentDatabase(	Rbdb_DatabaseSequence* database_sequence );
 
-	RPDB_DatabaseSequence*		RPDB_DatabaseSequence_openSequence(	RPDB_DatabaseSequence*				database_sequence,
-																		RPDB_Record*						stored_at_key	);
-	void						RPDB_DatabaseSequence_closeSequence(	RPDB_DatabaseSequence*				database_sequence );
-	void						RPDB_DatabaseSequence_deleteSequence(	RPDB_DatabaseSequence*				database_sequence );
-	int32_t						RPDB_DatabaseSequence_step(			RPDB_DatabaseSequence*				database_sequence );
-	int32_t						RPDB_DatabaseSequence_stepBy(			RPDB_DatabaseSequence*				database_sequence,
+	Rbdb_DatabaseSequence*		Rbdb_DatabaseSequence_openSequence(	Rbdb_DatabaseSequence*				database_sequence,
+																		Rbdb_Record*						stored_at_key	);
+	void						Rbdb_DatabaseSequence_closeSequence(	Rbdb_DatabaseSequence*				database_sequence );
+	void						Rbdb_DatabaseSequence_deleteSequence(	Rbdb_DatabaseSequence*				database_sequence );
+	int32_t						Rbdb_DatabaseSequence_step(			Rbdb_DatabaseSequence*				database_sequence );
+	int32_t						Rbdb_DatabaseSequence_stepBy(			Rbdb_DatabaseSequence*				database_sequence,
 																		int32_t								step_value	);
-	int32_t RPDB_DatabaseSequence_stepBackward( RPDB_DatabaseSequence*	database_sequence );
-	int32_t RPDB_DatabaseSequence_stepBackwardBy(	RPDB_DatabaseSequence*	database_sequence,
+	int32_t Rbdb_DatabaseSequence_stepBackward( Rbdb_DatabaseSequence*	database_sequence );
+	int32_t Rbdb_DatabaseSequence_stepBackwardBy(	Rbdb_DatabaseSequence*	database_sequence,
 																								int32_t									step_value	);
 #endif
 

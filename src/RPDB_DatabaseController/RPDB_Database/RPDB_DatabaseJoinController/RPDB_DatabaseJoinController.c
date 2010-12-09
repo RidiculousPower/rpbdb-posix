@@ -1,5 +1,5 @@
 /*
- *		RPDB::DatabaseController::Database(Primary)::JoinController
+ *		Rbdb::DatabaseController::Database(Primary)::JoinController
  *
  *
  */
@@ -10,26 +10,26 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_DatabaseJoinController.h"
-#include "RPDB_DatabaseJoinController_internal.h"
+#include "Rbdb_DatabaseJoinController.h"
+#include "Rbdb_DatabaseJoinController_internal.h"
 
-#include "RPDB_DatabaseJoinCursor.h"
+#include "Rbdb_DatabaseJoinCursor.h"
 
-#include "RPDB_Database.h"
-#include "RPDB_Database_internal.h"
-#include "RPDB_DatabaseCursor.h"
+#include "Rbdb_Database.h"
+#include "Rbdb_Database_internal.h"
+#include "Rbdb_DatabaseCursor.h"
 
-#include "RPDB_Environment.h"
+#include "Rbdb_Environment.h"
 
-#include "RPDB_Record.h"
-#include "RPDB_Data.h"
+#include "Rbdb_Record.h"
+#include "Rbdb_Data.h"
 
-#include "RPDB_SettingsController.h"
-#include "RPDB_DatabaseSettingsController.h"
-#include "RPDB_DatabaseJoinSettingsController.h"
-#include "RPDB_DatabaseJoinSettingsController_internal.h"
+#include "Rbdb_SettingsController.h"
+#include "Rbdb_DatabaseSettingsController.h"
+#include "Rbdb_DatabaseJoinSettingsController.h"
+#include "Rbdb_DatabaseJoinSettingsController_internal.h"
 
-#include "RPDB_RuntimeStorageController.h"
+#include "Rbdb_RuntimeStorageController.h"
 
 #include <string.h>
 
@@ -43,13 +43,13 @@
 *  new  *
 ********/
 
-RPDB_DatabaseJoinController* RPDB_DatabaseJoinController_new( RPDB_Database* parent_database )	{
+Rbdb_DatabaseJoinController* Rbdb_DatabaseJoinController_new( Rbdb_Database* parent_database )	{
 
-	RPDB_DatabaseJoinController*	database_join_controller = calloc( 1, sizeof( RPDB_DatabaseJoinController ) );
+	Rbdb_DatabaseJoinController*	database_join_controller = calloc( 1, sizeof( Rbdb_DatabaseJoinController ) );
 
 	database_join_controller->parent_database	=	parent_database;
 
-	RPDB_RUNTIME_STORAGE( database_join_controller, "database_join_controller" );
+	Rbdb_RUNTIME_STORAGE( database_join_controller, "database_join_controller" );
 
 	return database_join_controller;
 }
@@ -58,14 +58,14 @@ RPDB_DatabaseJoinController* RPDB_DatabaseJoinController_new( RPDB_Database* par
 *  free  *
 *********/
 
-void RPDB_DatabaseJoinController_free(	RPDB_DatabaseJoinController** database_join_controller )	{
+void Rbdb_DatabaseJoinController_free(	Rbdb_DatabaseJoinController** database_join_controller )	{
 
 	//	close and free any cursors
-	RPDB_DatabaseJoinController_freeAllCursors( *database_join_controller );
+	Rbdb_DatabaseJoinController_freeAllCursors( *database_join_controller );
 
 	//	free runtime storage
 	if ( ( *database_join_controller )->runtime_storage_database != NULL )	{
-		RPDB_Database_free( & ( ( *database_join_controller )->runtime_storage_database ) );
+		Rbdb_Database_free( & ( ( *database_join_controller )->runtime_storage_database ) );
 	}
 
 	//	free self
@@ -81,10 +81,10 @@ void RPDB_DatabaseJoinController_free(	RPDB_DatabaseJoinController** database_jo
 *  settingsController  *
 ***********************/
 
-RPDB_DatabaseJoinSettingsController* RPDB_DatabaseJoinController_settingsController(	RPDB_DatabaseJoinController* database_join_controller )	{
+Rbdb_DatabaseJoinSettingsController* Rbdb_DatabaseJoinController_settingsController(	Rbdb_DatabaseJoinController* database_join_controller )	{
 
-	RPDB_DatabaseSettingsController*			database_settings_controller			=	RPDB_Database_settingsController( database_join_controller->parent_database );
-	RPDB_DatabaseJoinSettingsController*	database_join_settings_controller	=	RPDB_DatabaseSettingsController_joinSettingsController( database_settings_controller );
+	Rbdb_DatabaseSettingsController*			database_settings_controller			=	Rbdb_Database_settingsController( database_join_controller->parent_database );
+	Rbdb_DatabaseJoinSettingsController*	database_join_settings_controller	=	Rbdb_DatabaseSettingsController_joinSettingsController( database_settings_controller );
 	
 	return database_join_settings_controller;
 }
@@ -93,7 +93,7 @@ RPDB_DatabaseJoinSettingsController* RPDB_DatabaseJoinController_settingsControl
 *  parentDatabase  *
 *******************/
 
-RPDB_Database* RPDB_DatabaseJoinController_parentDatabase(	RPDB_DatabaseJoinController* database_join_controller )	{
+Rbdb_Database* Rbdb_DatabaseJoinController_parentDatabase(	Rbdb_DatabaseJoinController* database_join_controller )	{
 	return database_join_controller->parent_database;
 }
 
@@ -101,7 +101,7 @@ RPDB_Database* RPDB_DatabaseJoinController_parentDatabase(	RPDB_DatabaseJoinCont
 *  parentEnvironment  *
 **********************/
 
-RPDB_Environment* RPDB_DatabaseJoinController_parentEnvironment(	RPDB_DatabaseJoinController* database_join_controller )	{
+Rbdb_Environment* Rbdb_DatabaseJoinController_parentEnvironment(	Rbdb_DatabaseJoinController* database_join_controller )	{
 	return database_join_controller->parent_database->parent_database_controller->parent_environment;
 }
 
@@ -130,8 +130,8 @@ RPDB_Environment* RPDB_DatabaseJoinController_parentEnvironment(	RPDB_DatabaseJo
 //	Assumes that all cursors in list have the same primary database (the first will be used)
 //
 //	Join cursors have the same name as the Database database_cursor that was used to initalize them
-RPDB_DatabaseJoinCursor* RPDB_DatabaseJoinController_join(	RPDB_DatabaseJoinController*		join_cursor_controller,
-																RPDB_DatabaseCursor**				cursor_list	)	{
+Rbdb_DatabaseJoinCursor* Rbdb_DatabaseJoinController_join(	Rbdb_DatabaseJoinController*		join_cursor_controller,
+																Rbdb_DatabaseCursor**				cursor_list	)	{
 	//	Make sure we're joining something
 	if ( cursor_list[ 0 ] == NULL )	{
 		
@@ -157,7 +157,7 @@ RPDB_DatabaseJoinCursor* RPDB_DatabaseJoinController_join(	RPDB_DatabaseJoinCont
 	//	Terminate the array with NULL
 	bdb_cursor_list[ which_cursor ] = NULL;
 
-	RPDB_DatabaseJoinCursor*	join_cursor			=	RPDB_DatabaseJoinCursor_new(	join_cursor_controller	);
+	Rbdb_DatabaseJoinCursor*	join_cursor			=	Rbdb_DatabaseJoinCursor_new(	join_cursor_controller	);
 
 	//	Store a reference cursor_list for this join database_cursor
 	join_cursor->cursor_list							=	cursor_list;
@@ -169,7 +169,7 @@ RPDB_DatabaseJoinCursor* RPDB_DatabaseJoinController_join(	RPDB_DatabaseJoinCont
 																join_cursor->primary_database->wrapped_bdb_database,
 																bdb_cursor_list,
 																&( join_cursor->wrapped_bdb_join_cursor ),
-																RPDB_DatabaseJoinSettingsController_internal_joinFlags( RPDB_DatabaseSettingsController_joinSettingsController( RPDB_Database_settingsController( join_cursor->primary_database ) ) ) );
+																Rbdb_DatabaseJoinSettingsController_internal_joinFlags( Rbdb_DatabaseSettingsController_joinSettingsController( Rbdb_Database_settingsController( join_cursor->primary_database ) ) ) );
 	
 	join_cursor->is_open	=	TRUE;
 	
@@ -180,21 +180,21 @@ RPDB_DatabaseJoinCursor* RPDB_DatabaseJoinController_join(	RPDB_DatabaseJoinCont
 *  closeAllCursors  *
 ********************/
 
-void RPDB_DatabaseJoinController_closeAllCursors( RPDB_DatabaseJoinController* database_join_controller )	{
+void Rbdb_DatabaseJoinController_closeAllCursors( Rbdb_DatabaseJoinController* database_join_controller )	{
 
-	RPDB_Database_internal_closeAllStoredRuntimeAddresses(	database_join_controller->runtime_storage_database,
-																													(void *(*)(void*)) & RPDB_DatabaseJoinCursor_close );
+	Rbdb_Database_internal_closeAllStoredRuntimeAddresses(	database_join_controller->runtime_storage_database,
+																													(void *(*)(void*)) & Rbdb_DatabaseJoinCursor_close );
 }
 
 /*******************
 *  freeAllCursors  *
 *******************/
 
-void RPDB_DatabaseJoinController_freeAllCursors( RPDB_DatabaseJoinController* database_join_controller )	{
+void Rbdb_DatabaseJoinController_freeAllCursors( Rbdb_DatabaseJoinController* database_join_controller )	{
 
-	RPDB_DatabaseJoinController_closeAllCursors( database_join_controller );
-	RPDB_Database_internal_freeAllStoredRuntimeAddresses(	database_join_controller->runtime_storage_database,
-																												(void *(*)(void**)) & RPDB_DatabaseJoinCursor_internal_freeFromRuntimeStorage );
+	Rbdb_DatabaseJoinController_closeAllCursors( database_join_controller );
+	Rbdb_Database_internal_freeAllStoredRuntimeAddresses(	database_join_controller->runtime_storage_database,
+																												(void *(*)(void**)) & Rbdb_DatabaseJoinCursor_internal_freeFromRuntimeStorage );
 }
 
 /*******************************************************************************************************************************************************************************************

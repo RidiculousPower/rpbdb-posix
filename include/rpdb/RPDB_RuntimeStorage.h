@@ -1,56 +1,56 @@
 /*
- *		RPDB::RuntimeStorageController::RuntimeStorage
+ *		Rbdb::RuntimeStorageController::RuntimeStorage
  *
  *
  */
 
-#ifndef RPDB_RUNTIMESTORAGE
-	#define RPDB_RUNTIMESTORAGE
+#ifndef Rbdb_RUNTIMESTORAGE
+	#define Rbdb_RUNTIMESTORAGE
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_RuntimeStorage*						RPDB_RuntimeStorage_new(	RPDB_RuntimeStorageController*		parent_runtime_storage_controller,
+	Rbdb_RuntimeStorage*						Rbdb_RuntimeStorage_new(	Rbdb_RuntimeStorageController*		parent_runtime_storage_controller,
 																			char*								runtime_storage_name );
-	void										RPDB_RuntimeStorage_free(								RPDB_RuntimeStorage**						runtime_storage );
-	RPDB_RuntimeStorageSettingsController*		RPDB_RuntimeStorage_settingsController(				RPDB_RuntimeStorage*						runtime_storage );
-	RPDB_Environment*					RPDB_RuntimeStorage_parentEnvironment(		RPDB_RuntimeStorage*				runtime_storage );
-	uint32_t									RPDB_RuntimeStorage_countRecords(						RPDB_RuntimeStorage*				runtime_storage );
-	BOOL										RPDB_RuntimeStorage_keyExists(							RPDB_RuntimeStorage*				runtime_storage, 
-																										RPDB_Key*							key );
-BOOL RPDB_RuntimeStorage_rawKeyExists(	RPDB_RuntimeStorage*		runtime_storage, 
+	void										Rbdb_RuntimeStorage_free(								Rbdb_RuntimeStorage**						runtime_storage );
+	Rbdb_RuntimeStorageSettingsController*		Rbdb_RuntimeStorage_settingsController(				Rbdb_RuntimeStorage*						runtime_storage );
+	Rbdb_Environment*					Rbdb_RuntimeStorage_parentEnvironment(		Rbdb_RuntimeStorage*				runtime_storage );
+	uint32_t									Rbdb_RuntimeStorage_countRecords(						Rbdb_RuntimeStorage*				runtime_storage );
+	BOOL										Rbdb_RuntimeStorage_keyExists(							Rbdb_RuntimeStorage*				runtime_storage, 
+																										Rbdb_Key*							key );
+BOOL Rbdb_RuntimeStorage_rawKeyExists(	Rbdb_RuntimeStorage*		runtime_storage, 
 									   void*						raw_key,
 									   uint32_t					key_size );
-	RPDB_Record*								RPDB_RuntimeStorage_retrieveKey(				RPDB_RuntimeStorage*				runtime_storage, 
-																										RPDB_Key*							key );
-RPDB_Record* RPDB_RuntimeStorage_retrieveRawKey(	RPDB_RuntimeStorage*		runtime_storage, 
+	Rbdb_Record*								Rbdb_RuntimeStorage_retrieveKey(				Rbdb_RuntimeStorage*				runtime_storage, 
+																										Rbdb_Key*							key );
+Rbdb_Record* Rbdb_RuntimeStorage_retrieveRawKey(	Rbdb_RuntimeStorage*		runtime_storage, 
 														   void*						key,
 														   uint32_t					key_size );
-	void										RPDB_RuntimeStorage_insertRecord(						RPDB_RuntimeStorage*				runtime_storage, 
-																										RPDB_Record* 						record );
-	void										RPDB_RuntimeStorage_insertKeyDataPair(					RPDB_RuntimeStorage*				runtime_storage, 
-																										RPDB_Key*	 						key,
-																										RPDB_Data*							data );
-void RPDB_RuntimeStorage_insertRawKeyDataPair(	RPDB_RuntimeStorage*		runtime_storage, 
+	void										Rbdb_RuntimeStorage_insertRecord(						Rbdb_RuntimeStorage*				runtime_storage, 
+																										Rbdb_Record* 						record );
+	void										Rbdb_RuntimeStorage_insertKeyDataPair(					Rbdb_RuntimeStorage*				runtime_storage, 
+																										Rbdb_Key*	 						key,
+																										Rbdb_Data*							data );
+void Rbdb_RuntimeStorage_insertRawKeyDataPair(	Rbdb_RuntimeStorage*		runtime_storage, 
 											   void* 						key,
 											   uint32_t					key_size,
 											   void* 						data,
 											   uint32_t					data_size );
-	void										RPDB_RuntimeStorage_deleteRecord(						RPDB_RuntimeStorage*				runtime_storage,
-																										RPDB_Record*						record );
-	void										RPDB_RuntimeStorage_deleteRecordForKey(				RPDB_RuntimeStorage*				runtime_storage,
-																										RPDB_Key*							key );
-	void RPDB_RuntimeStorage_deleteRecordForRawKey(	RPDB_RuntimeStorage*	runtime_storage,
+	void										Rbdb_RuntimeStorage_deleteRecord(						Rbdb_RuntimeStorage*				runtime_storage,
+																										Rbdb_Record*						record );
+	void										Rbdb_RuntimeStorage_deleteRecordForKey(				Rbdb_RuntimeStorage*				runtime_storage,
+																										Rbdb_Key*							key );
+	void Rbdb_RuntimeStorage_deleteRecordForRawKey(	Rbdb_RuntimeStorage*	runtime_storage,
 													void*					key,
 													uint32_t				key_size	);
-	void										RPDB_RuntimeStorage_iterate(							RPDB_RuntimeStorage*				runtime_storage );
-	RPDB_Record*								RPDB_RuntimeStorage_currentRecord(						RPDB_RuntimeStorage*				runtime_storage );
-	RPDB_Record*								RPDB_RuntimeStorage_nextRecord(						RPDB_RuntimeStorage*				runtime_storage );
-	RPDB_Record*								RPDB_RuntimeStorage_popCurrentData(					RPDB_RuntimeStorage*				runtime_storage );
-	RPDB_RuntimeStorageSettingsController*		RPDB_RuntimeStorage_settingsController(				RPDB_RuntimeStorage*				runtime_storage );
+	void										Rbdb_RuntimeStorage_iterate(							Rbdb_RuntimeStorage*				runtime_storage );
+	Rbdb_Record*								Rbdb_RuntimeStorage_currentRecord(						Rbdb_RuntimeStorage*				runtime_storage );
+	Rbdb_Record*								Rbdb_RuntimeStorage_nextRecord(						Rbdb_RuntimeStorage*				runtime_storage );
+	Rbdb_Record*								Rbdb_RuntimeStorage_popCurrentData(					Rbdb_RuntimeStorage*				runtime_storage );
+	Rbdb_RuntimeStorageSettingsController*		Rbdb_RuntimeStorage_settingsController(				Rbdb_RuntimeStorage*				runtime_storage );
 
 
 #endif

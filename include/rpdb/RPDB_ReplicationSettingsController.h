@@ -1,85 +1,85 @@
 /*
- *		RPDB::SettingsController::FileSettingsController
+ *		Rbdb::SettingsController::FileSettingsController
  *
  *
  */
 
-#ifndef RPDB_REPLICATION_SETTINGS_CONTROLLER
-	#define RPDB_REPLICATION_SETTINGS_CONTROLLER
+#ifndef Rbdb_REPLICATION_SETTINGS_CONTROLLER
+	#define Rbdb_REPLICATION_SETTINGS_CONTROLLER
 	 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 	 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_ReplicationSettingsController*					RPDB_ReplicationSettingsController_new(											RPDB_SettingsController*				settings_controller );
+	Rbdb_ReplicationSettingsController*					Rbdb_ReplicationSettingsController_new(											Rbdb_SettingsController*				settings_controller );
 
-	void													RPDB_ReplicationSettingsController_free(											RPDB_ReplicationSettingsController**	replication_settings_controller );
-	RPDB_Environment*								RPDB_ReplicationSettingsController_parentEnvironment(					RPDB_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_free(											Rbdb_ReplicationSettingsController**	replication_settings_controller );
+	Rbdb_Environment*								Rbdb_ReplicationSettingsController_parentEnvironment(					Rbdb_ReplicationSettingsController*	replication_settings_controller );
 
-	int														RPDB_ReplicationSettingsController_on(												RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_turnOn(											RPDB_ReplicationSettingsController*	replication_settings_controller );
-	BOOL													RPDB_ReplicationSettingsController_off(											RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_turnOff(										RPDB_ReplicationSettingsController*	replication_settings_controller );
-	int													RPDB_ReplicationSettingsController_clientToClientSynchronization(					RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_turnClientToClientSynchronizationOn(			RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_turnClientToClientSynchronizationOff(			RPDB_ReplicationSettingsController*	replication_settings_controller );
-	int													RPDB_ReplicationSettingsController_singleBulkTransfer(								RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_turnSingleBulkTransferOn(						RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_turnSingleBulkTransferOff(						RPDB_ReplicationSettingsController*	replication_settings_controller );
-	int													RPDB_ReplicationSettingsController_delayNewSyncUntilExplicitCall(					RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_turnDelayNewSyncUntilExplicitCallOn(			RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_turnDelayNewSyncUntilExplicitCallOff(			RPDB_ReplicationSettingsController*	replication_settings_controller );
-	int													RPDB_ReplicationSettingsController_useMasterLeases(								RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_turnUseMasterLeasesOn(							RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_turnUseMasterLeasesOff(							RPDB_ReplicationSettingsController*	replication_settings_controller );
-	int													RPDB_ReplicationSettingsController_reinitializeOutdatedClients(					RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_turnReinitializeOutdatedClientsOn(			RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_turnReinitializeOutdatedClientsOff(			RPDB_ReplicationSettingsController*	replication_settings_controller );
-	int													RPDB_ReplicationSettingsController_prohibitWait(									RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_turnProhibitWaitOn(								RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_turnProhibitWaitOff(							RPDB_ReplicationSettingsController*	replication_settings_controller );
-	int													RPDB_ReplicationSettingsController_requireStrictMajority(							RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_turnRequireStrictMajorityOn(					RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_turnRequireStrictMajorityOff(					RPDB_ReplicationSettingsController*	replication_settings_controller );
-	int													RPDB_ReplicationSettingsController_isMaster(										RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_setIsMaster(									RPDB_ReplicationSettingsController*	replication_settings_controller );
-	int													RPDB_ReplicationSettingsController_isClient(										RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_setIsClient(									RPDB_ReplicationSettingsController*	replication_settings_controller );
-	int													RPDB_ReplicationSettingsController_startAsClientOrRallyElection(					RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_setStartAsClientOrRallyElection(				RPDB_ReplicationSettingsController*	replication_settings_controller );
+	int														Rbdb_ReplicationSettingsController_on(												Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_turnOn(											Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	BOOL													Rbdb_ReplicationSettingsController_off(											Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_turnOff(										Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	int													Rbdb_ReplicationSettingsController_clientToClientSynchronization(					Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_turnClientToClientSynchronizationOn(			Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_turnClientToClientSynchronizationOff(			Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	int													Rbdb_ReplicationSettingsController_singleBulkTransfer(								Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_turnSingleBulkTransferOn(						Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_turnSingleBulkTransferOff(						Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	int													Rbdb_ReplicationSettingsController_delayNewSyncUntilExplicitCall(					Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_turnDelayNewSyncUntilExplicitCallOn(			Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_turnDelayNewSyncUntilExplicitCallOff(			Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	int													Rbdb_ReplicationSettingsController_useMasterLeases(								Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_turnUseMasterLeasesOn(							Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_turnUseMasterLeasesOff(							Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	int													Rbdb_ReplicationSettingsController_reinitializeOutdatedClients(					Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_turnReinitializeOutdatedClientsOn(			Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_turnReinitializeOutdatedClientsOff(			Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	int													Rbdb_ReplicationSettingsController_prohibitWait(									Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_turnProhibitWaitOn(								Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_turnProhibitWaitOff(							Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	int													Rbdb_ReplicationSettingsController_requireStrictMajority(							Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_turnRequireStrictMajorityOn(					Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_turnRequireStrictMajorityOff(					Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	int													Rbdb_ReplicationSettingsController_isMaster(										Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_setIsMaster(									Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	int													Rbdb_ReplicationSettingsController_isClient(										Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_setIsClient(									Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	int													Rbdb_ReplicationSettingsController_startAsClientOrRallyElection(					Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_setStartAsClientOrRallyElection(				Rbdb_ReplicationSettingsController*	replication_settings_controller );
 
-	double											RPDB_ReplicationSettingsController_limit(											RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_setLimit(										RPDB_ReplicationSettingsController*	replication_settings_controller, 
+	double											Rbdb_ReplicationSettingsController_limit(											Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_setLimit(										Rbdb_ReplicationSettingsController*	replication_settings_controller, 
 																																				uint64_t								limit_in_gbytes, 
 																																				uint64_t								limit_in_bytes );
-	char*													RPDB_ReplicationSettingsController_host(											RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_setHost(										RPDB_ReplicationSettingsController*	replication_settings_controller, 
+	char*													Rbdb_ReplicationSettingsController_host(											Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_setHost(										Rbdb_ReplicationSettingsController*	replication_settings_controller, 
 																																				char*									host );
-	u_int													RPDB_ReplicationSettingsController_port(											RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_setPort(										RPDB_ReplicationSettingsController*	replication_settings_controller, 
+	u_int													Rbdb_ReplicationSettingsController_port(											Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_setPort(										Rbdb_ReplicationSettingsController*	replication_settings_controller, 
 																																				u_int									port );
-	uint32_t												RPDB_ReplicationSettingsController_siteCount(										RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_setSiteCount(									RPDB_ReplicationSettingsController*	replication_settings_controller, 
+	uint32_t												Rbdb_ReplicationSettingsController_siteCount(										Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_setSiteCount(									Rbdb_ReplicationSettingsController*	replication_settings_controller, 
 																																				uint32_t								site_count );
-	uint32_t												RPDB_ReplicationSettingsController_priorityOrderNumber(							RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_setPriorityOrderNumber(							RPDB_ReplicationSettingsController*	replication_settings_controller,
+	uint32_t												Rbdb_ReplicationSettingsController_priorityOrderNumber(							Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_setPriorityOrderNumber(							Rbdb_ReplicationSettingsController*	replication_settings_controller,
 	 																																			uint32_t								priority_order_number);
-	uint32_t												RPDB_ReplicationSettingsController_retransmissionThresholdMinimum(					RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_setRetransmissionThresholdMinimum(				RPDB_ReplicationSettingsController*	replication_settings_controller, 
+	uint32_t												Rbdb_ReplicationSettingsController_retransmissionThresholdMinimum(					Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_setRetransmissionThresholdMinimum(				Rbdb_ReplicationSettingsController*	replication_settings_controller, 
 																																				uint32_t								retransmission_threshold_minimum );
-	uint32_t												RPDB_ReplicationSettingsController_retransmissionThresholdMaximum(					RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_setRetransmissionThresholdMaximum(				RPDB_ReplicationSettingsController*	replication_settings_controller,
+	uint32_t												Rbdb_ReplicationSettingsController_retransmissionThresholdMaximum(					Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_setRetransmissionThresholdMaximum(				Rbdb_ReplicationSettingsController*	replication_settings_controller,
 																																				uint32_t								retransmission_threshold_maximum );
-	uint32_t												RPDB_ReplicationSettingsController_slowestClockValue(								RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_setSlowestClockValue(							RPDB_ReplicationSettingsController*	replication_settings_controller, 
+	uint32_t												Rbdb_ReplicationSettingsController_slowestClockValue(								Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_setSlowestClockValue(							Rbdb_ReplicationSettingsController*	replication_settings_controller, 
 																																				uint32_t								slowest_clock_value );
-	uint32_t												RPDB_ReplicationSettingsController_fastestClockSkewValue(							RPDB_ReplicationSettingsController*	replication_settings_controller );
-	void													RPDB_ReplicationSettingsController_setFastestClockSkewValue(						RPDB_ReplicationSettingsController*	replication_settings_controller, 
+	uint32_t												Rbdb_ReplicationSettingsController_fastestClockSkewValue(							Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	void													Rbdb_ReplicationSettingsController_setFastestClockSkewValue(						Rbdb_ReplicationSettingsController*	replication_settings_controller, 
 																																				uint32_t								fastest_clock_value );
-	RPDB_ReplicationElectionSettingsController*			RPDB_ReplicationSettingsController_electionSettingsController(						RPDB_ReplicationSettingsController*	replication_settings_controller );
-	RPDB_ReplicationTimeoutSettingsController*				RPDB_ReplicationSettingsController_timeoutSettingsController(						RPDB_ReplicationSettingsController*	replication_settings_controller );
-RPDB_ReplicationVerbositySettingsController* RPDB_ReplicationSettingsController_verbositySettingsController( RPDB_ReplicationSettingsController* replication_settings_controller );
+	Rbdb_ReplicationElectionSettingsController*			Rbdb_ReplicationSettingsController_electionSettingsController(						Rbdb_ReplicationSettingsController*	replication_settings_controller );
+	Rbdb_ReplicationTimeoutSettingsController*				Rbdb_ReplicationSettingsController_timeoutSettingsController(						Rbdb_ReplicationSettingsController*	replication_settings_controller );
+Rbdb_ReplicationVerbositySettingsController* Rbdb_ReplicationSettingsController_verbositySettingsController( Rbdb_ReplicationSettingsController* replication_settings_controller );
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef RPDB_RUNTIME_STORAGE_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_RUNTIME_STORAGE_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_RUNTIME_STORAGE_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_RUNTIME_STORAGE_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,7 +7,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_RuntimeStorageSettingsController* RPDB_RuntimeStorageSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_RuntimeStorageSettingsController* runtime_storage_settings_controller );
+Rbdb_RuntimeStorageSettingsController* Rbdb_RuntimeStorageSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_RuntimeStorageSettingsController* runtime_storage_settings_controller );
 
 #endif
 

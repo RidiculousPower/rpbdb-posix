@@ -1,5 +1,5 @@
-#ifndef RPDB_REPLICATION_TIMEOUT_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_REPLICATION_TIMEOUT_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_REPLICATION_TIMEOUT_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_REPLICATION_TIMEOUT_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,7 +7,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_ReplicationTimeoutSettingsController* RPDB_ReplicationTimeoutSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_ReplicationTimeoutSettingsController* replication_timeout_settings_controller );
+Rbdb_ReplicationTimeoutSettingsController* Rbdb_ReplicationTimeoutSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_ReplicationTimeoutSettingsController* replication_timeout_settings_controller );
 
 #endif
 

@@ -1,32 +1,32 @@
 /*
- *		RPDB::SettingsController::DatabaseSettingsController::DatabaseCompactSettingsController
- *		RPDB::DatabaseController::Database::SettingsController::CompactSettingsController
+ *		Rbdb::SettingsController::DatabaseSettingsController::DatabaseCompactSettingsController
+ *		Rbdb::DatabaseController::Database::SettingsController::CompactSettingsController
  *
  */
 
-#ifndef RPDB_DATABASE_COMPACT_SETTINGS_CONTROLLER
-	#define RPDB_DATABASE_COMPACT_SETTINGS_CONTROLLER
+#ifndef Rbdb_DATABASE_COMPACT_SETTINGS_CONTROLLER
+	#define Rbdb_DATABASE_COMPACT_SETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_DatabaseCompactSettingsController*	RPDB_DatabaseCompactSettingsController_new(											RPDB_DatabaseSettingsController*			database_settings_controller );
+	Rbdb_DatabaseCompactSettingsController*	Rbdb_DatabaseCompactSettingsController_new(											Rbdb_DatabaseSettingsController*			database_settings_controller );
 
-	void										RPDB_DatabaseCompactSettingsController_free(	RPDB_DatabaseCompactSettingsController** database_compact_settings_controller );
-	RPDB_Environment*					RPDB_DatabaseCompactSettingsController_parentEnvironment(	RPDB_DatabaseCompactSettingsController* database_compact_settings_controller );
-	RPDB_Database* RPDB_DatabaseCompactSettingsController_parentDatabase(	RPDB_DatabaseCompactSettingsController* database_compact_settings_controller );
+	void										Rbdb_DatabaseCompactSettingsController_free(	Rbdb_DatabaseCompactSettingsController** database_compact_settings_controller );
+	Rbdb_Environment*					Rbdb_DatabaseCompactSettingsController_parentEnvironment(	Rbdb_DatabaseCompactSettingsController* database_compact_settings_controller );
+	Rbdb_Database* Rbdb_DatabaseCompactSettingsController_parentDatabase(	Rbdb_DatabaseCompactSettingsController* database_compact_settings_controller );
 																																		
-	int											RPDB_DatabaseCompactSettingsController_fillPercent(									RPDB_DatabaseCompactSettingsController*	database_compact_settings_controller );
-	void										RPDB_DatabaseCompactSettingsController_setFillPercent(									RPDB_DatabaseCompactSettingsController*	database_compact_settings_controller, 
+	int											Rbdb_DatabaseCompactSettingsController_fillPercent(									Rbdb_DatabaseCompactSettingsController*	database_compact_settings_controller );
+	void										Rbdb_DatabaseCompactSettingsController_setFillPercent(									Rbdb_DatabaseCompactSettingsController*	database_compact_settings_controller, 
 																																		int											fill_percent );
-	int											RPDB_DatabaseCompactSettingsController_maxPagesToCompact(								RPDB_DatabaseCompactSettingsController*	database_compact_settings_controller );
-	void										RPDB_DatabaseCompactSettingsController_setMaxPagesToCompact(							RPDB_DatabaseCompactSettingsController*	database_compact_settings_controller, 
+	int											Rbdb_DatabaseCompactSettingsController_maxPagesToCompact(								Rbdb_DatabaseCompactSettingsController*	database_compact_settings_controller );
+	void										Rbdb_DatabaseCompactSettingsController_setMaxPagesToCompact(							Rbdb_DatabaseCompactSettingsController*	database_compact_settings_controller, 
 																																		int											max_pages_to_compact );
-	db_timeout_t								RPDB_DatabaseCompactSettingsController_timeout(										RPDB_DatabaseCompactSettingsController*	database_compact_settings_controller );
-	void										RPDB_DatabaseCompactSettingsController_setTimeout(										RPDB_DatabaseCompactSettingsController*	database_compact_settings_controller, 
+	db_timeout_t								Rbdb_DatabaseCompactSettingsController_timeout(										Rbdb_DatabaseCompactSettingsController*	database_compact_settings_controller );
+	void										Rbdb_DatabaseCompactSettingsController_setTimeout(										Rbdb_DatabaseCompactSettingsController*	database_compact_settings_controller, 
 																																		int											timeout );
 
 #endif

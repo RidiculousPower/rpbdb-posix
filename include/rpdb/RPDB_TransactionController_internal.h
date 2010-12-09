@@ -1,5 +1,5 @@
-#ifndef RPDB_TRANSACTION_CONTROLLER_INTERNAL
-	#define RPDB_TRANSACTION_CONTROLLER_INTERNAL
+#ifndef Rbdb_TRANSACTION_CONTROLLER_INTERNAL
+	#define Rbdb_TRANSACTION_CONTROLLER_INTERNAL
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,6 +7,6 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-DB_TXN* RPDB_TransactionController_internal_currentTransactionID( RPDB_TransactionController* transaction_controller );
+DB_TXN* Rbdb_TransactionController_internal_currentTransactionID( Rbdb_TransactionController* transaction_controller );
 	
 #endif

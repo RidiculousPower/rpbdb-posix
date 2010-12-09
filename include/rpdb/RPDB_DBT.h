@@ -1,31 +1,31 @@
 /*
- *		RPDB::RPDB_DatabaseController::RPDB_Database::(RPDB_DatabaseCursorController::RPDB_DatabaseCursor::)RPDB_Record::RPDB_DBT
+ *		Rbdb::Rbdb_DatabaseController::Rbdb_Database::(Rbdb_DatabaseCursorController::Rbdb_DatabaseCursor::)Rbdb_Record::Rbdb_DBT
  *
  *
  */
 
-#ifndef RPDB_DBT_HEADER
-	#define RPDB_DBT_HEADER
+#ifndef Rbdb_DBT_HEADER
+	#define Rbdb_DBT_HEADER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_DBT*	RPDB_DBT_new(		RPDB_Record*	parent_record );
+	Rbdb_DBT*	Rbdb_DBT_new(		Rbdb_Record*	parent_record );
 
-	void							RPDB_DBT_free(								RPDB_DBT**						dbt );
-	RPDB_DatabaseRecordSettingsController*	RPDB_DBT_settingsController(				RPDB_DBT*						dbt );
-	RPDB_Environment*		RPDB_DBT_parentEnvironment(	RPDB_DBT*	dbt );
-	RPDB_Database* RPDB_DBT_parentDatabase(	RPDB_DBT* dbt );
-	RPDB_Record* RPDB_DBT_parentRecord(	RPDB_DBT* dbt );
+	void							Rbdb_DBT_free(								Rbdb_DBT**						dbt );
+	Rbdb_DatabaseRecordSettingsController*	Rbdb_DBT_settingsController(				Rbdb_DBT*						dbt );
+	Rbdb_Environment*		Rbdb_DBT_parentEnvironment(	Rbdb_DBT*	dbt );
+	Rbdb_Database* Rbdb_DBT_parentDatabase(	Rbdb_DBT* dbt );
+	Rbdb_Record* Rbdb_DBT_parentRecord(	Rbdb_DBT* dbt );
 
-	void*		RPDB_DBT_data(		RPDB_DBT*		dbt );
-	void RPDB_DBT_setData(	RPDB_DBT*	dbt, 
+	void*		Rbdb_DBT_data(		Rbdb_DBT*		dbt );
+	void Rbdb_DBT_setData(	Rbdb_DBT*	dbt, 
 							void*		data_raw,
 							uint32_t	data_size );
-	uint32_t	RPDB_DBT_size(		RPDB_DBT*		dbt );	
+	uint32_t	Rbdb_DBT_size(		Rbdb_DBT*		dbt );	
 
 #endif
 

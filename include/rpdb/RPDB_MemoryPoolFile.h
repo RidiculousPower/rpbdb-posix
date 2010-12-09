@@ -1,27 +1,27 @@
 /*
- *		RPDB::MemoryPoolController::MemoryPoolFile
+ *		Rbdb::MemoryPoolController::MemoryPoolFile
  *
  *
  */
  
-#ifndef RPDB_MEMORY_POOL_FILE
-	#define RPDB_MEMORY_POOL_FILE
+#ifndef Rbdb_MEMORY_POOL_FILE
+	#define Rbdb_MEMORY_POOL_FILE
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_MemoryPoolFile*		RPDB_MemoryPoolFile_new(					RPDB_MemoryPoolFileController*				parent_memory_pool_file_controller );
+	Rbdb_MemoryPoolFile*		Rbdb_MemoryPoolFile_new(					Rbdb_MemoryPoolFileController*				parent_memory_pool_file_controller );
 
-	void						RPDB_MemoryPoolFile_free(	RPDB_MemoryPoolFile** memory_pool_file );
-	RPDB_Environment*					RPDB_MemoryPoolFile_parentEnvironment(	RPDB_MemoryPoolFile* memory_pool_file );
+	void						Rbdb_MemoryPoolFile_free(	Rbdb_MemoryPoolFile** memory_pool_file );
+	Rbdb_Environment*					Rbdb_MemoryPoolFile_parentEnvironment(	Rbdb_MemoryPoolFile* memory_pool_file );
 
-	void						RPDB_MemoryPoolFile_sync(					RPDB_MemoryPoolFile*						memory_pool_file );
-	void						RPDB_MemoryPoolFile_close(					RPDB_MemoryPoolFile*						memory_pool_file );
+	void						Rbdb_MemoryPoolFile_sync(					Rbdb_MemoryPoolFile*						memory_pool_file );
+	void						Rbdb_MemoryPoolFile_close(					Rbdb_MemoryPoolFile*						memory_pool_file );
 
-	RPDB_MemoryPoolFileSettingsController*						RPDB_MemoryPoolFile_settingsController(	RPDB_MemoryPoolFile*						memory_pool_file );
+	Rbdb_MemoryPoolFileSettingsController*						Rbdb_MemoryPoolFile_settingsController(	Rbdb_MemoryPoolFile*						memory_pool_file );
 
 #endif
 

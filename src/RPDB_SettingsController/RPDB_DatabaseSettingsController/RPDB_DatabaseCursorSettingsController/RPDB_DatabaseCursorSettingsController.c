@@ -1,5 +1,5 @@
 /*
- *		RPDB::DatabaseController::Database::CursorController::Cursor::CursorSettingsController
+ *		Rbdb::DatabaseController::Database::CursorController::Cursor::CursorSettingsController
  *
  *
  */
@@ -10,14 +10,14 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_DatabaseCursorSettingsController.h"
+#include "Rbdb_DatabaseCursorSettingsController.h"
 
-#include "RPDB_DatabaseCursorCacheSettingsController.h"
-#include "RPDB_DatabaseCursorReadWriteSettingsController.h"
+#include "Rbdb_DatabaseCursorCacheSettingsController.h"
+#include "Rbdb_DatabaseCursorReadWriteSettingsController.h"
 
-#include "RPDB_DatabaseCursorSettingsController_internal.h"
-#include "RPDB_DatabaseCachePrioritySettingsController_internal.h"
-#include "RPDB_DatabaseCursorReadWriteSettingsController_internal.h"
+#include "Rbdb_DatabaseCursorSettingsController_internal.h"
+#include "Rbdb_DatabaseCachePrioritySettingsController_internal.h"
+#include "Rbdb_DatabaseCursorReadWriteSettingsController_internal.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -29,9 +29,9 @@
 *  new  *
 ************/
 
-RPDB_DatabaseCursorSettingsController* RPDB_DatabaseCursorSettingsController_new( RPDB_DatabaseSettingsController* database_settings_controller )	{
+Rbdb_DatabaseCursorSettingsController* Rbdb_DatabaseCursorSettingsController_new( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
-	RPDB_DatabaseCursorSettingsController*		cursor_settings_controller = calloc( 1, sizeof( RPDB_DatabaseCursorSettingsController ) );
+	Rbdb_DatabaseCursorSettingsController*		cursor_settings_controller = calloc( 1, sizeof( Rbdb_DatabaseCursorSettingsController ) );
 
 	cursor_settings_controller->parent_database_settings_controller = database_settings_controller;
 
@@ -41,15 +41,15 @@ RPDB_DatabaseCursorSettingsController* RPDB_DatabaseCursorSettingsController_new
 /***************************
 *  free  *
 ***************************/
-void RPDB_DatabaseCursorSettingsController_free(	RPDB_DatabaseCursorSettingsController** database_cursor_settings_controller )	{
+void Rbdb_DatabaseCursorSettingsController_free(	Rbdb_DatabaseCursorSettingsController** database_cursor_settings_controller )	{
 
 	if ( ( *database_cursor_settings_controller )->cache_controller != NULL )	{
 
-		RPDB_DatabaseCursorCacheSettingsController_free( & ( ( *database_cursor_settings_controller )->cache_controller ) );
+		Rbdb_DatabaseCursorCacheSettingsController_free( & ( ( *database_cursor_settings_controller )->cache_controller ) );
 	}
 	if ( ( *database_cursor_settings_controller )->record_read_write_settings_controller != NULL )	{
 
-		RPDB_DatabaseCursorReadWriteSettingsController_free( & ( ( *database_cursor_settings_controller )->record_read_write_settings_controller ) );
+		Rbdb_DatabaseCursorReadWriteSettingsController_free( & ( ( *database_cursor_settings_controller )->record_read_write_settings_controller ) );
 	}
 
 	free( *database_cursor_settings_controller );
@@ -59,21 +59,21 @@ void RPDB_DatabaseCursorSettingsController_free(	RPDB_DatabaseCursorSettingsCont
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_DatabaseCursorSettingsController_parentEnvironment(	RPDB_DatabaseCursorSettingsController* database_cursor_settings_controller )	{
+Rbdb_Environment* Rbdb_DatabaseCursorSettingsController_parentEnvironment(	Rbdb_DatabaseCursorSettingsController* database_cursor_settings_controller )	{
 	return database_cursor_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment;
 }
 
 /***************************************
 *  parentDatabase  *
 ***************************************/
-RPDB_Database* RPDB_DatabaseCursorSettingsController_parentDatabase(	RPDB_DatabaseCursorSettingsController* database_cursor_settings_controller )	{
+Rbdb_Database* Rbdb_DatabaseCursorSettingsController_parentDatabase(	Rbdb_DatabaseCursorSettingsController* database_cursor_settings_controller )	{
 	return database_cursor_settings_controller->parent_database_settings_controller->parent_database;
 }
 
 /***************************************
 *  parentDatabaseCursor  *
 ***************************************/
-RPDB_DatabaseCursor* RPDB_DatabaseCursorSettingsController_parentDatabaseCursor(	RPDB_DatabaseCursorSettingsController* database_cursor_settings_controller )	{
+Rbdb_DatabaseCursor* Rbdb_DatabaseCursorSettingsController_parentDatabaseCursor(	Rbdb_DatabaseCursorSettingsController* database_cursor_settings_controller )	{
 	return database_cursor_settings_controller->parent_database_cursor;
 }
 
@@ -83,7 +83,7 @@ RPDB_DatabaseCursor* RPDB_DatabaseCursorSettingsController_parentDatabaseCursor(
 **********************************/
 
 //	DB_POSITION		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_dup.html
-BOOL RPDB_DatabaseCursorSettingsController_duplicateRetainsLocation( RPDB_DatabaseCursorSettingsController* cursor_settings_controller )	{
+BOOL Rbdb_DatabaseCursorSettingsController_duplicateRetainsLocation( Rbdb_DatabaseCursorSettingsController* cursor_settings_controller )	{
 	if ( cursor_settings_controller->duplicate_retains_location == TRUE )	{
 		return DB_POSITION;
 	}
@@ -94,7 +94,7 @@ BOOL RPDB_DatabaseCursorSettingsController_duplicateRetainsLocation( RPDB_Databa
 *  duplicateRetainsLocationOn  *
 **************************************/
 
-void RPDB_DatabaseCursorSettingsController_turnDuplicateRetainsLocationOn( RPDB_DatabaseCursorSettingsController* cursor_settings_controller )	{
+void Rbdb_DatabaseCursorSettingsController_turnDuplicateRetainsLocationOn( Rbdb_DatabaseCursorSettingsController* cursor_settings_controller )	{
 	cursor_settings_controller->duplicate_retains_location = TRUE;
 }
 
@@ -102,7 +102,7 @@ void RPDB_DatabaseCursorSettingsController_turnDuplicateRetainsLocationOn( RPDB_
 *  duplicateRetainsLocationOff  *
 **************************************/
 
-void RPDB_DatabaseCursorSettingsController_turnDuplicateRetainsLocationOff( RPDB_DatabaseCursorSettingsController* cursor_settings_controller )	{
+void Rbdb_DatabaseCursorSettingsController_turnDuplicateRetainsLocationOff( Rbdb_DatabaseCursorSettingsController* cursor_settings_controller )	{
 	cursor_settings_controller->duplicate_retains_location = FALSE;
 }
 
@@ -114,10 +114,10 @@ void RPDB_DatabaseCursorSettingsController_turnDuplicateRetainsLocationOff( RPDB
 *  cacheController  *
 ****************************/
 
-RPDB_DatabaseCursorCacheSettingsController* RPDB_DatabaseCursorSettingsController_cacheSettingsController( RPDB_DatabaseCursorSettingsController* cursor_settings_controller )	{
+Rbdb_DatabaseCursorCacheSettingsController* Rbdb_DatabaseCursorSettingsController_cacheSettingsController( Rbdb_DatabaseCursorSettingsController* cursor_settings_controller )	{
 
 	if ( cursor_settings_controller->cache_controller == NULL )	{
-		cursor_settings_controller->cache_controller = RPDB_DatabaseCursorCacheSettingsController_new( cursor_settings_controller );
+		cursor_settings_controller->cache_controller = Rbdb_DatabaseCursorCacheSettingsController_new( cursor_settings_controller );
 	}
 	return cursor_settings_controller->cache_controller;
 }
@@ -126,10 +126,10 @@ RPDB_DatabaseCursorCacheSettingsController* RPDB_DatabaseCursorSettingsControlle
 *  readWriteController  *
 ******************************/
 
-RPDB_DatabaseCursorReadWriteSettingsController* RPDB_DatabaseCursorSettingsController_readWriteSettingsController( RPDB_DatabaseCursorSettingsController* cursor_settings_controller )	{
+Rbdb_DatabaseCursorReadWriteSettingsController* Rbdb_DatabaseCursorSettingsController_readWriteSettingsController( Rbdb_DatabaseCursorSettingsController* cursor_settings_controller )	{
 
 	if ( cursor_settings_controller->record_read_write_settings_controller == NULL )	{
-		cursor_settings_controller->record_read_write_settings_controller = RPDB_DatabaseCursorReadWriteSettingsController_new( cursor_settings_controller );
+		cursor_settings_controller->record_read_write_settings_controller = Rbdb_DatabaseCursorReadWriteSettingsController_new( cursor_settings_controller );
 	}
 	return cursor_settings_controller->record_read_write_settings_controller;
 }
@@ -145,10 +145,10 @@ RPDB_DatabaseCursorReadWriteSettingsController* RPDB_DatabaseCursorSettingsContr
 **************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_count.html
-int RPDB_DatabaseCursorSettingsController_internal_countDataItemsFlags( RPDB_DatabaseCursorSettingsController* cursor_settings_controller __attribute__((unused)) )	{
+int Rbdb_DatabaseCursorSettingsController_internal_countDataItemsFlags( Rbdb_DatabaseCursorSettingsController* cursor_settings_controller __attribute__((unused)) )	{
 	
 	//	Currently unused - always returns 0;
-	return RPDB_NO_FLAGS;
+	return Rbdb_NO_FLAGS;
 }
 
 /************************
@@ -156,7 +156,7 @@ int RPDB_DatabaseCursorSettingsController_internal_countDataItemsFlags( RPDB_Dat
 ************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_dup.html
-int RPDB_DatabaseCursorSettingsController_internal_duplicateFlags( RPDB_DatabaseCursorSettingsController* cursor_settings_controller __attribute__((unused)) )	{
+int Rbdb_DatabaseCursorSettingsController_internal_duplicateFlags( Rbdb_DatabaseCursorSettingsController* cursor_settings_controller __attribute__((unused)) )	{
 
 	//	if DB_POSITION is not returned a duplicate cursor will be identical to a new cursor
 	return DB_POSITION;
@@ -167,18 +167,18 @@ int RPDB_DatabaseCursorSettingsController_internal_duplicateFlags( RPDB_Database
 ************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_dup.html
-int RPDB_DatabaseCursorSettingsController_internal_openFlags( RPDB_DatabaseCursorSettingsController* cursor_settings_controller __attribute__((unused)) )	{
+int Rbdb_DatabaseCursorSettingsController_internal_openFlags( Rbdb_DatabaseCursorSettingsController* cursor_settings_controller __attribute__((unused)) )	{
 
 	//	FIX
-	return RPDB_NO_FLAGS;
+	return Rbdb_NO_FLAGS;
 }
 
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_DatabaseCursorSettingsController* RPDB_DatabaseCursorSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseCursorSettingsController* database_cursor_settings_controller )	{
+Rbdb_DatabaseCursorSettingsController* Rbdb_DatabaseCursorSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseCursorSettingsController* database_cursor_settings_controller )	{
 
-	RPDB_DatabaseCursorSettingsController* database_cursor_settings_controller_copy	=	RPDB_DatabaseCursorSettingsController_new( database_cursor_settings_controller->parent_database_settings_controller );
+	Rbdb_DatabaseCursorSettingsController* database_cursor_settings_controller_copy	=	Rbdb_DatabaseCursorSettingsController_new( database_cursor_settings_controller->parent_database_settings_controller );
 
 	//	Instances and Pointers
 	database_cursor_settings_controller_copy->duplicate_retains_location	=	database_cursor_settings_controller->duplicate_retains_location;

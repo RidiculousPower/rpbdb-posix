@@ -1,5 +1,5 @@
-#ifndef RPDB_DATABASE_ASSOCIATION_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_DATABASE_ASSOCIATION_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_DATABASE_ASSOCIATION_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_DATABASE_ASSOCIATION_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,7 +7,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_DatabaseAssociationSettingsController* RPDB_DatabaseAssociationSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseAssociationSettingsController* database_association_settings_controller );
+Rbdb_DatabaseAssociationSettingsController* Rbdb_DatabaseAssociationSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseAssociationSettingsController* database_association_settings_controller );
 
 
 #endif

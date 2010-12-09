@@ -1,5 +1,5 @@
 /*
- *		RPDB::DatabaseController::Database::DatabaseSequenceController
+ *		Rbdb::DatabaseController::Database::DatabaseSequenceController
  *
  *
  */
@@ -10,12 +10,12 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_DatabaseSequenceController.h"
+#include "Rbdb_DatabaseSequenceController.h"
 
-#include "RPDB_DatabaseSequence.h"
+#include "Rbdb_DatabaseSequence.h"
 
-#include "RPDB_DatabaseSettingsController.h"
-#include "RPDB_DatabaseSequenceSettingsController.h"
+#include "Rbdb_DatabaseSettingsController.h"
+#include "Rbdb_DatabaseSequenceSettingsController.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -28,9 +28,9 @@
 ********/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/seq_class.html
-RPDB_DatabaseSequenceController* RPDB_DatabaseSequenceController_new( RPDB_Database* parent_database )	{
+Rbdb_DatabaseSequenceController* Rbdb_DatabaseSequenceController_new( Rbdb_Database* parent_database )	{
 	
-	RPDB_DatabaseSequenceController* database_sequence_controller = calloc( 1, sizeof( RPDB_DatabaseSequenceController ) );
+	Rbdb_DatabaseSequenceController* database_sequence_controller = calloc( 1, sizeof( Rbdb_DatabaseSequenceController ) );
 
 	database_sequence_controller->parent_database	= parent_database;
 
@@ -40,7 +40,7 @@ RPDB_DatabaseSequenceController* RPDB_DatabaseSequenceController_new( RPDB_Datab
 /***************************
 *  free  *
 ***************************/
-void RPDB_DatabaseSequenceController_free(	RPDB_DatabaseSequenceController** database_sequence_controller )	{
+void Rbdb_DatabaseSequenceController_free(	Rbdb_DatabaseSequenceController** database_sequence_controller )	{
 
 	free( database_sequence_controller );
 }
@@ -48,21 +48,21 @@ void RPDB_DatabaseSequenceController_free(	RPDB_DatabaseSequenceController** dat
 /***************************
 *  settingsController  *
 ***************************/
-RPDB_DatabaseSequenceSettingsController* RPDB_DatabaseSequenceController_settingsController(	RPDB_DatabaseSequenceController* database_sequence_controller )	{
+Rbdb_DatabaseSequenceSettingsController* Rbdb_DatabaseSequenceController_settingsController(	Rbdb_DatabaseSequenceController* database_sequence_controller )	{
 	return database_sequence_controller->settings_controller;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_DatabaseSequenceController_parentEnvironment(	RPDB_DatabaseSequenceController* database_sequence_controller )	{
+Rbdb_Environment* Rbdb_DatabaseSequenceController_parentEnvironment(	Rbdb_DatabaseSequenceController* database_sequence_controller )	{
 	return database_sequence_controller->parent_database->parent_database_controller->parent_environment;
 }
 
 /***************************************
 *  parentDatabase  *
 ***************************************/
-RPDB_Database* RPDB_DatabaseSequenceController_parentDatabase(	RPDB_DatabaseSequenceController* database_sequence_controller )	{
+Rbdb_Database* Rbdb_DatabaseSequenceController_parentDatabase(	Rbdb_DatabaseSequenceController* database_sequence_controller )	{
 	return database_sequence_controller->parent_database;
 }
 
@@ -71,9 +71,9 @@ RPDB_Database* RPDB_DatabaseSequenceController_parentDatabase(	RPDB_DatabaseSequ
 ********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/seq_class.html
-RPDB_DatabaseSequence* RPDB_DatabaseSequenceController_createSequence( RPDB_DatabaseSequenceController* database_sequence_controller )	{
+Rbdb_DatabaseSequence* Rbdb_DatabaseSequenceController_createSequence( Rbdb_DatabaseSequenceController* database_sequence_controller )	{
 	
-	RPDB_DatabaseSequence*	new_sequence	=	RPDB_DatabaseSequence_new( database_sequence_controller );
+	Rbdb_DatabaseSequence*	new_sequence	=	Rbdb_DatabaseSequence_new( database_sequence_controller );
 	
 	return new_sequence;
 }

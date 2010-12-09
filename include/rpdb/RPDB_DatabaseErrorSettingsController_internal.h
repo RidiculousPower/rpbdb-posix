@@ -1,5 +1,5 @@
-#ifndef RPDB_DATABASE_ERROR_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_DATABASE_ERROR_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_DATABASE_ERROR_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_DATABASE_ERROR_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,10 +7,10 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-void									RPDB_DatabaseErrorSettingsController_internal_errorCallbackMethod(					const DB_ENV*								bdb_environment,
+void									Rbdb_DatabaseErrorSettingsController_internal_errorCallbackMethod(					const DB_ENV*								bdb_environment,
 																															const char*									error_prefix_string,
 																															const char*									error_message );
-RPDB_DatabaseErrorSettingsController* RPDB_DatabaseErrorSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseErrorSettingsController* database_error_settings_controller );
+Rbdb_DatabaseErrorSettingsController* Rbdb_DatabaseErrorSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseErrorSettingsController* database_error_settings_controller );
 
 
 #endif

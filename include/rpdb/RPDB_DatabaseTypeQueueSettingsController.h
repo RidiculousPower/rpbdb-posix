@@ -1,28 +1,28 @@
 /*
- *		RPDB::SettingsController::DatabaseSettingsController::DatabaseTypeSettingsController::DatabaseTypeQueueSettingsController
+ *		Rbdb::SettingsController::DatabaseSettingsController::DatabaseTypeSettingsController::DatabaseTypeQueueSettingsController
  *
  *
  */
 
-#ifndef RPDB_DATABASE_TYPE_QUEUE_SETTINGS_CONTROLLER
-	#define RPDB_DATABASE_TYPE_QUEUE_SETTINGS_CONTROLLER
+#ifndef Rbdb_DATABASE_TYPE_QUEUE_SETTINGS_CONTROLLER
+	#define Rbdb_DATABASE_TYPE_QUEUE_SETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_DatabaseTypeQueueSettingsController*		RPDB_DatabaseTypeQueueSettingsController_new(										RPDB_DatabaseTypeSettingsController*						parent_database_type_settings_controller );
-	void											RPDB_DatabaseTypeQueueSettingsController_free(	RPDB_DatabaseTypeQueueSettingsController** database_type_queue_settings_controller );
-	RPDB_Environment*						RPDB_DatabaseTypeQueueSettingsController_parentEnvironment(	RPDB_DatabaseTypeQueueSettingsController* database_type_queue_settings_controller );
-	RPDB_Database* RPDB_DatabaseTypeQueueSettingsController_parentDatabase(	RPDB_DatabaseTypeQueueSettingsController* database_type_queue_settings_controller );
+	Rbdb_DatabaseTypeQueueSettingsController*		Rbdb_DatabaseTypeQueueSettingsController_new(										Rbdb_DatabaseTypeSettingsController*						parent_database_type_settings_controller );
+	void											Rbdb_DatabaseTypeQueueSettingsController_free(	Rbdb_DatabaseTypeQueueSettingsController** database_type_queue_settings_controller );
+	Rbdb_Environment*						Rbdb_DatabaseTypeQueueSettingsController_parentEnvironment(	Rbdb_DatabaseTypeQueueSettingsController* database_type_queue_settings_controller );
+	Rbdb_Database* Rbdb_DatabaseTypeQueueSettingsController_parentDatabase(	Rbdb_DatabaseTypeQueueSettingsController* database_type_queue_settings_controller );
 
-	BOOL												RPDB_DatabaseTypeQueueSettingsController_returnKeyDataPairsInOrder(				RPDB_DatabaseTypeQueueSettingsController*		database_type_queue_settings_controller );
-		void												RPDB_DatabaseTypeQueueSettingsController_turnReturnKeyDataPairsInOrderOn(		RPDB_DatabaseTypeQueueSettingsController*		database_type_queue_settings_controller );
-		void												RPDB_DatabaseTypeQueueSettingsController_turnReturnKeyDataPairsInOrderOff(		RPDB_DatabaseTypeQueueSettingsController*		database_type_queue_settings_controller );
-	uint32_t										RPDB_DatabaseTypeQueueSettingsController_numberOfPagesForUnderlyingData(			RPDB_DatabaseTypeQueueSettingsController*		database_type_queue_settings_controller );
-	void											RPDB_DatabaseTypeQueueSettingsController_setNumberOfPagesForUnderlyingData(		RPDB_DatabaseTypeQueueSettingsController*		database_type_queue_settings_controller, 
+	BOOL												Rbdb_DatabaseTypeQueueSettingsController_returnKeyDataPairsInOrder(				Rbdb_DatabaseTypeQueueSettingsController*		database_type_queue_settings_controller );
+		void												Rbdb_DatabaseTypeQueueSettingsController_turnReturnKeyDataPairsInOrderOn(		Rbdb_DatabaseTypeQueueSettingsController*		database_type_queue_settings_controller );
+		void												Rbdb_DatabaseTypeQueueSettingsController_turnReturnKeyDataPairsInOrderOff(		Rbdb_DatabaseTypeQueueSettingsController*		database_type_queue_settings_controller );
+	uint32_t										Rbdb_DatabaseTypeQueueSettingsController_numberOfPagesForUnderlyingData(			Rbdb_DatabaseTypeQueueSettingsController*		database_type_queue_settings_controller );
+	void											Rbdb_DatabaseTypeQueueSettingsController_setNumberOfPagesForUnderlyingData(		Rbdb_DatabaseTypeQueueSettingsController*		database_type_queue_settings_controller, 
 																																		uint32_t										number_of_pages_for_underlying_data );
 
 #endif

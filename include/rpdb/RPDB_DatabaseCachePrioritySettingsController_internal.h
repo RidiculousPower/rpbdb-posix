@@ -1,5 +1,5 @@
-#ifndef RPDB_DATABASE_CACHE_PRIORITY_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_DATABASE_CACHE_PRIORITY_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_DATABASE_CACHE_PRIORITY_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_DATABASE_CACHE_PRIORITY_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -8,16 +8,16 @@
 *******************************************************************************************************************************************************************************************/
 
         										                                                    										                              	                	
-DB_CACHE_PRIORITY								RPDB_DatabaseCachePrioritySettingsController_internal_isAtLeast(							RPDB_DatabaseCachePrioritySettingsController*		database_cache_priority_settings_controller, 
+DB_CACHE_PRIORITY								Rbdb_DatabaseCachePrioritySettingsController_internal_isAtLeast(							Rbdb_DatabaseCachePrioritySettingsController*		database_cache_priority_settings_controller, 
 																																			DB_CACHE_PRIORITY									cache_priority );
-DB_CACHE_PRIORITY								RPDB_DatabaseCachePrioritySettingsController_internal_isAtMost(							RPDB_DatabaseCachePrioritySettingsController*		database_cache_priority_settings_controller, 
+DB_CACHE_PRIORITY								Rbdb_DatabaseCachePrioritySettingsController_internal_isAtMost(							Rbdb_DatabaseCachePrioritySettingsController*		database_cache_priority_settings_controller, 
 																																			DB_CACHE_PRIORITY									cache_priority );
         										                                                        					                                              	                	
-DB_CACHE_PRIORITY								RPDB_DatabaseCachePrioritySettingsController_internal_isPriority(							RPDB_DatabaseCachePrioritySettingsController*		database_cache_priority_settings_controller, 
+DB_CACHE_PRIORITY								Rbdb_DatabaseCachePrioritySettingsController_internal_isPriority(							Rbdb_DatabaseCachePrioritySettingsController*		database_cache_priority_settings_controller, 
 																																			DB_CACHE_PRIORITY									cache_priority );
-void											RPDB_DatabaseCachePrioritySettingsController_internal_setPriorityTo(						RPDB_DatabaseCachePrioritySettingsController*		database_cache_priority_settings_controller, 
+void											Rbdb_DatabaseCachePrioritySettingsController_internal_setPriorityTo(						Rbdb_DatabaseCachePrioritySettingsController*		database_cache_priority_settings_controller, 
 																																			DB_CACHE_PRIORITY									cache_priority );
                                                                                                                                                                                           		
-RPDB_DatabaseCachePrioritySettingsController* RPDB_DatabaseCachePrioritySettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseCachePrioritySettingsController* database_cache_priority_settings_controller );
+Rbdb_DatabaseCachePrioritySettingsController* Rbdb_DatabaseCachePrioritySettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseCachePrioritySettingsController* database_cache_priority_settings_controller );
 
 #endif

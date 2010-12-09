@@ -1,5 +1,5 @@
-#ifndef RPDB_ENVIRONMENT_CACHE_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_ENVIRONMENT_CACHE_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_ENVIRONMENT_CACHE_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_ENVIRONMENT_CACHE_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,7 +7,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_EnvironmentCacheSettingsController* RPDB_EnvironmentCacheSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_EnvironmentCacheSettingsController* environment_cache_settings_controller );
+Rbdb_EnvironmentCacheSettingsController* Rbdb_EnvironmentCacheSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_EnvironmentCacheSettingsController* environment_cache_settings_controller );
 
 
 

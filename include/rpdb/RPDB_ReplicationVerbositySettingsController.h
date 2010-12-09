@@ -1,53 +1,53 @@
 /*
- *		RPDB::SettingsController::SettingsVerbosityController::SettingsVerbosityReplicationController
+ *		Rbdb::SettingsController::SettingsVerbosityController::SettingsVerbosityReplicationController
  *
  *
  */
 
-#ifndef RPDB_REPLICATION_VERBOSITY_SETTINGS_CONTROLLER
-	#define RPDB_REPLICATION_VERBOSITY_SETTINGS_CONTROLLER
+#ifndef Rbdb_REPLICATION_VERBOSITY_SETTINGS_CONTROLLER
+	#define Rbdb_REPLICATION_VERBOSITY_SETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_ReplicationVerbositySettingsController*		RPDB_ReplicationVerbositySettingsController_new(												RPDB_ReplicationSettingsController*				replication_settings_controller );
-	void												RPDB_ReplicationVerbositySettingsController_free(												RPDB_ReplicationVerbositySettingsController** replication_verbosity_settings_controller );
-	RPDB_Environment*							RPDB_ReplicationVerbositySettingsController_parentEnvironment(						RPDB_ReplicationVerbositySettingsController* replication_verbosity_settings_controller );
+	Rbdb_ReplicationVerbositySettingsController*		Rbdb_ReplicationVerbositySettingsController_new(												Rbdb_ReplicationSettingsController*				replication_settings_controller );
+	void												Rbdb_ReplicationVerbositySettingsController_free(												Rbdb_ReplicationVerbositySettingsController** replication_verbosity_settings_controller );
+	Rbdb_Environment*							Rbdb_ReplicationVerbositySettingsController_parentEnvironment(						Rbdb_ReplicationVerbositySettingsController* replication_verbosity_settings_controller );
 
-	BOOL												RPDB_ReplicationVerbositySettingsController_displayAllReplicationInformation(					RPDB_ReplicationVerbositySettingsController*					verbosity_settings_controller );
-	void												RPDB_ReplicationVerbositySettingsController_turnDisplayAllReplicationInformationOn(			RPDB_ReplicationVerbositySettingsController*					verbosity_settings_controller );
-	void												RPDB_ReplicationVerbositySettingsController_turnDisplayAllReplicationInformationOff(			RPDB_ReplicationVerbositySettingsController*					verbosity_settings_controller );
+	BOOL												Rbdb_ReplicationVerbositySettingsController_displayAllReplicationInformation(					Rbdb_ReplicationVerbositySettingsController*					verbosity_settings_controller );
+	void												Rbdb_ReplicationVerbositySettingsController_turnDisplayAllReplicationInformationOn(			Rbdb_ReplicationVerbositySettingsController*					verbosity_settings_controller );
+	void												Rbdb_ReplicationVerbositySettingsController_turnDisplayAllReplicationInformationOff(			Rbdb_ReplicationVerbositySettingsController*					verbosity_settings_controller );
 
-	BOOL												RPDB_ReplicationVerbositySettingsController_displayElectionInformation(						RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
-	void												RPDB_ReplicationVerbositySettingsController_turnDisplayElectionInformationOn(					RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
-	void												RPDB_ReplicationVerbositySettingsController_turnDisplayElectionInformationOff(					RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	BOOL												Rbdb_ReplicationVerbositySettingsController_displayElectionInformation(						Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	void												Rbdb_ReplicationVerbositySettingsController_turnDisplayElectionInformationOn(					Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	void												Rbdb_ReplicationVerbositySettingsController_turnDisplayElectionInformationOff(					Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
 
-	BOOL												RPDB_ReplicationVerbositySettingsController_displayReplicationMasterLeaseInformation(			RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
-	void												RPDB_ReplicationVerbositySettingsController_turnDisplayReplicationMasterLeaseInformationOn(	RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
-	void												RPDB_ReplicationVerbositySettingsController_turnDisplayReplicationMasterLeaseInformationOff(	RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	BOOL												Rbdb_ReplicationVerbositySettingsController_displayReplicationMasterLeaseInformation(			Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	void												Rbdb_ReplicationVerbositySettingsController_turnDisplayReplicationMasterLeaseInformationOn(	Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	void												Rbdb_ReplicationVerbositySettingsController_turnDisplayReplicationMasterLeaseInformationOff(	Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
 
-	BOOL												RPDB_ReplicationVerbositySettingsController_displayMiscProcessingInformation(					RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
-	void												RPDB_ReplicationVerbositySettingsController_turnDisplayMiscProcessingInformationOn(			RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
-	void												RPDB_ReplicationVerbositySettingsController_turnDisplayMiscProcessingInformationOff(			RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	BOOL												Rbdb_ReplicationVerbositySettingsController_displayMiscProcessingInformation(					Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	void												Rbdb_ReplicationVerbositySettingsController_turnDisplayMiscProcessingInformationOn(			Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	void												Rbdb_ReplicationVerbositySettingsController_turnDisplayMiscProcessingInformationOff(			Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
 
-	BOOL												RPDB_ReplicationVerbositySettingsController_displayMessageProcessingInformation(				RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
-	void												RPDB_ReplicationVerbositySettingsController_turnDisplayMessageProcessingInformationOn(			RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
-	void												RPDB_ReplicationVerbositySettingsController_turnDisplayMessageProcessingInformationOff(		RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	BOOL												Rbdb_ReplicationVerbositySettingsController_displayMessageProcessingInformation(				Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	void												Rbdb_ReplicationVerbositySettingsController_turnDisplayMessageProcessingInformationOn(			Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	void												Rbdb_ReplicationVerbositySettingsController_turnDisplayMessageProcessingInformationOff(		Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
 
-	BOOL												RPDB_ReplicationVerbositySettingsController_displayClientSynchronizationInformation(			RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
-	void												RPDB_ReplicationVerbositySettingsController_turnDisplayClientSynchronizationInformationOn(		RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
-	void												RPDB_ReplicationVerbositySettingsController_turnDisplayClientSynchronizationInformationOff(	RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	BOOL												Rbdb_ReplicationVerbositySettingsController_displayClientSynchronizationInformation(			Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	void												Rbdb_ReplicationVerbositySettingsController_turnDisplayClientSynchronizationInformationOn(		Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	void												Rbdb_ReplicationVerbositySettingsController_turnDisplayClientSynchronizationInformationOff(	Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
 
-	BOOL												RPDB_ReplicationVerbositySettingsController_displayManagerConnectionFailureInformation(		RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
-	void												RPDB_ReplicationVerbositySettingsController_turnDisplayManagerConnectionFailureInformationOn(	RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
-	void												RPDB_ReplicationVerbositySettingsController_turnDisplayManagerConnectionFailureInformationOff(	RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	BOOL												Rbdb_ReplicationVerbositySettingsController_displayManagerConnectionFailureInformation(		Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	void												Rbdb_ReplicationVerbositySettingsController_turnDisplayManagerConnectionFailureInformationOn(	Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	void												Rbdb_ReplicationVerbositySettingsController_turnDisplayManagerConnectionFailureInformationOff(	Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
 
-	BOOL												RPDB_ReplicationVerbositySettingsController_displayManagerMiscProcessing(						RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
-	void												RPDB_ReplicationVerbositySettingsController_turnDisplayManagerMiscProcessingOn(				RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
-	void												RPDB_ReplicationVerbositySettingsController_turnDisplayManagerMiscProcessingOff(				RPDB_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	BOOL												Rbdb_ReplicationVerbositySettingsController_displayManagerMiscProcessing(						Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	void												Rbdb_ReplicationVerbositySettingsController_turnDisplayManagerMiscProcessingOn(				Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
+	void												Rbdb_ReplicationVerbositySettingsController_turnDisplayManagerMiscProcessingOff(				Rbdb_ReplicationVerbositySettingsController*		replication_verbosity_settings_controller );
 
 #endif
 

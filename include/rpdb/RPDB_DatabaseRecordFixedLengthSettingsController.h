@@ -1,29 +1,29 @@
 /*
- *		RPDB::DatabaseController::Database::DatabaseSettingsController::DatabaseSettingsFixedRecordController
+ *		Rbdb::DatabaseController::Database::DatabaseSettingsController::DatabaseSettingsFixedRecordController
  *
  *
  */
 
-#ifndef RPDB_DATABASE_FIXED_RECORD_SETTINGS_CONTROLLER
-	#define RPDB_DATABASE_FIXED_RECORD_SETTINGS_CONTROLLER
+#ifndef Rbdb_DATABASE_FIXED_RECORD_SETTINGS_CONTROLLER
+	#define Rbdb_DATABASE_FIXED_RECORD_SETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_DatabaseRecordFixedLengthSettingsController*	RPDB_DatabaseRecordFixedLengthSettingsController_new(					RPDB_DatabaseRecordSettingsController*					database_settings_controller );
+	Rbdb_DatabaseRecordFixedLengthSettingsController*	Rbdb_DatabaseRecordFixedLengthSettingsController_new(					Rbdb_DatabaseRecordSettingsController*					database_settings_controller );
 
-	void											RPDB_DatabaseRecordFixedLengthSettingsController_free(					RPDB_DatabaseRecordFixedLengthSettingsController** database_record_fixed_length_settings_controller );
-	RPDB_Environment*						RPDB_DatabaseRecordFixedLengthSettingsController_parentEnvironment(	RPDB_DatabaseRecordFixedLengthSettingsController* database_record_fixed_length_settings_controller );
-	RPDB_Database* RPDB_DatabaseRecordFixedLengthSettingsController_parentDatabase(	RPDB_DatabaseRecordFixedLengthSettingsController* database_record_fixed_length_settings_controller );
+	void											Rbdb_DatabaseRecordFixedLengthSettingsController_free(					Rbdb_DatabaseRecordFixedLengthSettingsController** database_record_fixed_length_settings_controller );
+	Rbdb_Environment*						Rbdb_DatabaseRecordFixedLengthSettingsController_parentEnvironment(	Rbdb_DatabaseRecordFixedLengthSettingsController* database_record_fixed_length_settings_controller );
+	Rbdb_Database* Rbdb_DatabaseRecordFixedLengthSettingsController_parentDatabase(	Rbdb_DatabaseRecordFixedLengthSettingsController* database_record_fixed_length_settings_controller );
 
-	uint32_t										RPDB_DatabaseRecordFixedLengthSettingsController_recordLength(			RPDB_DatabaseRecordFixedLengthSettingsController*		database_record_fixed_length_settings_controller );
-	void											RPDB_DatabaseRecordFixedLengthSettingsController_setRecordLength(		RPDB_DatabaseRecordFixedLengthSettingsController*		database_record_fixed_length_settings_controller,
+	uint32_t										Rbdb_DatabaseRecordFixedLengthSettingsController_recordLength(			Rbdb_DatabaseRecordFixedLengthSettingsController*		database_record_fixed_length_settings_controller );
+	void											Rbdb_DatabaseRecordFixedLengthSettingsController_setRecordLength(		Rbdb_DatabaseRecordFixedLengthSettingsController*		database_record_fixed_length_settings_controller,
 																														uint32_t											record_length );
-	int												RPDB_DatabaseRecordFixedLengthSettingsController_paddingByte(			RPDB_DatabaseRecordFixedLengthSettingsController*		database_record_fixed_length_settings_controller );
-	void											RPDB_DatabaseRecordFixedLengthSettingsController_setPaddingByte(			RPDB_DatabaseRecordFixedLengthSettingsController*		database_record_fixed_length_settings_controller, 
+	int												Rbdb_DatabaseRecordFixedLengthSettingsController_paddingByte(			Rbdb_DatabaseRecordFixedLengthSettingsController*		database_record_fixed_length_settings_controller );
+	void											Rbdb_DatabaseRecordFixedLengthSettingsController_setPaddingByte(			Rbdb_DatabaseRecordFixedLengthSettingsController*		database_record_fixed_length_settings_controller, 
 																														int													record_padding_byte );
 
 #endif

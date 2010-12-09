@@ -1,60 +1,60 @@
 /*
- *		RPDB::SettingsController::FileSettingsController
+ *		Rbdb::SettingsController::FileSettingsController
  *
  *
  */
  
-#ifndef RPDB_FILE_SETTINGS_CONTROLLER
-	#define RPDB_FILE_SETTINGS_CONTROLLER
+#ifndef Rbdb_FILE_SETTINGS_CONTROLLER
+	#define Rbdb_FILE_SETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_FileSettingsController*				RPDB_FileSettingsController_new(													RPDB_SettingsController*			settings_controller );
+	Rbdb_FileSettingsController*				Rbdb_FileSettingsController_new(													Rbdb_SettingsController*			settings_controller );
 
-	void										RPDB_FileSettingsController_free(													RPDB_FileSettingsController**		file_settings_controller );
-	RPDB_Environment*					RPDB_FileSettingsController_parentEnvironment(							RPDB_FileSettingsController*		file_settings_controller );
+	void										Rbdb_FileSettingsController_free(													Rbdb_FileSettingsController**		file_settings_controller );
+	Rbdb_Environment*					Rbdb_FileSettingsController_parentEnvironment(							Rbdb_FileSettingsController*		file_settings_controller );
 																																	
-	char*										RPDB_FileSettingsController_intermediateDirectoryMode(								RPDB_FileSettingsController*		file_settings_controller );
-	void										RPDB_FileSettingsController_setIntermediateDirectoryMode(							RPDB_FileSettingsController*		file_settings_controller, 
+	char*										Rbdb_FileSettingsController_intermediateDirectoryMode(								Rbdb_FileSettingsController*		file_settings_controller );
+	void										Rbdb_FileSettingsController_setIntermediateDirectoryMode(							Rbdb_FileSettingsController*		file_settings_controller, 
 																																	const char*							mode );
 																																	
-	char*										RPDB_FileSettingsController_tempDirectory(											RPDB_FileSettingsController*		file_settings_controller );
-	void										RPDB_FileSettingsController_setTempDirectory(										RPDB_FileSettingsController*		file_settings_controller, 
+	char*										Rbdb_FileSettingsController_tempDirectory(											Rbdb_FileSettingsController*		file_settings_controller );
+	void										Rbdb_FileSettingsController_setTempDirectory(										Rbdb_FileSettingsController*		file_settings_controller, 
 																																	const char*							temp_directory );
 																																	
-	int										RPDB_FileSettingsController_permitEnvironmentBasedFileNaming(						RPDB_FileSettingsController*		file_settings_controller );
-	void 										RPDB_FileSettingsController_turnPermitEnvironmentBasedFileNamingOn(				RPDB_FileSettingsController*		file_settings_controller );
-	void 										RPDB_FileSettingsController_turnPermitEnvironmentBasedFileNamingOff(				RPDB_FileSettingsController*		file_settings_controller );
+	int										Rbdb_FileSettingsController_permitEnvironmentBasedFileNaming(						Rbdb_FileSettingsController*		file_settings_controller );
+	void 										Rbdb_FileSettingsController_turnPermitEnvironmentBasedFileNamingOn(				Rbdb_FileSettingsController*		file_settings_controller );
+	void 										Rbdb_FileSettingsController_turnPermitEnvironmentBasedFileNamingOff(				Rbdb_FileSettingsController*		file_settings_controller );
 
-	int	 	   								RPDB_FileSettingsController_useEnvironmentHomePermissionsForFileNaming(			RPDB_FileSettingsController*		file_settings_controller );
-	void 										RPDB_FileSettingsController_turnUseEnvironmentHomePermissionsForFileNamingOn(		RPDB_FileSettingsController*		file_settings_controller );
-	void 										RPDB_FileSettingsController_turnUseEnvironmentHomePermissionsForFileNamingOff(		RPDB_FileSettingsController*		file_settings_controller );
+	int	 	   								Rbdb_FileSettingsController_useEnvironmentHomePermissionsForFileNaming(			Rbdb_FileSettingsController*		file_settings_controller );
+	void 										Rbdb_FileSettingsController_turnUseEnvironmentHomePermissionsForFileNamingOn(		Rbdb_FileSettingsController*		file_settings_controller );
+	void 										Rbdb_FileSettingsController_turnUseEnvironmentHomePermissionsForFileNamingOff(		Rbdb_FileSettingsController*		file_settings_controller );
 																														
-	int	 	   								RPDB_FileSettingsController_createIfNecessary(										RPDB_FileSettingsController*		file_settings_controller );
-	void 										RPDB_FileSettingsController_turnCreateIfNecessaryOn(								RPDB_FileSettingsController*		file_settings_controller );
-	void 										RPDB_FileSettingsController_turnCreateIfNecessaryOff(								RPDB_FileSettingsController*		file_settings_controller );
+	int	 	   								Rbdb_FileSettingsController_createIfNecessary(										Rbdb_FileSettingsController*		file_settings_controller );
+	void 										Rbdb_FileSettingsController_turnCreateIfNecessaryOn(								Rbdb_FileSettingsController*		file_settings_controller );
+	void 										Rbdb_FileSettingsController_turnCreateIfNecessaryOff(								Rbdb_FileSettingsController*		file_settings_controller );
 																																	
-	int	 	   								RPDB_FileSettingsController_isErrorIfDBExistsBeforeCreate(							RPDB_FileSettingsController*		file_settings_controller );
-	void 										RPDB_FileSettingsController_turnIsErrorIfDBExistsBeforeCreateOn(					RPDB_FileSettingsController*		file_settings_controller );
-	void 										RPDB_FileSettingsController_turnIsErrorIfDBExistsBeforeCreateOff(					RPDB_FileSettingsController*		file_settings_controller );
+	int	 	   								Rbdb_FileSettingsController_isErrorIfDBExistsBeforeCreate(							Rbdb_FileSettingsController*		file_settings_controller );
+	void 										Rbdb_FileSettingsController_turnIsErrorIfDBExistsBeforeCreateOn(					Rbdb_FileSettingsController*		file_settings_controller );
+	void 										Rbdb_FileSettingsController_turnIsErrorIfDBExistsBeforeCreateOff(					Rbdb_FileSettingsController*		file_settings_controller );
 																																	
-	int	 	   								RPDB_FileSettingsController_openReadOnly(											RPDB_FileSettingsController*		file_settings_controller );
-	void 										RPDB_FileSettingsController_turnOpenReadOnlyOn(									RPDB_FileSettingsController*		file_settings_controller );
-	void 										RPDB_FileSettingsController_turnOpenReadOnlyOff(									RPDB_FileSettingsController*		file_settings_controller );
+	int	 	   								Rbdb_FileSettingsController_openReadOnly(											Rbdb_FileSettingsController*		file_settings_controller );
+	void 										Rbdb_FileSettingsController_turnOpenReadOnlyOn(									Rbdb_FileSettingsController*		file_settings_controller );
+	void 										Rbdb_FileSettingsController_turnOpenReadOnlyOff(									Rbdb_FileSettingsController*		file_settings_controller );
 																																	
-	int										RPDB_FileSettingsController_forceRemoval(											RPDB_FileSettingsController*		file_settings_controller );
-	void 										RPDB_FileSettingsController_turnForceRemovalOn(									RPDB_FileSettingsController*		file_settings_controller );
-	void 										RPDB_FileSettingsController_turnForceRemovalOff(									RPDB_FileSettingsController*		file_settings_controller );
+	int										Rbdb_FileSettingsController_forceRemoval(											Rbdb_FileSettingsController*		file_settings_controller );
+	void 										Rbdb_FileSettingsController_turnForceRemovalOn(									Rbdb_FileSettingsController*		file_settings_controller );
+	void 										Rbdb_FileSettingsController_turnForceRemovalOff(									Rbdb_FileSettingsController*		file_settings_controller );
 																																	
-	int											RPDB_FileSettingsController_fileCreationMode(										RPDB_FileSettingsController*		file_settings_controller );
-	void										RPDB_FileSettingsController_setFileCreationMode(									RPDB_FileSettingsController*		file_settings_controller,
+	int											Rbdb_FileSettingsController_fileCreationMode(										Rbdb_FileSettingsController*		file_settings_controller );
+	void										Rbdb_FileSettingsController_setFileCreationMode(									Rbdb_FileSettingsController*		file_settings_controller,
 	 											   																					int									mode	);
 												   																														
-	RPDB_FileVerbositySettingsController*		RPDB_FileSettingsController_verbositySettingsController(							RPDB_FileSettingsController*		file_settings_controller );
+	Rbdb_FileVerbositySettingsController*		Rbdb_FileSettingsController_verbositySettingsController(							Rbdb_FileSettingsController*		file_settings_controller );
 
 #endif
 

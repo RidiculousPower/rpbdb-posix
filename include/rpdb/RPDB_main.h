@@ -1,17 +1,17 @@
-#ifndef RPDB_MAIN
-	#define RPDB_MAIN
+#ifndef Rbdb_MAIN
+	#define Rbdb_MAIN
 
 	/****************
 	*  Includes  *
 	****************/
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
-	char* RPDB_version();
-	int RPDB_versionMajor();
-	int RPDB_versionMinor();
-	int RPDB_versionPatch();
-	char* RPDB_versionData(	int*						major,
+	char* Rbdb_version();
+	int Rbdb_versionMajor();
+	int Rbdb_versionMinor();
+	int Rbdb_versionPatch();
+	char* Rbdb_versionData(	int*						major,
 							int*						minor, 
 							int*						patch );
 

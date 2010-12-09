@@ -1,40 +1,40 @@
 /*
- *		RPDB::TransactionController
+ *		Rbdb::TransactionController
  *
  *
  */
 
-#ifndef RPDB_TRANSACTION_CONTROLLER
-	#define RPDB_TRANSACTION_CONTROLLER
+#ifndef Rbdb_TRANSACTION_CONTROLLER
+	#define Rbdb_TRANSACTION_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 	
 	/****************
 	*  Prototypes  *
 	****************/
 
-RPDB_TransactionController*			RPDB_TransactionController_new(													RPDB_Environment*				environment );
-void									RPDB_TransactionController_free(													RPDB_TransactionController**		transaction_controller );
-RPDB_TransactionSettingsController*	RPDB_TransactionController_settingsController(										RPDB_TransactionController*		transaction_controller );
-RPDB_Environment*				RPDB_TransactionController_parentEnvironment(						RPDB_TransactionController*	transaction_controller );
-RPDB_Transaction*						RPDB_TransactionController_beginTransaction(													RPDB_TransactionController*	transaction_controller );
-RPDB_Transaction*						RPDB_TransactionController_beginConcurrentDataStoreGroup(								RPDB_TransactionController*	transaction_controller );
-void RPDB_TransactionController_commitTransaction( RPDB_TransactionController* transaction_controller );
-void RPDB_TransactionController_commitAllTransactions( RPDB_TransactionController* transaction_controller );
-void RPDB_TransactionController_rollbackTransaction( RPDB_TransactionController* transaction_controller );
-	RPDB_Transaction*						RPDB_TransactionController_currentTransaction(										RPDB_TransactionController*	transaction_controller );
-RPDB_Transaction**						RPDB_TransactionController_recoverTransactions(									RPDB_TransactionController*	transaction_controller );
-void RPDB_TransactionController_commitCheckpoint( RPDB_TransactionController*	transaction_controller );
-void RPDB_TransactionController_commitCheckpointIfSufficientWrittenData(	RPDB_TransactionController*	transaction_controller,
+Rbdb_TransactionController*			Rbdb_TransactionController_new(													Rbdb_Environment*				environment );
+void									Rbdb_TransactionController_free(													Rbdb_TransactionController**		transaction_controller );
+Rbdb_TransactionSettingsController*	Rbdb_TransactionController_settingsController(										Rbdb_TransactionController*		transaction_controller );
+Rbdb_Environment*				Rbdb_TransactionController_parentEnvironment(						Rbdb_TransactionController*	transaction_controller );
+Rbdb_Transaction*						Rbdb_TransactionController_beginTransaction(													Rbdb_TransactionController*	transaction_controller );
+Rbdb_Transaction*						Rbdb_TransactionController_beginConcurrentDataStoreGroup(								Rbdb_TransactionController*	transaction_controller );
+void Rbdb_TransactionController_commitTransaction( Rbdb_TransactionController* transaction_controller );
+void Rbdb_TransactionController_commitAllTransactions( Rbdb_TransactionController* transaction_controller );
+void Rbdb_TransactionController_rollbackTransaction( Rbdb_TransactionController* transaction_controller );
+	Rbdb_Transaction*						Rbdb_TransactionController_currentTransaction(										Rbdb_TransactionController*	transaction_controller );
+Rbdb_Transaction**						Rbdb_TransactionController_recoverTransactions(									Rbdb_TransactionController*	transaction_controller );
+void Rbdb_TransactionController_commitCheckpoint( Rbdb_TransactionController*	transaction_controller );
+void Rbdb_TransactionController_commitCheckpointIfSufficientWrittenData(	Rbdb_TransactionController*	transaction_controller,
 																		 uint32_t						minimum_written_data_for_checkpoint_in_k );
-void RPDB_TransactionController_commitCheckpointIfSufficientTimeElapsed(	RPDB_TransactionController*	transaction_controller,
+void Rbdb_TransactionController_commitCheckpointIfSufficientTimeElapsed(	Rbdb_TransactionController*	transaction_controller,
 																		 uint32_t						minimum_time_for_checkpoint_in_minutes );
-void RPDB_TransactionController_commitCheckpointIfSufficientWrittenDataOrTimeElapsed(	RPDB_TransactionController*	transaction_controller,
+void Rbdb_TransactionController_commitCheckpointIfSufficientWrittenDataOrTimeElapsed(	Rbdb_TransactionController*	transaction_controller,
 																					  uint32_t						minimum_written_data_for_checkpoint_in_k,
 																					  uint32_t						minimum_time_for_checkpoint_in_minutes );
 	
-void RPDB_TransactionController_closeAllTransactions( RPDB_TransactionController* transaction_controller );
-void RPDB_TransactionController_freeAllTransactions( RPDB_TransactionController* transaction_controller );
+void Rbdb_TransactionController_closeAllTransactions( Rbdb_TransactionController* transaction_controller );
+void Rbdb_TransactionController_freeAllTransactions( Rbdb_TransactionController* transaction_controller );
 	
 
 #endif

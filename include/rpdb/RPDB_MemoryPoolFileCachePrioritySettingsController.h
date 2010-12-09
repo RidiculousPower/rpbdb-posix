@@ -1,49 +1,49 @@
 /*
- *		RPDB::SettingsController::MemoryPoolSettingsController::MemoryPoolFileSettingsController::MemoryPoolFileCachePrioritySettingsController
+ *		Rbdb::SettingsController::MemoryPoolSettingsController::MemoryPoolFileSettingsController::MemoryPoolFileCachePrioritySettingsController
  *
  *
  */
 
-#ifndef RPDB_MEMORY_POOL_FILE_CACHE_PRIORITY_SETTINGS_CONTROLLER
-	#define RPDB_MEMORY_POOL_FILE_CACHE_PRIORITY_SETTINGS_CONTROLLER
+#ifndef Rbdb_MEMORY_POOL_FILE_CACHE_PRIORITY_SETTINGS_CONTROLLER
+	#define Rbdb_MEMORY_POOL_FILE_CACHE_PRIORITY_SETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 					
-RPDB_MemoryPoolFileCachePrioritySettingsController* RPDB_MemoryPoolFileCachePrioritySettingsController_new( RPDB_MemoryPoolFileCacheSettingsController*	memory_pool_file_cache_settings_controller );
+Rbdb_MemoryPoolFileCachePrioritySettingsController* Rbdb_MemoryPoolFileCachePrioritySettingsController_new( Rbdb_MemoryPoolFileCacheSettingsController*	memory_pool_file_cache_settings_controller );
 
-	void													RPDB_MemoryPoolFileCachePrioritySettingsController_free(	RPDB_MemoryPoolFileCachePrioritySettingsController** memory_pool_file_cache_priority_settings_controller );
-	RPDB_Environment*								RPDB_MemoryPoolFileCachePrioritySettingsController_parentEnvironment(	RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	void													Rbdb_MemoryPoolFileCachePrioritySettingsController_free(	Rbdb_MemoryPoolFileCachePrioritySettingsController** memory_pool_file_cache_priority_settings_controller );
+	Rbdb_Environment*								Rbdb_MemoryPoolFileCachePrioritySettingsController_parentEnvironment(	Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
 
-	DB_CACHE_PRIORITY			RPDB_MemoryPoolFileCachePrioritySettingsController_currentPriority(			RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY			Rbdb_MemoryPoolFileCachePrioritySettingsController_currentPriority(			Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
 
-	BOOL		RPDB_MemoryPoolFileCachePrioritySettingsController_veryLow(					RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
-	void		RPDB_MemoryPoolFileCachePrioritySettingsController_setVeryLow(					RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
-	BOOL		RPDB_MemoryPoolFileCachePrioritySettingsController_isAtLeastVeryLow(			RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
-	BOOL		RPDB_MemoryPoolFileCachePrioritySettingsController_isAtMostVeryLow(			RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	BOOL		Rbdb_MemoryPoolFileCachePrioritySettingsController_veryLow(					Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	void		Rbdb_MemoryPoolFileCachePrioritySettingsController_setVeryLow(					Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	BOOL		Rbdb_MemoryPoolFileCachePrioritySettingsController_isAtLeastVeryLow(			Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	BOOL		Rbdb_MemoryPoolFileCachePrioritySettingsController_isAtMostVeryLow(			Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
 																								
-	BOOL		RPDB_MemoryPoolFileCachePrioritySettingsController_low(						RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
-	void		RPDB_MemoryPoolFileCachePrioritySettingsController_setLow(						RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
-	BOOL		RPDB_MemoryPoolFileCachePrioritySettingsController_isAtLeastLow(				RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
-	BOOL		RPDB_MemoryPoolFileCachePrioritySettingsController_isAtMostLow(				RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	BOOL		Rbdb_MemoryPoolFileCachePrioritySettingsController_low(						Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	void		Rbdb_MemoryPoolFileCachePrioritySettingsController_setLow(						Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	BOOL		Rbdb_MemoryPoolFileCachePrioritySettingsController_isAtLeastLow(				Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	BOOL		Rbdb_MemoryPoolFileCachePrioritySettingsController_isAtMostLow(				Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
 																								
-	BOOL		RPDB_MemoryPoolFileCachePrioritySettingsController_default(					RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
-	void		RPDB_MemoryPoolFileCachePrioritySettingsController_setDefault(					RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
-	BOOL		RPDB_MemoryPoolFileCachePrioritySettingsController_isAtLeastDefault(			RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
-	BOOL		RPDB_MemoryPoolFileCachePrioritySettingsController_isAtMostDefault(			RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	BOOL		Rbdb_MemoryPoolFileCachePrioritySettingsController_default(					Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	void		Rbdb_MemoryPoolFileCachePrioritySettingsController_setDefault(					Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	BOOL		Rbdb_MemoryPoolFileCachePrioritySettingsController_isAtLeastDefault(			Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	BOOL		Rbdb_MemoryPoolFileCachePrioritySettingsController_isAtMostDefault(			Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
 																								
-	BOOL		RPDB_MemoryPoolFileCachePrioritySettingsController_high(						RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
-	void		RPDB_MemoryPoolFileCachePrioritySettingsController_setHigh(					RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
-	BOOL		RPDB_MemoryPoolFileCachePrioritySettingsController_isAtLeastHigh(				RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
-	BOOL		RPDB_MemoryPoolFileCachePrioritySettingsController_isAtMostHigh(				RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	BOOL		Rbdb_MemoryPoolFileCachePrioritySettingsController_high(						Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	void		Rbdb_MemoryPoolFileCachePrioritySettingsController_setHigh(					Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	BOOL		Rbdb_MemoryPoolFileCachePrioritySettingsController_isAtLeastHigh(				Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	BOOL		Rbdb_MemoryPoolFileCachePrioritySettingsController_isAtMostHigh(				Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
 																								
-	BOOL		RPDB_MemoryPoolFileCachePrioritySettingsController_veryHigh(					RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
-	void		RPDB_MemoryPoolFileCachePrioritySettingsController_setVeryHigh(				RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
-	BOOL		RPDB_MemoryPoolFileCachePrioritySettingsController_isAtLeastVeryHigh(			RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
-	BOOL		RPDB_MemoryPoolFileCachePrioritySettingsController_isAtMostVeryHigh(			RPDB_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	BOOL		Rbdb_MemoryPoolFileCachePrioritySettingsController_veryHigh(					Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	void		Rbdb_MemoryPoolFileCachePrioritySettingsController_setVeryHigh(				Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	BOOL		Rbdb_MemoryPoolFileCachePrioritySettingsController_isAtLeastVeryHigh(			Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
+	BOOL		Rbdb_MemoryPoolFileCachePrioritySettingsController_isAtMostVeryHigh(			Rbdb_MemoryPoolFileCachePrioritySettingsController* memory_pool_file_cache_priority_settings_controller );
 
 #endif
 

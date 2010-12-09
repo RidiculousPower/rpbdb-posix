@@ -1,64 +1,64 @@
 /*
- *		RPDB::SettingsController::FileSettingsController
+ *		Rbdb::SettingsController::FileSettingsController
  *
  *
  */
 
-#ifndef RPDB_LOCK_SETTINGS_CONTROLLER
-	#define RPDB_LOCK_SETTINGS_CONTROLLER
+#ifndef Rbdb_LOCK_SETTINGS_CONTROLLER
+	#define Rbdb_LOCK_SETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_LockSettingsController*						RPDB_LockSettingsController_new(											RPDB_SettingsController*				settings_controller );
+	Rbdb_LockSettingsController*						Rbdb_LockSettingsController_new(											Rbdb_SettingsController*				settings_controller );
 
-	void												RPDB_LockSettingsController_free(											RPDB_LockSettingsController**			lock_settings_controller );
-	RPDB_Environment*							RPDB_LockSettingsController_parentEnvironment(					RPDB_LockSettingsController*			lock_settings_controller );
+	void												Rbdb_LockSettingsController_free(											Rbdb_LockSettingsController**			lock_settings_controller );
+	Rbdb_Environment*							Rbdb_LockSettingsController_parentEnvironment(					Rbdb_LockSettingsController*			lock_settings_controller );
 														
-	int												RPDB_LockSettingsController_on(											RPDB_LockSettingsController*			lock_settings_controller );
-	BOOL												RPDB_LockSettingsController_off(											RPDB_LockSettingsController*			lock_settings_controller );
-	void												RPDB_LockSettingsController_turnOn(										RPDB_LockSettingsController*			lock_settings_controller );
-	void												RPDB_LockSettingsController_turnOff(										RPDB_LockSettingsController*			lock_settings_controller );
+	int												Rbdb_LockSettingsController_on(											Rbdb_LockSettingsController*			lock_settings_controller );
+	BOOL												Rbdb_LockSettingsController_off(											Rbdb_LockSettingsController*			lock_settings_controller );
+	void												Rbdb_LockSettingsController_turnOn(										Rbdb_LockSettingsController*			lock_settings_controller );
+	void												Rbdb_LockSettingsController_turnOff(										Rbdb_LockSettingsController*			lock_settings_controller );
 														
-	int												RPDB_LockSettingsController_prohibitLocking(								RPDB_LockSettingsController*			lock_settings_controller );
-	void												RPDB_LockSettingsController_turnProhibitLockingOn(							RPDB_LockSettingsController*			lock_settings_controller );
-	void												RPDB_LockSettingsController_turnProhibitLockingOff(						RPDB_LockSettingsController*			lock_settings_controller );
+	int												Rbdb_LockSettingsController_prohibitLocking(								Rbdb_LockSettingsController*			lock_settings_controller );
+	void												Rbdb_LockSettingsController_turnProhibitLockingOn(							Rbdb_LockSettingsController*			lock_settings_controller );
+	void												Rbdb_LockSettingsController_turnProhibitLockingOff(						Rbdb_LockSettingsController*			lock_settings_controller );
 
-	int												RPDB_LockSettingsController_timeoutReturnsDenyNotDeadlock(			RPDB_LockSettingsController*			lock_settings_controller );
-	void												RPDB_LockSettingsController_turnTimeoutReturnsDenyNotDeadlockOn(		RPDB_LockSettingsController*			lock_settings_controller );
-	void												RPDB_LockSettingsController_turnTimeoutReturnsDenyNotDeadlockOff(	RPDB_LockSettingsController*			lock_settings_controller );
+	int												Rbdb_LockSettingsController_timeoutReturnsDenyNotDeadlock(			Rbdb_LockSettingsController*			lock_settings_controller );
+	void												Rbdb_LockSettingsController_turnTimeoutReturnsDenyNotDeadlockOn(		Rbdb_LockSettingsController*			lock_settings_controller );
+	void												Rbdb_LockSettingsController_turnTimeoutReturnsDenyNotDeadlockOff(	Rbdb_LockSettingsController*			lock_settings_controller );
 
-	int												RPDB_LockSettingsController_noWaitingForConflicts(							RPDB_LockSettingsController*			lock_settings_controller );
-	void												RPDB_LockSettingsController_turnNoWaitingForConflictsOn(					RPDB_LockSettingsController*			lock_settings_controller );
-	void												RPDB_LockSettingsController_turnNoWaitingForConflictsOff(					RPDB_LockSettingsController*			lock_settings_controller );
+	int												Rbdb_LockSettingsController_noWaitingForConflicts(							Rbdb_LockSettingsController*			lock_settings_controller );
+	void												Rbdb_LockSettingsController_turnNoWaitingForConflictsOn(					Rbdb_LockSettingsController*			lock_settings_controller );
+	void												Rbdb_LockSettingsController_turnNoWaitingForConflictsOff(					Rbdb_LockSettingsController*			lock_settings_controller );
 
-	int												RPDB_LockSettingsController_lockForEnvironmentNotDatabase(					RPDB_LockSettingsController*			lock_settings_controller );
-	void												RPDB_LockSettingsController_turnLockForEnvironmentNotDatabaseOn(			RPDB_LockSettingsController*			lock_settings_controller );
-	void												RPDB_LockSettingsController_turnLockForEnvironmentNotDatabaseOff(			RPDB_LockSettingsController*			lock_settings_controller );
+	int												Rbdb_LockSettingsController_lockForEnvironmentNotDatabase(					Rbdb_LockSettingsController*			lock_settings_controller );
+	void												Rbdb_LockSettingsController_turnLockForEnvironmentNotDatabaseOn(			Rbdb_LockSettingsController*			lock_settings_controller );
+	void												Rbdb_LockSettingsController_turnLockForEnvironmentNotDatabaseOff(			Rbdb_LockSettingsController*			lock_settings_controller );
 
-	int													RPDB_LockSettingsController_timeout(										RPDB_LockSettingsController*			lock_settings_controller );
-void RPDB_LockSettingsController_setTimeout(	RPDB_LockSettingsController* lock_settings_controller,
+	int													Rbdb_LockSettingsController_timeout(										Rbdb_LockSettingsController*			lock_settings_controller );
+void Rbdb_LockSettingsController_setTimeout(	Rbdb_LockSettingsController* lock_settings_controller,
 											 uint32_t	timeout );
 
-	uint8_t*											RPDB_LockSettingsController_conflictMatrix(								RPDB_LockSettingsController*			lock_settings_controller );
-	void												RPDB_LockSettingsController_setConflictMatrix(								RPDB_LockSettingsController*			lock_settings_controller,
+	uint8_t*											Rbdb_LockSettingsController_conflictMatrix(								Rbdb_LockSettingsController*			lock_settings_controller );
+	void												Rbdb_LockSettingsController_setConflictMatrix(								Rbdb_LockSettingsController*			lock_settings_controller,
 																																	uint8_t*								conflict_matrix );
-	int													RPDB_LockSettingsController_maxLockers(									RPDB_LockSettingsController*			lock_settings_controller );
-	void												RPDB_LockSettingsController_setMaxLockers(									RPDB_LockSettingsController*			lock_settings_controller, uint32_t max_lockers );
+	int													Rbdb_LockSettingsController_maxLockers(									Rbdb_LockSettingsController*			lock_settings_controller );
+	void												Rbdb_LockSettingsController_setMaxLockers(									Rbdb_LockSettingsController*			lock_settings_controller, uint32_t max_lockers );
 
-	int													RPDB_LockSettingsController_maxLocks(										RPDB_LockSettingsController*			lock_settings_controller );
-	void												RPDB_LockSettingsController_setMaxLocks(									RPDB_LockSettingsController*			lock_settings_controller, uint32_t max_locks );
+	int													Rbdb_LockSettingsController_maxLocks(										Rbdb_LockSettingsController*			lock_settings_controller );
+	void												Rbdb_LockSettingsController_setMaxLocks(									Rbdb_LockSettingsController*			lock_settings_controller, uint32_t max_locks );
 
-	int													RPDB_LockSettingsController_maxObjects(									RPDB_LockSettingsController*			lock_settings_controller );
-	void												RPDB_LockSettingsController_setMaxObjects(									RPDB_LockSettingsController*			lock_settings_controller, uint32_t max_objects );
+	int													Rbdb_LockSettingsController_maxObjects(									Rbdb_LockSettingsController*			lock_settings_controller );
+	void												Rbdb_LockSettingsController_setMaxObjects(									Rbdb_LockSettingsController*			lock_settings_controller, uint32_t max_objects );
 
-	int													RPDB_LockSettingsController_numberOfPartitions(							RPDB_LockSettingsController*			lock_settings_controller );
-	void												RPDB_LockSettingsController_setNumberOfPartitions(							RPDB_LockSettingsController*			lock_settings_controller, uint32_t partitions );
+	int													Rbdb_LockSettingsController_numberOfPartitions(							Rbdb_LockSettingsController*			lock_settings_controller );
+	void												Rbdb_LockSettingsController_setNumberOfPartitions(							Rbdb_LockSettingsController*			lock_settings_controller, uint32_t partitions );
 
-	RPDB_LockDeadlockDetectorSettingsController*		RPDB_LockSettingsController_deadlockDetectorSettingsController(					RPDB_LockSettingsController*			lock_settings_controller );
+	Rbdb_LockDeadlockDetectorSettingsController*		Rbdb_LockSettingsController_deadlockDetectorSettingsController(					Rbdb_LockSettingsController*			lock_settings_controller );
 
 #endif
 

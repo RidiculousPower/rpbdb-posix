@@ -1,5 +1,5 @@
 /*
- *		RPDB::DatabaseController::Database::DatabaseSettingsController::DatabaseSettingsVariableRecordController
+ *		Rbdb::DatabaseController::Database::DatabaseSettingsController::DatabaseSettingsVariableRecordController
  *
  *
  */
@@ -10,9 +10,9 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_DatabaseRecordVariableLengthSettingsController.h"
+#include "Rbdb_DatabaseRecordVariableLengthSettingsController.h"
 
-#include "RPDB_DatabaseRecordVariableLengthSettingsController_internal.h"
+#include "Rbdb_DatabaseRecordVariableLengthSettingsController_internal.h"
  
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -24,9 +24,9 @@
 	*  new  *
 	*************/
 
-RPDB_DatabaseRecordVariableLengthSettingsController* RPDB_DatabaseRecordVariableLengthSettingsController_new( RPDB_DatabaseRecordSettingsController* database_record_settings_controller )	{
+Rbdb_DatabaseRecordVariableLengthSettingsController* Rbdb_DatabaseRecordVariableLengthSettingsController_new( Rbdb_DatabaseRecordSettingsController* database_record_settings_controller )	{
 
-	RPDB_DatabaseRecordVariableLengthSettingsController*	database_record_variable_length_settings_controller = calloc( 1, sizeof( RPDB_DatabaseRecordVariableLengthSettingsController ) );
+	Rbdb_DatabaseRecordVariableLengthSettingsController*	database_record_variable_length_settings_controller = calloc( 1, sizeof( Rbdb_DatabaseRecordVariableLengthSettingsController ) );
 
 	database_record_variable_length_settings_controller->parent_database_record_settings_controller = database_record_settings_controller;
 
@@ -36,7 +36,7 @@ RPDB_DatabaseRecordVariableLengthSettingsController* RPDB_DatabaseRecordVariable
 /***************************
 *  free  *
 ***************************/
-void RPDB_DatabaseRecordVariableLengthSettingsController_free(	RPDB_DatabaseRecordVariableLengthSettingsController** database_record_variable_length_settings_controller )	{
+void Rbdb_DatabaseRecordVariableLengthSettingsController_free(	Rbdb_DatabaseRecordVariableLengthSettingsController** database_record_variable_length_settings_controller )	{
 
 	free( *database_record_variable_length_settings_controller );
 	*database_record_variable_length_settings_controller	=	NULL;
@@ -45,14 +45,14 @@ void RPDB_DatabaseRecordVariableLengthSettingsController_free(	RPDB_DatabaseReco
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_DatabaseRecordVariableLengthSettingsController_parentEnvironment(	RPDB_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller )	{
+Rbdb_Environment* Rbdb_DatabaseRecordVariableLengthSettingsController_parentEnvironment(	Rbdb_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller )	{
 	return database_record_variable_length_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment;
 }
 
 /***************************************
 *  parentDatabase  *
 ***************************************/
-RPDB_Database* RPDB_DatabaseRecordVariableLengthSettingsController_parentDatabase(	RPDB_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller )	{
+Rbdb_Database* Rbdb_DatabaseRecordVariableLengthSettingsController_parentDatabase(	Rbdb_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller )	{
 	return database_record_variable_length_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database;
 }
 
@@ -61,9 +61,9 @@ RPDB_Database* RPDB_DatabaseRecordVariableLengthSettingsController_parentDatabas
 	************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_re_delim.html
-int RPDB_DatabaseRecordVariableLengthSettingsController_delimeterByte( RPDB_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller )	{
+int Rbdb_DatabaseRecordVariableLengthSettingsController_delimeterByte( Rbdb_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller )	{
 
-	RPDB_Database*				database	= database_record_variable_length_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database;
+	Rbdb_Database*				database	= database_record_variable_length_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database;
 	
 	if (		database != NULL
 			&&	database->wrapped_bdb_database != NULL )	{
@@ -79,10 +79,10 @@ int RPDB_DatabaseRecordVariableLengthSettingsController_delimeterByte( RPDB_Data
 	*  setRecordDelimeter  *
 	****************************/
 
-void RPDB_DatabaseRecordVariableLengthSettingsController_setDelimeterByte(	RPDB_DatabaseRecordVariableLengthSettingsController*		database_record_variable_length_settings_controller, 
+void Rbdb_DatabaseRecordVariableLengthSettingsController_setDelimeterByte(	Rbdb_DatabaseRecordVariableLengthSettingsController*		database_record_variable_length_settings_controller, 
 																																							int													delimeter_byte )	{
 
-	RPDB_Database*				database	= database_record_variable_length_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database;
+	Rbdb_Database*				database	= database_record_variable_length_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database;
 
 	if (		database != NULL
 			&&	database->wrapped_bdb_database != NULL )	{
@@ -103,9 +103,9 @@ void RPDB_DatabaseRecordVariableLengthSettingsController_setDelimeterByte(	RPDB_
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_DatabaseRecordVariableLengthSettingsController* RPDB_DatabaseRecordVariableLengthSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller )	{
+Rbdb_DatabaseRecordVariableLengthSettingsController* Rbdb_DatabaseRecordVariableLengthSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller )	{
 
-	RPDB_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller_copy	=	RPDB_DatabaseRecordVariableLengthSettingsController_new( database_record_variable_length_settings_controller->parent_database_record_settings_controller );
+	Rbdb_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller_copy	=	Rbdb_DatabaseRecordVariableLengthSettingsController_new( database_record_variable_length_settings_controller->parent_database_record_settings_controller );
 
 	//	Instances and Pointers
 	database_record_variable_length_settings_controller_copy->index_primary	=	database_record_variable_length_settings_controller->index_primary;

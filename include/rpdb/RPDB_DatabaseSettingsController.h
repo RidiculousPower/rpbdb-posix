@@ -1,52 +1,52 @@
 /*
- *		RPDB::Database::DatabaseSettingsController
+ *		Rbdb::Database::DatabaseSettingsController
  *
  *
  */
 
-#ifndef RPDB_DATABASE_SETTINGS_CONTROLLER
-	#define RPDB_DATABASE_SETTINGS_CONTROLLER
+#ifndef Rbdb_DATABASE_SETTINGS_CONTROLLER
+	#define Rbdb_DATABASE_SETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_DatabaseSettingsController*				RPDB_DatabaseSettingsController_new(											RPDB_SettingsController*			settings_controller );
+	Rbdb_DatabaseSettingsController*				Rbdb_DatabaseSettingsController_new(											Rbdb_SettingsController*			settings_controller );
 
-	void											RPDB_DatabaseSettingsController_free(											RPDB_DatabaseSettingsController** database_settings_controller );
-	RPDB_Environment*						RPDB_DatabaseSettingsController_parentEnvironment(					RPDB_DatabaseSettingsController* database_settings_controller );
-	RPDB_Database* RPDB_DatabaseSettingsController_parentDatabase(	RPDB_DatabaseSettingsController* database_settings_controller );
+	void											Rbdb_DatabaseSettingsController_free(											Rbdb_DatabaseSettingsController** database_settings_controller );
+	Rbdb_Environment*						Rbdb_DatabaseSettingsController_parentEnvironment(					Rbdb_DatabaseSettingsController* database_settings_controller );
+	Rbdb_Database* Rbdb_DatabaseSettingsController_parentDatabase(	Rbdb_DatabaseSettingsController* database_settings_controller );
 
-	int												RPDB_DatabaseSettingsController_checksum(										RPDB_DatabaseSettingsController*	database_settings_controller );
-	void											RPDB_DatabaseSettingsController_turnChecksumOn(								RPDB_DatabaseSettingsController*	database_settings_controller );
-	void											RPDB_DatabaseSettingsController_turnChecksumOff(								RPDB_DatabaseSettingsController*	database_settings_controller );
-	int												RPDB_DatabaseSettingsController_transactionDurability(							RPDB_DatabaseSettingsController*	database_settings_controller );
-	void											RPDB_DatabaseSettingsController_turnTransactionDurabilityOn(					RPDB_DatabaseSettingsController*	database_settings_controller );
-	void											RPDB_DatabaseSettingsController_turnTransactionDurabilityOff(					RPDB_DatabaseSettingsController*	database_settings_controller );
-	uint32_t										RPDB_DatabaseSettingsController_pagesize(										RPDB_DatabaseSettingsController*	database_settings_controller );
-	void											RPDB_DatabaseSettingsController_setPageSize(									RPDB_DatabaseSettingsController*	database_settings_controller, 
+	int												Rbdb_DatabaseSettingsController_checksum(										Rbdb_DatabaseSettingsController*	database_settings_controller );
+	void											Rbdb_DatabaseSettingsController_turnChecksumOn(								Rbdb_DatabaseSettingsController*	database_settings_controller );
+	void											Rbdb_DatabaseSettingsController_turnChecksumOff(								Rbdb_DatabaseSettingsController*	database_settings_controller );
+	int												Rbdb_DatabaseSettingsController_transactionDurability(							Rbdb_DatabaseSettingsController*	database_settings_controller );
+	void											Rbdb_DatabaseSettingsController_turnTransactionDurabilityOn(					Rbdb_DatabaseSettingsController*	database_settings_controller );
+	void											Rbdb_DatabaseSettingsController_turnTransactionDurabilityOff(					Rbdb_DatabaseSettingsController*	database_settings_controller );
+	uint32_t										Rbdb_DatabaseSettingsController_pagesize(										Rbdb_DatabaseSettingsController*	database_settings_controller );
+	void											Rbdb_DatabaseSettingsController_setPageSize(									Rbdb_DatabaseSettingsController*	database_settings_controller, 
 																																	uint32_t							pagesize );
-	BOOL											RPDB_DatabaseSettingsController_isBigEndian(									RPDB_DatabaseSettingsController*	database_settings_controller );
-	void											RPDB_DatabaseSettingsController_setByteOrderToBigEndian(						RPDB_DatabaseSettingsController*	database_settings_controller );
-	BOOL											RPDB_DatabaseSettingsController_isLittleEndian(								RPDB_DatabaseSettingsController*	database_settings_controller );
-	void											RPDB_DatabaseSettingsController_setByteOrderToLittleEndian(					RPDB_DatabaseSettingsController*	database_settings_controller );
-	BOOL											RPDB_DatabaseSettingsController_isByteswapped(									RPDB_DatabaseSettingsController*	database_settings_controller );
-	int												RPDB_DatabaseSettingsController_maxSizePageIn(														RPDB_DatabaseSettingsController*	database_settings_controller );
-	RPDB_DatabaseErrorSettingsController*			RPDB_DatabaseSettingsController_errorSettingsController(						RPDB_DatabaseSettingsController*	database_settings_controller );
-	RPDB_DatabaseCacheSettingsController*			RPDB_DatabaseSettingsController_cacheSettingsController(						RPDB_DatabaseSettingsController*	database_settings_controller );
-	RPDB_DatabaseAssociationSettingsController*	RPDB_DatabaseSettingsController_associationSettingsController(					RPDB_DatabaseSettingsController*	database_settings_controller );
-	RPDB_DatabaseCompactSettingsController*		RPDB_DatabaseSettingsController_compactSettingsController(						RPDB_DatabaseSettingsController*	database_settings_controller );
-	RPDB_DatabaseEncryptionSettingsController*		RPDB_DatabaseSettingsController_encryptionSettingsController(					RPDB_DatabaseSettingsController*	database_settings_controller );
-	RPDB_DatabaseVerbositySettingsController*		RPDB_DatabaseSettingsController_verbositySettingsController(					RPDB_DatabaseSettingsController*	database_settings_controller );
-	RPDB_DatabaseVerificationSettingsController*	RPDB_DatabaseSettingsController_verificationSettingsController(				RPDB_DatabaseSettingsController*	database_settings_controller );
-	RPDB_DatabaseSequenceSettingsController*		RPDB_DatabaseSettingsController_sequenceSettingsController(					RPDB_DatabaseSettingsController*	database_settings_controller );
-	RPDB_DatabaseCursorSettingsController*			RPDB_DatabaseSettingsController_cursorSettingsController(						RPDB_DatabaseSettingsController*	database_settings_controller );
-	RPDB_DatabaseTypeSettingsController*			RPDB_DatabaseSettingsController_typeSettingsController(						RPDB_DatabaseSettingsController*	database_settings_controller );
-	RPDB_DatabaseEncryptionSettingsController*		RPDB_DatabaseSettingsController_encryptionSettingsController(					RPDB_DatabaseSettingsController*	database_settings_controller );
-	RPDB_DatabaseJoinSettingsController* RPDB_DatabaseSettingsController_joinSettingsController( RPDB_DatabaseSettingsController*	database_settings_controller );
-	RPDB_DatabaseRecordSettingsController* RPDB_DatabaseSettingsController_recordSettingsController( RPDB_DatabaseSettingsController*	database_settings_controller );
+	BOOL											Rbdb_DatabaseSettingsController_isBigEndian(									Rbdb_DatabaseSettingsController*	database_settings_controller );
+	void											Rbdb_DatabaseSettingsController_setByteOrderToBigEndian(						Rbdb_DatabaseSettingsController*	database_settings_controller );
+	BOOL											Rbdb_DatabaseSettingsController_isLittleEndian(								Rbdb_DatabaseSettingsController*	database_settings_controller );
+	void											Rbdb_DatabaseSettingsController_setByteOrderToLittleEndian(					Rbdb_DatabaseSettingsController*	database_settings_controller );
+	BOOL											Rbdb_DatabaseSettingsController_isByteswapped(									Rbdb_DatabaseSettingsController*	database_settings_controller );
+	int												Rbdb_DatabaseSettingsController_maxSizePageIn(														Rbdb_DatabaseSettingsController*	database_settings_controller );
+	Rbdb_DatabaseErrorSettingsController*			Rbdb_DatabaseSettingsController_errorSettingsController(						Rbdb_DatabaseSettingsController*	database_settings_controller );
+	Rbdb_DatabaseCacheSettingsController*			Rbdb_DatabaseSettingsController_cacheSettingsController(						Rbdb_DatabaseSettingsController*	database_settings_controller );
+	Rbdb_DatabaseAssociationSettingsController*	Rbdb_DatabaseSettingsController_associationSettingsController(					Rbdb_DatabaseSettingsController*	database_settings_controller );
+	Rbdb_DatabaseCompactSettingsController*		Rbdb_DatabaseSettingsController_compactSettingsController(						Rbdb_DatabaseSettingsController*	database_settings_controller );
+	Rbdb_DatabaseEncryptionSettingsController*		Rbdb_DatabaseSettingsController_encryptionSettingsController(					Rbdb_DatabaseSettingsController*	database_settings_controller );
+	Rbdb_DatabaseVerbositySettingsController*		Rbdb_DatabaseSettingsController_verbositySettingsController(					Rbdb_DatabaseSettingsController*	database_settings_controller );
+	Rbdb_DatabaseVerificationSettingsController*	Rbdb_DatabaseSettingsController_verificationSettingsController(				Rbdb_DatabaseSettingsController*	database_settings_controller );
+	Rbdb_DatabaseSequenceSettingsController*		Rbdb_DatabaseSettingsController_sequenceSettingsController(					Rbdb_DatabaseSettingsController*	database_settings_controller );
+	Rbdb_DatabaseCursorSettingsController*			Rbdb_DatabaseSettingsController_cursorSettingsController(						Rbdb_DatabaseSettingsController*	database_settings_controller );
+	Rbdb_DatabaseTypeSettingsController*			Rbdb_DatabaseSettingsController_typeSettingsController(						Rbdb_DatabaseSettingsController*	database_settings_controller );
+	Rbdb_DatabaseEncryptionSettingsController*		Rbdb_DatabaseSettingsController_encryptionSettingsController(					Rbdb_DatabaseSettingsController*	database_settings_controller );
+	Rbdb_DatabaseJoinSettingsController* Rbdb_DatabaseSettingsController_joinSettingsController( Rbdb_DatabaseSettingsController*	database_settings_controller );
+	Rbdb_DatabaseRecordSettingsController* Rbdb_DatabaseSettingsController_recordSettingsController( Rbdb_DatabaseSettingsController*	database_settings_controller );
 
 #endif
 

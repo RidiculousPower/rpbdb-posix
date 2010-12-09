@@ -1,5 +1,5 @@
 /*
- *		RPDB::SettingsController::FileSettingsController
+ *		Rbdb::SettingsController::FileSettingsController
  *
  *
  */
@@ -10,25 +10,25 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_MemoryPoolFileSettingsController.h"
+#include "Rbdb_MemoryPoolFileSettingsController.h"
 
-#include "RPDB_Environment.h"
-#include "RPDB_Record.h"
-#include "RPDB_Data.h"
+#include "Rbdb_Environment.h"
+#include "Rbdb_Record.h"
+#include "Rbdb_Data.h"
 
-#include "RPDB_FileSettingsController.h"
-#include "RPDB_EnvironmentCacheSettingsController.h"
-#include "RPDB_TransactionSettingsController.h"
-#include "RPDB_MemoryPoolSettingsController.h"
-#include "RPDB_MemoryPoolFileSettingsController.h"
-#include "RPDB_MemoryPoolFileCacheSettingsController.h"
-#include "RPDB_MemoryPoolFilePageSettingsController.h"
-#include "RPDB_MemoryPoolFileCacheSettingsController.h"
-#include "RPDB_MemoryPoolFileCachePrioritySettingsController.h"
-#include "RPDB_SettingsController.h"
+#include "Rbdb_FileSettingsController.h"
+#include "Rbdb_EnvironmentCacheSettingsController.h"
+#include "Rbdb_TransactionSettingsController.h"
+#include "Rbdb_MemoryPoolSettingsController.h"
+#include "Rbdb_MemoryPoolFileSettingsController.h"
+#include "Rbdb_MemoryPoolFileCacheSettingsController.h"
+#include "Rbdb_MemoryPoolFilePageSettingsController.h"
+#include "Rbdb_MemoryPoolFileCacheSettingsController.h"
+#include "Rbdb_MemoryPoolFileCachePrioritySettingsController.h"
+#include "Rbdb_SettingsController.h"
 
-#include "RPDB_MemoryPoolFileSettingsController_internal.h"
-#include "RPDB_MemoryPoolFileCachePrioritySettingsController_internal.h"
+#include "Rbdb_MemoryPoolFileSettingsController_internal.h"
+#include "Rbdb_MemoryPoolFileCachePrioritySettingsController_internal.h"
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -40,9 +40,9 @@
 *  new  *
 *************/
 	
-RPDB_MemoryPoolFileSettingsController* RPDB_MemoryPoolFileSettingsController_new( RPDB_MemoryPoolSettingsController* memory_pool_settings_controller )	{
+Rbdb_MemoryPoolFileSettingsController* Rbdb_MemoryPoolFileSettingsController_new( Rbdb_MemoryPoolSettingsController* memory_pool_settings_controller )	{
 	
-	RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller = calloc( 1, sizeof( RPDB_MemoryPoolFileSettingsController ) );
+	Rbdb_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller = calloc( 1, sizeof( Rbdb_MemoryPoolFileSettingsController ) );
 
 	memory_pool_file_settings_controller->parent_memory_pool_settings_controller = memory_pool_settings_controller;
 
@@ -56,16 +56,16 @@ RPDB_MemoryPoolFileSettingsController* RPDB_MemoryPoolFileSettingsController_new
 /***************************
 *  free  *
 ***************************/
-void RPDB_MemoryPoolFileSettingsController_free(	RPDB_MemoryPoolFileSettingsController** memory_pool_file_settings_controller )	{
+void Rbdb_MemoryPoolFileSettingsController_free(	Rbdb_MemoryPoolFileSettingsController** memory_pool_file_settings_controller )	{
 
 	if ( ( *memory_pool_file_settings_controller )->page_settings_controller != NULL )	{
-		RPDB_MemoryPoolFilePageSettingsController_free( & ( ( *memory_pool_file_settings_controller )->page_settings_controller ) );
+		Rbdb_MemoryPoolFilePageSettingsController_free( & ( ( *memory_pool_file_settings_controller )->page_settings_controller ) );
 	}
 	if ( ( *memory_pool_file_settings_controller )->cookie != NULL )	{
-		RPDB_Data_free( & ( ( *memory_pool_file_settings_controller )->cookie ) );
+		Rbdb_Data_free( & ( ( *memory_pool_file_settings_controller )->cookie ) );
 	}
 	if ( ( *memory_pool_file_settings_controller )->cache_settings_controller != NULL )	{
-		RPDB_MemoryPoolFileCacheSettingsController_free( & ( ( *memory_pool_file_settings_controller )->cache_settings_controller ) );
+		Rbdb_MemoryPoolFileCacheSettingsController_free( & ( ( *memory_pool_file_settings_controller )->cache_settings_controller ) );
 	}
 
 	free( *memory_pool_file_settings_controller );
@@ -75,7 +75,7 @@ void RPDB_MemoryPoolFileSettingsController_free(	RPDB_MemoryPoolFileSettingsCont
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_MemoryPoolFileSettingsController_parentEnvironment(	RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
+Rbdb_Environment* Rbdb_MemoryPoolFileSettingsController_parentEnvironment(	Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 	return memory_pool_file_settings_controller->parent_memory_pool_file->parent_memory_pool_file_controller->parent_memory_pool_controller->parent_environment;
 }
 
@@ -84,7 +84,7 @@ RPDB_Environment* RPDB_MemoryPoolFileSettingsController_parentEnvironment(	RPDB_
 *********************************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/memp_set_clear_len.html
-int RPDB_MemoryPoolFileSettingsController_createWithInitialNullBytesNumbering( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
+int Rbdb_MemoryPoolFileSettingsController_createWithInitialNullBytesNumbering( Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 	
 	if (	memory_pool_file_settings_controller->create_with_number_initial_bytes == FALSE
 		&&	memory_pool_file_settings_controller->parent_memory_pool_file != FALSE )	{
@@ -98,7 +98,7 @@ int RPDB_MemoryPoolFileSettingsController_createWithInitialNullBytesNumbering( R
 *  setReturnsCreateWithNumberInitialNullBytes  *
 *************************************************/
 
-void RPDB_MemoryPoolFileSettingsController_setCreateWithInitialNullBytesNumbering( RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
+void Rbdb_MemoryPoolFileSettingsController_setCreateWithInitialNullBytesNumbering( Rbdb_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
 																						int											initial_null_bytes )	{
 
 	memory_pool_file_settings_controller->create_with_number_initial_bytes = initial_null_bytes;
@@ -113,7 +113,7 @@ void RPDB_MemoryPoolFileSettingsController_setCreateWithInitialNullBytesNumberin
 *************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/memp_set_fileid.html
-uint8_t* RPDB_MemoryPoolFileSettingsController_fileID( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
+uint8_t* Rbdb_MemoryPoolFileSettingsController_fileID( Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 	
 	if (	memory_pool_file_settings_controller->file_id == 0
 		&&	memory_pool_file_settings_controller->parent_memory_pool_file != NULL )	{
@@ -128,7 +128,7 @@ uint8_t* RPDB_MemoryPoolFileSettingsController_fileID( RPDB_MemoryPoolFileSettin
 *  setFileID  *
 *****************/
 
-void RPDB_MemoryPoolFileSettingsController_setFileID(	RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
+void Rbdb_MemoryPoolFileSettingsController_setFileID(	Rbdb_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
 																											uint8_t																		file_id[ DB_FILE_ID_LEN ] )	{
 
 	memory_pool_file_settings_controller->file_id = file_id;
@@ -146,9 +146,9 @@ void RPDB_MemoryPoolFileSettingsController_setFileID(	RPDB_MemoryPoolFileSetting
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/memp_set_ftype.html
 //	The ftype parameter sets the file's type for the purposes of input and output processing. 
 //	The ftype must be the same as a ftype parameter previously specified to the DB_ENV->memp_register method.
-int RPDB_MemoryPoolFileSettingsController_fileType( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
+int Rbdb_MemoryPoolFileSettingsController_fileType( Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 
-	if (	memory_pool_file_settings_controller->file_type == RPDB_UNITIALIZED
+	if (	memory_pool_file_settings_controller->file_type == Rbdb_UNITIALIZED
 		&&	memory_pool_file_settings_controller->parent_memory_pool_file != NULL )	{
 		memory_pool_file_settings_controller->parent_memory_pool_file->wrapped_bdb_memory_pool_file->get_ftype(	memory_pool_file_settings_controller->parent_memory_pool_file->wrapped_bdb_memory_pool_file, 
 																					&( memory_pool_file_settings_controller->file_type ) );
@@ -160,7 +160,7 @@ int RPDB_MemoryPoolFileSettingsController_fileType( RPDB_MemoryPoolFileSettingsC
 *  setFileType  *
 *********************/
 
-void RPDB_MemoryPoolFileSettingsController_setFileType(	RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
+void Rbdb_MemoryPoolFileSettingsController_setFileType(	Rbdb_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
 															int											file_type )	{
 
 	memory_pool_file_settings_controller->file_type = file_type;
@@ -175,9 +175,9 @@ void RPDB_MemoryPoolFileSettingsController_setFileType(	RPDB_MemoryPoolFileSetti
 *********************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/memp_set_lsn_offset.html
-int RPDB_MemoryPoolFileSettingsController_logSequenceNumberOffset( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
+int Rbdb_MemoryPoolFileSettingsController_logSequenceNumberOffset( Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 	
-	if (	memory_pool_file_settings_controller->log_sequence_number_offset == RPDB_UNITIALIZED
+	if (	memory_pool_file_settings_controller->log_sequence_number_offset == Rbdb_UNITIALIZED
 		&&	memory_pool_file_settings_controller->parent_memory_pool_file != NULL )	{
 		memory_pool_file_settings_controller->parent_memory_pool_file->wrapped_bdb_memory_pool_file->get_lsn_offset(	memory_pool_file_settings_controller->parent_memory_pool_file->wrapped_bdb_memory_pool_file, 
 																						&( memory_pool_file_settings_controller->log_sequence_number_offset ) );
@@ -189,7 +189,7 @@ int RPDB_MemoryPoolFileSettingsController_logSequenceNumberOffset( RPDB_MemoryPo
 *  setLogSequenceNumberOffset  *
 *********************************/
 
-void RPDB_MemoryPoolFileSettingsController_setLogSequenceNumberOffset(	RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
+void Rbdb_MemoryPoolFileSettingsController_setLogSequenceNumberOffset(	Rbdb_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
 																		int32_t										log_sequence_number_offset )	{
 
 	memory_pool_file_settings_controller->log_sequence_number_offset = log_sequence_number_offset;
@@ -204,14 +204,14 @@ void RPDB_MemoryPoolFileSettingsController_setLogSequenceNumberOffset(	RPDB_Memo
 ***********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/memp_set_maxsize.html
-uint64_t RPDB_MemoryPoolFileSettingsController_maxFileSizeInBytes( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
+uint64_t Rbdb_MemoryPoolFileSettingsController_maxFileSizeInBytes( Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 	
 	uint32_t		gigabytes;
 	uint32_t		additional_bytes;
 
 	if ( memory_pool_file_settings_controller->parent_memory_pool_file != NULL )	{
 		
-		RPDB_MemoryPoolFile*	memory_pool_file	=	memory_pool_file_settings_controller->parent_memory_pool_file;
+		Rbdb_MemoryPoolFile*	memory_pool_file	=	memory_pool_file_settings_controller->parent_memory_pool_file;
 		
 		memory_pool_file->wrapped_bdb_memory_pool_file->get_maxsize(	memory_pool_file->wrapped_bdb_memory_pool_file, 
 																																	& gigabytes, 
@@ -229,9 +229,9 @@ uint64_t RPDB_MemoryPoolFileSettingsController_maxFileSizeInBytes( RPDB_MemoryPo
 *  maxFileSizeInKBytes  *
 ************************/
 
-long RPDB_MemoryPoolFileSettingsController_maxFileSizeInKBytes( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
+long Rbdb_MemoryPoolFileSettingsController_maxFileSizeInKBytes( Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 
-	uint64_t	max_file_size_in_bytes	=	RPDB_MemoryPoolFileSettingsController_maxFileSizeInBytes( memory_pool_file_settings_controller );
+	uint64_t	max_file_size_in_bytes	=	Rbdb_MemoryPoolFileSettingsController_maxFileSizeInBytes( memory_pool_file_settings_controller );
 	uint32_t	max_file_size_in_kbytes	=	max_file_size_in_bytes / 1024;
 
 	return max_file_size_in_kbytes;
@@ -241,9 +241,9 @@ long RPDB_MemoryPoolFileSettingsController_maxFileSizeInKBytes( RPDB_MemoryPoolF
 *  maxFileSizeInMBytes  *
 ************************/
 
-long RPDB_MemoryPoolFileSettingsController_maxFileSizeInMBytes( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
+long Rbdb_MemoryPoolFileSettingsController_maxFileSizeInMBytes( Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 
-	uint64_t	max_file_size_in_kbytes	=	RPDB_MemoryPoolFileSettingsController_maxFileSizeInKBytes( memory_pool_file_settings_controller );
+	uint64_t	max_file_size_in_kbytes	=	Rbdb_MemoryPoolFileSettingsController_maxFileSizeInKBytes( memory_pool_file_settings_controller );
 	uint32_t	max_file_size_in_mbytes	=	max_file_size_in_kbytes / 1024;
 
 	return max_file_size_in_mbytes;
@@ -253,9 +253,9 @@ long RPDB_MemoryPoolFileSettingsController_maxFileSizeInMBytes( RPDB_MemoryPoolF
 *  maxFileSizeInGBytes  *
 ************************/
 
-long RPDB_MemoryPoolFileSettingsController_maxFileSizeInGBytes( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
+long Rbdb_MemoryPoolFileSettingsController_maxFileSizeInGBytes( Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 
-	uint64_t	max_file_size_in_mbytes	=	RPDB_MemoryPoolFileSettingsController_maxFileSizeInMBytes( memory_pool_file_settings_controller );
+	uint64_t	max_file_size_in_mbytes	=	Rbdb_MemoryPoolFileSettingsController_maxFileSizeInMBytes( memory_pool_file_settings_controller );
 	uint32_t	max_file_size_in_gbytes	=	max_file_size_in_mbytes / 1024;
 
 	return max_file_size_in_gbytes;
@@ -265,7 +265,7 @@ long RPDB_MemoryPoolFileSettingsController_maxFileSizeInGBytes( RPDB_MemoryPoolF
 *  setMaxFileSizeInBytes  *
 **************************/
 
-void RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInBytes(	RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
+void Rbdb_MemoryPoolFileSettingsController_setMaxFileSizeInBytes(	Rbdb_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
 																																	uint64_t																	max_file_size_in_bytes )	{
 
 	uint32_t		gigabytes;
@@ -279,7 +279,7 @@ void RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInBytes(	RPDB_MemoryPoo
 	memory_pool_file_settings_controller->max_file_size_in_bytes = max_file_size_in_bytes;
 	if ( memory_pool_file_settings_controller->parent_memory_pool_file != NULL )	{
 
-		RPDB_MemoryPoolFile*	memory_pool_file	=	memory_pool_file_settings_controller->parent_memory_pool_file;
+		Rbdb_MemoryPoolFile*	memory_pool_file	=	memory_pool_file_settings_controller->parent_memory_pool_file;
 
 		memory_pool_file->wrapped_bdb_memory_pool_file->set_maxsize(	memory_pool_file->wrapped_bdb_memory_pool_file, 
 																																	gigabytes,
@@ -291,13 +291,13 @@ void RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInBytes(	RPDB_MemoryPoo
 *  setMaxFileSizeInKBytes  *
 ***************************/
 
-void RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInKBytes(	RPDB_MemoryPoolFileSettingsController*	memory_pool_file_settings_controller, 
+void Rbdb_MemoryPoolFileSettingsController_setMaxFileSizeInKBytes(	Rbdb_MemoryPoolFileSettingsController*	memory_pool_file_settings_controller, 
 																																		uint32_t 																size_in_kbytes )	{
 	
 //	uint64_t	size_in_kbytes_64 = size_in_kbytes;
 	uint64_t	size_in_bytes	=	(uint64_t) size_in_kbytes * 1024;
 
-	RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInBytes(	memory_pool_file_settings_controller, 
+	Rbdb_MemoryPoolFileSettingsController_setMaxFileSizeInBytes(	memory_pool_file_settings_controller, 
 																																size_in_bytes );
 }
 
@@ -305,12 +305,12 @@ void RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInKBytes(	RPDB_MemoryPo
 *  setMaxFileSizeInMBytes  *
 ***************************/
 
-void RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInMBytes(	RPDB_MemoryPoolFileSettingsController*	memory_pool_file_settings_controller, 
+void Rbdb_MemoryPoolFileSettingsController_setMaxFileSizeInMBytes(	Rbdb_MemoryPoolFileSettingsController*	memory_pool_file_settings_controller, 
 																																		uint32_t																size_in_mbytes )	{
 
 	uint32_t	size_in_kbytes	=	size_in_mbytes * 1024;
 
-	RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInKBytes(	memory_pool_file_settings_controller, 
+	Rbdb_MemoryPoolFileSettingsController_setMaxFileSizeInKBytes(	memory_pool_file_settings_controller, 
 																																size_in_kbytes );
 }
 
@@ -318,12 +318,12 @@ void RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInMBytes(	RPDB_MemoryPo
 *  setMaxFileSizeInGBytes  *
 ***************************/
 
-void RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInGBytes(	RPDB_MemoryPoolFileSettingsController*	memory_pool_file_settings_controller, 
+void Rbdb_MemoryPoolFileSettingsController_setMaxFileSizeInGBytes(	Rbdb_MemoryPoolFileSettingsController*	memory_pool_file_settings_controller, 
 																																		uint32_t																size_in_gbytes )	{
 
 	uint32_t	size_in_mbytes	=	size_in_gbytes * 1024;
 
-	RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInMBytes(	memory_pool_file_settings_controller, 
+	Rbdb_MemoryPoolFileSettingsController_setMaxFileSizeInMBytes(	memory_pool_file_settings_controller, 
 																																size_in_mbytes );
 }
 
@@ -332,13 +332,13 @@ void RPDB_MemoryPoolFileSettingsController_setMaxFileSizeInGBytes(	RPDB_MemoryPo
 ********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/memp_set_maxsize.html
-uint64_t RPDB_MemoryPoolFileSettingsController_pageSizeInBytes( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
+uint64_t Rbdb_MemoryPoolFileSettingsController_pageSizeInBytes( Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 	
 	uint32_t		size_in_bytes	=	0;
 
 	if ( memory_pool_file_settings_controller->parent_memory_pool_file != NULL )	{
 		
-		RPDB_Environment*	parent_environment	=	memory_pool_file_settings_controller->parent_memory_pool_file->parent_memory_pool_file_controller->parent_memory_pool_controller->parent_environment;
+		Rbdb_Environment*	parent_environment	=	memory_pool_file_settings_controller->parent_memory_pool_file->parent_memory_pool_file_controller->parent_memory_pool_controller->parent_environment;
 		parent_environment->wrapped_bdb_environment->get_mp_pagesize(	parent_environment->wrapped_bdb_environment, 
 																																	& size_in_bytes );
 	}
@@ -352,22 +352,22 @@ uint64_t RPDB_MemoryPoolFileSettingsController_pageSizeInBytes( RPDB_MemoryPoolF
 *  pageSizeInKBytes  *
 *********************/
 
-long RPDB_MemoryPoolFileSettingsController_pageSizeInKBytes( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
+long Rbdb_MemoryPoolFileSettingsController_pageSizeInKBytes( Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 
-	return RPDB_MemoryPoolFileSettingsController_pageSizeInBytes( memory_pool_file_settings_controller ) / 1024;
+	return Rbdb_MemoryPoolFileSettingsController_pageSizeInBytes( memory_pool_file_settings_controller ) / 1024;
 }
 
 /***********************
 *  setPageSizeInBytes  *
 ***********************/
 
-void RPDB_MemoryPoolFileSettingsController_setPageSizeInBytes(	RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
+void Rbdb_MemoryPoolFileSettingsController_setPageSizeInBytes(	Rbdb_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
 																																uint64_t																	page_size_in_bytes )	{
 
 	memory_pool_file_settings_controller->page_size_in_bytes = page_size_in_bytes;
 	if ( memory_pool_file_settings_controller->parent_memory_pool_file != NULL )	{
 
-		RPDB_Environment*	parent_environment	=	memory_pool_file_settings_controller->parent_memory_pool_file->parent_memory_pool_file_controller->parent_memory_pool_controller->parent_environment;
+		Rbdb_Environment*	parent_environment	=	memory_pool_file_settings_controller->parent_memory_pool_file->parent_memory_pool_file_controller->parent_memory_pool_controller->parent_environment;
 		parent_environment->wrapped_bdb_environment->set_mp_pagesize(	parent_environment->wrapped_bdb_environment, 
 																																	page_size_in_bytes );
 	}
@@ -377,10 +377,10 @@ void RPDB_MemoryPoolFileSettingsController_setPageSizeInBytes(	RPDB_MemoryPoolFi
 *  setPageSizeInKBytes  *
 ************************/
 
-void RPDB_MemoryPoolFileSettingsController_setPageSizeInKBytes(	RPDB_MemoryPoolFileSettingsController*	memory_pool_file_settings_controller, 
+void Rbdb_MemoryPoolFileSettingsController_setPageSizeInKBytes(	Rbdb_MemoryPoolFileSettingsController*	memory_pool_file_settings_controller, 
 																																uint32_t 																size_in_kbytes )	{
 
-	RPDB_MemoryPoolFileSettingsController_setPageSizeInBytes(	memory_pool_file_settings_controller, 
+	Rbdb_MemoryPoolFileSettingsController_setPageSizeInBytes(	memory_pool_file_settings_controller, 
 																														size_in_kbytes * 1024 );
 }
 
@@ -389,12 +389,12 @@ void RPDB_MemoryPoolFileSettingsController_setPageSizeInKBytes(	RPDB_MemoryPoolF
 *************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/memp_set_pgcookie.html
-RPDB_Data* RPDB_MemoryPoolFileSettingsController_cookie( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
+Rbdb_Data* Rbdb_MemoryPoolFileSettingsController_cookie( Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 	
 	if (	memory_pool_file_settings_controller->cookie == NULL
 		&&	memory_pool_file_settings_controller->parent_memory_pool_file != NULL )	{
 
-		memory_pool_file_settings_controller->cookie = RPDB_Data_new( NULL );
+		memory_pool_file_settings_controller->cookie = Rbdb_Data_new( NULL );
 		memory_pool_file_settings_controller->parent_memory_pool_file->wrapped_bdb_memory_pool_file->get_pgcookie(	memory_pool_file_settings_controller->parent_memory_pool_file->wrapped_bdb_memory_pool_file, 
 																																																								memory_pool_file_settings_controller->cookie->wrapped_bdb_dbt );
 	}
@@ -405,8 +405,8 @@ RPDB_Data* RPDB_MemoryPoolFileSettingsController_cookie( RPDB_MemoryPoolFileSett
 *  setCookie  *
 *****************/
 
-void RPDB_MemoryPoolFileSettingsController_setCookie(	RPDB_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
-																											RPDB_Data*																cookie )	{
+void Rbdb_MemoryPoolFileSettingsController_setCookie(	Rbdb_MemoryPoolFileSettingsController*		memory_pool_file_settings_controller, 
+																											Rbdb_Data*																cookie )	{
 
 	memory_pool_file_settings_controller->cookie = cookie;
 	if ( memory_pool_file_settings_controller->parent_memory_pool_file != NULL )	{
@@ -424,11 +424,11 @@ void RPDB_MemoryPoolFileSettingsController_setCookie(	RPDB_MemoryPoolFileSetting
 *  cacheController  *
 **************************/
 
-RPDB_MemoryPoolFileCacheSettingsController* RPDB_MemoryPoolFileSettingsController_cacheSettingsController( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
+Rbdb_MemoryPoolFileCacheSettingsController* Rbdb_MemoryPoolFileSettingsController_cacheSettingsController( Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 	
 	if ( memory_pool_file_settings_controller->cache_settings_controller == NULL )	{
 		
-		memory_pool_file_settings_controller->cache_settings_controller = RPDB_MemoryPoolFileCacheSettingsController_new( memory_pool_file_settings_controller );
+		memory_pool_file_settings_controller->cache_settings_controller = Rbdb_MemoryPoolFileCacheSettingsController_new( memory_pool_file_settings_controller );
 	}
 	return memory_pool_file_settings_controller->cache_settings_controller;
 }
@@ -437,11 +437,11 @@ RPDB_MemoryPoolFileCacheSettingsController* RPDB_MemoryPoolFileSettingsControlle
 *  pageController  *
 **************************/
 
-RPDB_MemoryPoolFilePageSettingsController* RPDB_MemoryPoolFileSettingsController_pageSettingsController( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
+Rbdb_MemoryPoolFilePageSettingsController* Rbdb_MemoryPoolFileSettingsController_pageSettingsController( Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 	
 	if ( memory_pool_file_settings_controller->page_settings_controller == NULL )	{
 		
-		memory_pool_file_settings_controller->page_settings_controller = RPDB_MemoryPoolFilePageSettingsController_new( memory_pool_file_settings_controller );
+		memory_pool_file_settings_controller->page_settings_controller = Rbdb_MemoryPoolFilePageSettingsController_new( memory_pool_file_settings_controller );
 	}
 	return memory_pool_file_settings_controller->page_settings_controller;
 }
@@ -456,10 +456,10 @@ RPDB_MemoryPoolFilePageSettingsController* RPDB_MemoryPoolFileSettingsController
 *  createFlags  *
 ************************/
 
-int RPDB_MemoryPoolFileSettingsController_internal_createFlags( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller __attribute__((unused)) )	{
+int Rbdb_MemoryPoolFileSettingsController_internal_createFlags( Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller __attribute__((unused)) )	{
 
 	//	Not currently used - returns 0
-	return RPDB_NO_FLAGS;
+	return Rbdb_NO_FLAGS;
 }
 
 /********************
@@ -467,24 +467,24 @@ int RPDB_MemoryPoolFileSettingsController_internal_createFlags( RPDB_MemoryPoolF
 ********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/memp_fcreate.html
-int RPDB_MemoryPoolFileSettingsController_internal_openFlags( RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
+int Rbdb_MemoryPoolFileSettingsController_internal_openFlags( Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 
 	//	These need to be set up properly
-	return	RPDB_FileSettingsController_createIfNecessary( RPDB_SettingsController_fileSettingsController( memory_pool_file_settings_controller->parent_memory_pool_settings_controller->parent_settings_controller ) )
-			|	RPDB_EnvironmentCacheSettingsController_buffering( RPDB_SettingsController_cacheSettingsController( memory_pool_file_settings_controller->parent_memory_pool_settings_controller->parent_settings_controller ) )
-			|	RPDB_TransactionSettingsController_environmentalSnapshotIsolation( RPDB_SettingsController_transactionSettingsController( memory_pool_file_settings_controller->parent_memory_pool_settings_controller->parent_settings_controller ) )
-			|	RPDB_MemoryPoolSettingsController_memoryMapping( memory_pool_file_settings_controller->parent_memory_pool_settings_controller )
-			|	RPDB_MemoryPoolSettingsController_pagesizeFactorMismatchShouldFail( memory_pool_file_settings_controller->parent_memory_pool_settings_controller )
-			|	RPDB_FileSettingsController_openReadOnly( RPDB_SettingsController_fileSettingsController( memory_pool_file_settings_controller->parent_memory_pool_settings_controller->parent_settings_controller ) );
+	return	Rbdb_FileSettingsController_createIfNecessary( Rbdb_SettingsController_fileSettingsController( memory_pool_file_settings_controller->parent_memory_pool_settings_controller->parent_settings_controller ) )
+			|	Rbdb_EnvironmentCacheSettingsController_buffering( Rbdb_SettingsController_cacheSettingsController( memory_pool_file_settings_controller->parent_memory_pool_settings_controller->parent_settings_controller ) )
+			|	Rbdb_TransactionSettingsController_environmentalSnapshotIsolation( Rbdb_SettingsController_transactionSettingsController( memory_pool_file_settings_controller->parent_memory_pool_settings_controller->parent_settings_controller ) )
+			|	Rbdb_MemoryPoolSettingsController_memoryMapping( memory_pool_file_settings_controller->parent_memory_pool_settings_controller )
+			|	Rbdb_MemoryPoolSettingsController_pagesizeFactorMismatchShouldFail( memory_pool_file_settings_controller->parent_memory_pool_settings_controller )
+			|	Rbdb_FileSettingsController_openReadOnly( Rbdb_SettingsController_fileSettingsController( memory_pool_file_settings_controller->parent_memory_pool_settings_controller->parent_settings_controller ) );
 
 }
 
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_MemoryPoolFileSettingsController* RPDB_MemoryPoolFileSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
+Rbdb_MemoryPoolFileSettingsController* Rbdb_MemoryPoolFileSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 
-	RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller_copy	=	RPDB_MemoryPoolFileSettingsController_new( memory_pool_file_settings_controller->parent_memory_pool_settings_controller );
+	Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller_copy	=	Rbdb_MemoryPoolFileSettingsController_new( memory_pool_file_settings_controller->parent_memory_pool_settings_controller );
 
 	//	Instances and Pointers
 	memory_pool_file_settings_controller_copy->create_with_number_initial_bytes	=	memory_pool_file_settings_controller->create_with_number_initial_bytes;

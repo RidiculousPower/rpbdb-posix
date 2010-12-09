@@ -1,13 +1,13 @@
 /*
- *		RPDB::ErrorController::Error
+ *		Rbdb::ErrorController::Error
  *
  *
  */
 
-#ifndef RPDB_ERROR
-	#define RPDB_ERROR
+#ifndef Rbdb_ERROR
+	#define Rbdb_ERROR
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	#include <signal.h>
 
@@ -15,18 +15,18 @@
 	*  Prototypes  *
 	****************/
 
-	RPDB_Error*	RPDB_Error_new(									RPDB_ErrorController*		error_controller );
-	void			RPDB_Error_free(	RPDB_Error** error );
-	RPDB_ErrorSettingsController*	RPDB_Error_settingsController(	RPDB_Error* error );
-	RPDB_Environment*		RPDB_Error_parentEnvironment(	RPDB_Error* error );
-	RPDB_Error*	RPDB_Error_newErrorWithNumberFunction(	RPDB_ErrorController*		error_controller, 
+	Rbdb_Error*	Rbdb_Error_new(									Rbdb_ErrorController*		error_controller );
+	void			Rbdb_Error_free(	Rbdb_Error** error );
+	Rbdb_ErrorSettingsController*	Rbdb_Error_settingsController(	Rbdb_Error* error );
+	Rbdb_Environment*		Rbdb_Error_parentEnvironment(	Rbdb_Error* error );
+	Rbdb_Error*	Rbdb_Error_newErrorWithNumberFunction(	Rbdb_ErrorController*		error_controller, 
 																											int											error_number, 
 																											char*										error_function );
-	RPDB_Error*	RPDB_Error_newErrorWithNumberFunctionAndMessage(	RPDB_ErrorController*		error_controller, 
+	Rbdb_Error*	Rbdb_Error_newErrorWithNumberFunctionAndMessage(	Rbdb_ErrorController*		error_controller, 
 																																int											error_number, 
 																																char*										error_function, 
 																																char*										additional_explanation_message );
-	void			RPDB_Error_terminate(								RPDB_Error*				error );
+	void			Rbdb_Error_terminate(								Rbdb_Error*				error );
 
 #endif
 

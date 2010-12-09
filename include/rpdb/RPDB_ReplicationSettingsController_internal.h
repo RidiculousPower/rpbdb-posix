@@ -1,5 +1,5 @@
-#ifndef RPDB_REPLICATION_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_REPLICATION_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_REPLICATION_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_REPLICATION_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,13 +7,13 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-int		RPDB_ReplicationSettingsController_internal_startFlags(			RPDB_ReplicationSettingsController* replication_settings_controller );
-int		RPDB_ReplicationSettingsController_internal_syncFlags(				RPDB_ReplicationSettingsController* replication_settings_controller );
-int		RPDB_ReplicationSettingsController_internal_localSiteFlags(		RPDB_ReplicationSettingsController* replication_settings_controller );
-int		RPDB_ReplicationSettingsController_internal_callElectionFlags(		RPDB_ReplicationSettingsController* replication_settings_controller );
-int		RPDB_ReplicationSettingsController_internal_addRemoteSiteFlags(	RPDB_ReplicationSettingsController* replication_settings_controller );
+int		Rbdb_ReplicationSettingsController_internal_startFlags(			Rbdb_ReplicationSettingsController* replication_settings_controller );
+int		Rbdb_ReplicationSettingsController_internal_syncFlags(				Rbdb_ReplicationSettingsController* replication_settings_controller );
+int		Rbdb_ReplicationSettingsController_internal_localSiteFlags(		Rbdb_ReplicationSettingsController* replication_settings_controller );
+int		Rbdb_ReplicationSettingsController_internal_callElectionFlags(		Rbdb_ReplicationSettingsController* replication_settings_controller );
+int		Rbdb_ReplicationSettingsController_internal_addRemoteSiteFlags(	Rbdb_ReplicationSettingsController* replication_settings_controller );
 
-RPDB_ReplicationSettingsController* RPDB_ReplicationSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_ReplicationSettingsController* replication_settings_controller );
+Rbdb_ReplicationSettingsController* Rbdb_ReplicationSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_ReplicationSettingsController* replication_settings_controller );
 
 #endif
 

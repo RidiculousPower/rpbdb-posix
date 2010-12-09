@@ -1,5 +1,5 @@
-#ifndef RPDB_DATABASE_COMPACT_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_DATABASE_COMPACT_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_DATABASE_COMPACT_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_DATABASE_COMPACT_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,7 +7,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_DatabaseCompactSettingsController* RPDB_DatabaseCompactSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseCompactSettingsController* database_compact_settings_controller );
+Rbdb_DatabaseCompactSettingsController* Rbdb_DatabaseCompactSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseCompactSettingsController* database_compact_settings_controller );
 
 
 #endif

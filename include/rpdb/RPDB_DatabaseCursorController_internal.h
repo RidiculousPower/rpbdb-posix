@@ -1,5 +1,5 @@
-#ifndef RPDB_DATABASE_CURSOR_CONTROLLER_INTERNAL
-	#define RPDB_DATABASE_CURSOR_CONTROLLER_INTERNAL
+#ifndef Rbdb_DATABASE_CURSOR_CONTROLLER_INTERNAL
+	#define Rbdb_DATABASE_CURSOR_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,6 +7,6 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_DatabaseCursorController* RPDB_DatabaseCursorController_internal_newWithoutRuntimeStorage( RPDB_Database* parent_database );
+Rbdb_DatabaseCursorController* Rbdb_DatabaseCursorController_internal_newWithoutRuntimeStorage( Rbdb_Database* parent_database );
 
 #endif

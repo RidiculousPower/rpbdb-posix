@@ -1,5 +1,5 @@
-#ifndef RPDB_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,16 +7,16 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-int RPDB_SettingsController_internal_createFlags(	RPDB_SettingsController* settings_controller );
-int RPDB_SettingsController_internal_eraseFlags(	RPDB_SettingsController* settings_controller );
-int RPDB_SettingsController_internal_openFlags(	RPDB_SettingsController* settings_controller );
-int RPDB_SettingsController_internal_closeFlags(	RPDB_SettingsController* settings_controller );
-void RPDB_SettingsController_internal_setFlags( RPDB_SettingsController* settings_controller );
+int Rbdb_SettingsController_internal_createFlags(	Rbdb_SettingsController* settings_controller );
+int Rbdb_SettingsController_internal_eraseFlags(	Rbdb_SettingsController* settings_controller );
+int Rbdb_SettingsController_internal_openFlags(	Rbdb_SettingsController* settings_controller );
+int Rbdb_SettingsController_internal_closeFlags(	Rbdb_SettingsController* settings_controller );
+void Rbdb_SettingsController_internal_setFlags( Rbdb_SettingsController* settings_controller );
 
-uint32_t RPDB_SettingsController_internal_getFlags( RPDB_SettingsController* settings_controller );
+uint32_t Rbdb_SettingsController_internal_getFlags( Rbdb_SettingsController* settings_controller );
 		
-RPDB_SettingsController* RPDB_SettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_SettingsController* settings_controller );
-void RPDB_SettingsController_internal_setVerbosity( RPDB_SettingsController* settings_controller );
+Rbdb_SettingsController* Rbdb_SettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_SettingsController* settings_controller );
+void Rbdb_SettingsController_internal_setVerbosity( Rbdb_SettingsController* settings_controller );
 
 #endif
 

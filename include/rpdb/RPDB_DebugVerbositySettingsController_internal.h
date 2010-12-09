@@ -1,5 +1,5 @@
-#ifndef RPDB_DEBUG_VERBOSITY_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_DEBUG_VERBOSITY_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_DEBUG_VERBOSITY_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_DEBUG_VERBOSITY_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,7 +7,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_DebugVerbositySettingsController* RPDB_DebugVerbositySettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DebugVerbositySettingsController* debug_verbosity_settings_controller );
+Rbdb_DebugVerbositySettingsController* Rbdb_DebugVerbositySettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DebugVerbositySettingsController* debug_verbosity_settings_controller );
 
 
 

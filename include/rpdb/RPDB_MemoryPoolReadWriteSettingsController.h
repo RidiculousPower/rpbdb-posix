@@ -1,62 +1,62 @@
 /*
- *		RPDB::SettingsController::FileSettingsController
+ *		Rbdb::SettingsController::FileSettingsController
  *
  *
  */
 
-#ifndef RPDB_MEMORY_POOL_READ_WRITE_SETTINGS_CONTROLLER
-	#define RPDB_MEMORY_POOL_READ_WRITE_SETTINGS_CONTROLLER
+#ifndef Rbdb_MEMORY_POOL_READ_WRITE_SETTINGS_CONTROLLER
+	#define Rbdb_MEMORY_POOL_READ_WRITE_SETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 	 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_MemoryPoolReadWriteSettingsController*	RPDB_MemoryPoolReadWriteSettingsController_new(							RPDB_MemoryPoolSettingsController*					memory_pool_settings_controller );
-	void											RPDB_MemoryPoolReadWriteSettingsController_free(							RPDB_MemoryPoolReadWriteSettingsController** memory_pool_record_read_write_settings_controller );
-	RPDB_Environment*						RPDB_MemoryPoolReadWriteSettingsController_parentEnvironment(	RPDB_MemoryPoolReadWriteSettingsController* memory_pool_record_read_write_settings_controller );
+	Rbdb_MemoryPoolReadWriteSettingsController*	Rbdb_MemoryPoolReadWriteSettingsController_new(							Rbdb_MemoryPoolSettingsController*					memory_pool_settings_controller );
+	void											Rbdb_MemoryPoolReadWriteSettingsController_free(							Rbdb_MemoryPoolReadWriteSettingsController** memory_pool_record_read_write_settings_controller );
+	Rbdb_Environment*						Rbdb_MemoryPoolReadWriteSettingsController_parentEnvironment(	Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_record_read_write_settings_controller );
 
-	int												RPDB_MemoryPoolReadWriteSettingsController_maxOpenFiles(					RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller );
-	void											RPDB_MemoryPoolReadWriteSettingsController_setMaxOpenFiles(				RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller,
+	int												Rbdb_MemoryPoolReadWriteSettingsController_maxOpenFiles(					Rbdb_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller );
+	void											Rbdb_MemoryPoolReadWriteSettingsController_setMaxOpenFiles(				Rbdb_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller,
 																																int													max_open_files );
-	int												RPDB_MemoryPoolReadWriteSettingsController_maxSequentialWrites(			RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller );
-	void											RPDB_MemoryPoolReadWriteSettingsController_setMaxSequentialWrites(			RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller, 
+	int												Rbdb_MemoryPoolReadWriteSettingsController_maxSequentialWrites(			Rbdb_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller );
+	void											Rbdb_MemoryPoolReadWriteSettingsController_setMaxSequentialWrites(			Rbdb_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller, 
 																																int													max_sequential_writes );
-	int												RPDB_MemoryPoolReadWriteSettingsController_timeToSleepBeforeNextWrite(		RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller );
-	void											RPDB_MemoryPoolReadWriteSettingsController_setTimeToSleepBeforeNextWrite(	RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller, 
+	int												Rbdb_MemoryPoolReadWriteSettingsController_timeToSleepBeforeNextWrite(		Rbdb_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller );
+	void											Rbdb_MemoryPoolReadWriteSettingsController_setTimeToSleepBeforeNextWrite(	Rbdb_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller, 
 																																db_timeout_t										time_to_sleep_before_next_write );
-	size_t										RPDB_MemoryPoolReadWriteSettingsController_maxMappedDatabaseSize(				RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller );
-	void											RPDB_MemoryPoolReadWriteSettingsController_setMaxMappedDatabaseSize(				RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller,
+	size_t										Rbdb_MemoryPoolReadWriteSettingsController_maxMappedDatabaseSize(				Rbdb_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller );
+	void											Rbdb_MemoryPoolReadWriteSettingsController_setMaxMappedDatabaseSize(				Rbdb_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller,
 																																size_t												max_mapped_db_size );
 
-	BOOL											RPDB_MemoryPoolReadWriteSettingsController_pagefaultSharedRegions(			RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller );
-	void											RPDB_MemoryPoolReadWriteSettingsController_turnPagefaultSharedRegionsOn(	RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller );
-	void											RPDB_MemoryPoolReadWriteSettingsController_turnPagefaultSharedRegionsOff(	RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller );
+	BOOL											Rbdb_MemoryPoolReadWriteSettingsController_pagefaultSharedRegions(			Rbdb_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller );
+	void											Rbdb_MemoryPoolReadWriteSettingsController_turnPagefaultSharedRegionsOn(	Rbdb_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller );
+	void											Rbdb_MemoryPoolReadWriteSettingsController_turnPagefaultSharedRegionsOff(	Rbdb_MemoryPoolReadWriteSettingsController*		memory_pool_record_read_write_settings_controller );
 
-int RPDB_MemoryPoolReadWriteSettingsController_useSystemMemoryForStorage( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-	void RPDB_MemoryPoolReadWriteSettingsController_turnUseSystemMemoryForStorageOn( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-	void RPDB_MemoryPoolReadWriteSettingsController_turnUseSystemMemoryForStorageOff( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-int RPDB_MemoryPoolReadWriteSettingsController_applicationHasExclusiveAccess( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-	void RPDB_MemoryPoolReadWriteSettingsController_turnApplicationHasExclusiveAccessOn( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-	void RPDB_MemoryPoolReadWriteSettingsController_turnApplicationHasExclusiveAccessOff( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-int RPDB_MemoryPoolReadWriteSettingsController_databaseAllocatesMemoryUsingMalloc( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-	void RPDB_MemoryPoolReadWriteSettingsController_turnDatabaseAllocatesMemoryUsingMallocOn( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-	void RPDB_MemoryPoolReadWriteSettingsController_turnDatabaseAllocatesMemoryUsingMallocOff( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-int RPDB_MemoryPoolReadWriteSettingsController_databaseAllocatesMemoryUsingRealloc( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-	void RPDB_MemoryPoolReadWriteSettingsController_turnDatabaseAllocatesMemoryUsingReallocOn( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-	void RPDB_MemoryPoolReadWriteSettingsController_turnDatabaseAllocatesMemoryUsingReallocOff( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-int RPDB_MemoryPoolReadWriteSettingsController_applicationAllocatesMemory( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-	void RPDB_MemoryPoolReadWriteSettingsController_turnApplicationAllocatesMemoryOn( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-	void RPDB_MemoryPoolReadWriteSettingsController_turnApplicationAllocatesMemoryOff( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-int RPDB_MemoryPoolReadWriteSettingsController_databaseFreesMemory( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-	void RPDB_MemoryPoolReadWriteSettingsController_turnDatabaseFreesMemoryOn( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-	void RPDB_MemoryPoolReadWriteSettingsController_turnDatabaseFreesMemoryOff( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-int RPDB_MemoryPoolReadWriteSettingsController_doNotWriteToTemporaryBackingFile( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-	void RPDB_MemoryPoolReadWriteSettingsController_turnDoNotWriteToTemporaryBackingFileOn( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
-	void RPDB_MemoryPoolReadWriteSettingsController_turnDoNotWriteToTemporaryBackingFileOff( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+int Rbdb_MemoryPoolReadWriteSettingsController_useSystemMemoryForStorage( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+	void Rbdb_MemoryPoolReadWriteSettingsController_turnUseSystemMemoryForStorageOn( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+	void Rbdb_MemoryPoolReadWriteSettingsController_turnUseSystemMemoryForStorageOff( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+int Rbdb_MemoryPoolReadWriteSettingsController_applicationHasExclusiveAccess( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+	void Rbdb_MemoryPoolReadWriteSettingsController_turnApplicationHasExclusiveAccessOn( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+	void Rbdb_MemoryPoolReadWriteSettingsController_turnApplicationHasExclusiveAccessOff( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+int Rbdb_MemoryPoolReadWriteSettingsController_databaseAllocatesMemoryUsingMalloc( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+	void Rbdb_MemoryPoolReadWriteSettingsController_turnDatabaseAllocatesMemoryUsingMallocOn( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+	void Rbdb_MemoryPoolReadWriteSettingsController_turnDatabaseAllocatesMemoryUsingMallocOff( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+int Rbdb_MemoryPoolReadWriteSettingsController_databaseAllocatesMemoryUsingRealloc( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+	void Rbdb_MemoryPoolReadWriteSettingsController_turnDatabaseAllocatesMemoryUsingReallocOn( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+	void Rbdb_MemoryPoolReadWriteSettingsController_turnDatabaseAllocatesMemoryUsingReallocOff( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+int Rbdb_MemoryPoolReadWriteSettingsController_applicationAllocatesMemory( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+	void Rbdb_MemoryPoolReadWriteSettingsController_turnApplicationAllocatesMemoryOn( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+	void Rbdb_MemoryPoolReadWriteSettingsController_turnApplicationAllocatesMemoryOff( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+int Rbdb_MemoryPoolReadWriteSettingsController_databaseFreesMemory( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+	void Rbdb_MemoryPoolReadWriteSettingsController_turnDatabaseFreesMemoryOn( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+	void Rbdb_MemoryPoolReadWriteSettingsController_turnDatabaseFreesMemoryOff( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+int Rbdb_MemoryPoolReadWriteSettingsController_doNotWriteToTemporaryBackingFile( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+	void Rbdb_MemoryPoolReadWriteSettingsController_turnDoNotWriteToTemporaryBackingFileOn( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+	void Rbdb_MemoryPoolReadWriteSettingsController_turnDoNotWriteToTemporaryBackingFileOff( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
 
-BOOL RPDB_MemoryPoolReadWriteSettingsController_isInMemoryEnvironment( RPDB_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
+BOOL Rbdb_MemoryPoolReadWriteSettingsController_isInMemoryEnvironment( Rbdb_MemoryPoolReadWriteSettingsController* memory_pool_read_write_settings_controller );
 
 #endif
 

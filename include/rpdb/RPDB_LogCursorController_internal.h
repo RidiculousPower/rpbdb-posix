@@ -1,13 +1,13 @@
 /*
- *		RPDB::LogController::LogCursorController
+ *		Rbdb::LogController::LogCursorController
  *
  *	
  */
 
-#ifndef RPDB_LOG_CURSOR_CONTROLLER_INTERNAL
-	#define RPDB_LOG_CURSOR_CONTROLLER_INTERNAL
+#ifndef Rbdb_LOG_CURSOR_CONTROLLER_INTERNAL
+	#define Rbdb_LOG_CURSOR_CONTROLLER_INTERNAL
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *

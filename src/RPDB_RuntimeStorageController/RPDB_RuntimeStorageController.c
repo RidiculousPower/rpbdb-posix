@@ -1,5 +1,5 @@
 /*
- *		RPDB::RuntimeStorageController
+ *		Rbdb::RuntimeStorageController
  *
  *
  */
@@ -10,41 +10,41 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_RuntimeStorageController.h"
-#include "RPDB_RuntimeStorageController_internal.h"
+#include "Rbdb_RuntimeStorageController.h"
+#include "Rbdb_RuntimeStorageController_internal.h"
 
-#include "RPDB_Environment.h"
-#include "RPDB_Environment_internal.h"
+#include "Rbdb_Environment.h"
+#include "Rbdb_Environment_internal.h"
 
-#include "RPDB_Database.h"
-#include "RPDB_Database_internal.h"
-#include "RPDB_DatabaseController.h"
-#include "RPDB_DatabaseController_internal.h"
-#include "RPDB_DatabaseCursorController_internal.h"
-#include "RPDB_DatabaseCursor.h"
+#include "Rbdb_Database.h"
+#include "Rbdb_Database_internal.h"
+#include "Rbdb_DatabaseController.h"
+#include "Rbdb_DatabaseController_internal.h"
+#include "Rbdb_DatabaseCursorController_internal.h"
+#include "Rbdb_DatabaseCursor.h"
 
-#include "RPDB_ErrorController.h"
+#include "Rbdb_ErrorController.h"
 
-#include "RPDB_Record.h"
+#include "Rbdb_Record.h"
 
-#include "RPDB_SettingsController.h"
-#include "RPDB_DatabaseSettingsController.h"
-#include "RPDB_DatabaseSettingsController_internal.h"
-#include "RPDB_DatabaseRecordReadWriteSettingsController.h"
-#include "RPDB_DatabaseTypeSettingsController.h"
-#include "RPDB_DatabaseTypeBtreeSettingsController.h"
-#include "RPDB_DatabaseCursorReadWriteSettingsController.h"
-#include "RPDB_DatabaseCursorSettingsController.h"
-#include "RPDB_DatabaseCursorSettingsController_internal.h"
-#include "RPDB_DebugSettingsController.h"
-#include "RPDB_FileSettingsController.h"
-#include "RPDB_LockSettingsController.h"
-#include "RPDB_LogSettingsController.h"
-#include "RPDB_MemoryPoolSettingsController.h"
-#include "RPDB_MemoryPoolFileSettingsController.h"
-#include "RPDB_ThreadSettingsController.h"
-#include "RPDB_TransactionSettingsController.h"
-#include "RPDB_EnvironmentCacheSettingsController.h"
+#include "Rbdb_SettingsController.h"
+#include "Rbdb_DatabaseSettingsController.h"
+#include "Rbdb_DatabaseSettingsController_internal.h"
+#include "Rbdb_DatabaseRecordReadWriteSettingsController.h"
+#include "Rbdb_DatabaseTypeSettingsController.h"
+#include "Rbdb_DatabaseTypeBtreeSettingsController.h"
+#include "Rbdb_DatabaseCursorReadWriteSettingsController.h"
+#include "Rbdb_DatabaseCursorSettingsController.h"
+#include "Rbdb_DatabaseCursorSettingsController_internal.h"
+#include "Rbdb_DebugSettingsController.h"
+#include "Rbdb_FileSettingsController.h"
+#include "Rbdb_LockSettingsController.h"
+#include "Rbdb_LogSettingsController.h"
+#include "Rbdb_MemoryPoolSettingsController.h"
+#include "Rbdb_MemoryPoolFileSettingsController.h"
+#include "Rbdb_ThreadSettingsController.h"
+#include "Rbdb_TransactionSettingsController.h"
+#include "Rbdb_EnvironmentCacheSettingsController.h"
 
 #include <string.h>
 
@@ -60,11 +60,11 @@
 
 //	A given process (whether single- or multi- threaded) has one RuntimeStorageController
 //	It is actually the singleton RuntimeStorageController that defines our "process environment",
-//	and multiple RPDB_Environments can co-exist under the umbrella of this singleton
-RPDB_RuntimeStorageController* RPDB_RuntimeStorageController_sharedInstance()	{
+//	and multiple Rbdb_Environments can co-exist under the umbrella of this singleton
+Rbdb_RuntimeStorageController* Rbdb_RuntimeStorageController_sharedInstance()	{
 
 	//	We only ever want one runtime_storage_controller
-	static RPDB_RuntimeStorageController	runtime_storage_controller;
+	static Rbdb_RuntimeStorageController	runtime_storage_controller;
 	
 	//	Initialize our runtime environment if it hasn't been done already	
 	if ( runtime_storage_controller.runtime_environment == NULL )	{
@@ -72,7 +72,7 @@ RPDB_RuntimeStorageController* RPDB_RuntimeStorageController_sharedInstance()	{
 		runtime_storage_controller.default_environment	=	NULL;
 		
 		//	Initialize runtime environment
-		RPDB_RuntimeStorageController_internal_initRuntimeEnvironment( & runtime_storage_controller );
+		Rbdb_RuntimeStorageController_internal_initRuntimeEnvironment( & runtime_storage_controller );
 	}
 	
 	return & runtime_storage_controller;	
@@ -81,27 +81,27 @@ RPDB_RuntimeStorageController* RPDB_RuntimeStorageController_sharedInstance()	{
 /*********
 *  free  *
 *********/
-void RPDB_RuntimeStorageController_free( RPDB_RuntimeStorageController** runtime_storage_controller )	{
+void Rbdb_RuntimeStorageController_free( Rbdb_RuntimeStorageController** runtime_storage_controller )	{
 
 	//	free runtime storage environments reference database
 	if ( ( *runtime_storage_controller )->environment_reference_database != NULL )	{
-		RPDB_Database_free( & ( ( *runtime_storage_controller )->environment_reference_database ) );
+		Rbdb_Database_free( & ( ( *runtime_storage_controller )->environment_reference_database ) );
 	}
 	//	free runtime storage database reference database
 	if ( ( *runtime_storage_controller )->database_reference_database != NULL )	{
-		RPDB_Database_free( & ( ( *runtime_storage_controller )->database_reference_database ) );
+		Rbdb_Database_free( & ( ( *runtime_storage_controller )->database_reference_database ) );
 	}
 	//	free runtime storages primary database (stores other runtime storages)
 	if ( ( *runtime_storage_controller )->runtime_storages_database != NULL )	{
-		RPDB_Database_free( & ( ( *runtime_storage_controller )->runtime_storages_database ) );
+		Rbdb_Database_free( & ( ( *runtime_storage_controller )->runtime_storages_database ) );
 	}
 	//	free runtime storage database cursor
 	if ( ( *runtime_storage_controller )->database_cursor != NULL )	{
-		RPDB_DatabaseCursor_free( & ( ( *runtime_storage_controller )->database_cursor ) );
+		Rbdb_DatabaseCursor_free( & ( ( *runtime_storage_controller )->database_cursor ) );
 	}
 	//	free runtime storage environment
 	if ( ( *runtime_storage_controller )->runtime_environment != NULL )	{
-		RPDB_Environment_free( & ( ( *runtime_storage_controller )->runtime_environment ) );
+		Rbdb_Environment_free( & ( ( *runtime_storage_controller )->runtime_environment ) );
 	}
 		
 	free( *runtime_storage_controller );
@@ -111,7 +111,7 @@ void RPDB_RuntimeStorageController_free( RPDB_RuntimeStorageController** runtime
 /***********************
 *  settingsController  *
 ***********************/
-RPDB_RuntimeStorageSettingsController* RPDB_RuntimeStorageController_settingsController(	RPDB_RuntimeStorageController* runtime_storage_controller )	{
+Rbdb_RuntimeStorageSettingsController* Rbdb_RuntimeStorageController_settingsController(	Rbdb_RuntimeStorageController* runtime_storage_controller )	{
 	return runtime_storage_controller->settings_controller;
 }
 
@@ -119,7 +119,7 @@ RPDB_RuntimeStorageSettingsController* RPDB_RuntimeStorageController_settingsCon
 *  currentWorkingEnvironment  *
 ***********************/
 
-RPDB_Environment* RPDB_RuntimeStorageController_currentWorkingEnvironment(	RPDB_RuntimeStorageController*		runtime_storage_controller )	{
+Rbdb_Environment* Rbdb_RuntimeStorageController_currentWorkingEnvironment(	Rbdb_RuntimeStorageController*		runtime_storage_controller )	{
 	
 	return runtime_storage_controller->default_environment;
 }
@@ -128,17 +128,17 @@ RPDB_Environment* RPDB_RuntimeStorageController_currentWorkingEnvironment(	RPDB_
 *  requireDefaultEnvironment  *
 ******************************/
 
-RPDB_Environment* RPDB_RuntimeStorageController_requireDefaultEnvironment(	RPDB_RuntimeStorageController*		runtime_storage_controller )	{
+Rbdb_Environment* Rbdb_RuntimeStorageController_requireDefaultEnvironment(	Rbdb_RuntimeStorageController*		runtime_storage_controller )	{
 	
 	if ( runtime_storage_controller->default_environment )	{
 		return runtime_storage_controller->default_environment;
 	}
 	else {
 		
-		RPDB_ErrorController_throwError(	RPDB_Environment_errorController( NULL ),
-																			RPDB_ERROR_DEFAULT_ENVIRONMENT_NOT_FOUND, 
-																			"RPDB_RuntimeStorageController_requireDefaultEnvironment",
-																			RPDB_ERROR_MESSAGE_TRANSACTION_OPEN );
+		Rbdb_ErrorController_throwError(	Rbdb_Environment_errorController( NULL ),
+																			Rbdb_ERROR_DEFAULT_ENVIRONMENT_NOT_FOUND, 
+																			"Rbdb_RuntimeStorageController_requireDefaultEnvironment",
+																			Rbdb_ERROR_MESSAGE_TRANSACTION_OPEN );
 		
 	}
 	return NULL;
@@ -148,8 +148,8 @@ RPDB_Environment* RPDB_RuntimeStorageController_requireDefaultEnvironment(	RPDB_
 *  setCurrentWorkingEnvironment  *
 **************************/
 
-void RPDB_RuntimeStorageController_setCurrentWorkingEnvironment(	RPDB_RuntimeStorageController*		runtime_storage_controller,
-																													RPDB_Environment*					environment )	{
+void Rbdb_RuntimeStorageController_setCurrentWorkingEnvironment(	Rbdb_RuntimeStorageController*		runtime_storage_controller,
+																													Rbdb_Environment*					environment )	{
 	
 	runtime_storage_controller->default_environment	=	environment;
 }
@@ -168,106 +168,106 @@ void RPDB_RuntimeStorageController_setCurrentWorkingEnvironment(	RPDB_RuntimeSto
 *  initRuntimeEnvironment  *
 ***************************/
 
-RPDB_RuntimeStorageController* RPDB_RuntimeStorageController_internal_initRuntimeEnvironment( RPDB_RuntimeStorageController* runtime_storage_controller )	{
+Rbdb_RuntimeStorageController* Rbdb_RuntimeStorageController_internal_initRuntimeEnvironment( Rbdb_RuntimeStorageController* runtime_storage_controller )	{
 	
 	/*----------------------*
 	*  Runtime Environment  *
 	*----------------------*/
 	
-	//	Initialize our runtime environment (RPDB_IN_MEMORY == NULL for in-memory)
-	runtime_storage_controller->runtime_environment		=	RPDB_Environment_new(	RPDB_IN_MEMORY );
+	//	Initialize our runtime environment (Rbdb_IN_MEMORY == NULL for in-memory)
+	runtime_storage_controller->runtime_environment		=	Rbdb_Environment_new(	Rbdb_IN_MEMORY );
 	
 	//	Init settings for our runtime environment (create the DB_ENV instance)
-	RPDB_Environment_internal_initWrappedEnvironment(	runtime_storage_controller->runtime_environment,
+	Rbdb_Environment_internal_initWrappedEnvironment(	runtime_storage_controller->runtime_environment,
 																										TRUE );
 
 	/*----------------------*
 	*  Settings Controller  *
 	*----------------------*/
 	
-	RPDB_SettingsController*	settings_controller		=	RPDB_Environment_settingsController( runtime_storage_controller->runtime_environment );
+	Rbdb_SettingsController*	settings_controller		=	Rbdb_Environment_settingsController( runtime_storage_controller->runtime_environment );
 	
 	/*----------------------*
 	*  Create if Necessary  *
 	*----------------------*/
 	
-	RPDB_FileSettingsController*	file_settings_controller	=	RPDB_SettingsController_fileSettingsController( settings_controller );
+	Rbdb_FileSettingsController*	file_settings_controller	=	Rbdb_SettingsController_fileSettingsController( settings_controller );
 	
 	//	Set to create environment if necessary
-	RPDB_FileSettingsController_turnCreateIfNecessaryOn( file_settings_controller );
+	Rbdb_FileSettingsController_turnCreateIfNecessaryOn( file_settings_controller );
 															
 	/*---------------*
 	*  Transactions  *
 	*---------------*/
 	
 	//	Turn off transaction related systems for runtime storage
-	RPDB_TransactionSettingsController_turnOff( RPDB_SettingsController_transactionSettingsController( settings_controller ) );
-	RPDB_LogSettingsController_turnOff( RPDB_SettingsController_logSettingsController( settings_controller ) );
-	RPDB_LockSettingsController_turnOff( RPDB_SettingsController_lockSettingsController( settings_controller ) );	
-	RPDB_DebugSettingsController*	debug_settings_controller	=	RPDB_SettingsController_debugSettingsController( settings_controller );
-	RPDB_DebugSettingsController_turnRegisterForRecoveryOff( debug_settings_controller );
-	RPDB_DebugSettingsController_turnRunNormalRecoveryBeforeOpeningEnvironmentOff( debug_settings_controller );
-	RPDB_DebugSettingsController_turnCheckForEnvironmentFailureDuringOpenOff( debug_settings_controller );
+	Rbdb_TransactionSettingsController_turnOff( Rbdb_SettingsController_transactionSettingsController( settings_controller ) );
+	Rbdb_LogSettingsController_turnOff( Rbdb_SettingsController_logSettingsController( settings_controller ) );
+	Rbdb_LockSettingsController_turnOff( Rbdb_SettingsController_lockSettingsController( settings_controller ) );	
+	Rbdb_DebugSettingsController*	debug_settings_controller	=	Rbdb_SettingsController_debugSettingsController( settings_controller );
+	Rbdb_DebugSettingsController_turnRegisterForRecoveryOff( debug_settings_controller );
+	Rbdb_DebugSettingsController_turnRunNormalRecoveryBeforeOpeningEnvironmentOff( debug_settings_controller );
+	Rbdb_DebugSettingsController_turnCheckForEnvironmentFailureDuringOpenOff( debug_settings_controller );
 
 	/*------------------*
 	*  Store in Memory  *
 	*------------------*/
 	
 	//	Initialize runtime environment for memory-only (prohibit writing to disk)
-	RPDB_Environment_initForStorageInMemory( runtime_storage_controller->runtime_environment );
+	Rbdb_Environment_initForStorageInMemory( runtime_storage_controller->runtime_environment );
 	//	And make sure we actually have a memory pool
-	RPDB_MemoryPoolSettingsController_turnOn( RPDB_SettingsController_memoryPoolSettingsController( settings_controller ) );
+	Rbdb_MemoryPoolSettingsController_turnOn( Rbdb_SettingsController_memoryPoolSettingsController( settings_controller ) );
 
 	/*-------------*
 	*  Cache Size  *
 	*-------------*/
 
-	RPDB_EnvironmentCacheSettingsController*	environment_cache_settings_controller	=	RPDB_SettingsController_cacheSettingsController( settings_controller );
+	Rbdb_EnvironmentCacheSettingsController*	environment_cache_settings_controller	=	Rbdb_SettingsController_cacheSettingsController( settings_controller );
 
-	RPDB_EnvironmentCacheSettingsController_setSizeInMBytes(	environment_cache_settings_controller,
-																														RPDB_RUNTIME_STORAGE_CACHE_SIZE_IN_MB	);
+	Rbdb_EnvironmentCacheSettingsController_setSizeInMBytes(	environment_cache_settings_controller,
+																														Rbdb_RUNTIME_STORAGE_CACHE_SIZE_IN_MB	);
 	
 	/*------------*
 	*  Page Size  *
 	*------------*/
 
-	RPDB_MemoryPoolSettingsController*			memory_pool_settings_controller	=	RPDB_SettingsController_memoryPoolSettingsController( settings_controller );
-	RPDB_MemoryPoolFileSettingsController*	memory_pool_file_settings_controller	=	RPDB_MemoryPoolSettingsController_fileSettingsController( memory_pool_settings_controller );
+	Rbdb_MemoryPoolSettingsController*			memory_pool_settings_controller	=	Rbdb_SettingsController_memoryPoolSettingsController( settings_controller );
+	Rbdb_MemoryPoolFileSettingsController*	memory_pool_file_settings_controller	=	Rbdb_MemoryPoolSettingsController_fileSettingsController( memory_pool_settings_controller );
 
-	RPDB_MemoryPoolFileSettingsController_setPageSizeInKBytes(	memory_pool_file_settings_controller,
-																															RPDB_RUNTIME_STORAGE_PAGE_SIZE_IN_K );
+	Rbdb_MemoryPoolFileSettingsController_setPageSizeInKBytes(	memory_pool_file_settings_controller,
+																															Rbdb_RUNTIME_STORAGE_PAGE_SIZE_IN_K );
 	
 	/*-------------------*
 	*  Open Environment  *
 	*-------------------*/
 	
 	//	Open environment
-	RPDB_Environment_internal_openWithoutRuntimeStorage( runtime_storage_controller->runtime_environment );
+	Rbdb_Environment_internal_openWithoutRuntimeStorage( runtime_storage_controller->runtime_environment );
 
 	/*------------------------*
 	*  Runtime Database Type  *
 	*------------------------*/
 	
-	RPDB_DatabaseSettingsController*			database_settings_controller			=	RPDB_SettingsController_databaseSettingsController( settings_controller );
-	RPDB_DatabaseTypeSettingsController*	database_type_settings_controller	=	RPDB_DatabaseSettingsController_typeSettingsController(	database_settings_controller );
+	Rbdb_DatabaseSettingsController*			database_settings_controller			=	Rbdb_SettingsController_databaseSettingsController( settings_controller );
+	Rbdb_DatabaseTypeSettingsController*	database_type_settings_controller	=	Rbdb_DatabaseSettingsController_typeSettingsController(	database_settings_controller );
 	//	Unless otherwise specified, all of our runtime storage will be btree - set the environmental default
-	RPDB_DatabaseTypeSettingsController_setTypeToBTree(	database_type_settings_controller );
+	Rbdb_DatabaseTypeSettingsController_setTypeToBTree(	database_type_settings_controller );
 	
 	/*----------------------*
 	*  Database Controller  *
 	*----------------------*/
 	
 	//	Initialize database controller so that we don't create another set of runtime databases inside our runtime environment
-	runtime_storage_controller->runtime_environment->database_controller	=	RPDB_DatabaseController_internal_newWithoutRuntimeStorage( runtime_storage_controller->runtime_environment );
+	runtime_storage_controller->runtime_environment->database_controller	=	Rbdb_DatabaseController_internal_newWithoutRuntimeStorage( runtime_storage_controller->runtime_environment );
 	
 	/*--------------------*
 	*  Runtime Databases  *
 	*--------------------*/
 	
 	//	Databases for referencing runtime information
-	RPDB_RuntimeStorageController_internal_initRuntimeStoragesDatabases( runtime_storage_controller );
+	Rbdb_RuntimeStorageController_internal_initRuntimeStoragesDatabases( runtime_storage_controller );
 	
-	RPDB_RuntimeStorageController_internal_initEnvironmentAndDatabaseReferenceDatabases( runtime_storage_controller );
+	Rbdb_RuntimeStorageController_internal_initEnvironmentAndDatabaseReferenceDatabases( runtime_storage_controller );
 	
 	/*---------------------*
 	*  Runtime Controller  *
@@ -280,15 +280,15 @@ RPDB_RuntimeStorageController* RPDB_RuntimeStorageController_internal_initRuntim
 *  initPrimaryDatabase  *
 ************************/
 
-void RPDB_RuntimeStorageController_internal_initRuntimeStoragesDatabases(	RPDB_RuntimeStorageController*		runtime_storage_controller )	{
+void Rbdb_RuntimeStorageController_internal_initRuntimeStoragesDatabases(	Rbdb_RuntimeStorageController*		runtime_storage_controller )	{
 
 	/*----------------------------*
 	*  Primary Storages Database  *
 	*----------------------------*/
 	
 	//	Initialize our runtime storages database
-	RPDB_DatabaseController*	database_controller	=	RPDB_Environment_databaseController( runtime_storage_controller->runtime_environment );
-	runtime_storage_controller->runtime_storages_database			=	RPDB_Database_new(	database_controller,
+	Rbdb_DatabaseController*	database_controller	=	Rbdb_Environment_databaseController( runtime_storage_controller->runtime_environment );
+	runtime_storage_controller->runtime_storages_database			=	Rbdb_Database_new(	database_controller,
 																																									"runtime_storages" );
 	
 }
@@ -297,20 +297,20 @@ void RPDB_RuntimeStorageController_internal_initRuntimeStoragesDatabases(	RPDB_R
 *  initPrimaryDatabase  *
 ************************/
 
-void RPDB_RuntimeStorageController_internal_initEnvironmentAndDatabaseReferenceDatabases(	RPDB_RuntimeStorageController*		runtime_storage_controller )	{
+void Rbdb_RuntimeStorageController_internal_initEnvironmentAndDatabaseReferenceDatabases(	Rbdb_RuntimeStorageController*		runtime_storage_controller )	{
 	
-	RPDB_DatabaseController*	database_controller	=	RPDB_Environment_databaseController(	runtime_storage_controller->runtime_environment );
+	Rbdb_DatabaseController*	database_controller	=	Rbdb_Environment_databaseController(	runtime_storage_controller->runtime_environment );
 	
-	//	database store references to RPDB_Environment* by DB_ENV*
-	runtime_storage_controller->environment_reference_database			=	RPDB_Database_new(	database_controller,
+	//	database store references to Rbdb_Environment* by DB_ENV*
+	runtime_storage_controller->environment_reference_database			=	Rbdb_Database_new(	database_controller,
 																																												"runtime_storage__environments" );
 	
-	//	database store references to RPDB_Database* by DB*
-	runtime_storage_controller->database_reference_database				=	RPDB_Database_new(	database_controller,
+	//	database store references to Rbdb_Database* by DB*
+	runtime_storage_controller->database_reference_database				=	Rbdb_Database_new(	database_controller,
 																																											"runtime_storage_database_reference_database" );
 	
-	RPDB_Database_internal_openWithoutRuntimeStorage( runtime_storage_controller->environment_reference_database );	
-	RPDB_Database_internal_openWithoutRuntimeStorage( runtime_storage_controller->database_reference_database );	
+	Rbdb_Database_internal_openWithoutRuntimeStorage( runtime_storage_controller->environment_reference_database );	
+	Rbdb_Database_internal_openWithoutRuntimeStorage( runtime_storage_controller->database_reference_database );	
 }
 
 /*******************************************************************************************************************************************************************************************
@@ -324,8 +324,8 @@ void RPDB_RuntimeStorageController_internal_initEnvironmentAndDatabaseReferenceD
 //	We are storing primarily by BDB key because every callback has to look up the BDB key -
 //	so it should be more efficient to only look up once. Asking for environment should be
 //	less frequent, so less expensive to ask through a secondary (and less likely to multiply).
-void RPDB_RuntimeStorageController_internal_storeEnvironmentForBDBEnvironment(	RPDB_RuntimeStorageController*		runtime_storage_controller,
-																																								RPDB_Environment*									environment	)	{
+void Rbdb_RuntimeStorageController_internal_storeEnvironmentForBDBEnvironment(	Rbdb_RuntimeStorageController*		runtime_storage_controller,
+																																								Rbdb_Environment*									environment	)	{
 
 	//	declare and zero keys
 	DBT	bdb_key;
@@ -337,29 +337,29 @@ void RPDB_RuntimeStorageController_internal_storeEnvironmentForBDBEnvironment(	R
 	uintptr_t	bdb_environment_address	=	(uintptr_t) environment->wrapped_bdb_environment;
 	bdb_key.data		=	& bdb_environment_address;
 	bdb_key.size		=	sizeof( uintptr_t );
-	bdb_key.flags		=	RPDB_NO_FLAGS;
+	bdb_key.flags		=	Rbdb_NO_FLAGS;
 	
-	//	get rpdb environment address and store as data
+	//	get rbdb environment address and store as data
 	uintptr_t environment_address	=	(uintptr_t) environment;
 	bdb_data.data		=	& environment_address;
 	bdb_data.size		=	sizeof( uintptr_t );
-	bdb_data.flags	=	RPDB_NO_FLAGS;
+	bdb_data.flags	=	Rbdb_NO_FLAGS;
 
 	//	store in runtime storage environments reference database
-	RPDB_Database*	environment_reference_database	=	runtime_storage_controller->environment_reference_database;
+	Rbdb_Database*	environment_reference_database	=	runtime_storage_controller->environment_reference_database;
 	int	connection_error = RP_NO_ERROR;
 	if ( ( connection_error = environment_reference_database->wrapped_bdb_database->put(	environment_reference_database->wrapped_bdb_database,
 																																												NULL,
 																																												& bdb_key,
 																																												& bdb_data,
-																																												RPDB_NO_FLAGS ) ) )	{
+																																												Rbdb_NO_FLAGS ) ) )	{
 		
-		RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( runtime_storage_controller->runtime_environment ),
+		Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( runtime_storage_controller->runtime_environment ),
 																									connection_error, 
-																									"RPDB_RuntimeStorageController_internal_storeEnvironmentForBDBEnvironment" );
+																									"Rbdb_RuntimeStorageController_internal_storeEnvironmentForBDBEnvironment" );
 	}
 
-	RPDB_RuntimeStorageController_setCurrentWorkingEnvironment(	runtime_storage_controller,
+	Rbdb_RuntimeStorageController_setCurrentWorkingEnvironment(	runtime_storage_controller,
 																															environment	);
 }
 
@@ -367,8 +367,8 @@ void RPDB_RuntimeStorageController_internal_storeEnvironmentForBDBEnvironment(	R
 *  removeStoredEnvironment  *
 ****************************/
 
-void RPDB_RuntimeStorageController_internal_removeStoredEnvironment(	RPDB_RuntimeStorageController*		runtime_storage_controller,
-																																			RPDB_Environment*									environment	)	{
+void Rbdb_RuntimeStorageController_internal_removeStoredEnvironment(	Rbdb_RuntimeStorageController*		runtime_storage_controller,
+																																			Rbdb_Environment*									environment	)	{
 
 	//	create and zero key
 	DBT	bdb_key;
@@ -377,18 +377,18 @@ void RPDB_RuntimeStorageController_internal_removeStoredEnvironment(	RPDB_Runtim
 	uintptr_t	bdb_environment_address	=	(uintptr_t) environment->wrapped_bdb_environment;
 	bdb_key.data	=	(void*) & bdb_environment_address;
 	bdb_key.size	=	sizeof( uintptr_t );
-	bdb_key.flags	=	RPDB_NO_FLAGS;
+	bdb_key.flags	=	Rbdb_NO_FLAGS;
 	
-	RPDB_Database*	environments_database	=	runtime_storage_controller->environment_reference_database;
+	Rbdb_Database*	environments_database	=	runtime_storage_controller->environment_reference_database;
 	int	connection_error = RP_NO_ERROR;	
 	if ( ( connection_error = environments_database->wrapped_bdb_database->del(	environments_database->wrapped_bdb_database,
 																																							NULL,
 																																							& bdb_key,
-																																							RPDB_NO_FLAGS ) ) )	{
+																																							Rbdb_NO_FLAGS ) ) )	{
 		
-		RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( runtime_storage_controller->runtime_environment ),
+		Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( runtime_storage_controller->runtime_environment ),
 																									connection_error, 
-																									"RPDB_RuntimeStorageController_internal_removeStoredEnvironment" );
+																									"Rbdb_RuntimeStorageController_internal_removeStoredEnvironment" );
 	}
 }
 
@@ -396,8 +396,8 @@ void RPDB_RuntimeStorageController_internal_removeStoredEnvironment(	RPDB_Runtim
 *  storeDatabaseForBDBDatabase  *
 ********************************/
 
-void RPDB_RuntimeStorageController_internal_storeDatabaseForBDBDatabase(	RPDB_RuntimeStorageController*		runtime_storage_controller,
-																																					RPDB_Database*										database	)	{
+void Rbdb_RuntimeStorageController_internal_storeDatabaseForBDBDatabase(	Rbdb_RuntimeStorageController*		runtime_storage_controller,
+																																					Rbdb_Database*										database	)	{
 	
 	//	create and zero key and data
 	DBT	bdb_key;
@@ -409,25 +409,25 @@ void RPDB_RuntimeStorageController_internal_storeDatabaseForBDBDatabase(	RPDB_Ru
 	uintptr_t	bdb_database_address	=	(uintptr_t) database->wrapped_bdb_database;
 	bdb_key.data	=	& bdb_database_address;
 	bdb_key.size	=	sizeof( uintptr_t );
-	bdb_key.flags	=	RPDB_NO_FLAGS;
+	bdb_key.flags	=	Rbdb_NO_FLAGS;
 	
-	//	get rpdb database address for data
+	//	get rbdb database address for data
 	uintptr_t database_address	=	(uintptr_t) database;	
 	bdb_data.data	=	& database_address;
 	bdb_data.size	=	sizeof( uintptr_t );
-	bdb_data.flags	=	RPDB_NO_FLAGS;
+	bdb_data.flags	=	Rbdb_NO_FLAGS;
 
-	RPDB_Database*	database_reference_database	=	runtime_storage_controller->database_reference_database;
+	Rbdb_Database*	database_reference_database	=	runtime_storage_controller->database_reference_database;
 	int connection_error = RP_NO_ERROR;
 	if ( ( connection_error = database_reference_database->wrapped_bdb_database->put(	database_reference_database->wrapped_bdb_database,
 																																										NULL,
 																																										& bdb_key,
 																																										& bdb_data,
-																																										RPDB_NO_FLAGS ) ) )	{
+																																										Rbdb_NO_FLAGS ) ) )	{
 		
-		RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( runtime_storage_controller->runtime_environment ),
+		Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( runtime_storage_controller->runtime_environment ),
 																									connection_error, 
-																									"RPDB_RuntimeStorageController_internal_storeDatabaseForBDBDatabase" );
+																									"Rbdb_RuntimeStorageController_internal_storeDatabaseForBDBDatabase" );
 	}
 }
 
@@ -435,8 +435,8 @@ void RPDB_RuntimeStorageController_internal_storeDatabaseForBDBDatabase(	RPDB_Ru
 *  removeDatabaseStoredForBDBDatabase  *
 ***************************************/
 
-void RPDB_RuntimeStorageController_internal_removeDatabaseStoredForBDBDatabase(	RPDB_RuntimeStorageController*		runtime_storage_controller,
-																																								RPDB_Database*						database	)	{
+void Rbdb_RuntimeStorageController_internal_removeDatabaseStoredForBDBDatabase(	Rbdb_RuntimeStorageController*		runtime_storage_controller,
+																																								Rbdb_Database*						database	)	{
 	
 	//	create and zero key
 	DBT	bdb_key;
@@ -446,21 +446,21 @@ void RPDB_RuntimeStorageController_internal_removeDatabaseStoredForBDBDatabase(	
 	uintptr_t	bdb_database_address	=	(uintptr_t) database->wrapped_bdb_database;
 	bdb_key.data	=	& bdb_database_address;
 	bdb_key.size	=	sizeof( uintptr_t );
-	bdb_key.flags	=	RPDB_NO_FLAGS;
+	bdb_key.flags	=	Rbdb_NO_FLAGS;
 	
-	RPDB_Database*	database_reference_database	=	runtime_storage_controller->database_reference_database;
+	Rbdb_Database*	database_reference_database	=	runtime_storage_controller->database_reference_database;
 	int	connection_error = RP_NO_ERROR;	
-	if ( RPDB_Database_rawKeyExists(	database_reference_database,
+	if ( Rbdb_Database_rawKeyExists(	database_reference_database,
 										& bdb_database_address,
 										sizeof( uintptr_t ) ) )	{
 		if ( ( connection_error = database_reference_database->wrapped_bdb_database->del(	database_reference_database->wrapped_bdb_database,
 																																											NULL,
 																																											& bdb_key,
-																																											RPDB_NO_FLAGS ) ) )	{
+																																											Rbdb_NO_FLAGS ) ) )	{
 			
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( runtime_storage_controller->runtime_environment ),
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( runtime_storage_controller->runtime_environment ),
 																										connection_error, 
-																										"RPDB_RuntimeStorageController_internal_removeDatabaseStoredForBDBDatabase" );
+																										"Rbdb_RuntimeStorageController_internal_removeDatabaseStoredForBDBDatabase" );
 		}
 	}
 }
@@ -469,7 +469,7 @@ void RPDB_RuntimeStorageController_internal_removeDatabaseStoredForBDBDatabase(	
 *  environmentForBDBEnvironment  *
 *********************************/
 
-RPDB_Environment* RPDB_RuntimeStorageController_internal_environmentForBDBEnvironment(	RPDB_RuntimeStorageController*		runtime_storage_controller,
+Rbdb_Environment* Rbdb_RuntimeStorageController_internal_environmentForBDBEnvironment(	Rbdb_RuntimeStorageController*		runtime_storage_controller,
 																																												DB_ENV*								bdb_environment	)	{
 	
 	//	runtime_storage_controller->environment_reference_database contains bdb_environment_address => environment_address
@@ -478,9 +478,9 @@ RPDB_Environment* RPDB_RuntimeStorageController_internal_environmentForBDBEnviro
 	
 	//	when runtime storage is created, this database needs to be initialized
 	//	when an environment is created, this database needs an entry for the environment
-	//	when this function is called, it returns the rpdb environment for bdb address
+	//	when this function is called, it returns the rbdb environment for bdb address
 	
-	RPDB_Database*	database	=	runtime_storage_controller->environment_reference_database;
+	Rbdb_Database*	database	=	runtime_storage_controller->environment_reference_database;
 	
 	DBT	bdb_key;
 	DBT	bdb_data;
@@ -494,15 +494,15 @@ RPDB_Environment* RPDB_RuntimeStorageController_internal_environmentForBDBEnviro
 																																	NULL,
 																																	& bdb_key,
 																																	& bdb_data,
-																																	RPDB_NO_FLAGS ) ) )	{
+																																	Rbdb_NO_FLAGS ) ) )	{
 	
-		RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( runtime_storage_controller->runtime_environment ),
+		Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( runtime_storage_controller->runtime_environment ),
 																									connection_error, 
-																									"RPDB_RuntimeStorageController_internal_environmentForBDBEnvironment" );
+																									"Rbdb_RuntimeStorageController_internal_environmentForBDBEnvironment" );
 		return NULL;		
 	}
 	
-	RPDB_Environment*	return_environment	=	(RPDB_Environment*) ( *(uintptr_t*) bdb_data.data );
+	Rbdb_Environment*	return_environment	=	(Rbdb_Environment*) ( *(uintptr_t*) bdb_data.data );
 	
 	return return_environment;
 }	
@@ -511,7 +511,7 @@ RPDB_Environment* RPDB_RuntimeStorageController_internal_environmentForBDBEnviro
 *  databaseForBDBDatabase  *
 ***************************/
 
-RPDB_Database* RPDB_RuntimeStorageController_internal_databaseForBDBDatabase(	RPDB_RuntimeStorageController*		runtime_storage_controller,
+Rbdb_Database* Rbdb_RuntimeStorageController_internal_databaseForBDBDatabase(	Rbdb_RuntimeStorageController*		runtime_storage_controller,
 																																							DB*									bdb_database	)	{
 	
 	//	runtime_storage_controller->database_reference_database contains bdb_database_address => database_address
@@ -519,7 +519,7 @@ RPDB_Database* RPDB_RuntimeStorageController_internal_databaseForBDBDatabase(	RP
 	
 	//	when runtime storage is created, this database needs to be initialized
 	//	when a database is created, this database needs an entry for the database
-	//	when this function is called, it returns the rpdb database for bdb address
+	//	when this function is called, it returns the rbdb database for bdb address
 	
 	//	create and zero key and data
 	DBT					bdb_key;
@@ -531,21 +531,21 @@ RPDB_Database* RPDB_RuntimeStorageController_internal_databaseForBDBDatabase(	RP
 	uintptr_t		address_of_bdb_database	=	(uintptr_t) bdb_database;
 	bdb_key.data	=	& address_of_bdb_database;
 	bdb_key.size	=	sizeof( uintptr_t );
-	bdb_key.flags	=	RPDB_NO_FLAGS;
+	bdb_key.flags	=	Rbdb_NO_FLAGS;
 	
-	RPDB_Database*		database_reference_database	=	runtime_storage_controller->database_reference_database;
+	Rbdb_Database*		database_reference_database	=	runtime_storage_controller->database_reference_database;
 	int	connection_error	=	RP_NO_ERROR;				
 	if ( ( connection_error = database_reference_database->wrapped_bdb_database->get(	database_reference_database->wrapped_bdb_database,
 																					NULL,
 																					& bdb_key,
 																					& bdb_data,
-																					RPDB_NO_FLAGS ) ) )	{
+																					Rbdb_NO_FLAGS ) ) )	{
 		
-		RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( runtime_storage_controller->runtime_environment ),
+		Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( runtime_storage_controller->runtime_environment ),
 																									connection_error, 
-																									"RPDB_RuntimeStorageController_internal_databaseForBDBDatabase" );
+																									"Rbdb_RuntimeStorageController_internal_databaseForBDBDatabase" );
 		return NULL;
 	}
 	
-	return (RPDB_Database*) ( *(uintptr_t*) bdb_data.data );
+	return (Rbdb_Database*) ( *(uintptr_t*) bdb_data.data );
 }	

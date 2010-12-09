@@ -1,109 +1,109 @@
 /*
- *		RPDB::RPDB_SettingsController::RPDB_ConcurrentDataStoreSettingsController
+ *		Rbdb::Rbdb_SettingsController::Rbdb_ConcurrentDataStoreSettingsController
  *
  *
  */
 
-#ifndef RPDB_TRANSACTION_SETTINGS_CONTROLLER
-	#define RPDB_TRANSACTION_SETTINGS_CONTROLLER
+#ifndef Rbdb_TRANSACTION_SETTINGS_CONTROLLER
+	#define Rbdb_TRANSACTION_SETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_TransactionSettingsController*													RPDB_TransactionSettingsController_new(											RPDB_SettingsController*										settings_controller );
-	void																					RPDB_TransactionSettingsController_free(											RPDB_TransactionSettingsController**			transaction_settings_controller );
-	RPDB_Environment*																RPDB_TransactionSettingsController_parentEnvironment(					RPDB_TransactionSettingsController*	transaction_settings_controller );
+	Rbdb_TransactionSettingsController*													Rbdb_TransactionSettingsController_new(											Rbdb_SettingsController*										settings_controller );
+	void																					Rbdb_TransactionSettingsController_free(											Rbdb_TransactionSettingsController**			transaction_settings_controller );
+	Rbdb_Environment*																Rbdb_TransactionSettingsController_parentEnvironment(					Rbdb_TransactionSettingsController*	transaction_settings_controller );
 
-	int																					RPDB_TransactionSettingsController_on(													RPDB_TransactionSettingsController*	transaction_settings_controller );
-	BOOL																				RPDB_TransactionSettingsController_off(												RPDB_TransactionSettingsController*	transaction_settings_controller );
-	void																				RPDB_TransactionSettingsController_turnOn(												RPDB_TransactionSettingsController*	transaction_settings_controller );
-	void																				RPDB_TransactionSettingsController_turnOff(											RPDB_TransactionSettingsController*	transaction_settings_controller );
+	int																					Rbdb_TransactionSettingsController_on(													Rbdb_TransactionSettingsController*	transaction_settings_controller );
+	BOOL																				Rbdb_TransactionSettingsController_off(												Rbdb_TransactionSettingsController*	transaction_settings_controller );
+	void																				Rbdb_TransactionSettingsController_turnOn(												Rbdb_TransactionSettingsController*	transaction_settings_controller );
+	void																				Rbdb_TransactionSettingsController_turnOff(											Rbdb_TransactionSettingsController*	transaction_settings_controller );
 			
-	int																					RPDB_TransactionSettingsController_prohibitSyncOnWrite(							RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnProhibitSyncOnWriteTransactionOn(				RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnProhibitSyncOnWriteTransactionOff(				RPDB_TransactionSettingsController*							transaction_settings_controller );
+	int																					Rbdb_TransactionSettingsController_prohibitSyncOnWrite(							Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnProhibitSyncOnWriteTransactionOn(				Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnProhibitSyncOnWriteTransactionOff(				Rbdb_TransactionSettingsController*							transaction_settings_controller );
 																																																												
-	int																					RPDB_TransactionSettingsController_prohibitSyncOnCommit(					RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnProhibitSyncOnCommitOn(				RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnProhibitSyncOnCommitOff(				RPDB_TransactionSettingsController*							transaction_settings_controller );
+	int																					Rbdb_TransactionSettingsController_prohibitSyncOnCommit(					Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnProhibitSyncOnCommitOn(				Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnProhibitSyncOnCommitOff(				Rbdb_TransactionSettingsController*							transaction_settings_controller );
 																																																												
-	int																					RPDB_TransactionSettingsController_timeoutInMicrosecondsReturnsDenyNotDeadlock(	RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnTimeoutInMicrosecondsReturnsDenyNotDeadlockOn(	RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnTimeoutInMicrosecondsReturnsDenyNotDeadlockOff(	RPDB_TransactionSettingsController*							transaction_settings_controller );
+	int																					Rbdb_TransactionSettingsController_timeoutInMicrosecondsReturnsDenyNotDeadlock(	Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnTimeoutInMicrosecondsReturnsDenyNotDeadlockOn(	Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnTimeoutInMicrosecondsReturnsDenyNotDeadlockOff(	Rbdb_TransactionSettingsController*							transaction_settings_controller );
 																																																												
-	int																					RPDB_TransactionSettingsController_concurrentDataStoreLocking(						RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnConcurrentDataStoreLockingOn(					RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnConcurrentDataStoreLockingOff(					RPDB_TransactionSettingsController*							transaction_settings_controller );
+	int																					Rbdb_TransactionSettingsController_concurrentDataStoreLocking(						Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnConcurrentDataStoreLockingOn(					Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnConcurrentDataStoreLockingOff(					Rbdb_TransactionSettingsController*							transaction_settings_controller );
 																																																												
-	int																					RPDB_TransactionSettingsController_snapshotIsolation(								RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnSnapshotIsolationOn(							RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnSnapshotIsolationOff(							RPDB_TransactionSettingsController*							transaction_settings_controller );
+	int																					Rbdb_TransactionSettingsController_snapshotIsolation(								Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnSnapshotIsolationOn(							Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnSnapshotIsolationOff(							Rbdb_TransactionSettingsController*							transaction_settings_controller );
 																																																												
-	int																					RPDB_TransactionSettingsController_degreeOneIsolation(								RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnDegreeOneIsolationOn(						RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnDegreeOneIsolationOff(						RPDB_TransactionSettingsController*							transaction_settings_controller );
+	int																					Rbdb_TransactionSettingsController_degreeOneIsolation(								Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnDegreeOneIsolationOn(						Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnDegreeOneIsolationOff(						Rbdb_TransactionSettingsController*							transaction_settings_controller );
 																																																												
-	int																					RPDB_TransactionSettingsController_degreeTwoIsolation(								RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnDegreeTwoIsolationOn(							RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnDegreeTwoIsolationOff(							RPDB_TransactionSettingsController*							transaction_settings_controller );
+	int																					Rbdb_TransactionSettingsController_degreeTwoIsolation(								Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnDegreeTwoIsolationOn(							Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnDegreeTwoIsolationOff(							Rbdb_TransactionSettingsController*							transaction_settings_controller );
 																																																												
-	int																					RPDB_TransactionSettingsController_encloseAllActivityInTransaction(				RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnEncloseAllActivityInTransactionOn(			RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnEncloseAllActivityInTransactionOff(			RPDB_TransactionSettingsController*							transaction_settings_controller );
+	int																					Rbdb_TransactionSettingsController_encloseAllActivityInTransaction(				Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnEncloseAllActivityInTransactionOn(			Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnEncloseAllActivityInTransactionOff(			Rbdb_TransactionSettingsController*							transaction_settings_controller );
 																																																												
-	int																					RPDB_TransactionSettingsController_environmentalSnapshotIsolation(					RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnEnvironmentalSnapshotIsolationOn(			RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnEnvironmentalSnapshotIsolationOff(			RPDB_TransactionSettingsController*							transaction_settings_controller );
+	int																					Rbdb_TransactionSettingsController_environmentalSnapshotIsolation(					Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnEnvironmentalSnapshotIsolationOn(			Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnEnvironmentalSnapshotIsolationOff(			Rbdb_TransactionSettingsController*							transaction_settings_controller );
 
-	int																					RPDB_TransactionSettingsController_syncOnCommit(									RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnSyncOnCommitOn(								RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnSyncOnCommitOff(							RPDB_TransactionSettingsController*							transaction_settings_controller );
+	int																					Rbdb_TransactionSettingsController_syncOnCommit(									Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnSyncOnCommitOn(								Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnSyncOnCommitOff(							Rbdb_TransactionSettingsController*							transaction_settings_controller );
 
-	int																					RPDB_TransactionSettingsController_waitForLocks(									RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnWaitForLocksOn(								RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_turnWaitForLocksOff(							RPDB_TransactionSettingsController*							transaction_settings_controller );
+	int																					Rbdb_TransactionSettingsController_waitForLocks(									Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnWaitForLocksOn(								Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_turnWaitForLocksOff(							Rbdb_TransactionSettingsController*							transaction_settings_controller );
 																																																												
-	long																					RPDB_TransactionSettingsController_maximumNumberOfTransactionsToRecover(			RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_setMaximumNumberOfTransactionsToRecover(		RPDB_TransactionSettingsController*							transaction_settings_controller,
+	long																					Rbdb_TransactionSettingsController_maximumNumberOfTransactionsToRecover(			Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_setMaximumNumberOfTransactionsToRecover(		Rbdb_TransactionSettingsController*							transaction_settings_controller,
 																																												long															maximum_number_of_transactions_to_recover );
 																																																												
-	uint32_t																				RPDB_TransactionSettingsController_timeoutInMicroseconds(							RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_setTimeoutInMicroseconds(						RPDB_TransactionSettingsController*							transaction_settings_controller, 
+	uint32_t																				Rbdb_TransactionSettingsController_timeoutInMicroseconds(							Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_setTimeoutInMicroseconds(						Rbdb_TransactionSettingsController*							transaction_settings_controller, 
 																																												uint32_t														timeout_in_microseconds );
 																																																												
-	uint32_t																				RPDB_TransactionSettingsController_maxOpen(										RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_setMaxOpen(										RPDB_TransactionSettingsController*							transaction_settings_controller, 
+	uint32_t																				Rbdb_TransactionSettingsController_maxOpen(										Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_setMaxOpen(										Rbdb_TransactionSettingsController*							transaction_settings_controller, 
 																																												uint32_t														max_open );
 																																																												
-	time_t																					RPDB_TransactionSettingsController_recoveryTimestamp(								RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_setRecoveryTimestamp(							RPDB_TransactionSettingsController*							transaction_settings_controller, 
+	time_t																					Rbdb_TransactionSettingsController_recoveryTimestamp(								Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_setRecoveryTimestamp(							Rbdb_TransactionSettingsController*							transaction_settings_controller, 
 																																																											time_t															recovery_timestamp );
 /*
-	void																					RPDB_TransactionSettingsController_setRollbackwardCallbackMethod(					RPDB_TransactionSettingsController*							transaction_settings_controller,
-																																												int (*rollbackward_callback_method)(	RPDB_Environment*					environment,
-																																																						RPDB_Record*			transaction_log_record ) );
-	int (*rollbackward_callback_method)(	RPDB_Environment*				environment,                                                                                                                                                                	
-											RPDB_Record*		transaction_log_record )	RPDB_TransactionSettingsController_rollbackwardCallbackMethod(						RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_setRollforwardCallbackMethod(					RPDB_TransactionSettingsController*							transaction_settings_controller,
-																																												int (*rollforward_callback_method)(		RPDB_Environment*					environment,
-																																																						RPDB_Record*			transaction_log_record ) );
-	int (*rollforward_callback_method)(	RPDB_Environment*				environment,                                                                                        				
-										RPDB_Record*		transaction_log_record )		RPDB_TransactionSettingsController_rollforwardCallbackMethod(						RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_setAbortCallbackMethod(							RPDB_TransactionSettingsController* 							transaction_settings_controller,
-																																												int (*abort_callback_method)(			RPDB_Environment*					environment,
-																																																						RPDB_Record*			transaction_log_record ) );
-	int (*abort_callback_method)(	RPDB_Environment*				environment,                    	                                                                					
-									RPDB_Record*		transaction_log_record )			RPDB_TransactionSettingsController_abortCallbackMethod(							RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_setApplyCallbackMethod(							RPDB_TransactionSettingsController*							transaction_settings_controller,
-																																												int (*apply_callback_method)(			RPDB_Environment*					environment,
-																																																						RPDB_Record*			transaction_log_record ) );
-	int (*apply_callback_method)(	RPDB_Environment*				environment,                		                                                                					                                                    		
-									RPDB_Record*		transaction_log_record )			RPDB_TransactionSettingsController_applyCallbackMethod(							RPDB_TransactionSettingsController*							transaction_settings_controller );
-	void																					RPDB_TransactionSettingsController_setPrintCallbackMethod(							RPDB_TransactionSettingsController*							transaction_settings_controller,
-																																												int (*print_callback_method)(			RPDB_Environment*					environment,
+	void																					Rbdb_TransactionSettingsController_setRollbackwardCallbackMethod(					Rbdb_TransactionSettingsController*							transaction_settings_controller,
+																																												int (*rollbackward_callback_method)(	Rbdb_Environment*					environment,
+																																																						Rbdb_Record*			transaction_log_record ) );
+	int (*rollbackward_callback_method)(	Rbdb_Environment*				environment,                                                                                                                                                                	
+											Rbdb_Record*		transaction_log_record )	Rbdb_TransactionSettingsController_rollbackwardCallbackMethod(						Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_setRollforwardCallbackMethod(					Rbdb_TransactionSettingsController*							transaction_settings_controller,
+																																												int (*rollforward_callback_method)(		Rbdb_Environment*					environment,
+																																																						Rbdb_Record*			transaction_log_record ) );
+	int (*rollforward_callback_method)(	Rbdb_Environment*				environment,                                                                                        				
+										Rbdb_Record*		transaction_log_record )		Rbdb_TransactionSettingsController_rollforwardCallbackMethod(						Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_setAbortCallbackMethod(							Rbdb_TransactionSettingsController* 							transaction_settings_controller,
+																																												int (*abort_callback_method)(			Rbdb_Environment*					environment,
+																																																						Rbdb_Record*			transaction_log_record ) );
+	int (*abort_callback_method)(	Rbdb_Environment*				environment,                    	                                                                					
+									Rbdb_Record*		transaction_log_record )			Rbdb_TransactionSettingsController_abortCallbackMethod(							Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_setApplyCallbackMethod(							Rbdb_TransactionSettingsController*							transaction_settings_controller,
+																																												int (*apply_callback_method)(			Rbdb_Environment*					environment,
+																																																						Rbdb_Record*			transaction_log_record ) );
+	int (*apply_callback_method)(	Rbdb_Environment*				environment,                		                                                                					                                                    		
+									Rbdb_Record*		transaction_log_record )			Rbdb_TransactionSettingsController_applyCallbackMethod(							Rbdb_TransactionSettingsController*							transaction_settings_controller );
+	void																					Rbdb_TransactionSettingsController_setPrintCallbackMethod(							Rbdb_TransactionSettingsController*							transaction_settings_controller,
+																																												int (*print_callback_method)(			Rbdb_Environment*					environment,
 
 */
 #endif

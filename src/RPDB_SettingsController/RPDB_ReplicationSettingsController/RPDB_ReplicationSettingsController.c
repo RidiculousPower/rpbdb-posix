@@ -1,5 +1,5 @@
 /*
- *		RPDB::SettingsController::FileSettingsController
+ *		Rbdb::SettingsController::FileSettingsController
  *
  *
  */
@@ -10,18 +10,18 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_ReplicationSettingsController.h"
+#include "Rbdb_ReplicationSettingsController.h"
 
-#include "RPDB_Environment.h"
+#include "Rbdb_Environment.h"
 
-#include "RPDB_Record.h"
+#include "Rbdb_Record.h"
 
-#include "RPDB_ReplicationController.h"
+#include "Rbdb_ReplicationController.h"
 
-#include "RPDB_ReplicationSettingsController_internal.h"
-#include "RPDB_ReplicationElectionSettingsController.h"
-#include "RPDB_ReplicationTimeoutSettingsController.h"
-#include "RPDB_ReplicationVerbositySettingsController.h"
+#include "Rbdb_ReplicationSettingsController_internal.h"
+#include "Rbdb_ReplicationElectionSettingsController.h"
+#include "Rbdb_ReplicationTimeoutSettingsController.h"
+#include "Rbdb_ReplicationVerbositySettingsController.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -33,9 +33,9 @@
 *  new  *
 *************/
 
-RPDB_ReplicationSettingsController* RPDB_ReplicationSettingsController_new( RPDB_SettingsController* settings_controller )	{
+Rbdb_ReplicationSettingsController* Rbdb_ReplicationSettingsController_new( Rbdb_SettingsController* settings_controller )	{
 
-	RPDB_ReplicationSettingsController*		replication_settings_controller = calloc( 1, sizeof( RPDB_ReplicationSettingsController ) );
+	Rbdb_ReplicationSettingsController*		replication_settings_controller = calloc( 1, sizeof( Rbdb_ReplicationSettingsController ) );
 
 	replication_settings_controller->parent_settings_controller = settings_controller;
 
@@ -46,16 +46,16 @@ RPDB_ReplicationSettingsController* RPDB_ReplicationSettingsController_new( RPDB
 /***************************
 *  free  *
 ***************************/
-void RPDB_ReplicationSettingsController_free(	RPDB_ReplicationSettingsController** replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_free(	Rbdb_ReplicationSettingsController** replication_settings_controller )	{
 
 	if ( ( *replication_settings_controller )->additional_start_information != NULL )	{
-		RPDB_Record_free( & ( ( *replication_settings_controller )->additional_start_information ) );
+		Rbdb_Record_free( & ( ( *replication_settings_controller )->additional_start_information ) );
 	}
 	if ( ( *replication_settings_controller )->timeout_settings_controller != NULL )	{
-		RPDB_ReplicationTimeoutSettingsController_free( & ( ( *replication_settings_controller )->timeout_settings_controller ) );
+		Rbdb_ReplicationTimeoutSettingsController_free( & ( ( *replication_settings_controller )->timeout_settings_controller ) );
 	}
 	if ( ( *replication_settings_controller )->acknowledgement_policy_settings_controller != NULL )	{
-		RPDB_ReplicationElectionSettingsController_free( & ( ( *replication_settings_controller )->acknowledgement_policy_settings_controller ) );
+		Rbdb_ReplicationElectionSettingsController_free( & ( ( *replication_settings_controller )->acknowledgement_policy_settings_controller ) );
 	}
 	
 	free( *replication_settings_controller );
@@ -65,7 +65,7 @@ void RPDB_ReplicationSettingsController_free(	RPDB_ReplicationSettingsController
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_ReplicationSettingsController_parentEnvironment(	RPDB_ReplicationSettingsController* replication_settings_controller )	{
+Rbdb_Environment* Rbdb_ReplicationSettingsController_parentEnvironment(	Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 	return replication_settings_controller->parent_settings_controller->parent_environment;
 }
 
@@ -74,7 +74,7 @@ RPDB_Environment* RPDB_ReplicationSettingsController_parentEnvironment(	RPDB_Rep
 *********/
 
 //	DB_INIT_REP             http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
-int RPDB_ReplicationSettingsController_on( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+int Rbdb_ReplicationSettingsController_on( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
 	if ( replication_settings_controller->on == TRUE )	{
 		return DB_INIT_REP;
@@ -86,7 +86,7 @@ int RPDB_ReplicationSettingsController_on( RPDB_ReplicationSettingsController* r
 *  turnOn  *
 *************/
 
-void RPDB_ReplicationSettingsController_turnOn( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_turnOn( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
 	replication_settings_controller->on = TRUE;
 }
@@ -95,7 +95,7 @@ void RPDB_ReplicationSettingsController_turnOn( RPDB_ReplicationSettingsControll
 *  off  *
 *************/
 
-BOOL RPDB_ReplicationSettingsController_off( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+BOOL Rbdb_ReplicationSettingsController_off( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
 	if ( replication_settings_controller->on == FALSE )	{
 		return TRUE;
@@ -107,7 +107,7 @@ BOOL RPDB_ReplicationSettingsController_off( RPDB_ReplicationSettingsController*
 *  turnOff  *
 *****************/
 
-void RPDB_ReplicationSettingsController_turnOff( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_turnOff( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 	replication_settings_controller->on = FALSE;
 }
 
@@ -117,7 +117,7 @@ void RPDB_ReplicationSettingsController_turnOff( RPDB_ReplicationSettingsControl
 *************/
 
 //	Currently, the replication manager framework only supports a single client peer, and the last specified peer is used
-int RPDB_ReplicationSettingsController_clientToClientSynchronization( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+int Rbdb_ReplicationSettingsController_clientToClientSynchronization( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
 	if ( replication_settings_controller->client_to_client_synchronization == TRUE )	{
 		return DB_REPMGR_PEER;
@@ -129,7 +129,7 @@ int RPDB_ReplicationSettingsController_clientToClientSynchronization( RPDB_Repli
 *  turnClientToClientSynchronizationOn  *
 *****************/
 
-void RPDB_ReplicationSettingsController_turnClientToClientSynchronizationOn( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_turnClientToClientSynchronizationOn( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 	replication_settings_controller->client_to_client_synchronization = TRUE;
 }
 
@@ -137,7 +137,7 @@ void RPDB_ReplicationSettingsController_turnClientToClientSynchronizationOn( RPD
 *  turnClientToClientSynchronizationOff  *
 *****************/
 
-void RPDB_ReplicationSettingsController_turnClientToClientSynchronizationOff( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_turnClientToClientSynchronizationOff( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 	replication_settings_controller->client_to_client_synchronization = FALSE;
 }
 
@@ -146,9 +146,9 @@ void RPDB_ReplicationSettingsController_turnClientToClientSynchronizationOff( RP
 *************************/
 
 //	DB_REP_CONF_BULK				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_config.html
-int RPDB_ReplicationSettingsController_singleBulkTransfer( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+int Rbdb_ReplicationSettingsController_singleBulkTransfer( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 		
@@ -163,9 +163,9 @@ int RPDB_ReplicationSettingsController_singleBulkTransfer( RPDB_ReplicationSetti
 *  turnSingleBulkTransferOn  *
 *********************************/
 
-void RPDB_ReplicationSettingsController_turnSingleBulkTransferOn( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_turnSingleBulkTransferOn( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -181,9 +181,9 @@ void RPDB_ReplicationSettingsController_turnSingleBulkTransferOn( RPDB_Replicati
 *  turnSingleBulkTransferOff  *
 *********************************/
 
-void RPDB_ReplicationSettingsController_turnSingleBulkTransferOff( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_turnSingleBulkTransferOff( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -200,9 +200,9 @@ void RPDB_ReplicationSettingsController_turnSingleBulkTransferOff( RPDB_Replicat
 *************************************/
 
 //	DB_REP_CONF_DELAYCLIENT         http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_config.html
-int RPDB_ReplicationSettingsController_delayNewSyncUntilExplicitCall( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+int Rbdb_ReplicationSettingsController_delayNewSyncUntilExplicitCall( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 		
@@ -217,9 +217,9 @@ int RPDB_ReplicationSettingsController_delayNewSyncUntilExplicitCall( RPDB_Repli
 *  turnDelayNewSyncUntilExplicitCallOn  *
 *********************************************/
 
-void RPDB_ReplicationSettingsController_turnDelayNewSyncUntilExplicitCallOn( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_turnDelayNewSyncUntilExplicitCallOn( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -235,9 +235,9 @@ void RPDB_ReplicationSettingsController_turnDelayNewSyncUntilExplicitCallOn( RPD
 *  turnDelayNewSyncUntilExplicitCallOff  *
 *********************************************/
 
-void RPDB_ReplicationSettingsController_turnDelayNewSyncUntilExplicitCallOff( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_turnDelayNewSyncUntilExplicitCallOff( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -254,9 +254,9 @@ void RPDB_ReplicationSettingsController_turnDelayNewSyncUntilExplicitCallOff( RP
 *************************/
 
 //	DB_REP_CONF_LEASE               http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_config.html
-int RPDB_ReplicationSettingsController_useMasterLeases( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+int Rbdb_ReplicationSettingsController_useMasterLeases( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 		
@@ -265,16 +265,16 @@ int RPDB_ReplicationSettingsController_useMasterLeases( RPDB_ReplicationSettings
 										(int*) &( replication_settings_controller->use_master_leases ) );
 	}
 
-	return ( replication_settings_controller->use_master_leases ? RPDB_UNITIALIZED : FALSE );
+	return ( replication_settings_controller->use_master_leases ? Rbdb_UNITIALIZED : FALSE );
 }
 
 /*****************************
 *  turnUseMasterLeasesOn  *
 *****************************/
 
-void RPDB_ReplicationSettingsController_turnUseMasterLeasesOn( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_turnUseMasterLeasesOn( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -290,9 +290,9 @@ void RPDB_ReplicationSettingsController_turnUseMasterLeasesOn( RPDB_ReplicationS
 *  turnUseMasterLeasesOff  *
 *****************************/
 
-void RPDB_ReplicationSettingsController_turnUseMasterLeasesOff( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_turnUseMasterLeasesOff( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -309,9 +309,9 @@ void RPDB_ReplicationSettingsController_turnUseMasterLeasesOff( RPDB_Replication
 *************************************/
 
 //	DB_REP_CONF_NOAUTOINIT          http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_config.html
-int RPDB_ReplicationSettingsController_reinitializeOutdatedClients( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+int Rbdb_ReplicationSettingsController_reinitializeOutdatedClients( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 		
@@ -327,9 +327,9 @@ int RPDB_ReplicationSettingsController_reinitializeOutdatedClients( RPDB_Replica
 *  turnProhibitAutoInitForOldClientsOn  *
 *********************************************/
 
-void RPDB_ReplicationSettingsController_turnReinitializeOutdatedClientsOn( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_turnReinitializeOutdatedClientsOn( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -345,9 +345,9 @@ void RPDB_ReplicationSettingsController_turnReinitializeOutdatedClientsOn( RPDB_
 *  turnProhibitAutoInitForOldClientsOff  *
 *********************************************/
 
-void RPDB_ReplicationSettingsController_turnReinitializeOutdatedClientsOff( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_turnReinitializeOutdatedClientsOff( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -364,9 +364,9 @@ void RPDB_ReplicationSettingsController_turnReinitializeOutdatedClientsOff( RPDB
 *********************/
 
 //	DB_REP_CONF_NOWAIT              http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_config.html
-int RPDB_ReplicationSettingsController_prohibitWait( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+int Rbdb_ReplicationSettingsController_prohibitWait( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -382,9 +382,9 @@ int RPDB_ReplicationSettingsController_prohibitWait( RPDB_ReplicationSettingsCon
 *  turnProhibitWaitOn  *
 *************************/
 
-void RPDB_ReplicationSettingsController_turnProhibitWaitOn( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_turnProhibitWaitOn( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 	
@@ -400,9 +400,9 @@ void RPDB_ReplicationSettingsController_turnProhibitWaitOn( RPDB_ReplicationSett
 *  turnProhibitWaitOff  *
 *****************************/
 
-void RPDB_ReplicationSettingsController_turnProhibitWaitOff( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_turnProhibitWaitOff( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -419,9 +419,9 @@ void RPDB_ReplicationSettingsController_turnProhibitWaitOff( RPDB_ReplicationSet
 *****************************/
 
 //	DB_REPMGR_CONF_2SITE_STRICT		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_config.html
-int RPDB_ReplicationSettingsController_requireStrictMajority( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+int Rbdb_ReplicationSettingsController_requireStrictMajority( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -437,9 +437,9 @@ int RPDB_ReplicationSettingsController_requireStrictMajority( RPDB_ReplicationSe
 *  turnRequireStrictMajorityOn  *
 *************************************/
 
-void RPDB_ReplicationSettingsController_turnRequireStrictMajorityOn( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_turnRequireStrictMajorityOn( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -455,9 +455,9 @@ void RPDB_ReplicationSettingsController_turnRequireStrictMajorityOn( RPDB_Replic
 *  turnRequireStrictMajorityOff  *
 *************************************/
 
-void RPDB_ReplicationSettingsController_turnRequireStrictMajorityOff( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_turnRequireStrictMajorityOff( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -474,7 +474,7 @@ void RPDB_ReplicationSettingsController_turnRequireStrictMajorityOff( RPDB_Repli
 *****************/
 
 //	DB_REP_MASTER			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_start.html
-int RPDB_ReplicationSettingsController_isMaster( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+int Rbdb_ReplicationSettingsController_isMaster( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 	return ( replication_settings_controller->is_master ? DB_REP_MASTER : FALSE );
 }
 
@@ -482,9 +482,9 @@ int RPDB_ReplicationSettingsController_isMaster( RPDB_ReplicationSettingsControl
 *  setIsMaster  *
 *********************/
 
-void RPDB_ReplicationSettingsController_setIsMaster( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_setIsMaster( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	//	The additional_start_information parameter is an opaque data item that is sent over the communication infrastructure when the client 
 	//	comes online (see Connecting to a new site for more information). If no such information is useful, additional_start_information should be NULL.
@@ -504,7 +504,7 @@ void RPDB_ReplicationSettingsController_setIsMaster( RPDB_ReplicationSettingsCon
 *****************/
 
 //	DB_REP_CLIENT		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/repmgr_start.html
-int RPDB_ReplicationSettingsController_isClient( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+int Rbdb_ReplicationSettingsController_isClient( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 	return ( replication_settings_controller->is_client ? DB_REP_MASTER : FALSE );
 }
 
@@ -512,9 +512,9 @@ int RPDB_ReplicationSettingsController_isClient( RPDB_ReplicationSettingsControl
 *  setIsClient  *
 *********************/
 
-void RPDB_ReplicationSettingsController_setIsClient( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_setIsClient( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	//	The additional_start_information parameter is an opaque data item that is sent over the communication infrastructure when the client 
 	//	comes online (see Connecting to a new site for more information). If no such information is useful, additional_start_information should be NULL.
@@ -533,7 +533,7 @@ void RPDB_ReplicationSettingsController_setIsClient( RPDB_ReplicationSettingsCon
 *  startAsClientOrRallyElection  *
 *****************/
 
-int RPDB_ReplicationSettingsController_startAsClientOrRallyElection( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+int Rbdb_ReplicationSettingsController_startAsClientOrRallyElection( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
 	return ( replication_settings_controller->start_as_client_or_rally_election ? DB_REP_ELECTION : FALSE );
 }
@@ -543,9 +543,9 @@ int RPDB_ReplicationSettingsController_startAsClientOrRallyElection( RPDB_Replic
 *****************/
 
 //	DB_REP_ELECTION		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/repmgr_start.html
-void RPDB_ReplicationSettingsController_setStartAsClientOrRallyElection( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+void Rbdb_ReplicationSettingsController_setStartAsClientOrRallyElection( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	replication_settings_controller->is_client = TRUE;
 	replication_settings_controller->is_master = FALSE;
@@ -569,9 +569,9 @@ void RPDB_ReplicationSettingsController_setStartAsClientOrRallyElection( RPDB_Re
 *************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_limit.html
-double RPDB_ReplicationSettingsController_limit( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+double Rbdb_ReplicationSettingsController_limit( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	uint32_t	gigabytes, bytes;
 
@@ -597,11 +597,11 @@ double RPDB_ReplicationSettingsController_limit( RPDB_ReplicationSettingsControl
 *  setLimit  *
 *****************/
 
-void RPDB_ReplicationSettingsController_setLimit(	RPDB_ReplicationSettingsController*	replication_settings_controller, 
+void Rbdb_ReplicationSettingsController_setLimit(	Rbdb_ReplicationSettingsController*	replication_settings_controller, 
 																									uint64_t								limit_in_gbytes, 
 																									uint64_t								limit_in_bytes )	{
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	uint32_t	bytes_in_gigabyte	=	( 1024 * 1024 * 1024 );
 	uint32_t	byte_remainder		=	limit_in_bytes % bytes_in_gigabyte;
@@ -621,7 +621,7 @@ void RPDB_ReplicationSettingsController_setLimit(	RPDB_ReplicationSettingsContro
 *  host  *
 *************/
 
-char* RPDB_ReplicationSettingsController_host( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+char* Rbdb_ReplicationSettingsController_host( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
 	return replication_settings_controller->host;
 }
@@ -632,11 +632,11 @@ char* RPDB_ReplicationSettingsController_host( RPDB_ReplicationSettingsControlle
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/repmgr_local_site.html
 //	specifies the host identification string and port number for the local system.
-void RPDB_ReplicationSettingsController_setHost( RPDB_ReplicationSettingsController* replication_settings_controller, char* host )	{
+void Rbdb_ReplicationSettingsController_setHost( Rbdb_ReplicationSettingsController* replication_settings_controller, char* host )	{
 
 	replication_settings_controller->host = host;
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 	
 	if (	replication_settings_controller->host 
 		&&	replication_settings_controller->port
@@ -645,7 +645,7 @@ void RPDB_ReplicationSettingsController_setHost( RPDB_ReplicationSettingsControl
 		environment->wrapped_bdb_environment->repmgr_set_local_site( environment->wrapped_bdb_environment, 
 											replication_settings_controller->host, 
 											replication_settings_controller->port, 
-											RPDB_ReplicationSettingsController_internal_localSiteFlags( replication_settings_controller ) );
+											Rbdb_ReplicationSettingsController_internal_localSiteFlags( replication_settings_controller ) );
 	}
 }
 
@@ -653,7 +653,7 @@ void RPDB_ReplicationSettingsController_setHost( RPDB_ReplicationSettingsControl
 *  port  *
 *************/
 
-u_int RPDB_ReplicationSettingsController_port( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+u_int Rbdb_ReplicationSettingsController_port( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
 	return replication_settings_controller->port;
 }
@@ -662,12 +662,12 @@ u_int RPDB_ReplicationSettingsController_port( RPDB_ReplicationSettingsControlle
 *  setPort  *
 *****************/
 
-void RPDB_ReplicationSettingsController_setPort(	RPDB_ReplicationSettingsController*		replication_settings_controller,
+void Rbdb_ReplicationSettingsController_setPort(	Rbdb_ReplicationSettingsController*		replication_settings_controller,
 																									u_int																	port )	{
 
 	replication_settings_controller->port = port;
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;	
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;	
 
 	if (	replication_settings_controller->host 
 		&&	replication_settings_controller->port
@@ -676,7 +676,7 @@ void RPDB_ReplicationSettingsController_setPort(	RPDB_ReplicationSettingsControl
 		environment->wrapped_bdb_environment->repmgr_set_local_site( environment->wrapped_bdb_environment, 
 																																	replication_settings_controller->host, 
 																																	replication_settings_controller->port, 
-																																	RPDB_ReplicationSettingsController_internal_localSiteFlags( replication_settings_controller ) );
+																																	Rbdb_ReplicationSettingsController_internal_localSiteFlags( replication_settings_controller ) );
 	}
 }
 
@@ -685,9 +685,9 @@ void RPDB_ReplicationSettingsController_setPort(	RPDB_ReplicationSettingsControl
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_nsites.html
-uint32_t RPDB_ReplicationSettingsController_siteCount( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+uint32_t Rbdb_ReplicationSettingsController_siteCount( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 	
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if (	! replication_settings_controller->site_count
 		&&	environment->wrapped_bdb_environment != NULL )	{
@@ -703,12 +703,12 @@ uint32_t RPDB_ReplicationSettingsController_siteCount( RPDB_ReplicationSettingsC
 *  setSiteCount  *
 *********************/
 
-void RPDB_ReplicationSettingsController_setSiteCount(	RPDB_ReplicationSettingsController*	replication_settings_controller, 
+void Rbdb_ReplicationSettingsController_setSiteCount(	Rbdb_ReplicationSettingsController*	replication_settings_controller, 
 														uint32_t								site_count )	{
 
 	replication_settings_controller->site_count = site_count;
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -722,11 +722,11 @@ void RPDB_ReplicationSettingsController_setSiteCount(	RPDB_ReplicationSettingsCo
 *****************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_priority.html
-uint32_t RPDB_ReplicationSettingsController_priorityOrderNumber( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+uint32_t Rbdb_ReplicationSettingsController_priorityOrderNumber( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
 	if ( ! replication_settings_controller->priority_order_number )	{
 
-		RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+		Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 		if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -743,12 +743,12 @@ uint32_t RPDB_ReplicationSettingsController_priorityOrderNumber( RPDB_Replicatio
 *****************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_priority.html
-void RPDB_ReplicationSettingsController_setPriorityOrderNumber(	RPDB_ReplicationSettingsController*	replication_settings_controller,
+void Rbdb_ReplicationSettingsController_setPriorityOrderNumber(	Rbdb_ReplicationSettingsController*	replication_settings_controller,
 																	uint32_t								priority_order_number)	{
 
 	replication_settings_controller->priority_order_number = priority_order_number;
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -762,11 +762,11 @@ void RPDB_ReplicationSettingsController_setPriorityOrderNumber(	RPDB_Replication
 *************************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_request.html
-uint32_t RPDB_ReplicationSettingsController_retransmissionThresholdMinimum( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+uint32_t Rbdb_ReplicationSettingsController_retransmissionThresholdMinimum( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
 	if ( ! replication_settings_controller->retransmission_threshold_minimum )	{
 
-		RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+		Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 		if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -783,14 +783,14 @@ uint32_t RPDB_ReplicationSettingsController_retransmissionThresholdMinimum( RPDB
 *  setRetransmissionThresholdMinimum  *
 *****************************************/
 
-void RPDB_ReplicationSettingsController_setRetransmissionThresholdMinimum(	RPDB_ReplicationSettingsController*	replication_settings_controller, 
+void Rbdb_ReplicationSettingsController_setRetransmissionThresholdMinimum(	Rbdb_ReplicationSettingsController*	replication_settings_controller, 
 																			uint32_t								retransmission_threshold_minimum )	{
 
 	replication_settings_controller->retransmission_threshold_minimum = retransmission_threshold_minimum;
 
 	if ( replication_settings_controller->retransmission_threshold_minimum && replication_settings_controller->retransmission_threshold_maximum )	{
 
-		RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+		Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 		if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -805,11 +805,11 @@ void RPDB_ReplicationSettingsController_setRetransmissionThresholdMinimum(	RPDB_
 *  retransmissionThresholdMaximum  *
 *************************************/
 
-uint32_t RPDB_ReplicationSettingsController_retransmissionThresholdMaximum( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+uint32_t Rbdb_ReplicationSettingsController_retransmissionThresholdMaximum( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
 	if ( ! replication_settings_controller->retransmission_threshold_minimum )	{
 
-		RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+		Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 		if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -826,14 +826,14 @@ uint32_t RPDB_ReplicationSettingsController_retransmissionThresholdMaximum( RPDB
 *  setRetransmissionThresholdMaximum  *
 *****************************************/
 
-void RPDB_ReplicationSettingsController_setRetransmissionThresholdMaximum(	RPDB_ReplicationSettingsController*	replication_settings_controller,
+void Rbdb_ReplicationSettingsController_setRetransmissionThresholdMaximum(	Rbdb_ReplicationSettingsController*	replication_settings_controller,
  																			uint32_t								retransmission_threshold_maximum )	{
 
 	replication_settings_controller->retransmission_threshold_minimum = retransmission_threshold_maximum;
 
 	if ( replication_settings_controller->retransmission_threshold_minimum && replication_settings_controller->retransmission_threshold_maximum )	{
 
-		RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+		Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 		if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -848,9 +848,9 @@ void RPDB_ReplicationSettingsController_setRetransmissionThresholdMaximum(	RPDB_
 *  slowestClockValue  *
 *************************/
 
-uint32_t RPDB_ReplicationSettingsController_slowestClockValue( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+uint32_t Rbdb_ReplicationSettingsController_slowestClockValue( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 	
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if (	! replication_settings_controller->slowest_clock_value
 		&&	environment->wrapped_bdb_environment != NULL )	{
@@ -867,12 +867,12 @@ uint32_t RPDB_ReplicationSettingsController_slowestClockValue( RPDB_ReplicationS
 *  setSlowestClockValue  *
 *****************************/
 
-void RPDB_ReplicationSettingsController_setSlowestClockValue(	RPDB_ReplicationSettingsController*		replication_settings_controller, 
+void Rbdb_ReplicationSettingsController_setSlowestClockValue(	Rbdb_ReplicationSettingsController*		replication_settings_controller, 
 																															uint32_t															slowest_clock_value )	{
 
 	replication_settings_controller->slowest_clock_value = slowest_clock_value;
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 	
 	if (	replication_settings_controller->slowest_clock_value 
 		&&	replication_settings_controller->fastest_clock_value
@@ -889,9 +889,9 @@ void RPDB_ReplicationSettingsController_setSlowestClockValue(	RPDB_ReplicationSe
 *****************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_clockskew.html
-uint32_t RPDB_ReplicationSettingsController_fastestClockSkewValue( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+uint32_t Rbdb_ReplicationSettingsController_fastestClockSkewValue( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_Environment*	environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_settings_controller->parent_settings_controller->parent_environment;
 	
 	if (	! replication_settings_controller->fastest_clock_value
 		&&	environment->wrapped_bdb_environment != NULL )	{
@@ -908,12 +908,12 @@ uint32_t RPDB_ReplicationSettingsController_fastestClockSkewValue( RPDB_Replicat
 *  setFastestClockSkewValue  *
 *********************************/
 
-void RPDB_ReplicationSettingsController_setFastestClockSkewValue(	RPDB_ReplicationSettingsController*		replication_settings_controller, 
+void Rbdb_ReplicationSettingsController_setFastestClockSkewValue(	Rbdb_ReplicationSettingsController*		replication_settings_controller, 
 																																	uint32_t															fastest_clock_value )	{
 
 	replication_settings_controller->fastest_clock_value = fastest_clock_value;
 
-	RPDB_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = replication_settings_controller->parent_settings_controller->parent_environment;
 	
 	if (	replication_settings_controller->slowest_clock_value 
 		&&	replication_settings_controller->fastest_clock_value
@@ -929,11 +929,11 @@ void RPDB_ReplicationSettingsController_setFastestClockSkewValue(	RPDB_Replicati
 *  acknowledgementPolicySettingsController  *
 *************************************************/
 
-RPDB_ReplicationElectionSettingsController* RPDB_ReplicationSettingsController_electionSettingsController( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+Rbdb_ReplicationElectionSettingsController* Rbdb_ReplicationSettingsController_electionSettingsController( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
 	if ( replication_settings_controller->acknowledgement_policy_settings_controller == NULL )	{
 	
-		replication_settings_controller->acknowledgement_policy_settings_controller = RPDB_ReplicationElectionSettingsController_new( replication_settings_controller );
+		replication_settings_controller->acknowledgement_policy_settings_controller = Rbdb_ReplicationElectionSettingsController_new( replication_settings_controller );
 	}
 
 	return replication_settings_controller->acknowledgement_policy_settings_controller;
@@ -944,11 +944,11 @@ RPDB_ReplicationElectionSettingsController* RPDB_ReplicationSettingsController_e
 *********************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_timeout.html
-RPDB_ReplicationTimeoutSettingsController* RPDB_ReplicationSettingsController_timeoutSettingsController( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+Rbdb_ReplicationTimeoutSettingsController* Rbdb_ReplicationSettingsController_timeoutSettingsController( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
 	if ( replication_settings_controller->timeout_settings_controller == NULL )	{
 	
-		replication_settings_controller->timeout_settings_controller = RPDB_ReplicationTimeoutSettingsController_new( replication_settings_controller );
+		replication_settings_controller->timeout_settings_controller = Rbdb_ReplicationTimeoutSettingsController_new( replication_settings_controller );
 	}
 
 	return replication_settings_controller->timeout_settings_controller;
@@ -957,11 +957,11 @@ RPDB_ReplicationTimeoutSettingsController* RPDB_ReplicationSettingsController_ti
 
 /*
 	//	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_transport.html
-	int RPDB_ReplicationSettingsController_transportCallbackFunction( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+	int Rbdb_ReplicationSettingsController_transportCallbackFunction( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 	
 	}
 
-	void RPDB_ReplicationSettingsController_setTransportCallbackFunction( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+	void Rbdb_ReplicationSettingsController_setTransportCallbackFunction( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
 	}
 */
@@ -970,10 +970,10 @@ RPDB_ReplicationTimeoutSettingsController* RPDB_ReplicationSettingsController_ti
 *  verbositySettingsController  *
 *****************/
 
-RPDB_ReplicationVerbositySettingsController* RPDB_ReplicationSettingsController_verbositySettingsController( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+Rbdb_ReplicationVerbositySettingsController* Rbdb_ReplicationSettingsController_verbositySettingsController( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
 	if ( replication_settings_controller->verbosity_settings_controller == NULL )	{
-		replication_settings_controller->verbosity_settings_controller = RPDB_ReplicationVerbositySettingsController_new( replication_settings_controller );
+		replication_settings_controller->verbosity_settings_controller = Rbdb_ReplicationVerbositySettingsController_new( replication_settings_controller );
 	}
 	return replication_settings_controller->verbosity_settings_controller;
 }	
@@ -989,11 +989,11 @@ RPDB_ReplicationVerbositySettingsController* RPDB_ReplicationSettingsController_
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/repmgr_start.html
-int RPDB_ReplicationSettingsController_internal_startFlags( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+int Rbdb_ReplicationSettingsController_internal_startFlags( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 	
-	return	RPDB_ReplicationSettingsController_isMaster( replication_settings_controller )
-			|	RPDB_ReplicationSettingsController_isClient( replication_settings_controller )
-			|	RPDB_ReplicationSettingsController_startAsClientOrRallyElection( replication_settings_controller );
+	return	Rbdb_ReplicationSettingsController_isMaster( replication_settings_controller )
+			|	Rbdb_ReplicationSettingsController_isClient( replication_settings_controller )
+			|	Rbdb_ReplicationSettingsController_startAsClientOrRallyElection( replication_settings_controller );
 }
 
 /*********************
@@ -1001,11 +1001,11 @@ int RPDB_ReplicationSettingsController_internal_startFlags( RPDB_ReplicationSett
 *********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_sync.html
-int RPDB_ReplicationSettingsController_internal_localSiteFlags( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+int Rbdb_ReplicationSettingsController_internal_localSiteFlags( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
 	//	Flags currently unused - returns 0
-	return RPDB_ReplicationSettingsController_isClient( replication_settings_controller )
-			|	RPDB_ReplicationSettingsController_isMaster( replication_settings_controller );
+	return Rbdb_ReplicationSettingsController_isClient( replication_settings_controller )
+			|	Rbdb_ReplicationSettingsController_isMaster( replication_settings_controller );
 }
 
 /*****************
@@ -1013,10 +1013,10 @@ int RPDB_ReplicationSettingsController_internal_localSiteFlags( RPDB_Replication
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_sync.html
-int RPDB_ReplicationSettingsController_internal_syncFlags( RPDB_ReplicationSettingsController* replication_settings_controller __attribute__((unused)) )	{
+int Rbdb_ReplicationSettingsController_internal_syncFlags( Rbdb_ReplicationSettingsController* replication_settings_controller __attribute__((unused)) )	{
 
 	//	Flags currently unused - returns 0
-	return RPDB_NO_FLAGS;
+	return Rbdb_NO_FLAGS;
 }
 
 /*************************
@@ -1024,28 +1024,28 @@ int RPDB_ReplicationSettingsController_internal_syncFlags( RPDB_ReplicationSetti
 *************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_elect.html
-int RPDB_ReplicationSettingsController_internal_callElectionFlags( RPDB_ReplicationSettingsController* replication_settings_controller __attribute__((unused)) )	{
+int Rbdb_ReplicationSettingsController_internal_callElectionFlags( Rbdb_ReplicationSettingsController* replication_settings_controller __attribute__((unused)) )	{
 
 	//	Flags currently unused - returns 0
-	return RPDB_NO_FLAGS;
+	return Rbdb_NO_FLAGS;
 }
 
 /*************************
 *  addRemoteSiteFlags  *
 *************************/
 
-int RPDB_ReplicationSettingsController_internal_addRemoteSiteFlags( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+int Rbdb_ReplicationSettingsController_internal_addRemoteSiteFlags( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	return RPDB_ReplicationSettingsController_clientToClientSynchronization( replication_settings_controller );
+	return Rbdb_ReplicationSettingsController_clientToClientSynchronization( replication_settings_controller );
 
 }	
 
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_ReplicationSettingsController* RPDB_ReplicationSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_ReplicationSettingsController* replication_settings_controller )	{
+Rbdb_ReplicationSettingsController* Rbdb_ReplicationSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_ReplicationSettingsController* replication_settings_controller_copy	=	RPDB_ReplicationSettingsController_new( replication_settings_controller->parent_settings_controller );
+	Rbdb_ReplicationSettingsController* replication_settings_controller_copy	=	Rbdb_ReplicationSettingsController_new( replication_settings_controller->parent_settings_controller );
 
 	//	Instances and Pointers
 	replication_settings_controller_copy->fastest_clock_value	=	replication_settings_controller->fastest_clock_value;

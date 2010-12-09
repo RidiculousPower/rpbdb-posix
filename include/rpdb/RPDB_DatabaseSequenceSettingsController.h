@@ -1,44 +1,44 @@
 /*
- *		RPDB::SettingsController::SequenceSettingsController
- *		RPDB::DatabaseController::Database::DatabaseSequenceController::DatabaseSequence::DatabaseSequenceSettingsController
+ *		Rbdb::SettingsController::SequenceSettingsController
+ *		Rbdb::DatabaseController::Database::DatabaseSequenceController::DatabaseSequence::DatabaseSequenceSettingsController
  *
  */
 
-#ifndef RPDB_DATABASE_SEQUENCE_SETTINGS_CONTROLLER
-	#define RPDB_DATABASE_SEQUENCE_SETTINGS_CONTROLLER
+#ifndef Rbdb_DATABASE_SEQUENCE_SETTINGS_CONTROLLER
+	#define Rbdb_DATABASE_SEQUENCE_SETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 	 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_DatabaseSequenceSettingsController*		RPDB_DatabaseSequenceSettingsController_new(						RPDB_DatabaseSettingsController*			settings_controller );
+	Rbdb_DatabaseSequenceSettingsController*		Rbdb_DatabaseSequenceSettingsController_new(						Rbdb_DatabaseSettingsController*			settings_controller );
 
-	void											RPDB_DatabaseSequenceSettingsController_free(						RPDB_DatabaseSequenceSettingsController** database_sequence_settings_controller );
-	RPDB_Environment*						RPDB_DatabaseSequenceSettingsController_parentEnvironment(	RPDB_DatabaseSequenceSettingsController* database_sequence_settings_controller );
-	RPDB_Database* RPDB_DatabaseSequenceSettingsController_parentDatabase(	RPDB_DatabaseSequenceSettingsController* database_sequence_settings_controller );
+	void											Rbdb_DatabaseSequenceSettingsController_free(						Rbdb_DatabaseSequenceSettingsController** database_sequence_settings_controller );
+	Rbdb_Environment*						Rbdb_DatabaseSequenceSettingsController_parentEnvironment(	Rbdb_DatabaseSequenceSettingsController* database_sequence_settings_controller );
+	Rbdb_Database* Rbdb_DatabaseSequenceSettingsController_parentDatabase(	Rbdb_DatabaseSequenceSettingsController* database_sequence_settings_controller );
 
-	BOOL											RPDB_DatabaseSequenceSettingsController_increasing(				RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller );
-	void											RPDB_DatabaseSequenceSettingsController_setAsIncreasing(			RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller );
-	BOOL											RPDB_DatabaseSequenceSettingsController_decreasing(				RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller );
-	void											RPDB_DatabaseSequenceSettingsController_setAsDecreasing(			RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller );
-	BOOL											RPDB_DatabaseSequenceSettingsController_wrap(						RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller );
-	void											RPDB_DatabaseSequenceSettingsController_setToWrap(				RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller );
-	int												RPDB_DatabaseSequenceSettingsController_rangeMinimum(				RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller );
-	void											RPDB_DatabaseSequenceSettingsController_setRangeMinimum(			RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller, 
+	BOOL											Rbdb_DatabaseSequenceSettingsController_increasing(				Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller );
+	void											Rbdb_DatabaseSequenceSettingsController_setAsIncreasing(			Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller );
+	BOOL											Rbdb_DatabaseSequenceSettingsController_decreasing(				Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller );
+	void											Rbdb_DatabaseSequenceSettingsController_setAsDecreasing(			Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller );
+	BOOL											Rbdb_DatabaseSequenceSettingsController_wrap(						Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller );
+	void											Rbdb_DatabaseSequenceSettingsController_setToWrap(				Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller );
+	int												Rbdb_DatabaseSequenceSettingsController_rangeMinimum(				Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller );
+	void											Rbdb_DatabaseSequenceSettingsController_setRangeMinimum(			Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller, 
 																														db_seq_t									range_minimum );
-	int												RPDB_DatabaseSequenceSettingsController_rangeMaximum(				RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller );
-	void											RPDB_DatabaseSequenceSettingsController_setRangeMaximum(			RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller,
+	int												Rbdb_DatabaseSequenceSettingsController_rangeMaximum(				Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller );
+	void											Rbdb_DatabaseSequenceSettingsController_setRangeMaximum(			Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller,
 																														db_seq_t									range_maximum );
-	int												RPDB_DatabaseSequenceSettingsController_cacheSize(					RPDB_DatabaseSequenceSettingsController* 	sequence_settings_controller );
-	void											RPDB_DatabaseSequenceSettingsController_setCacheSize(				RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller,
+	int												Rbdb_DatabaseSequenceSettingsController_cacheSize(					Rbdb_DatabaseSequenceSettingsController* 	sequence_settings_controller );
+	void											Rbdb_DatabaseSequenceSettingsController_setCacheSize(				Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller,
 																														uint32_t										number_of_cached_elements	);
-	db_seq_t										RPDB_DatabaseSequenceSettingsController_initialValue(				RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller );
-	void											RPDB_DatabaseSequenceSettingsController_setInitialValue(			RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller,
+	db_seq_t										Rbdb_DatabaseSequenceSettingsController_initialValue(				Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller );
+	void											Rbdb_DatabaseSequenceSettingsController_setInitialValue(			Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller,
 																														db_seq_t									initial_value );
-	int32_t											RPDB_DatabaseSequenceSettingsController_defaultStepValue(			RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller );
-	void											RPDB_DatabaseSequenceSettingsController_setDefaultStepValue(		RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller,
+	int32_t											Rbdb_DatabaseSequenceSettingsController_defaultStepValue(			Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller );
+	void											Rbdb_DatabaseSequenceSettingsController_setDefaultStepValue(		Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller,
 																														int32_t										default_step_value	);
 
 #endif

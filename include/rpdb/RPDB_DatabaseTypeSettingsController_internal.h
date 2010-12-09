@@ -1,5 +1,5 @@
-#ifndef RPDB_DATABASE_TYPE_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_DATABASE_TYPE_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_DATABASE_TYPE_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_DATABASE_TYPE_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,8 +7,8 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_DatabaseTypeSettingsController* RPDB_DatabaseTypeSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseTypeSettingsController* database_type_settings_controller );
-uint32_t RPDB_DatabaseTypeSettingsController_internal_setFlags(	RPDB_DatabaseTypeSettingsController*		database_type_settings_controller );
+Rbdb_DatabaseTypeSettingsController* Rbdb_DatabaseTypeSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseTypeSettingsController* database_type_settings_controller );
+uint32_t Rbdb_DatabaseTypeSettingsController_internal_setFlags(	Rbdb_DatabaseTypeSettingsController*		database_type_settings_controller );
 
 #endif
 

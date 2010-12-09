@@ -1,13 +1,13 @@
 /*
- *		RPDB::DatabaseController::Database
+ *		Rbdb::DatabaseController::Database
  *
  *
  */
 
-#ifndef RPDB_DATABASE
-	#define RPDB_DATABASE
+#ifndef Rbdb_DATABASE
+	#define Rbdb_DATABASE
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	#include <time.h>
 
@@ -15,155 +15,155 @@
 	*  Prototypes  *
 	****************/
 
-RPDB_Database* RPDB_Database_new(	RPDB_DatabaseController*	parent_database_controller,
+Rbdb_Database* Rbdb_Database_new(	Rbdb_DatabaseController*	parent_database_controller,
 																	char*											database_name );
 
-	void																								RPDB_Database_free(	RPDB_Database** database );
-	RPDB_DatabaseSettingsController*																	RPDB_Database_settingsController(	RPDB_Database* database );
-	RPDB_Environment*																					RPDB_Database_parentEnvironment(	RPDB_Database* database );
-	RPDB_DatabaseController* RPDB_Database_parentDatabaseController(	RPDB_Database* database );
+	void																								Rbdb_Database_free(	Rbdb_Database** database );
+	Rbdb_DatabaseSettingsController*																	Rbdb_Database_settingsController(	Rbdb_Database* database );
+	Rbdb_Environment*																					Rbdb_Database_parentEnvironment(	Rbdb_Database* database );
+	Rbdb_DatabaseController* Rbdb_Database_parentDatabaseController(	Rbdb_Database* database );
 
-	char* RPDB_Database_filename( RPDB_Database* database );
-	char*																								RPDB_Database_name( 									RPDB_Database* 			database );
-	void																								RPDB_Database_rename(		RPDB_Database* 			database,
+	char* Rbdb_Database_filename( Rbdb_Database* database );
+	char*																								Rbdb_Database_name( 									Rbdb_Database* 			database );
+	void																								Rbdb_Database_rename(		Rbdb_Database* 			database,
 																																							char*						name);
 
-	BOOL																								RPDB_Database_isOpen( RPDB_Database* database );
-	RPDB_Database*																						RPDB_Database_open(									RPDB_Database*			database );
-	void																								RPDB_Database_close(									RPDB_Database*			database );
-	void																								RPDB_Database_erase( 									RPDB_Database*			database );
-	uint32_t RPDB_Database_empty( RPDB_Database* database );
-	void RPDB_Database_sync( RPDB_Database* database );
+	BOOL																								Rbdb_Database_isOpen( Rbdb_Database* database );
+	Rbdb_Database*																						Rbdb_Database_open(									Rbdb_Database*			database );
+	void																								Rbdb_Database_close(									Rbdb_Database*			database );
+	void																								Rbdb_Database_erase( 									Rbdb_Database*			database );
+	uint32_t Rbdb_Database_empty( Rbdb_Database* database );
+	void Rbdb_Database_sync( Rbdb_Database* database );
 	
-	void RPDB_Database_closeAllSecondaryDatabases( RPDB_Database* database );
-	void RPDB_Database_freeAllSecondaryDatabases( RPDB_Database* database );
-	BOOL																								RPDB_Database_associateSecondaryDatabase(				RPDB_Database*			database, 
-																																								RPDB_Database*			secondary_database );
-	RPDB_Record* 																						RPDB_Database_compact(									RPDB_Database*			database, 
-																																								RPDB_Record*			start_record, 
-																																								RPDB_Record*			stop_record );
+	void Rbdb_Database_closeAllSecondaryDatabases( Rbdb_Database* database );
+	void Rbdb_Database_freeAllSecondaryDatabases( Rbdb_Database* database );
+	BOOL																								Rbdb_Database_associateSecondaryDatabase(				Rbdb_Database*			database, 
+																																								Rbdb_Database*			secondary_database );
+	Rbdb_Record* 																						Rbdb_Database_compact(									Rbdb_Database*			database, 
+																																								Rbdb_Record*			start_record, 
+																																								Rbdb_Record*			stop_record );
 
-	RPDB_Record*																						RPDB_Database_compactAllRecords( 						RPDB_Database*			database );
-	RPDB_Database*																						RPDB_Database_upgrade(									RPDB_Database*			database );
-	void																								RPDB_Database_resetDatabaseIDs(						RPDB_Database*			database );
-	RPDB_Database*																						RPDB_Database_prepareDatabaseForFileTransfer(			RPDB_Database*			database );
+	Rbdb_Record*																						Rbdb_Database_compactAllRecords( 						Rbdb_Database*			database );
+	Rbdb_Database*																						Rbdb_Database_upgrade(									Rbdb_Database*			database );
+	void																								Rbdb_Database_resetDatabaseIDs(						Rbdb_Database*			database );
+	Rbdb_Database*																						Rbdb_Database_prepareDatabaseForFileTransfer(			Rbdb_Database*			database );
                                             														                                                		
 	//	Controllers                         															                                                		                    	
-	RPDB_DatabaseCursorController*																		RPDB_Database_cursorController(						RPDB_Database*			database );
-	RPDB_DatabaseJoinController* RPDB_Database_joinController( RPDB_Database* database );
-RPDB_DatabaseSequenceController* RPDB_Database_sequenceController( RPDB_Database* database );
-	RPDB_DatabaseSettingsController*																	RPDB_Database_settingsController(						RPDB_Database*			database );
+	Rbdb_DatabaseCursorController*																		Rbdb_Database_cursorController(						Rbdb_Database*			database );
+	Rbdb_DatabaseJoinController* Rbdb_Database_joinController( Rbdb_Database* database );
+Rbdb_DatabaseSequenceController* Rbdb_Database_sequenceController( Rbdb_Database* database );
+	Rbdb_DatabaseSettingsController*																	Rbdb_Database_settingsController(						Rbdb_Database*			database );
                                           														                                                		
-	BOOL RPDB_Database_isPrimary(	RPDB_Database*	database );
-	BOOL																								RPDB_Database_isSecondary(								RPDB_Database*			database );
-	RPDB_Database* RPDB_Database_primaryDatabase( RPDB_Database*	secondary_database );
+	BOOL Rbdb_Database_isPrimary(	Rbdb_Database*	database );
+	BOOL																								Rbdb_Database_isSecondary(								Rbdb_Database*			database );
+	Rbdb_Database* Rbdb_Database_primaryDatabase( Rbdb_Database*	secondary_database );
 	
-	void RPDB_Database_setSecondaryKeyCreationCallbackMethod(	RPDB_Database*						secondary_database,
-																RPDB_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method);
-	RPDB_SecondaryKeyCallbackMethod RPDB_Database_secondaryKeyCreationCallbackMethod(	RPDB_Database*		secondary_database );
-	RPDB_Database* RPDB_Database_createSecondaryIndex(	RPDB_Database*						primary_database,
+	void Rbdb_Database_setSecondaryKeyCreationCallbackMethod(	Rbdb_Database*						secondary_database,
+																Rbdb_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method);
+	Rbdb_SecondaryKeyCallbackMethod Rbdb_Database_secondaryKeyCreationCallbackMethod(	Rbdb_Database*		secondary_database );
+	Rbdb_Database* Rbdb_Database_createSecondaryIndex(	Rbdb_Database*						primary_database,
 																										 char*								index_name,
-																										 RPDB_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method);
-	RPDB_Database* RPDB_Database_databaseForSecondaryIndex(	RPDB_Database*		primary_database,
+																										 Rbdb_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method);
+	Rbdb_Database* Rbdb_Database_databaseForSecondaryIndex(	Rbdb_Database*		primary_database,
 															 char*				index_name );
-	RPDB_Database* RPDB_Database_createSecondaryIndexWithDuplicates(	RPDB_Database*						primary_database,
+	Rbdb_Database* Rbdb_Database_createSecondaryIndexWithDuplicates(	Rbdb_Database*						primary_database,
 																		char*								index_name,
-																		RPDB_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method);
-RPDB_Database* RPDB_Database_createSecondaryIndexWithSortedDuplicates(	RPDB_Database*										primary_database,
+																		Rbdb_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method);
+Rbdb_Database* Rbdb_Database_createSecondaryIndexWithSortedDuplicates(	Rbdb_Database*										primary_database,
 																																				char*															index_name,
-																																				RPDB_SecondaryKeyCallbackMethod		secondary_key_creation_callback_method);
-void RPDB_Database_createSecondaryIndexWithDatabase(	RPDB_Database*						primary_database,
-													RPDB_Database*						secondary_database,
+																																				Rbdb_SecondaryKeyCallbackMethod		secondary_key_creation_callback_method);
+void Rbdb_Database_createSecondaryIndexWithDatabase(	Rbdb_Database*						primary_database,
+													Rbdb_Database*						secondary_database,
 													char*								index_name,
-													RPDB_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method);
-	RPDB_DatabaseCursor* RPDB_Database_cursor( RPDB_Database* database );
-	BOOL										RPDB_Database_keyExists(										RPDB_Database*	database,
-																						RPDB_Key*						key_data );
-	BOOL RPDB_Database_rawKeyExists(	RPDB_Database*	database,
+													Rbdb_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method);
+	Rbdb_DatabaseCursor* Rbdb_Database_cursor( Rbdb_Database* database );
+	BOOL										Rbdb_Database_keyExists(										Rbdb_Database*	database,
+																						Rbdb_Key*						key_data );
+	BOOL Rbdb_Database_rawKeyExists(	Rbdb_Database*	database,
 													   void*				raw_key,
 													   uint32_t					key_size );
-	RPDB_Record* RPDB_Database_retrieveRecord(	RPDB_Database*	database, 
-																  RPDB_Record*						record );
-		RPDB_Record*								RPDB_Database_retrieveKey(							RPDB_Database*	database, 
-																																	RPDB_Key*						key_data );
-	RPDB_Record* RPDB_Database_retrieveRawKey(	RPDB_Database*		database, 
+	Rbdb_Record* Rbdb_Database_retrieveRecord(	Rbdb_Database*	database, 
+																  Rbdb_Record*						record );
+		Rbdb_Record*								Rbdb_Database_retrieveKey(							Rbdb_Database*	database, 
+																																	Rbdb_Key*						key_data );
+	Rbdb_Record* Rbdb_Database_retrieveRawKey(	Rbdb_Database*		database, 
 																		   void*									raw_key,
 																		   uint32_t								key_size );
-		RPDB_Record*								RPDB_Database_retrieveMatchingKeyDataPair(		RPDB_Database*	database, 
-																																	RPDB_Key*						key_data,
-																																	RPDB_Data*							data );
-	RPDB_Record* RPDB_Database_retrieveMatchingRecord(	RPDB_Database*		database, 
-																											RPDB_Record*			record );
-	RPDB_Record* RPDB_Database_retrieveMatchingRawKeyDataPair(	RPDB_Database*		database,
+		Rbdb_Record*								Rbdb_Database_retrieveMatchingKeyDataPair(		Rbdb_Database*	database, 
+																																	Rbdb_Key*						key_data,
+																																	Rbdb_Data*							data );
+	Rbdb_Record* Rbdb_Database_retrieveMatchingRecord(	Rbdb_Database*		database, 
+																											Rbdb_Record*			record );
+	Rbdb_Record* Rbdb_Database_retrieveMatchingRawKeyDataPair(	Rbdb_Database*		database,
 																						   void*									raw_key,
 																						   uint32_t								key_size,
 																						   void*									raw_data,
 																						   uint32_t								data_size );
-		RPDB_Record*								RPDB_Database_retrieveRawRecordID(					RPDB_Database*	database,
+		Rbdb_Record*								Rbdb_Database_retrieveRawRecordID(					Rbdb_Database*	database,
 																																	db_recno_t*							record_id );
-		RPDB_Record*								RPDB_Database_retrieveRecordID(						RPDB_Database*	database,
-																																	RPDB_Key*						key_data_record_id );
-		RPDB_Record*								RPDB_Database_retrievePartialRawKey(				RPDB_Database*	database,
+		Rbdb_Record*								Rbdb_Database_retrieveRecordID(						Rbdb_Database*	database,
+																																	Rbdb_Key*						key_data_record_id );
+		Rbdb_Record*								Rbdb_Database_retrievePartialRawKey(				Rbdb_Database*	database,
 																																	void*								raw_key );
-		RPDB_Record*								RPDB_Database_retrievePartialKey(					RPDB_Database*	database,
-																																	RPDB_Key*							partial_key );
-		RPDB_Record*								RPDB_Database_retrievePartialData(				RPDB_Database*	database,
-																																	RPDB_Data*							data );
-		RPDB_Record*								RPDB_Database_retrieveRawKeyPartialObjectPair(		RPDB_Database*	database,
+		Rbdb_Record*								Rbdb_Database_retrievePartialKey(					Rbdb_Database*	database,
+																																	Rbdb_Key*							partial_key );
+		Rbdb_Record*								Rbdb_Database_retrievePartialData(				Rbdb_Database*	database,
+																																	Rbdb_Data*							data );
+		Rbdb_Record*								Rbdb_Database_retrieveRawKeyPartialObjectPair(		Rbdb_Database*	database,
 																																	void*								raw_key,
 																																	void*								raw_data );
 /*
-		RPDB_KeyRange*								RPDB_Database_relativePositionOfKey(							RPDB_Database*	database,
-																																	RPDB_Key*							key_data );
-		RPDB_KeyRange*								RPDB_Database_relativePositionOfRawKey(						RPDB_Database*	database,
+		Rbdb_KeyRange*								Rbdb_Database_relativePositionOfKey(							Rbdb_Database*	database,
+																																	Rbdb_Key*							key_data );
+		Rbdb_KeyRange*								Rbdb_Database_relativePositionOfRawKey(						Rbdb_Database*	database,
 																																	void*								raw_key );
 */
-		RPDB_Record*								RPDB_Database_shiftQueue(									RPDB_Database*	database, RPDB_Record* record );
-		RPDB_Record*								RPDB_Database_shiftQueueOrWait(								RPDB_Database*	database, RPDB_Record* record );
-	//	RPDB_DatabaseRecordReadWriteSettingsController*	RPDB_Database_settingsController(							RPDB_Database* 	database );
+		Rbdb_Record*								Rbdb_Database_shiftQueue(									Rbdb_Database*	database, Rbdb_Record* record );
+		Rbdb_Record*								Rbdb_Database_shiftQueueOrWait(								Rbdb_Database*	database, Rbdb_Record* record );
+	//	Rbdb_DatabaseRecordReadWriteSettingsController*	Rbdb_Database_settingsController(							Rbdb_Database* 	database );
 	
-	void									RPDB_Database_write(			RPDB_Database*		database, 
-																								RPDB_Record*						write_record );
-	void									RPDB_Database_writeKeyDataPair(		RPDB_Database*		database, 
-																								RPDB_Key*							write_key, 
-																								RPDB_Data*							write_data );
-	RPDB_Record* RPDB_Database_writeRawKeyDataPair(	RPDB_Database*	database, 
+	void									Rbdb_Database_write(			Rbdb_Database*		database, 
+																								Rbdb_Record*						write_record );
+	void									Rbdb_Database_writeKeyDataPair(		Rbdb_Database*		database, 
+																								Rbdb_Key*							write_key, 
+																								Rbdb_Data*							write_data );
+	Rbdb_Record* Rbdb_Database_writeRawKeyDataPair(	Rbdb_Database*	database, 
 													   void*							write_key, 
 													   uint32_t						key_size,
 													   void*							write_data,
 													   uint32_t						data_size	 );
 
-void RPDB_Database_appendRawKeyDataPair(	RPDB_Database*			database, 
+void Rbdb_Database_appendRawKeyDataPair(	Rbdb_Database*			database, 
 																					void*								primary_key,
 																					uint32_t						key_size,
 																					void*								write_data,
 																					uint32_t						data_size );
-db_recno_t RPDB_Database_appendRawData(	RPDB_Database*			database, 
+db_recno_t Rbdb_Database_appendRawData(	Rbdb_Database*			database, 
 																				void*								write_data,
 																				uint32_t						data_size );
-db_recno_t RPDB_Database_appendData(	RPDB_Database*			database, 
-																			RPDB_Data*					write_data );
-void RPDB_Database_appendKeyDataPair(	RPDB_Database*			database, 
-																			RPDB_Key*						primary_key,
-																			RPDB_Data*					write_data );
-void RPDB_Database_appendRecord(	RPDB_Database*			database, 
-																	RPDB_Record*				record );
+db_recno_t Rbdb_Database_appendData(	Rbdb_Database*			database, 
+																			Rbdb_Data*					write_data );
+void Rbdb_Database_appendKeyDataPair(	Rbdb_Database*			database, 
+																			Rbdb_Key*						primary_key,
+																			Rbdb_Data*					write_data );
+void Rbdb_Database_appendRecord(	Rbdb_Database*			database, 
+																	Rbdb_Record*				record );
 
-	//	RPDB_DatabaseRecordReadWriteSettingsController*	RPDB_Database_settingsController(	RPDB_Database* 		database );
+	//	Rbdb_DatabaseRecordReadWriteSettingsController*	Rbdb_Database_settingsController(	Rbdb_Database* 		database );
 
-	void										RPDB_Database_free(	RPDB_Database** database );
-	RPDB_DatabaseSettingsController*		RPDB_Database_settingsController(	RPDB_Database* database );
-	RPDB_Environment*					RPDB_Database_parentEnvironment(	RPDB_Database* database );
+	void										Rbdb_Database_free(	Rbdb_Database** database );
+	Rbdb_DatabaseSettingsController*		Rbdb_Database_settingsController(	Rbdb_Database* database );
+	Rbdb_Environment*					Rbdb_Database_parentEnvironment(	Rbdb_Database* database );
 
-	RPDB_Database* RPDB_Database_deleteRecord(	RPDB_Database* 	database,
-											RPDB_Record*		record );
-	RPDB_Database*								RPDB_Database_deleteDataForKey(	RPDB_Database* 	database,
-																									RPDB_Key*							deletion_key );
-	RPDB_Database* RPDB_Database_deleteDataForRawKey(	RPDB_Database* 	database,
+	Rbdb_Database* Rbdb_Database_deleteRecord(	Rbdb_Database* 	database,
+											Rbdb_Record*		record );
+	Rbdb_Database*								Rbdb_Database_deleteDataForKey(	Rbdb_Database* 	database,
+																									Rbdb_Key*							deletion_key );
+	Rbdb_Database* Rbdb_Database_deleteDataForRawKey(	Rbdb_Database* 	database,
 																				   void*								raw_deletion_key,
 																				   uint32_t							key_size );
-	//	RPDB_DatabaseRecordReadWriteSettingsController*		RPDB_Database_settingsController(	RPDB_Database* 	database );
-	RPDB_Database* RPDB_Database_verify( RPDB_Database* database );
+	//	Rbdb_DatabaseRecordReadWriteSettingsController*		Rbdb_Database_settingsController(	Rbdb_Database* 	database );
+	Rbdb_Database* Rbdb_Database_verify( Rbdb_Database* database );
 
 #endif
 

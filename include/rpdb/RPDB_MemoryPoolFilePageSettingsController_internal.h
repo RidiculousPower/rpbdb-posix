@@ -1,5 +1,5 @@
-#ifndef RPDB_MEMORY_POOL_FILE_PAGE_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_MEMORY_POOL_FILE_PAGE_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_MEMORY_POOL_FILE_PAGE_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_MEMORY_POOL_FILE_PAGE_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,10 +7,10 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 	
-BOOL		RPDB_MemoryPoolFilePageSettingsController_internal_retrievePageFromCacheFlags(		RPDB_MemoryPoolFilePageSettingsController*		memory_pool_file_page_settings_controller );
-BOOL		RPDB_MemoryPoolFilePageSettingsController_internal_writePageToCacheFlags(	RPDB_MemoryPoolFilePageSettingsController*		memory_pool_file_page_settings_controller );
+BOOL		Rbdb_MemoryPoolFilePageSettingsController_internal_retrievePageFromCacheFlags(		Rbdb_MemoryPoolFilePageSettingsController*		memory_pool_file_page_settings_controller );
+BOOL		Rbdb_MemoryPoolFilePageSettingsController_internal_writePageToCacheFlags(	Rbdb_MemoryPoolFilePageSettingsController*		memory_pool_file_page_settings_controller );
 	
-RPDB_MemoryPoolFilePageSettingsController* RPDB_MemoryPoolFilePageSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_MemoryPoolFilePageSettingsController* memory_pool_file_page_settings_controller );
+Rbdb_MemoryPoolFilePageSettingsController* Rbdb_MemoryPoolFilePageSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_MemoryPoolFilePageSettingsController* memory_pool_file_page_settings_controller );
 
 #endif
 

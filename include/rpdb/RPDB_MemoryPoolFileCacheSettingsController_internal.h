@@ -1,5 +1,5 @@
-#ifndef RPDB_MEMORY_POOL_FILE_CACHE_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_MEMORY_POOL_FILE_CACHE_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_MEMORY_POOL_FILE_CACHE_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_MEMORY_POOL_FILE_CACHE_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -8,7 +8,7 @@
 *******************************************************************************************************************************************************************************************/
 
         													                                                                            						
-RPDB_MemoryPoolFileCacheSettingsController* RPDB_MemoryPoolFileCacheSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_MemoryPoolFileCacheSettingsController* memory_pool_file_cache_settings_controller );
+Rbdb_MemoryPoolFileCacheSettingsController* Rbdb_MemoryPoolFileCacheSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_MemoryPoolFileCacheSettingsController* memory_pool_file_cache_settings_controller );
 
 #endif
 

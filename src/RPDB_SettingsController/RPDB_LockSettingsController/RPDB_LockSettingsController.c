@@ -1,5 +1,5 @@
 /*
- *		RPDB::SettingsController::FileSettingsController
+ *		Rbdb::SettingsController::FileSettingsController
  *
  *
  */
@@ -10,14 +10,14 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_LockSettingsController.h"
+#include "Rbdb_LockSettingsController.h"
 
-#include "RPDB_Environment.h"
-#include "RPDB_LockDeadlockDetectorSettingsController.h"
+#include "Rbdb_Environment.h"
+#include "Rbdb_LockDeadlockDetectorSettingsController.h"
 
-#include "RPDB_SettingsController.h"
+#include "Rbdb_SettingsController.h"
 
-#include "RPDB_LockSettingsController_internal.h"
+#include "Rbdb_LockSettingsController_internal.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -29,9 +29,9 @@
 *  new  *
 *************/
 	
-RPDB_LockSettingsController* RPDB_LockSettingsController_new( RPDB_SettingsController* settings_controller )	{
+Rbdb_LockSettingsController* Rbdb_LockSettingsController_new( Rbdb_SettingsController* settings_controller )	{
 	
-	RPDB_LockSettingsController*		lock_settings_controller = calloc( 1, sizeof( RPDB_LockSettingsController ) );
+	Rbdb_LockSettingsController*		lock_settings_controller = calloc( 1, sizeof( Rbdb_LockSettingsController ) );
 
 	lock_settings_controller->parent_settings_controller = settings_controller;
 
@@ -41,10 +41,10 @@ RPDB_LockSettingsController* RPDB_LockSettingsController_new( RPDB_SettingsContr
 /***************************
 *  free  *
 ***************************/
-void RPDB_LockSettingsController_free(	RPDB_LockSettingsController** lock_settings_controller )	{
+void Rbdb_LockSettingsController_free(	Rbdb_LockSettingsController** lock_settings_controller )	{
 
 	if ( ( *lock_settings_controller )->deadlock_detector_settings_controller != NULL )	{
-		RPDB_LockDeadlockDetectorSettingsController_free( & ( ( *lock_settings_controller )->deadlock_detector_settings_controller ) );
+		Rbdb_LockDeadlockDetectorSettingsController_free( & ( ( *lock_settings_controller )->deadlock_detector_settings_controller ) );
 	}
 
 	free( *lock_settings_controller );
@@ -54,7 +54,7 @@ void RPDB_LockSettingsController_free(	RPDB_LockSettingsController** lock_settin
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_LockSettingsController_parentEnvironment(	RPDB_LockSettingsController* lock_settings_controller )	{
+Rbdb_Environment* Rbdb_LockSettingsController_parentEnvironment(	Rbdb_LockSettingsController* lock_settings_controller )	{
 	return lock_settings_controller->parent_settings_controller->parent_environment;
 }
 
@@ -63,7 +63,7 @@ RPDB_Environment* RPDB_LockSettingsController_parentEnvironment(	RPDB_LockSettin
 *********/
 
 //	DB_INIT_LOCK			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
-int RPDB_LockSettingsController_on( RPDB_LockSettingsController* lock_settings_controller )	{
+int Rbdb_LockSettingsController_on( Rbdb_LockSettingsController* lock_settings_controller )	{
 	if ( lock_settings_controller->on == TRUE )	{
 		return DB_INIT_LOCK;
 	}
@@ -75,7 +75,7 @@ int RPDB_LockSettingsController_on( RPDB_LockSettingsController* lock_settings_c
 *************/
 
 //	DB_INIT_LOCK			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
-BOOL RPDB_LockSettingsController_off( RPDB_LockSettingsController* lock_settings_controller )	{
+BOOL Rbdb_LockSettingsController_off( Rbdb_LockSettingsController* lock_settings_controller )	{
 	if ( lock_settings_controller->on == FALSE )	{
 		return TRUE;
 	}
@@ -87,7 +87,7 @@ BOOL RPDB_LockSettingsController_off( RPDB_LockSettingsController* lock_settings
 	*************/
 
 	//	DB_INIT_LOCK			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
-	void RPDB_LockSettingsController_turnOn( RPDB_LockSettingsController* lock_settings_controller )	{
+	void Rbdb_LockSettingsController_turnOn( Rbdb_LockSettingsController* lock_settings_controller )	{
 		lock_settings_controller->on = TRUE;
 	}
 
@@ -96,7 +96,7 @@ BOOL RPDB_LockSettingsController_off( RPDB_LockSettingsController* lock_settings
 	*****************/
 
 	//	DB_INIT_LOCK			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
-	void RPDB_LockSettingsController_turnOff( RPDB_LockSettingsController* lock_settings_controller )	{
+	void Rbdb_LockSettingsController_turnOff( Rbdb_LockSettingsController* lock_settings_controller )	{
 		lock_settings_controller->on = FALSE;
 	}
 
@@ -105,7 +105,7 @@ BOOL RPDB_LockSettingsController_off( RPDB_LockSettingsController* lock_settings
 *************************/
 
 //	DB_NOLOCKING			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-int RPDB_LockSettingsController_prohibitLocking( RPDB_LockSettingsController* lock_settings_controller )	{
+int Rbdb_LockSettingsController_prohibitLocking( Rbdb_LockSettingsController* lock_settings_controller )	{
 	if ( lock_settings_controller->prohibit_locking == TRUE)	{
 		return DB_NOLOCKING;
 	}
@@ -117,7 +117,7 @@ int RPDB_LockSettingsController_prohibitLocking( RPDB_LockSettingsController* lo
 	*****************************/
 
 	//	DB_NOLOCKING			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-	void RPDB_LockSettingsController_turnProhibitLockingOn( RPDB_LockSettingsController* lock_settings_controller )	{
+	void Rbdb_LockSettingsController_turnProhibitLockingOn( Rbdb_LockSettingsController* lock_settings_controller )	{
 		lock_settings_controller->prohibit_locking = TRUE;
 	}
 
@@ -126,7 +126,7 @@ int RPDB_LockSettingsController_prohibitLocking( RPDB_LockSettingsController* lo
 	*****************************/
 
 	//	DB_NOLOCKING			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-	void RPDB_LockSettingsController_turnProhibitLockingOff( RPDB_LockSettingsController* lock_settings_controller )	{
+	void Rbdb_LockSettingsController_turnProhibitLockingOff( Rbdb_LockSettingsController* lock_settings_controller )	{
 		lock_settings_controller->prohibit_locking = FALSE;
 	}
 
@@ -135,7 +135,7 @@ int RPDB_LockSettingsController_prohibitLocking( RPDB_LockSettingsController* lo
 *********************************************/
 
 //	DB_TIME_NOTGRANTED      http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-int RPDB_LockSettingsController_timeoutReturnsDenyNotDeadlock( RPDB_LockSettingsController* lock_settings_controller )	{
+int Rbdb_LockSettingsController_timeoutReturnsDenyNotDeadlock( Rbdb_LockSettingsController* lock_settings_controller )	{
 	if ( lock_settings_controller->timeout_returns_deny_not_deadlock == TRUE )	{
 		return DB_TIME_NOTGRANTED;
 	}
@@ -147,7 +147,7 @@ int RPDB_LockSettingsController_timeoutReturnsDenyNotDeadlock( RPDB_LockSettings
 	*************************************************/
 
 	//	DB_TIME_NOTGRANTED      http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-	void RPDB_LockSettingsController_turnTimeoutReturnsDenyNotDeadlockOn( RPDB_LockSettingsController* lock_settings_controller )	{
+	void Rbdb_LockSettingsController_turnTimeoutReturnsDenyNotDeadlockOn( Rbdb_LockSettingsController* lock_settings_controller )	{
 		lock_settings_controller->timeout_returns_deny_not_deadlock = TRUE;
 	}
 
@@ -156,7 +156,7 @@ int RPDB_LockSettingsController_timeoutReturnsDenyNotDeadlock( RPDB_LockSettings
 	*************************************************/
 
 	//	DB_TIME_NOTGRANTED      http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-	void RPDB_LockSettingsController_turnTimeoutReturnsDenyNotDeadlockOff( RPDB_LockSettingsController* lock_settings_controller )	{
+	void Rbdb_LockSettingsController_turnTimeoutReturnsDenyNotDeadlockOff( Rbdb_LockSettingsController* lock_settings_controller )	{
 		lock_settings_controller->timeout_returns_deny_not_deadlock = FALSE;
 	}
 
@@ -165,7 +165,7 @@ int RPDB_LockSettingsController_timeoutReturnsDenyNotDeadlock( RPDB_LockSettings
 *************/
 
 //	DB_LOCK_NOWAIT			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/lock_get.html
-int RPDB_LockSettingsController_noWaitingForConflicts( RPDB_LockSettingsController* lock_settings_controller )	{
+int Rbdb_LockSettingsController_noWaitingForConflicts( Rbdb_LockSettingsController* lock_settings_controller )	{
 
 	if ( lock_settings_controller->not_waiting_for_conflicts == TRUE)	{
 		return DB_LOCK_NOWAIT;
@@ -178,7 +178,7 @@ int RPDB_LockSettingsController_noWaitingForConflicts( RPDB_LockSettingsControll
 	*****************/
 
 	//	DB_LOCK_NOWAIT			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/lock_get.html
-	void RPDB_LockSettingsController_turnNoWaitingForConflictsOn( RPDB_LockSettingsController* lock_settings_controller )	{
+	void Rbdb_LockSettingsController_turnNoWaitingForConflictsOn( Rbdb_LockSettingsController* lock_settings_controller )	{
 		lock_settings_controller->not_waiting_for_conflicts = TRUE;
 	}
 
@@ -187,7 +187,7 @@ int RPDB_LockSettingsController_noWaitingForConflicts( RPDB_LockSettingsControll
 	*********************/
 
 	//	DB_LOCK_NOWAIT			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/lock_get.html
-	void RPDB_LockSettingsController_turnNoWaitingForConflictsOff( RPDB_LockSettingsController* lock_settings_controller )	{
+	void Rbdb_LockSettingsController_turnNoWaitingForConflictsOff( Rbdb_LockSettingsController* lock_settings_controller )	{
 		lock_settings_controller->not_waiting_for_conflicts = FALSE;
 	}
 
@@ -196,7 +196,7 @@ int RPDB_LockSettingsController_noWaitingForConflicts( RPDB_LockSettingsControll
 *************************************/
 
 //	DB_CDB_ALLDB            http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-int RPDB_LockSettingsController_lockForEnvironmentNotDatabase( RPDB_LockSettingsController* lock_settings_controller )	{
+int Rbdb_LockSettingsController_lockForEnvironmentNotDatabase( Rbdb_LockSettingsController* lock_settings_controller )	{
 	if ( lock_settings_controller->lock_for_environment_not_database == TRUE )	{
 		return DB_CDB_ALLDB;
 	}
@@ -207,7 +207,7 @@ int RPDB_LockSettingsController_lockForEnvironmentNotDatabase( RPDB_LockSettings
 	*  turnLockForEnvironmentNotDatabaseOn  *
 	*********************************************/
 
-		void RPDB_LockSettingsController_turnLockForEnvironmentNotDatabaseOn( RPDB_LockSettingsController* lock_settings_controller )	{
+		void Rbdb_LockSettingsController_turnLockForEnvironmentNotDatabaseOn( Rbdb_LockSettingsController* lock_settings_controller )	{
 			lock_settings_controller->lock_for_environment_not_database = TRUE;
 		}
 
@@ -215,7 +215,7 @@ int RPDB_LockSettingsController_lockForEnvironmentNotDatabase( RPDB_LockSettings
 	*  turnLockForEnvironmentNotDatabaseOff  *
 	*********************************************/
 
-		void RPDB_LockSettingsController_turnLockForEnvironmentNotDatabaseOff( RPDB_LockSettingsController* lock_settings_controller )	{
+		void Rbdb_LockSettingsController_turnLockForEnvironmentNotDatabaseOff( Rbdb_LockSettingsController* lock_settings_controller )	{
 			lock_settings_controller->lock_for_environment_not_database = FALSE;
 		}
 
@@ -224,9 +224,9 @@ int RPDB_LockSettingsController_lockForEnvironmentNotDatabase( RPDB_LockSettings
 *****************/
 
 //	DB_SET_LOCK_TIMEOUT		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_timeout.html
-int RPDB_LockSettingsController_timeout( RPDB_LockSettingsController* lock_settings_controller )	{
+int Rbdb_LockSettingsController_timeout( Rbdb_LockSettingsController* lock_settings_controller )	{
 
-	RPDB_Environment*		environment = lock_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = lock_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 		
@@ -242,10 +242,10 @@ int RPDB_LockSettingsController_timeout( RPDB_LockSettingsController* lock_setti
 *****************/
 
 //	DB_SET_LOCK_TIMEOUT		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_timeout.html
-void RPDB_LockSettingsController_setTimeout(	RPDB_LockSettingsController* lock_settings_controller,
+void Rbdb_LockSettingsController_setTimeout(	Rbdb_LockSettingsController* lock_settings_controller,
 												uint32_t	timeout )	{
 
-	RPDB_Environment*		environment = lock_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = lock_settings_controller->parent_settings_controller->parent_environment;
 
 	lock_settings_controller->timeout	=	timeout;
 	
@@ -262,9 +262,9 @@ void RPDB_LockSettingsController_setTimeout(	RPDB_LockSettingsController* lock_s
 *********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_lk_conflicts.html
-uint8_t* RPDB_LockSettingsController_conflictMatrix( RPDB_LockSettingsController* lock_settings_controller )	{
+uint8_t* Rbdb_LockSettingsController_conflictMatrix( Rbdb_LockSettingsController* lock_settings_controller )	{
 	
-	RPDB_Environment*		environment;
+	Rbdb_Environment*		environment;
 
 	environment = lock_settings_controller->parent_settings_controller->parent_environment;
 	
@@ -283,10 +283,10 @@ uint8_t* RPDB_LockSettingsController_conflictMatrix( RPDB_LockSettingsController
 *************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_lk_conflicts.html
-void RPDB_LockSettingsController_setConflictMatrix( 	RPDB_LockSettingsController*	lock_settings_controller,
+void Rbdb_LockSettingsController_setConflictMatrix( 	Rbdb_LockSettingsController*	lock_settings_controller,
 														uint8_t*						conflict_matrix )	{
 
-	RPDB_Environment*		environment;
+	Rbdb_Environment*		environment;
 
 	environment = lock_settings_controller->parent_settings_controller->parent_environment;
 	
@@ -306,9 +306,9 @@ void RPDB_LockSettingsController_setConflictMatrix( 	RPDB_LockSettingsController
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_lk_max_lockers.html
-int RPDB_LockSettingsController_maxLockers( RPDB_LockSettingsController* lock_settings_controller )	{
+int Rbdb_LockSettingsController_maxLockers( Rbdb_LockSettingsController* lock_settings_controller )	{
 	
-	RPDB_Environment*		environment;
+	Rbdb_Environment*		environment;
 
 	environment = lock_settings_controller->parent_settings_controller->parent_environment;
 	
@@ -327,9 +327,9 @@ int RPDB_LockSettingsController_maxLockers( RPDB_LockSettingsController* lock_se
 *********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_lk_max_lockers.html
-void RPDB_LockSettingsController_setMaxLockers( RPDB_LockSettingsController* lock_settings_controller, uint32_t max_lockers )	{
+void Rbdb_LockSettingsController_setMaxLockers( Rbdb_LockSettingsController* lock_settings_controller, uint32_t max_lockers )	{
 	
-	RPDB_Environment*		environment;
+	Rbdb_Environment*		environment;
 
 	environment = lock_settings_controller->parent_settings_controller->parent_environment;
 
@@ -347,9 +347,9 @@ void RPDB_LockSettingsController_setMaxLockers( RPDB_LockSettingsController* loc
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_lk_max_locks.html
-int RPDB_LockSettingsController_maxLocks( RPDB_LockSettingsController* lock_settings_controller )	{
+int Rbdb_LockSettingsController_maxLocks( Rbdb_LockSettingsController* lock_settings_controller )	{
 
-	RPDB_Environment*		environment;
+	Rbdb_Environment*		environment;
 
 	environment = lock_settings_controller->parent_settings_controller->parent_environment;
 	
@@ -368,9 +368,9 @@ int RPDB_LockSettingsController_maxLocks( RPDB_LockSettingsController* lock_sett
 *********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_lk_max_locks.html
-void RPDB_LockSettingsController_setMaxLocks( RPDB_LockSettingsController* lock_settings_controller, uint32_t max_locks )	{
+void Rbdb_LockSettingsController_setMaxLocks( Rbdb_LockSettingsController* lock_settings_controller, uint32_t max_locks )	{
 	
-	RPDB_Environment*		environment;
+	Rbdb_Environment*		environment;
 
 	environment = lock_settings_controller->parent_settings_controller->parent_environment;
 
@@ -388,9 +388,9 @@ void RPDB_LockSettingsController_setMaxLocks( RPDB_LockSettingsController* lock_
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_lk_max_objects.html
-int RPDB_LockSettingsController_maxObjects( RPDB_LockSettingsController* lock_settings_controller )	{
+int Rbdb_LockSettingsController_maxObjects( Rbdb_LockSettingsController* lock_settings_controller )	{
 
-	RPDB_Environment*		environment;
+	Rbdb_Environment*		environment;
 
 	environment = lock_settings_controller->parent_settings_controller->parent_environment;
 	
@@ -409,9 +409,9 @@ int RPDB_LockSettingsController_maxObjects( RPDB_LockSettingsController* lock_se
 *********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_lk_max_objects.html
-void RPDB_LockSettingsController_setMaxObjects( RPDB_LockSettingsController* lock_settings_controller, uint32_t max_objects )	{
+void Rbdb_LockSettingsController_setMaxObjects( Rbdb_LockSettingsController* lock_settings_controller, uint32_t max_objects )	{
 
-	RPDB_Environment*		environment;
+	Rbdb_Environment*		environment;
 
 	environment = lock_settings_controller->parent_settings_controller->parent_environment;
 
@@ -429,9 +429,9 @@ void RPDB_LockSettingsController_setMaxObjects( RPDB_LockSettingsController* loc
 *************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_lk_partitions.html
-int RPDB_LockSettingsController_numberOfPartitions( RPDB_LockSettingsController* lock_settings_controller )	{
+int Rbdb_LockSettingsController_numberOfPartitions( Rbdb_LockSettingsController* lock_settings_controller )	{
 
-	RPDB_Environment*		environment;
+	Rbdb_Environment*		environment;
 
 	environment = lock_settings_controller->parent_settings_controller->parent_environment;
 	
@@ -450,9 +450,9 @@ int RPDB_LockSettingsController_numberOfPartitions( RPDB_LockSettingsController*
 *****************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_lk_partitions.html
-void RPDB_LockSettingsController_setNumberOfPartitions( RPDB_LockSettingsController* lock_settings_controller, uint32_t partitions )	{
+void Rbdb_LockSettingsController_setNumberOfPartitions( Rbdb_LockSettingsController* lock_settings_controller, uint32_t partitions )	{
 
-	RPDB_Environment*		environment;
+	Rbdb_Environment*		environment;
 
 	environment = lock_settings_controller->parent_settings_controller->parent_environment;
 
@@ -473,10 +473,10 @@ void RPDB_LockSettingsController_setNumberOfPartitions( RPDB_LockSettingsControl
 *  deadlockDetectorController  *
 *********************************/
 
-RPDB_LockDeadlockDetectorSettingsController* RPDB_LockSettingsController_deadlockDetectorSettingsController( RPDB_LockSettingsController* lock_settings_controller )	{
+Rbdb_LockDeadlockDetectorSettingsController* Rbdb_LockSettingsController_deadlockDetectorSettingsController( Rbdb_LockSettingsController* lock_settings_controller )	{
 	
 	if ( lock_settings_controller->deadlock_detector_settings_controller == NULL )	{
-		lock_settings_controller->deadlock_detector_settings_controller = RPDB_LockDeadlockDetectorSettingsController_new( lock_settings_controller ); 
+		lock_settings_controller->deadlock_detector_settings_controller = Rbdb_LockDeadlockDetectorSettingsController_new( lock_settings_controller ); 
 	}
 	return lock_settings_controller->deadlock_detector_settings_controller;
 }
@@ -491,11 +491,11 @@ RPDB_LockDeadlockDetectorSettingsController* RPDB_LockSettingsController_deadloc
 *  openFlags  *
 *****************/
 
-int RPDB_LockSettingsController_internal_openFlags( RPDB_LockSettingsController* lock_settings_controller )	{
+int Rbdb_LockSettingsController_internal_openFlags( Rbdb_LockSettingsController* lock_settings_controller )	{
 
-	return RPDB_LockSettingsController_noWaitingForConflicts(
-				RPDB_SettingsController_lockSettingsController( 
-					RPDB_Environment_settingsController( lock_settings_controller->parent_settings_controller->parent_environment ) ) );
+	return Rbdb_LockSettingsController_noWaitingForConflicts(
+				Rbdb_SettingsController_lockSettingsController( 
+					Rbdb_Environment_settingsController( lock_settings_controller->parent_settings_controller->parent_environment ) ) );
 	
 }
 
@@ -503,30 +503,30 @@ int RPDB_LockSettingsController_internal_openFlags( RPDB_LockSettingsController*
 *  clearDeadlocksFlags  *
 *************************/
 
-int RPDB_LockSettingsController_internal_clearDeadlocksFlags( RPDB_LockSettingsController*	lock_settings_controller __attribute__((unused)) )	{
+int Rbdb_LockSettingsController_internal_clearDeadlocksFlags( Rbdb_LockSettingsController*	lock_settings_controller __attribute__((unused)) )	{
 	
 	// Currently unused - returns 0
-	return RPDB_NO_FLAGS;
+	return Rbdb_NO_FLAGS;
 }
 
 /*****************************
 *  obtainAndReleaseFlags  *
 *****************************/
 
-int RPDB_LockSettingsController_internal_obtainAndReleaseFlags( RPDB_LockSettingsController*	lock_settings_controller )	{
+int Rbdb_LockSettingsController_internal_obtainAndReleaseFlags( Rbdb_LockSettingsController*	lock_settings_controller )	{
 	
-	return RPDB_LockSettingsController_noWaitingForConflicts(
-			  RPDB_SettingsController_lockSettingsController( 
-					  RPDB_Environment_settingsController( lock_settings_controller->parent_settings_controller->parent_environment ) ) );
+	return Rbdb_LockSettingsController_noWaitingForConflicts(
+			  Rbdb_SettingsController_lockSettingsController( 
+					  Rbdb_Environment_settingsController( lock_settings_controller->parent_settings_controller->parent_environment ) ) );
 	
 }
 
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_LockSettingsController* RPDB_LockSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_LockSettingsController* lock_settings_controller )	{
+Rbdb_LockSettingsController* Rbdb_LockSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_LockSettingsController* lock_settings_controller )	{
 
-	RPDB_LockSettingsController* lock_settings_controller_copy	=	RPDB_LockSettingsController_new( lock_settings_controller->parent_settings_controller );
+	Rbdb_LockSettingsController* lock_settings_controller_copy	=	Rbdb_LockSettingsController_new( lock_settings_controller->parent_settings_controller );
 
 	//	Instances and Pointers
 	lock_settings_controller_copy->partitions	=	lock_settings_controller->partitions;

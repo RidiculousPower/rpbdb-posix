@@ -1,43 +1,43 @@
 /*
- *		RPDB::SettingsController::RuntimeStorageSettingsController
+ *		Rbdb::SettingsController::RuntimeStorageSettingsController
  *
  *
  */
 
-#ifndef RPDB_RUNTIMESTORAGESETTINGS_CONTROLLER
-	#define RPDB_RUNTIMESTORAGESETTINGS_CONTROLLER
+#ifndef Rbdb_RUNTIMESTORAGESETTINGS_CONTROLLER
+	#define Rbdb_RUNTIMESTORAGESETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_RuntimeStorageSettingsController* RPDB_RuntimeStorageSettingsController_new( RPDB_RuntimeStorageController* parent_runtime_storage_controller );
-	void											RPDB_RuntimeStorageSettingsController_free(									RPDB_RuntimeStorageSettingsController**		runtime_storage_settings_controller );
-	RPDB_Environment*						RPDB_RuntimeStorageSettingsController_parentEnvironment(			RPDB_RuntimeStorageSettingsController*		runtime_storage_settings_controller );
+	Rbdb_RuntimeStorageSettingsController* Rbdb_RuntimeStorageSettingsController_new( Rbdb_RuntimeStorageController* parent_runtime_storage_controller );
+	void											Rbdb_RuntimeStorageSettingsController_free(									Rbdb_RuntimeStorageSettingsController**		runtime_storage_settings_controller );
+	Rbdb_Environment*						Rbdb_RuntimeStorageSettingsController_parentEnvironment(			Rbdb_RuntimeStorageSettingsController*		runtime_storage_settings_controller );
 
-	BOOL											RPDB_RuntimeStorageSettingsController_storeInApplicationMemory(				RPDB_RuntimeStorageSettingsController*		runtime_settings_controller );
-	void											RPDB_RuntimeStorageSettingsController_turnStoreInApplicationMemoryOn(			RPDB_RuntimeStorageSettingsController*		runtime_settings_controller );
-	void											RPDB_RuntimeStorageSettingsController_turnStoreInApplicationMemoryOff(			RPDB_RuntimeStorageSettingsController*		runtime_settings_controller );
+	BOOL											Rbdb_RuntimeStorageSettingsController_storeInApplicationMemory(				Rbdb_RuntimeStorageSettingsController*		runtime_settings_controller );
+	void											Rbdb_RuntimeStorageSettingsController_turnStoreInApplicationMemoryOn(			Rbdb_RuntimeStorageSettingsController*		runtime_settings_controller );
+	void											Rbdb_RuntimeStorageSettingsController_turnStoreInApplicationMemoryOff(			Rbdb_RuntimeStorageSettingsController*		runtime_settings_controller );
 
-	BOOL											RPDB_RuntimeStorageSettingsController_storeInSystemMemory(						RPDB_RuntimeStorageSettingsController*		runtime_settings_controller );
-	void											RPDB_RuntimeStorageSettingsController_turnStoreInSystemMemoryOn(				RPDB_RuntimeStorageSettingsController*		runtime_settings_controller );
-	void											RPDB_RuntimeStorageSettingsController_turnStoreInSystemMemoryOff(				RPDB_RuntimeStorageSettingsController*		runtime_settings_controller );
+	BOOL											Rbdb_RuntimeStorageSettingsController_storeInSystemMemory(						Rbdb_RuntimeStorageSettingsController*		runtime_settings_controller );
+	void											Rbdb_RuntimeStorageSettingsController_turnStoreInSystemMemoryOn(				Rbdb_RuntimeStorageSettingsController*		runtime_settings_controller );
+	void											Rbdb_RuntimeStorageSettingsController_turnStoreInSystemMemoryOff(				Rbdb_RuntimeStorageSettingsController*		runtime_settings_controller );
 
-	BOOL											RPDB_RuntimeStorageSettingsController_storeOnDisk(								RPDB_RuntimeStorageSettingsController*		runtime_settings_controller );
-	void											RPDB_RuntimeStorageSettingsController_turnStoreOnDiskOn(						RPDB_RuntimeStorageSettingsController*		runtime_settings_controller );
-	void											RPDB_RuntimeStorageSettingsController_turnStoreOnDiskOff(						RPDB_RuntimeStorageSettingsController*		runtime_settings_controller );
+	BOOL											Rbdb_RuntimeStorageSettingsController_storeOnDisk(								Rbdb_RuntimeStorageSettingsController*		runtime_settings_controller );
+	void											Rbdb_RuntimeStorageSettingsController_turnStoreOnDiskOn(						Rbdb_RuntimeStorageSettingsController*		runtime_settings_controller );
+	void											Rbdb_RuntimeStorageSettingsController_turnStoreOnDiskOff(						Rbdb_RuntimeStorageSettingsController*		runtime_settings_controller );
 
-	BOOL											RPDB_RuntimeStorageSettingsController_runtimeStorageActivityLogging(			RPDB_RuntimeStorageSettingsController*		runtime_settings_controller );
-	void											RPDB_RuntimeStorageSettingsController_turnRuntimeStorageActivityLoggingOn(		RPDB_RuntimeStorageSettingsController*		runtime_settings_controller );
-	void											RPDB_RuntimeStorageSettingsController_turnRuntimeStorageActivityLoggingOff(	RPDB_RuntimeStorageSettingsController*		runtime_settings_controller );
+	BOOL											Rbdb_RuntimeStorageSettingsController_runtimeStorageActivityLogging(			Rbdb_RuntimeStorageSettingsController*		runtime_settings_controller );
+	void											Rbdb_RuntimeStorageSettingsController_turnRuntimeStorageActivityLoggingOn(		Rbdb_RuntimeStorageSettingsController*		runtime_settings_controller );
+	void											Rbdb_RuntimeStorageSettingsController_turnRuntimeStorageActivityLoggingOff(	Rbdb_RuntimeStorageSettingsController*		runtime_settings_controller );
 
-	BOOL RPDB_RuntimeStorageSettingsController_automaticDefaultEnvironment( RPDB_RuntimeStorageSettingsController* runtime_settings_controller );
-	void RPDB_RuntimeStorageSettingsController_turnAutomaticDefaultEnvironmentOn( RPDB_RuntimeStorageSettingsController* runtime_settings_controller );
-	void RPDB_RuntimeStorageSettingsController_turnAutomaticDefaultEnvironmentOff( RPDB_RuntimeStorageSettingsController* runtime_settings_controller );
+	BOOL Rbdb_RuntimeStorageSettingsController_automaticDefaultEnvironment( Rbdb_RuntimeStorageSettingsController* runtime_settings_controller );
+	void Rbdb_RuntimeStorageSettingsController_turnAutomaticDefaultEnvironmentOn( Rbdb_RuntimeStorageSettingsController* runtime_settings_controller );
+	void Rbdb_RuntimeStorageSettingsController_turnAutomaticDefaultEnvironmentOff( Rbdb_RuntimeStorageSettingsController* runtime_settings_controller );
 
-	RPDB_RuntimeStorageSettingsController*			RPDB_RuntimeStorageController_settingsController(								RPDB_RuntimeStorageController*				runtime_storage_controller );
+	Rbdb_RuntimeStorageSettingsController*			Rbdb_RuntimeStorageController_settingsController(								Rbdb_RuntimeStorageController*				runtime_storage_controller );
 
 #endif
 

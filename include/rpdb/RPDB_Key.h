@@ -1,31 +1,31 @@
 /*
- *		RPDB::RPDB_DatabaseController::RPDB_Database::(RPDB_DatabaseCursorController::RPDB_DatabaseCursor::)RPDB_Record::RPDB_DBT => RPDB_Key
+ *		Rbdb::Rbdb_DatabaseController::Rbdb_Database::(Rbdb_DatabaseCursorController::Rbdb_DatabaseCursor::)Rbdb_Record::Rbdb_DBT => Rbdb_Key
  *
  *
  */
 
-#ifndef RPDB_KEY
-	#define RPDB_KEY
+#ifndef Rbdb_KEY
+	#define Rbdb_KEY
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 	
-	RPDB_Key*						RPDB_Key_new(			RPDB_Record*	parent_record );
+	Rbdb_Key*						Rbdb_Key_new(			Rbdb_Record*	parent_record );
 
-	void							RPDB_Key_free(	RPDB_Key** key );
-	RPDB_DatabaseRecordSettingsController*	RPDB_Key_settingsController(	RPDB_Key* key );
-	RPDB_Environment*		RPDB_Key_parentEnvironment(	RPDB_Key* key );
-	RPDB_Database* RPDB_Key_parentDatabase(	RPDB_Key* dbt );
-	RPDB_Record* RPDB_Key_parentRecord(	RPDB_DatabaseRecordSettingsController* key );
+	void							Rbdb_Key_free(	Rbdb_Key** key );
+	Rbdb_DatabaseRecordSettingsController*	Rbdb_Key_settingsController(	Rbdb_Key* key );
+	Rbdb_Environment*		Rbdb_Key_parentEnvironment(	Rbdb_Key* key );
+	Rbdb_Database* Rbdb_Key_parentDatabase(	Rbdb_Key* dbt );
+	Rbdb_Record* Rbdb_Key_parentRecord(	Rbdb_DatabaseRecordSettingsController* key );
 
-	void*							RPDB_Key_keyData(		RPDB_Key*		key );
-	void RPDB_Key_setKeyData(	RPDB_Key*	key,
+	void*							Rbdb_Key_keyData(		Rbdb_Key*		key );
+	void Rbdb_Key_setKeyData(	Rbdb_Key*	key,
 								void*		key_raw,
 								uint32_t	key_size );
-	uint32_t RPDB_Key_size( RPDB_Key* data );
+	uint32_t Rbdb_Key_size( Rbdb_Key* data );
 
 #endif
 

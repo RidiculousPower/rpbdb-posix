@@ -1,5 +1,5 @@
 /*
- *		RPDB_settingsController:RPDB_DatabaseRecordSettingsController
+ *		Rbdb_settingsController:Rbdb_DatabaseRecordSettingsController
  *
  *
  */
@@ -10,25 +10,25 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_DatabaseRecordSettingsController.h"
-	#include "RPDB_DatabaseRecordSettingsController_internal.h"
+#include "Rbdb_DatabaseRecordSettingsController.h"
+	#include "Rbdb_DatabaseRecordSettingsController_internal.h"
 
-	#include "RPDB_DBT.h"
+	#include "Rbdb_DBT.h"
 
-	#include "RPDB_SettingsController.h"
-	#include "RPDB_MemoryPoolSettingsController.h"
-	#include "RPDB_DatabaseRecordSettingsController.h"
-	#include "RPDB_DatabaseSettingsController.h"
+	#include "Rbdb_SettingsController.h"
+	#include "Rbdb_MemoryPoolSettingsController.h"
+	#include "Rbdb_DatabaseRecordSettingsController.h"
+	#include "Rbdb_DatabaseSettingsController.h"
 	
-	#include "RPDB_Environment.h"
+	#include "Rbdb_Environment.h"
 
-	#include "RPDB_DatabaseRecordReadWriteSettingsController.h"
-	#include "RPDB_DatabaseRecordVariableLengthSettingsController.h"
-	#include "RPDB_DatabaseRecordFixedLengthSettingsController.h"
+	#include "Rbdb_DatabaseRecordReadWriteSettingsController.h"
+	#include "Rbdb_DatabaseRecordVariableLengthSettingsController.h"
+	#include "Rbdb_DatabaseRecordFixedLengthSettingsController.h"
 
-	#include "RPDB_DatabaseRecordReadWriteSettingsController_internal.h"
-	#include "RPDB_DatabaseRecordVariableLengthSettingsController_internal.h"
-	#include "RPDB_DatabaseRecordFixedLengthSettingsController_internal.h"
+	#include "Rbdb_DatabaseRecordReadWriteSettingsController_internal.h"
+	#include "Rbdb_DatabaseRecordVariableLengthSettingsController_internal.h"
+	#include "Rbdb_DatabaseRecordFixedLengthSettingsController_internal.h"
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -40,9 +40,9 @@
 *  new  *
 *************/
 	
-RPDB_DatabaseRecordSettingsController* RPDB_DatabaseRecordSettingsController_new( RPDB_DatabaseSettingsController* database_settings_controller )	{
+Rbdb_DatabaseRecordSettingsController* Rbdb_DatabaseRecordSettingsController_new( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
-	RPDB_DatabaseRecordSettingsController*	database_record_settings_controller = calloc( 1, sizeof( RPDB_DatabaseRecordSettingsController ) );
+	Rbdb_DatabaseRecordSettingsController*	database_record_settings_controller = calloc( 1, sizeof( Rbdb_DatabaseRecordSettingsController ) );
 
 	database_record_settings_controller->parent_database_settings_controller = database_settings_controller;
 
@@ -52,16 +52,16 @@ RPDB_DatabaseRecordSettingsController* RPDB_DatabaseRecordSettingsController_new
 /***************************
 *  free  *
 ***************************/
-void RPDB_DatabaseRecordSettingsController_free(	RPDB_DatabaseRecordSettingsController** database_record_settings_controller )	{
+void Rbdb_DatabaseRecordSettingsController_free(	Rbdb_DatabaseRecordSettingsController** database_record_settings_controller )	{
 
 	if ( ( *database_record_settings_controller )->record_variable_length_settings_controller != NULL )	{
-		RPDB_DatabaseRecordVariableLengthSettingsController_free( & ( ( *database_record_settings_controller )->record_variable_length_settings_controller ) );
+		Rbdb_DatabaseRecordVariableLengthSettingsController_free( & ( ( *database_record_settings_controller )->record_variable_length_settings_controller ) );
 	}
 	if ( ( *database_record_settings_controller )->record_fixed_length_settings_controller != NULL )	{
-		RPDB_DatabaseRecordFixedLengthSettingsController_free( & ( ( *database_record_settings_controller )->record_fixed_length_settings_controller ) );
+		Rbdb_DatabaseRecordFixedLengthSettingsController_free( & ( ( *database_record_settings_controller )->record_fixed_length_settings_controller ) );
 	}
 	if ( ( *database_record_settings_controller )->record_read_write_settings_controller != NULL )	{
-		RPDB_DatabaseRecordReadWriteSettingsController_free( & ( ( *database_record_settings_controller )->record_read_write_settings_controller ) );
+		Rbdb_DatabaseRecordReadWriteSettingsController_free( & ( ( *database_record_settings_controller )->record_read_write_settings_controller ) );
 	}
 
 	free( *database_record_settings_controller );
@@ -71,14 +71,14 @@ void RPDB_DatabaseRecordSettingsController_free(	RPDB_DatabaseRecordSettingsCont
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_DatabaseRecordSettingsController_parentEnvironment(	RPDB_DatabaseRecordSettingsController* database_record_settings_controller )	{
+Rbdb_Environment* Rbdb_DatabaseRecordSettingsController_parentEnvironment(	Rbdb_DatabaseRecordSettingsController* database_record_settings_controller )	{
 	return database_record_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment;
 }
 
 /***************************************
 *  parentDatabase  *
 ***************************************/
-RPDB_Database* RPDB_DatabaseRecordSettingsController_parentDatabase(	RPDB_DatabaseRecordSettingsController* database_record_settings_controller )	{
+Rbdb_Database* Rbdb_DatabaseRecordSettingsController_parentDatabase(	Rbdb_DatabaseRecordSettingsController* database_record_settings_controller )	{
 	return database_record_settings_controller->parent_database_settings_controller->parent_database;
 }
 
@@ -90,10 +90,10 @@ RPDB_Database* RPDB_DatabaseRecordSettingsController_parentDatabase(	RPDB_Databa
 *  fixedRecordController  *
 *****************************/
 
-RPDB_DatabaseRecordFixedLengthSettingsController* RPDB_DatabaseRecordSettingsController_fixedLengthSettingsController( RPDB_DatabaseRecordSettingsController*		database_record_settings_controller )	{
+Rbdb_DatabaseRecordFixedLengthSettingsController* Rbdb_DatabaseRecordSettingsController_fixedLengthSettingsController( Rbdb_DatabaseRecordSettingsController*		database_record_settings_controller )	{
 
 	if ( database_record_settings_controller->record_fixed_length_settings_controller == NULL )	{
-		database_record_settings_controller->record_fixed_length_settings_controller = RPDB_DatabaseRecordFixedLengthSettingsController_new( database_record_settings_controller );
+		database_record_settings_controller->record_fixed_length_settings_controller = Rbdb_DatabaseRecordFixedLengthSettingsController_new( database_record_settings_controller );
 	}
 
 	return database_record_settings_controller->record_fixed_length_settings_controller;
@@ -103,10 +103,10 @@ RPDB_DatabaseRecordFixedLengthSettingsController* RPDB_DatabaseRecordSettingsCon
 *  variableRecordController  *
 *****************************/
 
-RPDB_DatabaseRecordVariableLengthSettingsController* RPDB_DatabaseRecordSettingsController_variableLengthSettingsController( RPDB_DatabaseRecordSettingsController*		database_record_settings_controller )	{
+Rbdb_DatabaseRecordVariableLengthSettingsController* Rbdb_DatabaseRecordSettingsController_variableLengthSettingsController( Rbdb_DatabaseRecordSettingsController*		database_record_settings_controller )	{
 
 	if ( database_record_settings_controller->record_variable_length_settings_controller == NULL )	{
-		database_record_settings_controller->record_variable_length_settings_controller = RPDB_DatabaseRecordVariableLengthSettingsController_new( database_record_settings_controller );
+		database_record_settings_controller->record_variable_length_settings_controller = Rbdb_DatabaseRecordVariableLengthSettingsController_new( database_record_settings_controller );
 	}
 
 	return database_record_settings_controller->record_variable_length_settings_controller;
@@ -116,10 +116,10 @@ RPDB_DatabaseRecordVariableLengthSettingsController* RPDB_DatabaseRecordSettings
 *  readWriteSettingsController  *
 *************************************/
 
-RPDB_DatabaseRecordReadWriteSettingsController*		RPDB_DatabaseRecordSettingsController_readWriteSettingsController( RPDB_DatabaseRecordSettingsController*		database_record_settings_controller )	{
+Rbdb_DatabaseRecordReadWriteSettingsController*		Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( Rbdb_DatabaseRecordSettingsController*		database_record_settings_controller )	{
 
 	if ( database_record_settings_controller->record_read_write_settings_controller == NULL )	{
-		database_record_settings_controller->record_read_write_settings_controller = RPDB_DatabaseRecordReadWriteSettingsController_new( database_record_settings_controller );
+		database_record_settings_controller->record_read_write_settings_controller = Rbdb_DatabaseRecordReadWriteSettingsController_new( database_record_settings_controller );
 	}
 
 	return database_record_settings_controller->record_read_write_settings_controller;
@@ -134,20 +134,20 @@ RPDB_DatabaseRecordReadWriteSettingsController*		RPDB_DatabaseRecordSettingsCont
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_DatabaseRecordSettingsController* RPDB_DatabaseRecordSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseRecordSettingsController* database_record_settings_controller )	{
+Rbdb_DatabaseRecordSettingsController* Rbdb_DatabaseRecordSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseRecordSettingsController* database_record_settings_controller )	{
 
-	RPDB_DatabaseRecordSettingsController* database_record_settings_controller_copy	=	RPDB_DatabaseRecordSettingsController_new( database_record_settings_controller->parent_database_settings_controller );
+	Rbdb_DatabaseRecordSettingsController* database_record_settings_controller_copy	=	Rbdb_DatabaseRecordSettingsController_new( database_record_settings_controller->parent_database_settings_controller );
 
 	if ( database_record_settings_controller->record_fixed_length_settings_controller != NULL )	{
-		database_record_settings_controller->record_fixed_length_settings_controller									=	RPDB_DatabaseRecordFixedLengthSettingsController_internal_copyOfSettingsControllerForInstance( database_record_settings_controller->record_fixed_length_settings_controller );
+		database_record_settings_controller->record_fixed_length_settings_controller									=	Rbdb_DatabaseRecordFixedLengthSettingsController_internal_copyOfSettingsControllerForInstance( database_record_settings_controller->record_fixed_length_settings_controller );
 		database_record_settings_controller->record_fixed_length_settings_controller->parent_database_record_settings_controller	=	database_record_settings_controller_copy;
 	}
 	if ( database_record_settings_controller->record_read_write_settings_controller != NULL )	{
-		database_record_settings_controller->record_read_write_settings_controller									=	RPDB_DatabaseRecordReadWriteSettingsController_internal_copyOfSettingsControllerForInstance( database_record_settings_controller->record_read_write_settings_controller );
+		database_record_settings_controller->record_read_write_settings_controller									=	Rbdb_DatabaseRecordReadWriteSettingsController_internal_copyOfSettingsControllerForInstance( database_record_settings_controller->record_read_write_settings_controller );
 		database_record_settings_controller->record_read_write_settings_controller->parent_database_record_settings_controller	=	database_record_settings_controller_copy;
 	}
 	if ( database_record_settings_controller->record_variable_length_settings_controller != NULL )	{
-		database_record_settings_controller->record_variable_length_settings_controller								=	RPDB_DatabaseRecordVariableLengthSettingsController_internal_copyOfSettingsControllerForInstance( database_record_settings_controller->record_variable_length_settings_controller );
+		database_record_settings_controller->record_variable_length_settings_controller								=	Rbdb_DatabaseRecordVariableLengthSettingsController_internal_copyOfSettingsControllerForInstance( database_record_settings_controller->record_variable_length_settings_controller );
 		database_record_settings_controller->record_variable_length_settings_controller->parent_database_record_settings_controller	=	database_record_settings_controller_copy;
 	}
 

@@ -1,5 +1,5 @@
 /*
- *		RPDB::ReplicationController
+ *		Rbdb::ReplicationController
  *
  *	
  */
@@ -10,20 +10,20 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_ReplicationController.h"
+#include "Rbdb_ReplicationController.h"
 
-#include "RPDB_RemoteSite.h"
+#include "Rbdb_RemoteSite.h"
 
-#include "RPDB_Environment.h"
+#include "Rbdb_Environment.h"
 
-#include "RPDB_LogSequenceNumber.h"
+#include "Rbdb_LogSequenceNumber.h"
 
-#include "RPDB_Record.h"
+#include "Rbdb_Record.h"
 
-#include "RPDB_SettingsController.h"
-#include "RPDB_ReplicationSettingsController.h"
-#include "RPDB_ReplicationSettingsController_internal.h"
-#include "RPDB_ReplicationElectionSettingsController.h"
+#include "Rbdb_SettingsController.h"
+#include "Rbdb_ReplicationSettingsController.h"
+#include "Rbdb_ReplicationSettingsController_internal.h"
+#include "Rbdb_ReplicationElectionSettingsController.h"
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -35,13 +35,13 @@
 *  new  *
 *************/
 
-RPDB_ReplicationController* RPDB_ReplicationController_new( RPDB_Environment* environment )	{
+Rbdb_ReplicationController* Rbdb_ReplicationController_new( Rbdb_Environment* environment )	{
 	
-	RPDB_ReplicationController*		replication_controller = calloc( 1, sizeof( RPDB_ReplicationController ) );
+	Rbdb_ReplicationController*		replication_controller = calloc( 1, sizeof( Rbdb_ReplicationController ) );
 
 	replication_controller->parent_environment = environment;
 	
-	RPDB_ReplicationController_initReplicationID( replication_controller );
+	Rbdb_ReplicationController_initReplicationID( replication_controller );
 
 	return replication_controller;
 }
@@ -49,7 +49,7 @@ RPDB_ReplicationController* RPDB_ReplicationController_new( RPDB_Environment* en
 /***************************
 *  free  *
 ***************************/
-void RPDB_ReplicationController_free(	RPDB_ReplicationController** replication_controller )	{
+void Rbdb_ReplicationController_free(	Rbdb_ReplicationController** replication_controller )	{
 
 	free( *replication_controller );
 	*replication_controller	=	NULL;
@@ -58,14 +58,14 @@ void RPDB_ReplicationController_free(	RPDB_ReplicationController** replication_c
 /***************************
 *  settingsController  *
 ***************************/
-RPDB_ReplicationSettingsController* RPDB_ReplicationController_settingsController(	RPDB_ReplicationController* replication_controller )	{
+Rbdb_ReplicationSettingsController* Rbdb_ReplicationController_settingsController(	Rbdb_ReplicationController* replication_controller )	{
 	return replication_controller->settings_controller;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_ReplicationController_parentEnvironment(	RPDB_ReplicationController* replication_controller )	{
+Rbdb_Environment* Rbdb_ReplicationController_parentEnvironment(	Rbdb_ReplicationController* replication_controller )	{
 	return replication_controller->parent_environment;
 }
 
@@ -77,7 +77,7 @@ RPDB_Environment* RPDB_ReplicationController_parentEnvironment(	RPDB_Replication
 //	Each replication controller needs unique IDs for every environment with which it replicates;
 //	multiple environmental replication controllers may have different unique IDs for the same remote environments.
 //	So A may see B, C, D wheras B might refer to A, C, D as E, F, G. This is acceptable, but not required.
-RPDB_ReplicationController* RPDB_ReplicationController_initReplicationID(	RPDB_ReplicationController*	replication_controller )	{
+Rbdb_ReplicationController* Rbdb_ReplicationController_initReplicationID(	Rbdb_ReplicationController*	replication_controller )	{
 
 	return replication_controller;
 }
@@ -88,14 +88,14 @@ RPDB_ReplicationController* RPDB_ReplicationController_initReplicationID(	RPDB_R
 
 //	In addition to specified message processing threads, the replication manager creates and manages a few of its own threads of control.
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/repmgr_start.html
-RPDB_ReplicationController* RPDB_ReplicationController_start(	RPDB_ReplicationController*	replication_controller,
+Rbdb_ReplicationController* Rbdb_ReplicationController_start(	Rbdb_ReplicationController*	replication_controller,
  																int								number_of_threads_for_message_processing	)	{
 	
-	RPDB_Environment*	environment	= replication_controller->parent_environment;
+	Rbdb_Environment*	environment	= replication_controller->parent_environment;
 	
 	environment->wrapped_bdb_environment->repmgr_start(	environment->wrapped_bdb_environment,
 								number_of_threads_for_message_processing,
-								RPDB_ReplicationSettingsController_internal_startFlags( RPDB_SettingsController_replicationSettingsController( RPDB_Environment_settingsController( environment ) ) ) );
+								Rbdb_ReplicationSettingsController_internal_startFlags( Rbdb_SettingsController_replicationSettingsController( Rbdb_Environment_settingsController( environment ) ) ) );
 
 	return replication_controller;
 }
@@ -109,14 +109,14 @@ RPDB_ReplicationController* RPDB_ReplicationController_start(	RPDB_ReplicationCo
 //	then the ret_lsnp parameter will contain largest log sequence number of the permanent records that are now written to disk 
 //	as a result of processing this message. In all other cases the value of ret_lsnp is undefined.
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_message.html
-void RPDB_ReplicationController_processMessage(	RPDB_ReplicationController*		replication_controller,
- 													RPDB_Record*						control_record,
-													RPDB_Record*						replication_record	)	{
+void Rbdb_ReplicationController_processMessage(	Rbdb_ReplicationController*		replication_controller,
+ 													Rbdb_Record*						control_record,
+													Rbdb_Record*						replication_record	)	{
 	
 	DB_ENV*	environment	= replication_controller->parent_environment->wrapped_bdb_environment;
 	
 	//	return_lsn will only be defined for DB_REP_ISPERM and DB_REP_NOTPERM
-	RPDB_LogSequenceNumber*	return_lsn	= RPDB_LogSequenceNumber_new( NULL );
+	Rbdb_LogSequenceNumber*	return_lsn	= Rbdb_LogSequenceNumber_new( NULL );
 	
 	switch (	environment->rep_process_message(	environment,
 													control_record->data->wrapped_bdb_dbt,
@@ -129,16 +129,16 @@ void RPDB_ReplicationController_processMessage(	RPDB_ReplicationController*		rep
 		case DB_REP_DUPMASTER:
 
 			//	return_lsn is undefined in this case
-			RPDB_LogSequenceNumber_free( & return_lsn );
+			Rbdb_LogSequenceNumber_free( & return_lsn );
 
 			//	Reconfigure as client
-			//	RPDB_ReplicationSettingsController_setIsClient()
-			//	RPDB_ReplicationController_start() - how many threads? do we have to do anything special to re-start?
+			//	Rbdb_ReplicationSettingsController_setIsClient()
+			//	Rbdb_ReplicationController_start() - how many threads? do we have to do anything special to re-start?
 			
 			//	Call callback method for additional processing of duplicate masters pre-election
 
 			//	Call for election
-			RPDB_ReplicationController_callElection( replication_controller );
+			Rbdb_ReplicationController_callElection( replication_controller );
 			
 			//	Call callback method for additional processing of duplicate masters post-election
 
@@ -149,12 +149,12 @@ void RPDB_ReplicationController_processMessage(	RPDB_ReplicationController*		rep
 		case DB_REP_HOLDELECTION:
 
 			//	return_lsn is undefined in this case
-			RPDB_LogSequenceNumber_free( & return_lsn );
+			Rbdb_LogSequenceNumber_free( & return_lsn );
 
 			//	Call callback method for additional processing prior to election
 
 			//	Call for election
-			RPDB_ReplicationController_callElection( replication_controller );
+			Rbdb_ReplicationController_callElection( replication_controller );
 
 			//	Call callback method for additional processing post election
 
@@ -166,7 +166,7 @@ void RPDB_ReplicationController_processMessage(	RPDB_ReplicationController*		rep
 		case DB_REP_IGNORE:
 
 			//	return_lsn is undefined in this case
-			RPDB_LogSequenceNumber_free( & return_lsn );
+			Rbdb_LogSequenceNumber_free( & return_lsn );
 			
 			//	Call callback method for processing for messages that are to be ignored
 			
@@ -176,7 +176,7 @@ void RPDB_ReplicationController_processMessage(	RPDB_ReplicationController*		rep
 		//	The maximum LSN of the permanent records stored is returned.
 		case DB_REP_ISPERM:
 
-//			RPDB_LogSequenceNumber*	lsn_for_largest_permanent_record_written = return_lsn;
+//			Rbdb_LogSequenceNumber*	lsn_for_largest_permanent_record_written = return_lsn;
 
 			//	Call callback method for processing of messages relating to processing of permanent records
 
@@ -187,7 +187,7 @@ void RPDB_ReplicationController_processMessage(	RPDB_ReplicationController*		rep
 		case DB_REP_JOIN_FAILURE:
 
 			//	return_lsn is undefined in this case
-			RPDB_LogSequenceNumber_free( & return_lsn );
+			Rbdb_LogSequenceNumber_free( & return_lsn );
 
 			//	Call callback method for post-election synchronization failure
 
@@ -199,7 +199,7 @@ void RPDB_ReplicationController_processMessage(	RPDB_ReplicationController*		rep
 		case DB_REP_NEWSITE:
 	
 			//	return_lsn is undefined in this case
-			RPDB_LogSequenceNumber_free( & return_lsn );
+			Rbdb_LogSequenceNumber_free( & return_lsn );
 		
 			//	Call callback to establish communication channel with new environment
 			
@@ -210,7 +210,7 @@ void RPDB_ReplicationController_processMessage(	RPDB_ReplicationController*		rep
 		//	to retain its recoverability characteristics.
 		case DB_REP_NOTPERM:
 			
-//			RPDB_LogSequenceNumber*	lsn_for_unwritable_permanent_record = return_lsn;
+//			Rbdb_LogSequenceNumber*	lsn_for_unwritable_permanent_record = return_lsn;
 			
 			//	Call callback to retain recoverability characteristics
 			
@@ -220,7 +220,7 @@ void RPDB_ReplicationController_processMessage(	RPDB_ReplicationController*		rep
 		default:
 			
 			//	return_lsn is undefined in this case
-			RPDB_LogSequenceNumber_free( & return_lsn );
+			Rbdb_LogSequenceNumber_free( & return_lsn );
 			
 			//	Call error function to resolve the error
 			
@@ -233,12 +233,12 @@ void RPDB_ReplicationController_processMessage(	RPDB_ReplicationController*		rep
 *************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_sync.html
-void RPDB_ReplicationController_sync( RPDB_ReplicationController* replication_controller )	{
+void Rbdb_ReplicationController_sync( Rbdb_ReplicationController* replication_controller )	{
 
-	RPDB_Environment*	environment	= replication_controller->parent_environment;
+	Rbdb_Environment*	environment	= replication_controller->parent_environment;
 
 	environment->wrapped_bdb_environment->rep_sync(	environment->wrapped_bdb_environment,
-							RPDB_ReplicationSettingsController_internal_syncFlags( RPDB_SettingsController_replicationSettingsController(RPDB_Environment_settingsController(environment)) ) );
+							Rbdb_ReplicationSettingsController_internal_syncFlags( Rbdb_SettingsController_replicationSettingsController(Rbdb_Environment_settingsController(environment)) ) );
 }
 
 /*********************
@@ -246,20 +246,20 @@ void RPDB_ReplicationController_sync( RPDB_ReplicationController* replication_co
 *********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/rep_elect.html
-void RPDB_ReplicationController_callElection( RPDB_ReplicationController* replication_controller )	{
+void Rbdb_ReplicationController_callElection( Rbdb_ReplicationController* replication_controller )	{
 	
-	RPDB_Environment*	environment	= replication_controller->parent_environment;
+	Rbdb_Environment*	environment	= replication_controller->parent_environment;
 
 	environment->wrapped_bdb_environment->rep_elect(	environment->wrapped_bdb_environment,
-							RPDB_ReplicationElectionSettingsController_numberOfSitesRequiredForElection(
-								RPDB_ReplicationSettingsController_electionSettingsController(
-								RPDB_SettingsController_replicationSettingsController(
-									RPDB_Environment_settingsController( environment ) ) ) ),
-							RPDB_ReplicationElectionSettingsController_numberOfVotesRequiredForElection(
-									 RPDB_ReplicationSettingsController_electionSettingsController(
-										RPDB_SettingsController_replicationSettingsController(
-											RPDB_Environment_settingsController( environment ) ) ) ),
-							RPDB_ReplicationSettingsController_internal_callElectionFlags( RPDB_SettingsController_replicationSettingsController( RPDB_Environment_settingsController( environment ) ) ) );
+							Rbdb_ReplicationElectionSettingsController_numberOfSitesRequiredForElection(
+								Rbdb_ReplicationSettingsController_electionSettingsController(
+								Rbdb_SettingsController_replicationSettingsController(
+									Rbdb_Environment_settingsController( environment ) ) ) ),
+							Rbdb_ReplicationElectionSettingsController_numberOfVotesRequiredForElection(
+									 Rbdb_ReplicationSettingsController_electionSettingsController(
+										Rbdb_SettingsController_replicationSettingsController(
+											Rbdb_Environment_settingsController( environment ) ) ) ),
+							Rbdb_ReplicationSettingsController_internal_callElectionFlags( Rbdb_SettingsController_replicationSettingsController( Rbdb_Environment_settingsController( environment ) ) ) );
 }
 
 /*********************
@@ -267,13 +267,13 @@ void RPDB_ReplicationController_callElection( RPDB_ReplicationController* replic
 *********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/repmgr_remote_site.html
-RPDB_RemoteSite* RPDB_ReplicationController_addRemoteSite(	RPDB_ReplicationController*	replication_controller,
+Rbdb_RemoteSite* Rbdb_ReplicationController_addRemoteSite(	Rbdb_ReplicationController*	replication_controller,
  																char*							remote_host,
 																u_int							remote_port	)	{
 	
-	RPDB_Environment*	environment	= replication_controller->parent_environment;
+	Rbdb_Environment*	environment	= replication_controller->parent_environment;
 	
-	RPDB_RemoteSite*	remote_site	= RPDB_RemoteSite_new( replication_controller );
+	Rbdb_RemoteSite*	remote_site	= Rbdb_RemoteSite_new( replication_controller );
 	
 	remote_site->host	= remote_host;
 	remote_site->port	= remote_port;
@@ -282,7 +282,7 @@ RPDB_RemoteSite* RPDB_ReplicationController_addRemoteSite(	RPDB_ReplicationContr
 											remote_site->host,
 											remote_site->port,
 											&( remote_site->replication_environment_id ),
-											RPDB_ReplicationSettingsController_internal_addRemoteSiteFlags( RPDB_SettingsController_replicationSettingsController( RPDB_Environment_settingsController( environment ) ) ) );
+											Rbdb_ReplicationSettingsController_internal_addRemoteSiteFlags( Rbdb_SettingsController_replicationSettingsController( Rbdb_Environment_settingsController( environment ) ) ) );
 	return remote_site;
 }
 
@@ -291,7 +291,7 @@ RPDB_RemoteSite* RPDB_ReplicationController_addRemoteSite(	RPDB_ReplicationContr
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/repmgr_site_list.html
-RPDB_RemoteSite** RPDB_ReplicationController_siteList( RPDB_ReplicationController* replication_controller )	{
+Rbdb_RemoteSite** Rbdb_ReplicationController_siteList( Rbdb_ReplicationController* replication_controller )	{
 	
 	DB_ENV*				environment				= replication_controller->parent_environment->wrapped_bdb_environment;
 	
@@ -303,13 +303,13 @@ RPDB_RemoteSite** RPDB_ReplicationController_siteList( RPDB_ReplicationControlle
 									&( replication_controller->site_count ),
 									bdb_remote_site_list );
 	
-	replication_controller->remote_site_list	=	calloc(	replication_controller->site_count, sizeof( RPDB_RemoteSite ) );
+	replication_controller->remote_site_list	=	calloc(	replication_controller->site_count, sizeof( Rbdb_RemoteSite ) );
 
-	//	Copy information over to our RPDB structs
+	//	Copy information over to our Rbdb structs
 	for ( site_iterator = 0 ; site_iterator < replication_controller->site_count ; site_iterator++ )	{
 		
 		//	Temporary pointers inside our arrays
-		RPDB_RemoteSite*	this_remote_site			= replication_controller->remote_site_list[		site_iterator ];
+		Rbdb_RemoteSite*	this_remote_site			= replication_controller->remote_site_list[		site_iterator ];
 		DB_REPMGR_SITE*		this_bdb_remote_site		= bdb_remote_site_list[	site_iterator ];
 		
 		this_remote_site->replication_environment_id	=	this_bdb_remote_site->eid;

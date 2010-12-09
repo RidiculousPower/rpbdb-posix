@@ -1,29 +1,29 @@
 /*
- *		RPDB::JoinController
+ *		Rbdb::JoinController
  *
  *
  */
 
-#ifndef RPDB_JOINCONTROLLER
-	#define RPDB_JOINCONTROLLER
+#ifndef Rbdb_JOINCONTROLLER
+	#define Rbdb_JOINCONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 	
 	/****************
 	*  Prototypes  *
 	****************/
 
-RPDB_DatabaseJoinController* RPDB_DatabaseJoinController_new( RPDB_Database* parent_database );
+Rbdb_DatabaseJoinController* Rbdb_DatabaseJoinController_new( Rbdb_Database* parent_database );
 
-	void							RPDB_DatabaseJoinController_free(	RPDB_DatabaseJoinController** join_controller );
-	RPDB_DatabaseJoinSettingsController*	RPDB_DatabaseJoinController_settingsController(	RPDB_DatabaseJoinController* join_controller );
-RPDB_Database* RPDB_DatabaseJoinController_parentDatabase(	RPDB_DatabaseJoinController* join_controller );
-	RPDB_Environment*		RPDB_DatabaseJoinController_parentEnvironment(	RPDB_DatabaseJoinController* join_controller );
+	void							Rbdb_DatabaseJoinController_free(	Rbdb_DatabaseJoinController** join_controller );
+	Rbdb_DatabaseJoinSettingsController*	Rbdb_DatabaseJoinController_settingsController(	Rbdb_DatabaseJoinController* join_controller );
+Rbdb_Database* Rbdb_DatabaseJoinController_parentDatabase(	Rbdb_DatabaseJoinController* join_controller );
+	Rbdb_Environment*		Rbdb_DatabaseJoinController_parentEnvironment(	Rbdb_DatabaseJoinController* join_controller );
 
-	RPDB_DatabaseJoinCursor*				RPDB_DatabaseJoinController_join(					RPDB_DatabaseJoinController*			join_cursor_controller,
-																				RPDB_DatabaseCursor**			cursor_list );
-	void							RPDB_DatabaseJoinController_closeAllCursors(		RPDB_DatabaseJoinController*			join_controller );
-	void							RPDB_DatabaseJoinController_freeAllCursors(		RPDB_DatabaseJoinController*			join_controller );
+	Rbdb_DatabaseJoinCursor*				Rbdb_DatabaseJoinController_join(					Rbdb_DatabaseJoinController*			join_cursor_controller,
+																				Rbdb_DatabaseCursor**			cursor_list );
+	void							Rbdb_DatabaseJoinController_closeAllCursors(		Rbdb_DatabaseJoinController*			join_controller );
+	void							Rbdb_DatabaseJoinController_freeAllCursors(		Rbdb_DatabaseJoinController*			join_controller );
 
 #endif
 

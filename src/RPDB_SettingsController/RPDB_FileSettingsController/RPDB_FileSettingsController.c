@@ -1,5 +1,5 @@
 /*
- *		RPDB::SettingsController::FileSettingsController
+ *		Rbdb::SettingsController::FileSettingsController
  *
  *
  */
@@ -10,10 +10,10 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_FileSettingsController.h"
+#include "Rbdb_FileSettingsController.h"
 
-#include "RPDB_Environment.h"
-#include "RPDB_FileVerbositySettingsController.h"
+#include "Rbdb_Environment.h"
+#include "Rbdb_FileVerbositySettingsController.h"
  
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -25,9 +25,9 @@
 *  new  *
 *************/
 
-RPDB_FileSettingsController* RPDB_FileSettingsController_new( RPDB_SettingsController* settings_controller )	{
+Rbdb_FileSettingsController* Rbdb_FileSettingsController_new( Rbdb_SettingsController* settings_controller )	{
 
-	RPDB_FileSettingsController*		file_settings_controller = calloc( 1, sizeof( RPDB_FileSettingsController ) );
+	Rbdb_FileSettingsController*		file_settings_controller = calloc( 1, sizeof( Rbdb_FileSettingsController ) );
 
 	file_settings_controller->parent_settings_controller = settings_controller;
 
@@ -37,10 +37,10 @@ RPDB_FileSettingsController* RPDB_FileSettingsController_new( RPDB_SettingsContr
 /***************************
 *  free  *
 ***************************/
-void RPDB_FileSettingsController_free(	RPDB_FileSettingsController** file_settings_controller )	{
+void Rbdb_FileSettingsController_free(	Rbdb_FileSettingsController** file_settings_controller )	{
 
 	if ( ( *file_settings_controller )->verbosity_settings_controller != NULL )	{
-		RPDB_FileVerbositySettingsController_free( & ( ( *file_settings_controller )->verbosity_settings_controller ) );
+		Rbdb_FileVerbositySettingsController_free( & ( ( *file_settings_controller )->verbosity_settings_controller ) );
 	}
 	
 	free( *file_settings_controller );
@@ -50,7 +50,7 @@ void RPDB_FileSettingsController_free(	RPDB_FileSettingsController** file_settin
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_FileSettingsController_parentEnvironment(	RPDB_FileSettingsController* file_settings_controller )	{
+Rbdb_Environment* Rbdb_FileSettingsController_parentEnvironment(	Rbdb_FileSettingsController* file_settings_controller )	{
 	return file_settings_controller->parent_settings_controller->parent_environment;
 }
 
@@ -59,11 +59,11 @@ RPDB_Environment* RPDB_FileSettingsController_parentEnvironment(	RPDB_FileSettin
 *********************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_intermediate_dir_mode.html
-char* RPDB_FileSettingsController_intermediateDirectoryMode( RPDB_FileSettingsController* file_settings_controller )	{
+char* Rbdb_FileSettingsController_intermediateDirectoryMode( Rbdb_FileSettingsController* file_settings_controller )	{
 
 	if ( file_settings_controller->intermediate_directory_mode == NULL )	{
 
-		RPDB_Environment*	environment = file_settings_controller->parent_settings_controller->parent_environment;
+		Rbdb_Environment*	environment = file_settings_controller->parent_settings_controller->parent_environment;
 
 		if ( environment->wrapped_bdb_environment != NULL )	{
 			environment->wrapped_bdb_environment->get_intermediate_dir_mode(	environment->wrapped_bdb_environment, 
@@ -79,9 +79,9 @@ char* RPDB_FileSettingsController_intermediateDirectoryMode( RPDB_FileSettingsCo
 *************************************/
 
 //	9 character string for unix-style directory permissions
-void RPDB_FileSettingsController_setIntermediateDirectoryMode( RPDB_FileSettingsController* file_settings_controller, const char* mode )	{
+void Rbdb_FileSettingsController_setIntermediateDirectoryMode( Rbdb_FileSettingsController* file_settings_controller, const char* mode )	{
 
-	RPDB_Environment*			environment	= file_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*			environment	= file_settings_controller->parent_settings_controller->parent_environment;
 
 	file_settings_controller->intermediate_directory_mode	=	(char*) mode;
 
@@ -96,9 +96,9 @@ void RPDB_FileSettingsController_setIntermediateDirectoryMode( RPDB_FileSettings
 *********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_tmp_dir.html
-char* RPDB_FileSettingsController_tempDirectory( RPDB_FileSettingsController* file_settings_controller )	{
+char* Rbdb_FileSettingsController_tempDirectory( Rbdb_FileSettingsController* file_settings_controller )	{
 
-	RPDB_Environment*			environment;
+	Rbdb_Environment*			environment;
 
 	if ( file_settings_controller->temp_directory == NULL )	{
 
@@ -117,9 +117,9 @@ char* RPDB_FileSettingsController_tempDirectory( RPDB_FileSettingsController* fi
 *  setTempDirectory  *
 *************************/
 
-void RPDB_FileSettingsController_setTempDirectory( RPDB_FileSettingsController* file_settings_controller, const char* temp_directory )	{
+void Rbdb_FileSettingsController_setTempDirectory( Rbdb_FileSettingsController* file_settings_controller, const char* temp_directory )	{
 
-	RPDB_Environment*			environment;
+	Rbdb_Environment*			environment;
 
 	environment = file_settings_controller->parent_settings_controller->parent_environment;
 
@@ -135,7 +135,7 @@ void RPDB_FileSettingsController_setTempDirectory( RPDB_FileSettingsController* 
 *********************************/
 
 //	DB_USE_ENVIRON          http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
-int RPDB_FileSettingsController_permitEnvironmentBasedFileNaming( RPDB_FileSettingsController* file_settings_controller )	{
+int Rbdb_FileSettingsController_permitEnvironmentBasedFileNaming( Rbdb_FileSettingsController* file_settings_controller )	{
 
 	if ( file_settings_controller->permit_environment_based_file_naming == TRUE )	{
 		return DB_USE_ENVIRON;
@@ -147,7 +147,7 @@ int RPDB_FileSettingsController_permitEnvironmentBasedFileNaming( RPDB_FileSetti
 	*  turnPermitEnvironmentNamingOn  *
 	*************************************/
 
-	void RPDB_FileSettingsController_turnPermitEnvironmentBasedFileNamingOn( RPDB_FileSettingsController* file_settings_controller )	{
+	void Rbdb_FileSettingsController_turnPermitEnvironmentBasedFileNamingOn( Rbdb_FileSettingsController* file_settings_controller )	{
 		file_settings_controller->permit_environment_based_file_naming = TRUE;
 	}
 
@@ -155,7 +155,7 @@ int RPDB_FileSettingsController_permitEnvironmentBasedFileNaming( RPDB_FileSetti
 	*  turnPermitEnvironmentNamingOff  *
 	*************************************/
 
-	void RPDB_FileSettingsController_turnPermitEnvironmentBasedFileNamingOff( RPDB_FileSettingsController* file_settings_controller )	{
+	void Rbdb_FileSettingsController_turnPermitEnvironmentBasedFileNamingOff( Rbdb_FileSettingsController* file_settings_controller )	{
 		file_settings_controller->permit_environment_based_file_naming = FALSE;
 	}
 
@@ -164,7 +164,7 @@ int RPDB_FileSettingsController_permitEnvironmentBasedFileNaming( RPDB_FileSetti
 ****************************/
 
 //	DB_USE_ENVIRON_ROOT     http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
-int RPDB_FileSettingsController_useEnvironmentHomePermissionsForFileNaming( RPDB_FileSettingsController* file_settings_controller )	{
+int Rbdb_FileSettingsController_useEnvironmentHomePermissionsForFileNaming( Rbdb_FileSettingsController* file_settings_controller )	{
 
 	if ( file_settings_controller->use_environment_home_permissions_for_file_naming == TRUE )	{
 		return DB_USE_ENVIRON_ROOT;	
@@ -176,7 +176,7 @@ int RPDB_FileSettingsController_useEnvironmentHomePermissionsForFileNaming( RPDB
 	*  turnUseEnvironmentHomeOn  *
 	*********************************/
 
-	void RPDB_FileSettingsController_turnUseEnvironmentHomePermissionsForFileNamingOn( RPDB_FileSettingsController* file_settings_controller )	{
+	void Rbdb_FileSettingsController_turnUseEnvironmentHomePermissionsForFileNamingOn( Rbdb_FileSettingsController* file_settings_controller )	{
 		file_settings_controller->use_environment_home_permissions_for_file_naming = TRUE;
 	}
 
@@ -184,7 +184,7 @@ int RPDB_FileSettingsController_useEnvironmentHomePermissionsForFileNaming( RPDB
 	*  turnUseEnvironmentHomeOff  *
 	*********************************/
 
-	void RPDB_FileSettingsController_turnUseEnvironmentHomePermissionsForFileNamingOff( RPDB_FileSettingsController* file_settings_controller )	{
+	void Rbdb_FileSettingsController_turnUseEnvironmentHomePermissionsForFileNamingOff( Rbdb_FileSettingsController* file_settings_controller )	{
 		file_settings_controller->use_environment_home_permissions_for_file_naming = FALSE;
 	}
 
@@ -193,7 +193,7 @@ int RPDB_FileSettingsController_useEnvironmentHomePermissionsForFileNaming( RPDB
 *********************************/
 
 //	DB_CREATE               http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
-int RPDB_FileSettingsController_createIfNecessary( RPDB_FileSettingsController* file_settings_controller )	{
+int Rbdb_FileSettingsController_createIfNecessary( Rbdb_FileSettingsController* file_settings_controller )	{
 
 	if ( file_settings_controller->create_if_necessary == TRUE )	{
 		return DB_CREATE;
@@ -205,7 +205,7 @@ int RPDB_FileSettingsController_createIfNecessary( RPDB_FileSettingsController* 
 	*  turnCreateIfNecessaryOn  *
 	*************************************/
 
-	void RPDB_FileSettingsController_turnCreateIfNecessaryOn( RPDB_FileSettingsController* file_settings_controller )	{
+	void Rbdb_FileSettingsController_turnCreateIfNecessaryOn( Rbdb_FileSettingsController* file_settings_controller )	{
 		file_settings_controller->create_if_necessary = TRUE;
 	}
 
@@ -213,7 +213,7 @@ int RPDB_FileSettingsController_createIfNecessary( RPDB_FileSettingsController* 
 	*  turnCreateIfNecessaryOff  *
 	**************************************/
 
-	void RPDB_FileSettingsController_turnCreateIfNecessaryOff( RPDB_FileSettingsController* file_settings_controller )	{
+	void Rbdb_FileSettingsController_turnCreateIfNecessaryOff( Rbdb_FileSettingsController* file_settings_controller )	{
 		file_settings_controller->create_if_necessary = FALSE;
 	}
 
@@ -222,7 +222,7 @@ int RPDB_FileSettingsController_createIfNecessary( RPDB_FileSettingsController* 
 **************************************/
 
 //	DB_EXCL					http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_open.html
-int RPDB_FileSettingsController_isErrorIfDBExistsBeforeCreate( RPDB_FileSettingsController* file_settings_controller )	{
+int Rbdb_FileSettingsController_isErrorIfDBExistsBeforeCreate( Rbdb_FileSettingsController* file_settings_controller )	{
 
 	if ( file_settings_controller->error_if_exists_on_create == TRUE )	{
 		return DB_EXCL;
@@ -234,7 +234,7 @@ int RPDB_FileSettingsController_isErrorIfDBExistsBeforeCreate( RPDB_FileSettings
 	*  turnIsErrorIfDBExistsBeforeCreateOn  *
 	********************************************/
 
-	void RPDB_FileSettingsController_turnIsErrorIfDBExistsBeforeCreateOn( RPDB_FileSettingsController* file_settings_controller )	{
+	void Rbdb_FileSettingsController_turnIsErrorIfDBExistsBeforeCreateOn( Rbdb_FileSettingsController* file_settings_controller )	{
 		file_settings_controller->error_if_exists_on_create = TRUE;
 	}
 
@@ -242,7 +242,7 @@ int RPDB_FileSettingsController_isErrorIfDBExistsBeforeCreate( RPDB_FileSettings
 	*  turnIsErrorIfDBExistsBeforeCreateOff  *
 	*********************************************/
 
-	void RPDB_FileSettingsController_turnIsErrorIfDBExistsBeforeCreateOff( RPDB_FileSettingsController* file_settings_controller )	{
+	void Rbdb_FileSettingsController_turnIsErrorIfDBExistsBeforeCreateOff( Rbdb_FileSettingsController* file_settings_controller )	{
 		file_settings_controller->error_if_exists_on_create = FALSE;
 	}
 
@@ -251,7 +251,7 @@ int RPDB_FileSettingsController_isErrorIfDBExistsBeforeCreate( RPDB_FileSettings
 *************************/
 
 //	DB_RDONLY					http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_open.html
-int RPDB_FileSettingsController_openReadOnly( RPDB_FileSettingsController* file_settings_controller )	{
+int Rbdb_FileSettingsController_openReadOnly( Rbdb_FileSettingsController* file_settings_controller )	{
 
 	if ( file_settings_controller->open_read_only == TRUE )	{
 		return DB_RDONLY;
@@ -263,7 +263,7 @@ int RPDB_FileSettingsController_openReadOnly( RPDB_FileSettingsController* file_
 	*  turnOpenReadOnlyOn  *
 	********************************/
 
-	void RPDB_FileSettingsController_turnOpenReadOnlyOn( RPDB_FileSettingsController* file_settings_controller )	{
+	void Rbdb_FileSettingsController_turnOpenReadOnlyOn( Rbdb_FileSettingsController* file_settings_controller )	{
 		file_settings_controller->open_read_only = TRUE;
 	}
 
@@ -271,7 +271,7 @@ int RPDB_FileSettingsController_openReadOnly( RPDB_FileSettingsController* file_
 	*  turnOpenReadOnlyOff  *
 	********************************/
 
-	void RPDB_FileSettingsController_turnOpenReadOnlyOff( RPDB_FileSettingsController* file_settings_controller )	{
+	void Rbdb_FileSettingsController_turnOpenReadOnlyOff( Rbdb_FileSettingsController* file_settings_controller )	{
 		file_settings_controller->open_read_only = FALSE;
 	}
 
@@ -280,7 +280,7 @@ int RPDB_FileSettingsController_openReadOnly( RPDB_FileSettingsController* file_
 *************************/
 
 //	DB_FORCE				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_remove.html
-int RPDB_FileSettingsController_forceRemoval( RPDB_FileSettingsController* file_settings_controller )	{
+int Rbdb_FileSettingsController_forceRemoval( Rbdb_FileSettingsController* file_settings_controller )	{
 
 	if ( file_settings_controller->force_removal == TRUE )	{
 		return DB_FORCE;
@@ -292,7 +292,7 @@ int RPDB_FileSettingsController_forceRemoval( RPDB_FileSettingsController* file_
 	*  turnForceRemovalOn  *
 	*********************************/
 
-	void RPDB_FileSettingsController_turnForceRemovalOn( RPDB_FileSettingsController* file_settings_controller )	{
+	void Rbdb_FileSettingsController_turnForceRemovalOn( Rbdb_FileSettingsController* file_settings_controller )	{
 		file_settings_controller->force_removal = TRUE;
 	}
 
@@ -300,7 +300,7 @@ int RPDB_FileSettingsController_forceRemoval( RPDB_FileSettingsController* file_
 	*  turnForceRemovalOff  *
 	*********************************/
 
-	void RPDB_FileSettingsController_turnForceRemovalOff( RPDB_FileSettingsController* file_settings_controller )	{
+	void Rbdb_FileSettingsController_turnForceRemovalOff( Rbdb_FileSettingsController* file_settings_controller )	{
 		file_settings_controller->force_removal = FALSE;
 	}
 
@@ -308,7 +308,7 @@ int RPDB_FileSettingsController_forceRemoval( RPDB_FileSettingsController* file_
 *  fileCreationMode  *
 *************************/
 
-int RPDB_FileSettingsController_fileCreationMode( RPDB_FileSettingsController* file_settings_controller )	{
+int Rbdb_FileSettingsController_fileCreationMode( Rbdb_FileSettingsController* file_settings_controller )	{
 
 	return file_settings_controller->file_creation_mode;
 }
@@ -317,7 +317,7 @@ int RPDB_FileSettingsController_fileCreationMode( RPDB_FileSettingsController* f
 *  setFileCreationMode  *
 ****************************/
 
-void RPDB_FileSettingsController_setFileCreationMode(	RPDB_FileSettingsController*	file_settings_controller,
+void Rbdb_FileSettingsController_setFileCreationMode(	Rbdb_FileSettingsController*	file_settings_controller,
  														int								mode	)	{
 	file_settings_controller->file_creation_mode = mode;
 }
@@ -326,11 +326,11 @@ void RPDB_FileSettingsController_setFileCreationMode(	RPDB_FileSettingsControlle
 *  verbositySettingsController  *
 *************************************/
 
-RPDB_FileVerbositySettingsController* RPDB_FileSettingsController_verbositySettingsController( RPDB_FileSettingsController* file_settings_controller )	{
+Rbdb_FileVerbositySettingsController* Rbdb_FileSettingsController_verbositySettingsController( Rbdb_FileSettingsController* file_settings_controller )	{
 
 	if ( file_settings_controller->verbosity_settings_controller == NULL )	{
 	
-		file_settings_controller->verbosity_settings_controller = RPDB_FileVerbositySettingsController_new( file_settings_controller );
+		file_settings_controller->verbosity_settings_controller = Rbdb_FileVerbositySettingsController_new( file_settings_controller );
 	}
 	
 	return file_settings_controller->verbosity_settings_controller;
@@ -345,9 +345,9 @@ RPDB_FileVerbositySettingsController* RPDB_FileSettingsController_verbositySetti
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_FileSettingsController* RPDB_FileSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_FileSettingsController* file_settings_controller )	{
+Rbdb_FileSettingsController* Rbdb_FileSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_FileSettingsController* file_settings_controller )	{
 
-	RPDB_FileSettingsController* file_settings_controller_copy	=	RPDB_FileSettingsController_new( file_settings_controller->parent_settings_controller );
+	Rbdb_FileSettingsController* file_settings_controller_copy	=	Rbdb_FileSettingsController_new( file_settings_controller->parent_settings_controller );
 
 	//	Instances and Pointers
 	file_settings_controller_copy->create_if_necessary	=	file_settings_controller->create_if_necessary;

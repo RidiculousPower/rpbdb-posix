@@ -1,30 +1,30 @@
 /*
- *		RPDB::SettingsController::FileSettingsController
+ *		Rbdb::SettingsController::FileSettingsController
  *
  *
  */
  
-#ifndef RPDB_FILE_VERBOSITY_SETTINGS_CONTROLLER
-	#define RPDB_FILE_VERBOSITY_SETTINGS_CONTROLLER
+#ifndef Rbdb_FILE_VERBOSITY_SETTINGS_CONTROLLER
+	#define Rbdb_FILE_VERBOSITY_SETTINGS_CONTROLLER
 	 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_FileVerbositySettingsController*		RPDB_FileVerbositySettingsController_new(																		RPDB_FileSettingsController*			file_settings_controller );
+	Rbdb_FileVerbositySettingsController*		Rbdb_FileVerbositySettingsController_new(																		Rbdb_FileSettingsController*			file_settings_controller );
 
-	void										RPDB_FileVerbositySettingsController_free(																RPDB_FileVerbositySettingsController** file_verbosity_settings_controller );
-	RPDB_Environment*					RPDB_FileVerbositySettingsController_parentEnvironment(									RPDB_FileVerbositySettingsController* file_verbosity_settings_controller );
+	void										Rbdb_FileVerbositySettingsController_free(																Rbdb_FileVerbositySettingsController** file_verbosity_settings_controller );
+	Rbdb_Environment*					Rbdb_FileVerbositySettingsController_parentEnvironment(									Rbdb_FileVerbositySettingsController* file_verbosity_settings_controller );
 
-	BOOL										RPDB_FileVerbositySettingsController_displayAdditionalInformationDuringOpenCloseRenameFileOperations(			RPDB_FileVerbositySettingsController*		file_verbosity_settings_controller );
-	void										RPDB_FileVerbositySettingsController_turnDisplayAdditionalInformationDuringOpenCloseRenameFileOperationsOn(	RPDB_FileVerbositySettingsController*		file_verbosity_settings_controller );
-	void										RPDB_FileVerbositySettingsController_turnDisplayAdditionalInformationDuringOpenCloseRenameFileOperationsOff(	RPDB_FileVerbositySettingsController*		file_verbosity_settings_controller );
+	BOOL										Rbdb_FileVerbositySettingsController_displayAdditionalInformationDuringOpenCloseRenameFileOperations(			Rbdb_FileVerbositySettingsController*		file_verbosity_settings_controller );
+	void										Rbdb_FileVerbositySettingsController_turnDisplayAdditionalInformationDuringOpenCloseRenameFileOperationsOn(	Rbdb_FileVerbositySettingsController*		file_verbosity_settings_controller );
+	void										Rbdb_FileVerbositySettingsController_turnDisplayAdditionalInformationDuringOpenCloseRenameFileOperationsOff(	Rbdb_FileVerbositySettingsController*		file_verbosity_settings_controller );
 
-	BOOL										RPDB_FileVerbositySettingsController_displayAdditionalInformationDuringAllFileOperations(						RPDB_FileVerbositySettingsController*		file_verbosity_settings_controller );
-	void										RPDB_FileVerbositySettingsController_turnDisplayAdditionalInformationDuringAllFileOperationsOn(				RPDB_FileVerbositySettingsController*		file_verbosity_settings_controller );
-	void										RPDB_FileVerbositySettingsController_turnDisplayAdditionalInformationDuringAllFileOperationsOff(				RPDB_FileVerbositySettingsController*		file_verbosity_settings_controller );
+	BOOL										Rbdb_FileVerbositySettingsController_displayAdditionalInformationDuringAllFileOperations(						Rbdb_FileVerbositySettingsController*		file_verbosity_settings_controller );
+	void										Rbdb_FileVerbositySettingsController_turnDisplayAdditionalInformationDuringAllFileOperationsOn(				Rbdb_FileVerbositySettingsController*		file_verbosity_settings_controller );
+	void										Rbdb_FileVerbositySettingsController_turnDisplayAdditionalInformationDuringAllFileOperationsOff(				Rbdb_FileVerbositySettingsController*		file_verbosity_settings_controller );
 
 #endif
 

@@ -1,5 +1,5 @@
-#ifndef RPDB_DATABASE_TYPE_RECNO_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_DATABASE_TYPE_RECNO_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_DATABASE_TYPE_RECNO_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_DATABASE_TYPE_RECNO_SETTINGS_CONTROLLER_INTERNAL
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,12 +7,12 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-int RPDB_DatabaseTypeRecnoSettingsController_internal_appendCallbackMethod(	DB*				bdb_database, 
+int Rbdb_DatabaseTypeRecnoSettingsController_internal_appendCallbackMethod(	DB*				bdb_database, 
 																				DBT*			bdb_data, 
 																				db_recno_t		record_number );
 
-RPDB_DatabaseTypeRecnoSettingsController* RPDB_DatabaseTypeRecnoSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseTypeRecnoSettingsController* database_type_recno_settings_controller );
-void RPDB_DatabaseTypeRecnoSettingsController_internal_setFlags(	RPDB_DatabaseTypeRecnoSettingsController*		database_type_recno_settings_controller );
+Rbdb_DatabaseTypeRecnoSettingsController* Rbdb_DatabaseTypeRecnoSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseTypeRecnoSettingsController* database_type_recno_settings_controller );
+void Rbdb_DatabaseTypeRecnoSettingsController_internal_setFlags(	Rbdb_DatabaseTypeRecnoSettingsController*		database_type_recno_settings_controller );
 
 #endif
 

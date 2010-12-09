@@ -1,5 +1,5 @@
-#ifndef RPDB_DATABASE_VERIFICATION_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_DATABASE_VERIFICATION_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_DATABASE_VERIFICATION_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_DATABASE_VERIFICATION_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,10 +7,10 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-void		RPDB_DatabaseVerificationSettingsController_internal_hasDoneUnorderedCheck( 	RPDB_DatabaseVerificationSettingsController*	database_verification_settings_controller, 
+void		Rbdb_DatabaseVerificationSettingsController_internal_hasDoneUnorderedCheck( 	Rbdb_DatabaseVerificationSettingsController*	database_verification_settings_controller, 
    																						int												on_or_off );
-int		RPDB_DatabaseVerificationSettingsController_internal_verifyFlags(				RPDB_DatabaseVerificationSettingsController*	database_verification_settings_controller );
-RPDB_DatabaseVerificationSettingsController* RPDB_DatabaseVerificationSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseVerificationSettingsController* database_verification_settings_controller );
+int		Rbdb_DatabaseVerificationSettingsController_internal_verifyFlags(				Rbdb_DatabaseVerificationSettingsController*	database_verification_settings_controller );
+Rbdb_DatabaseVerificationSettingsController* Rbdb_DatabaseVerificationSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseVerificationSettingsController* database_verification_settings_controller );
 
 
 

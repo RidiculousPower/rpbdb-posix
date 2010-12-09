@@ -1,5 +1,5 @@
 /*
- *		RPDB::ErrorController
+ *		Rbdb::ErrorController
  *
  *
  */
@@ -10,10 +10,10 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_ErrorController.h"
-#include "RPDB_ErrorController_internal.h"
+#include "Rbdb_ErrorController.h"
+#include "Rbdb_ErrorController_internal.h"
 
-#include "RPDB_Error.h"
+#include "Rbdb_Error.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -26,10 +26,10 @@
 ************/
 	
 //	Return the error controller
-RPDB_ErrorController* RPDB_ErrorController_new( RPDB_Environment* environment )	{
+Rbdb_ErrorController* Rbdb_ErrorController_new( Rbdb_Environment* environment )	{
 
 	//	Allocate ErrorController
-	RPDB_ErrorController*			error_controller = calloc( 1, sizeof( RPDB_ErrorController ) );
+	Rbdb_ErrorController*			error_controller = calloc( 1, sizeof( Rbdb_ErrorController ) );
 
 	error_controller->parent_environment = environment;
 
@@ -39,7 +39,7 @@ RPDB_ErrorController* RPDB_ErrorController_new( RPDB_Environment* environment )	
 /***************************
 *  free  *
 ***************************/
-void RPDB_ErrorController_free(	RPDB_ErrorController** error_controller )	{
+void Rbdb_ErrorController_free(	Rbdb_ErrorController** error_controller )	{
 
 	free( *error_controller );
 	*error_controller	=	NULL;
@@ -48,14 +48,14 @@ void RPDB_ErrorController_free(	RPDB_ErrorController** error_controller )	{
 /***************************
 *  settingsController  *
 ***************************/
-RPDB_ErrorSettingsController* RPDB_ErrorController_settingsController(	RPDB_ErrorController* error_controller )	{
+Rbdb_ErrorSettingsController* Rbdb_ErrorController_settingsController(	Rbdb_ErrorController* error_controller )	{
 	return error_controller->settings_controller;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_ErrorController_parentEnvironment(	RPDB_ErrorController* error_controller )	{
+Rbdb_Environment* Rbdb_ErrorController_parentEnvironment(	Rbdb_ErrorController* error_controller )	{
 	return error_controller->parent_environment;
 }
 
@@ -64,18 +64,18 @@ RPDB_Environment* RPDB_ErrorController_parentEnvironment(	RPDB_ErrorController* 
 ************/
 
 //	instantiate an error and throw an exception but do not process it
-RPDB_Error* RPDB_ErrorController_raiseError(	RPDB_ErrorController*	error_controller, 
+Rbdb_Error* Rbdb_ErrorController_raiseError(	Rbdb_ErrorController*	error_controller, 
 												int						error_number, 
 												char*					error_function, 
 												char*					additional_explanation_message )	{
 
 //	FIX
-	RPDB_Error* error = RPDB_Error_newErrorWithNumberFunctionAndMessage(	error_controller, 
+	Rbdb_Error* error = Rbdb_Error_newErrorWithNumberFunctionAndMessage(	error_controller, 
 																			error_number, 
 																			error_function, 
 																			additional_explanation_message );
 
-//	RPDB_ErrorController_push( error_controller, error );
+//	Rbdb_ErrorController_push( error_controller, error );
 
 	return error;
 }
@@ -87,12 +87,12 @@ RPDB_Error* RPDB_ErrorController_raiseError(	RPDB_ErrorController*	error_control
 ************/
 
 //	instantiate an error and throw an exception and process it as fatal
-void	RPDB_ErrorController_throwError(		RPDB_ErrorController*	error_controller,
+void	Rbdb_ErrorController_throwError(		Rbdb_ErrorController*	error_controller,
 												int						error_number, 
 												char*					error_function, 
 												char*					additional_explanation_message )	{
 
-	RPDB_Error_terminate( RPDB_ErrorController_raiseError(	error_controller, 
+	Rbdb_Error_terminate( Rbdb_ErrorController_raiseError(	error_controller, 
 																error_number, 
 																error_function, 
 																additional_explanation_message ) );
@@ -104,10 +104,10 @@ void	RPDB_ErrorController_throwError(		RPDB_ErrorController*	error_controller,
 
 //	we'll keep a stack of errors as they're thrown (assuming the program isn't terminated)
 //	push error onto the end of this stack
-void RPDB_ErrorController_pushError(	RPDB_ErrorController*	error_controller, 
-										RPDB_Error*			error )	{
+void Rbdb_ErrorController_pushError(	Rbdb_ErrorController*	error_controller, 
+										Rbdb_Error*			error )	{
 	
-	RPDB_Error*		error_iterator;
+	Rbdb_Error*		error_iterator;
 	
 	//	if we haven't initiated the stack yet, make this the first error on the stack
 	if ( error_controller->error_stack == NULL )	{
@@ -129,10 +129,10 @@ void RPDB_ErrorController_pushError(	RPDB_ErrorController*	error_controller,
 ************/
 
 //	shift error from the start of stack
-RPDB_Error* RPDB_ErrorController_shiftError( RPDB_ErrorController* error_controller )	{
+Rbdb_Error* Rbdb_ErrorController_shiftError( Rbdb_ErrorController* error_controller )	{
 	
 	//	get the first error - the head of our linked list of errors
-	RPDB_Error*		shifted_error = error_controller->error_stack;
+	Rbdb_Error*		shifted_error = error_controller->error_stack;
 	
 	//	so long as the stack has an error, reset the stack to the next error (which may be NULL)
 	if ( shifted_error != NULL )	{
@@ -149,7 +149,7 @@ RPDB_Error* RPDB_ErrorController_shiftError( RPDB_ErrorController* error_control
 *  hasError  *
 ******************/
 
-BOOL RPDB_ErrorController_hasError( RPDB_ErrorController* error_controller )	{
+BOOL Rbdb_ErrorController_hasError( Rbdb_ErrorController* error_controller )	{
 
 	if ( error_controller->error_stack )	{
 		return TRUE;
@@ -170,18 +170,18 @@ BOOL RPDB_ErrorController_hasError( RPDB_ErrorController* error_controller )	{
 ************/
 
 //	instantiate an error and throw an exception and process it as fatal
-void RPDB_ErrorController_internal_throwBDBError(	RPDB_ErrorController*	error_controller,
+void Rbdb_ErrorController_internal_throwBDBError(	Rbdb_ErrorController*	error_controller,
 													int						error_number, 
 													char*					error_function )	{
 
-	RPDB_Error* error = RPDB_Error_newErrorWithNumberFunctionAndMessage(	error_controller, 
+	Rbdb_Error* error = Rbdb_Error_newErrorWithNumberFunctionAndMessage(	error_controller, 
 																		  error_number, 
 																		  error_function, 
 																		  NULL );
 	
-	RPDB_Error_internal_outputBDBError(	error );
+	Rbdb_Error_internal_outputBDBError(	error );
 	
-	RPDB_Error_terminate( error );
+	Rbdb_Error_terminate( error );
 
 }
 

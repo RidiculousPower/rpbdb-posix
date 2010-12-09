@@ -1,5 +1,5 @@
 /*
- *		RPDB::DatabaseController::Database::DatabaseSequenceController::DatabaseSequence
+ *		Rbdb::DatabaseController::Database::DatabaseSequenceController::DatabaseSequence
  *
  *
  */
@@ -10,24 +10,24 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_DatabaseSequence.h"
-#include "RPDB_DatabaseSequence_internal.h"
+#include "Rbdb_DatabaseSequence.h"
+#include "Rbdb_DatabaseSequence_internal.h"
 
-#include "RPDB_Environment.h"
+#include "Rbdb_Environment.h"
 
-#include "RPDB_Database.h"
-#include "RPDB_Database_internal.h"
+#include "Rbdb_Database.h"
+#include "Rbdb_Database_internal.h"
 
-#include "RPDB_DatabaseSequence_internal.h"
+#include "Rbdb_DatabaseSequence_internal.h"
 
-#include "RPDB_Record.h"
+#include "Rbdb_Record.h"
 
-#include "RPDB_TransactionController.h"
-#include "RPDB_TransactionController_internal.h"
+#include "Rbdb_TransactionController.h"
+#include "Rbdb_TransactionController_internal.h"
 
-#include "RPDB_DatabaseSettingsController.h"
-#include "RPDB_DatabaseSequenceSettingsController.h"
-#include "RPDB_DatabaseSequenceSettingsController_internal.h"
+#include "Rbdb_DatabaseSettingsController.h"
+#include "Rbdb_DatabaseSequenceSettingsController.h"
+#include "Rbdb_DatabaseSequenceSettingsController_internal.h"
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -40,12 +40,12 @@
 *********/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/seq_class.html
-RPDB_DatabaseSequence* RPDB_DatabaseSequence_new( RPDB_DatabaseSequenceController* parent_database_sequence_controller )	{
+Rbdb_DatabaseSequence* Rbdb_DatabaseSequence_new( Rbdb_DatabaseSequenceController* parent_database_sequence_controller )	{
 	
-	RPDB_DatabaseSequence*		database_sequence = calloc( 1, sizeof( RPDB_DatabaseSequence ) );
+	Rbdb_DatabaseSequence*		database_sequence = calloc( 1, sizeof( Rbdb_DatabaseSequence ) );
 	
 	if ( parent_database_sequence_controller->runtime_storage_database != NULL )	{
-		database_sequence->runtime_identifier =	RPDB_Database_internal_storeRuntimeAddress(	parent_database_sequence_controller->runtime_storage_database,
+		database_sequence->runtime_identifier =	Rbdb_Database_internal_storeRuntimeAddress(	parent_database_sequence_controller->runtime_storage_database,
 																																												(void*) database_sequence );
 	}
 	
@@ -53,7 +53,7 @@ RPDB_DatabaseSequence* RPDB_DatabaseSequence_new( RPDB_DatabaseSequenceControlle
 	
 	db_sequence_create(	&( database_sequence->wrapped_bdb_sequence ),
 						database_sequence->parent_database_sequence_controller->parent_database->wrapped_bdb_database, 
-						RPDB_DatabaseSequenceSettingsController_internal_createSequenceFlags( parent_database_sequence_controller ) );
+						Rbdb_DatabaseSequenceSettingsController_internal_createSequenceFlags( parent_database_sequence_controller ) );
 
 	return database_sequence;
 }
@@ -62,23 +62,23 @@ RPDB_DatabaseSequence* RPDB_DatabaseSequence_new( RPDB_DatabaseSequenceControlle
 *  free  *
 ***************************/
 
-void RPDB_DatabaseSequence_free(	RPDB_DatabaseSequence** database_sequence )	{
+void Rbdb_DatabaseSequence_free(	Rbdb_DatabaseSequence** database_sequence )	{
 
 	if ( ( *database_sequence )->parent_database_sequence_controller->runtime_storage_database != NULL )	{
-		RPDB_Database_internal_freeStoredRuntimeAddress(	( *database_sequence )->parent_database_sequence_controller->runtime_storage_database,
+		Rbdb_Database_internal_freeStoredRuntimeAddress(	( *database_sequence )->parent_database_sequence_controller->runtime_storage_database,
 																											( *database_sequence )->runtime_identifier );
 	}
-	RPDB_DatabaseSequence_internal_freeFromRuntimeStorage( database_sequence );
+	Rbdb_DatabaseSequence_internal_freeFromRuntimeStorage( database_sequence );
 }
 
 /***************************
 *  freeFromRuntimeStorage  *
 ***************************/
 
-void RPDB_DatabaseSequence_internal_freeFromRuntimeStorage(	RPDB_DatabaseSequence** database_sequence )	{
+void Rbdb_DatabaseSequence_internal_freeFromRuntimeStorage(	Rbdb_DatabaseSequence** database_sequence )	{
 
 	if ( ( *database_sequence )->settings_controller != NULL )	{
-		RPDB_DatabaseSequenceSettingsController_free( & ( ( *database_sequence )->settings_controller ) );
+		Rbdb_DatabaseSequenceSettingsController_free( & ( ( *database_sequence )->settings_controller ) );
 	}
 
 	free( *database_sequence );
@@ -87,21 +87,21 @@ void RPDB_DatabaseSequence_internal_freeFromRuntimeStorage(	RPDB_DatabaseSequenc
 /***************************
 *  settingsController  *
 ***************************/
-RPDB_DatabaseSequenceSettingsController* RPDB_DatabaseSequence_settingsController(	RPDB_DatabaseSequence* database_sequence )	{
+Rbdb_DatabaseSequenceSettingsController* Rbdb_DatabaseSequence_settingsController(	Rbdb_DatabaseSequence* database_sequence )	{
 	return database_sequence->settings_controller;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_DatabaseSequence_parentEnvironment(	RPDB_DatabaseSequence* database_sequence )	{
+Rbdb_Environment* Rbdb_DatabaseSequence_parentEnvironment(	Rbdb_DatabaseSequence* database_sequence )	{
 	return database_sequence->parent_database_sequence_controller->parent_database->parent_database_controller->parent_environment;
 }
 
 /***************************************
 *  parentDatabase  *
 ***************************************/
-RPDB_Database* RPDB_DatabaseSequence_parentDatabase(	RPDB_DatabaseSequence* database_sequence )	{
+Rbdb_Database* Rbdb_DatabaseSequence_parentDatabase(	Rbdb_DatabaseSequence* database_sequence )	{
 	return database_sequence->parent_database_sequence_controller->parent_database;
 }
 
@@ -114,20 +114,20 @@ RPDB_Database* RPDB_DatabaseSequence_parentDatabase(	RPDB_DatabaseSequence* data
 ********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/seq_open.html
-RPDB_DatabaseSequence* RPDB_DatabaseSequence_openSequence(	RPDB_DatabaseSequence*		database_sequence,
- 																RPDB_Record*				stored_at_key	)	{
+Rbdb_DatabaseSequence* Rbdb_DatabaseSequence_openSequence(	Rbdb_DatabaseSequence*		database_sequence,
+ 																Rbdb_Record*				stored_at_key	)	{
 	
-	RPDB_Environment*	environment	=	database_sequence->parent_database_sequence_controller->parent_database->parent_database_controller->parent_environment;
+	Rbdb_Environment*	environment	=	database_sequence->parent_database_sequence_controller->parent_database->parent_database_controller->parent_environment;
 	
 	DB_TXN*	transaction_id	=	NULL;
 	if ( database_sequence->parent_database_sequence_controller->parent_database->opened_in_transaction )	{
-		transaction_id	=	RPDB_TransactionController_internal_currentTransactionID( environment->transaction_controller );
+		transaction_id	=	Rbdb_TransactionController_internal_currentTransactionID( environment->transaction_controller );
 	}
 	
 	database_sequence->wrapped_bdb_sequence->open(	database_sequence->wrapped_bdb_sequence,
 													transaction_id,
 												stored_at_key->key->wrapped_bdb_dbt,
-												RPDB_DatabaseSequenceSettingsController_internal_openSequenceFlags( database_sequence->parent_database_sequence_controller ) );
+												Rbdb_DatabaseSequenceSettingsController_internal_openSequenceFlags( database_sequence->parent_database_sequence_controller ) );
 	
 	return database_sequence;
 }
@@ -137,10 +137,10 @@ RPDB_DatabaseSequence* RPDB_DatabaseSequence_openSequence(	RPDB_DatabaseSequence
 ********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/seq_close.html
-void RPDB_DatabaseSequence_closeSequence( RPDB_DatabaseSequence* database_sequence )	{
+void Rbdb_DatabaseSequence_closeSequence( Rbdb_DatabaseSequence* database_sequence )	{
 	
 	database_sequence->wrapped_bdb_sequence->close(	database_sequence->wrapped_bdb_sequence,
-													RPDB_DatabaseSequenceSettingsController_internal_closeFlags( RPDB_DatabaseSettingsController_sequenceSettingsController( RPDB_Database_settingsController( database_sequence->parent_database_sequence_controller->parent_database ) ) ) );
+													Rbdb_DatabaseSequenceSettingsController_internal_closeFlags( Rbdb_DatabaseSettingsController_sequenceSettingsController( Rbdb_Database_settingsController( database_sequence->parent_database_sequence_controller->parent_database ) ) ) );
 }
 
 /********************
@@ -148,18 +148,18 @@ void RPDB_DatabaseSequence_closeSequence( RPDB_DatabaseSequence* database_sequen
 ********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/seq_remove.html
-void RPDB_DatabaseSequence_deleteSequence( RPDB_DatabaseSequence* database_sequence )	{
+void Rbdb_DatabaseSequence_deleteSequence( Rbdb_DatabaseSequence* database_sequence )	{
 	
-	RPDB_Environment*	environment	=	database_sequence->parent_database_sequence_controller->parent_database->parent_database_controller->parent_environment;
+	Rbdb_Environment*	environment	=	database_sequence->parent_database_sequence_controller->parent_database->parent_database_controller->parent_environment;
 	
 	DB_TXN*	transaction_id	=	NULL;
 	if ( database_sequence->parent_database_sequence_controller->parent_database->opened_in_transaction )	{
-		transaction_id	=	RPDB_TransactionController_internal_currentTransactionID( environment->transaction_controller );
+		transaction_id	=	Rbdb_TransactionController_internal_currentTransactionID( environment->transaction_controller );
 	}
 	
 	database_sequence->wrapped_bdb_sequence->remove(	database_sequence->wrapped_bdb_sequence,
 														transaction_id,
-														RPDB_DatabaseSequenceSettingsController_internal_deleteFlags( RPDB_DatabaseSettingsController_sequenceSettingsController( RPDB_Database_settingsController( database_sequence->parent_database_sequence_controller->parent_database ) ) ) );
+														Rbdb_DatabaseSequenceSettingsController_internal_deleteFlags( Rbdb_DatabaseSettingsController_sequenceSettingsController( Rbdb_Database_settingsController( database_sequence->parent_database_sequence_controller->parent_database ) ) ) );
 }
 
 /*******************************************************************************************************************************************************************************************
@@ -171,9 +171,9 @@ void RPDB_DatabaseSequence_deleteSequence( RPDB_DatabaseSequence* database_seque
 *********/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/seq_get.html
-int32_t RPDB_DatabaseSequence_step( RPDB_DatabaseSequence*	database_sequence )	{
+int32_t Rbdb_DatabaseSequence_step( Rbdb_DatabaseSequence*	database_sequence )	{
 
-	return RPDB_DatabaseSequence_stepBy(	database_sequence,
+	return Rbdb_DatabaseSequence_stepBy(	database_sequence,
 																				database_sequence->settings_controller->default_step_value );
 }
 
@@ -182,9 +182,9 @@ int32_t RPDB_DatabaseSequence_step( RPDB_DatabaseSequence*	database_sequence )	{
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/seq_get.html
-int32_t RPDB_DatabaseSequence_stepBackward( RPDB_DatabaseSequence*	database_sequence )	{
+int32_t Rbdb_DatabaseSequence_stepBackward( Rbdb_DatabaseSequence*	database_sequence )	{
 
-	return RPDB_DatabaseSequence_stepBy(	database_sequence,
+	return Rbdb_DatabaseSequence_stepBy(	database_sequence,
 																				-database_sequence->settings_controller->default_step_value );
 }
 
@@ -193,21 +193,21 @@ int32_t RPDB_DatabaseSequence_stepBackward( RPDB_DatabaseSequence*	database_sequ
 ************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/seq_get.html
-int32_t RPDB_DatabaseSequence_stepBy(	RPDB_DatabaseSequence*	database_sequence,
+int32_t Rbdb_DatabaseSequence_stepBy(	Rbdb_DatabaseSequence*	database_sequence,
 																			int32_t									step_value	)	{
 	
-	RPDB_Environment*	environment	=	database_sequence->parent_database_sequence_controller->parent_database->parent_database_controller->parent_environment;
+	Rbdb_Environment*	environment	=	database_sequence->parent_database_sequence_controller->parent_database->parent_database_controller->parent_environment;
 
 	DB_TXN*	transaction_id	=	NULL;
 	if ( database_sequence->parent_database_sequence_controller->parent_database->opened_in_transaction )	{
-		transaction_id	=	RPDB_TransactionController_internal_currentTransactionID( environment->transaction_controller );
+		transaction_id	=	Rbdb_TransactionController_internal_currentTransactionID( environment->transaction_controller );
 	}
 	
 	database_sequence->wrapped_bdb_sequence->get(	database_sequence->wrapped_bdb_sequence,
 																								transaction_id,
 																								step_value,
 																								&( database_sequence->current_value ),
-																								RPDB_DatabaseSequenceSettingsController_internal_stepByFlags( RPDB_DatabaseSettingsController_sequenceSettingsController( RPDB_Database_settingsController( database_sequence->parent_database_sequence_controller->parent_database ) ) ) );
+																								Rbdb_DatabaseSequenceSettingsController_internal_stepByFlags( Rbdb_DatabaseSettingsController_sequenceSettingsController( Rbdb_Database_settingsController( database_sequence->parent_database_sequence_controller->parent_database ) ) ) );
 
 	return database_sequence->current_value;
 }
@@ -217,9 +217,9 @@ int32_t RPDB_DatabaseSequence_stepBy(	RPDB_DatabaseSequence*	database_sequence,
 *******************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/seq_get.html
-int32_t RPDB_DatabaseSequence_stepBackwardBy(	RPDB_DatabaseSequence*	database_sequence,
+int32_t Rbdb_DatabaseSequence_stepBackwardBy(	Rbdb_DatabaseSequence*	database_sequence,
 																							int32_t									step_value	)	{
 
-	return RPDB_DatabaseSequence_stepBy(	database_sequence,
+	return Rbdb_DatabaseSequence_stepBy(	database_sequence,
 																				-step_value );
 }

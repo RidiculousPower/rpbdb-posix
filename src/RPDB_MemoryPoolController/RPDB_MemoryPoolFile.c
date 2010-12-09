@@ -1,5 +1,5 @@
 /*
- *		RPDB::MemoryPoolController::MemoryPoolFile
+ *		Rbdb::MemoryPoolController::MemoryPoolFile
  *
  *
  */
@@ -10,13 +10,13 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
  
-#include "RPDB_MemoryPoolFile.h"
-#include "RPDB_MemoryPoolFile_internal.h"
+#include "Rbdb_MemoryPoolFile.h"
+#include "Rbdb_MemoryPoolFile_internal.h"
 
-#include "RPDB_Database_internal.h"
+#include "Rbdb_Database_internal.h"
 
-#include "RPDB_MemoryPoolFileSettingsController.h"
-#include "RPDB_MemoryPoolSettingsController_internal.h"
+#include "Rbdb_MemoryPoolFileSettingsController.h"
+#include "Rbdb_MemoryPoolSettingsController_internal.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -28,12 +28,12 @@
 *  new  *
 *************/
 	
-RPDB_MemoryPoolFile* RPDB_MemoryPoolFile_new( RPDB_MemoryPoolFileController* parent_memory_pool_file_controller )	{
+Rbdb_MemoryPoolFile* Rbdb_MemoryPoolFile_new( Rbdb_MemoryPoolFileController* parent_memory_pool_file_controller )	{
 	
-	RPDB_MemoryPoolFile*		memory_pool_file = calloc( 1, sizeof( RPDB_MemoryPoolFile ) );
+	Rbdb_MemoryPoolFile*		memory_pool_file = calloc( 1, sizeof( Rbdb_MemoryPoolFile ) );
 
 	if ( parent_memory_pool_file_controller->runtime_storage_database != NULL )	{
-		memory_pool_file->runtime_identifier =	RPDB_Database_internal_storeRuntimeAddress(	parent_memory_pool_file_controller->runtime_storage_database,
+		memory_pool_file->runtime_identifier =	Rbdb_Database_internal_storeRuntimeAddress(	parent_memory_pool_file_controller->runtime_storage_database,
 																																												(void*) memory_pool_file );
 	}
 
@@ -45,22 +45,22 @@ RPDB_MemoryPoolFile* RPDB_MemoryPoolFile_new( RPDB_MemoryPoolFileController* par
 /***************************
 *  free  *
 ***************************/
-void RPDB_MemoryPoolFile_free(	RPDB_MemoryPoolFile** memory_pool_file )	{
+void Rbdb_MemoryPoolFile_free(	Rbdb_MemoryPoolFile** memory_pool_file )	{
 
 	if ( ( *memory_pool_file )->parent_memory_pool_file_controller->runtime_storage_database != NULL )	{
-		RPDB_Database_internal_freeStoredRuntimeAddress(	( *memory_pool_file )->parent_memory_pool_file_controller->runtime_storage_database,
+		Rbdb_Database_internal_freeStoredRuntimeAddress(	( *memory_pool_file )->parent_memory_pool_file_controller->runtime_storage_database,
 																											( *memory_pool_file )->runtime_identifier );
 	}
-	RPDB_MemoryPoolFile_freeFromRuntimeStorage( memory_pool_file );
+	Rbdb_MemoryPoolFile_freeFromRuntimeStorage( memory_pool_file );
 }
 
 /***************************
 *  freeFromRuntimeStorage  *
 ***************************/
-void RPDB_MemoryPoolFile_freeFromRuntimeStorage(	RPDB_MemoryPoolFile** memory_pool_file )	{
+void Rbdb_MemoryPoolFile_freeFromRuntimeStorage(	Rbdb_MemoryPoolFile** memory_pool_file )	{
 
 	if ( ( *memory_pool_file )->settings_controller != NULL )	{
-		RPDB_MemoryPoolFileSettingsController_free( & ( ( *memory_pool_file )->settings_controller ) );
+		Rbdb_MemoryPoolFileSettingsController_free( & ( ( *memory_pool_file )->settings_controller ) );
 	}
 
 	free( *memory_pool_file );
@@ -70,14 +70,14 @@ void RPDB_MemoryPoolFile_freeFromRuntimeStorage(	RPDB_MemoryPoolFile** memory_po
 /***************************
 *  settingsController  *
 ***************************/
-RPDB_MemoryPoolFileSettingsController* RPDB_MemoryPoolFile_settingsController(	RPDB_MemoryPoolFile* memory_pool_file )	{
+Rbdb_MemoryPoolFileSettingsController* Rbdb_MemoryPoolFile_settingsController(	Rbdb_MemoryPoolFile* memory_pool_file )	{
 	return memory_pool_file->settings_controller;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_MemoryPoolFile_parentEnvironment(	RPDB_MemoryPoolFile* memory_pool_file )	{
+Rbdb_Environment* Rbdb_MemoryPoolFile_parentEnvironment(	Rbdb_MemoryPoolFile* memory_pool_file )	{
 	return memory_pool_file->parent_memory_pool_file_controller->parent_memory_pool_controller->parent_environment;
 }
 
@@ -86,7 +86,7 @@ RPDB_Environment* RPDB_MemoryPoolFile_parentEnvironment(	RPDB_MemoryPoolFile* me
 *************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/memp_fsync.html
-void RPDB_MemoryPoolFile_sync( RPDB_MemoryPoolFile* memory_pool_file )	{
+void Rbdb_MemoryPoolFile_sync( Rbdb_MemoryPoolFile* memory_pool_file )	{
 	
 	memory_pool_file->wrapped_bdb_memory_pool_file->sync( memory_pool_file->wrapped_bdb_memory_pool_file );
 }
@@ -96,8 +96,8 @@ void RPDB_MemoryPoolFile_sync( RPDB_MemoryPoolFile* memory_pool_file )	{
 *************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/memp_fclose.html
-void RPDB_MemoryPoolFile_close( RPDB_MemoryPoolFile* memory_pool_file )	{
+void Rbdb_MemoryPoolFile_close( Rbdb_MemoryPoolFile* memory_pool_file )	{
 	
 	memory_pool_file->wrapped_bdb_memory_pool_file->close(	memory_pool_file->wrapped_bdb_memory_pool_file,
-	 														RPDB_MemoryPoolSettingsController_internal_closeFlags( memory_pool_file )	);
+	 														Rbdb_MemoryPoolSettingsController_internal_closeFlags( memory_pool_file )	);
 }

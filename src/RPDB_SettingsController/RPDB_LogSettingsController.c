@@ -1,5 +1,5 @@
 /*
- *		RPDB::SettingsController::LogSettingsController
+ *		Rbdb::SettingsController::LogSettingsController
  *
  *
  */
@@ -10,12 +10,12 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_LogSettingsController.h"
+#include "Rbdb_LogSettingsController.h"
 
-#include "RPDB_LogCursor.h"
-#include "RPDB_Environment.h"
+#include "Rbdb_LogCursor.h"
+#include "Rbdb_Environment.h"
 
-#include "RPDB_LogSettingsController_internal.h"
+#include "Rbdb_LogSettingsController_internal.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -27,9 +27,9 @@
 *  new  *
 *************/
 	
-RPDB_LogSettingsController* RPDB_LogSettingsController_new( RPDB_SettingsController* parent_settings_controller )	{
+Rbdb_LogSettingsController* Rbdb_LogSettingsController_new( Rbdb_SettingsController* parent_settings_controller )	{
 	
-	RPDB_LogSettingsController*		log_settings_controller = calloc( 1, sizeof( RPDB_LogSettingsController ) );
+	Rbdb_LogSettingsController*		log_settings_controller = calloc( 1, sizeof( Rbdb_LogSettingsController ) );
 
 	log_settings_controller->parent_settings_controller = parent_settings_controller;
 
@@ -39,7 +39,7 @@ RPDB_LogSettingsController* RPDB_LogSettingsController_new( RPDB_SettingsControl
 /***************************
 *  free  *
 ***************************/
-void RPDB_LogSettingsController_free(	RPDB_LogSettingsController** log_settings_controller )	{
+void Rbdb_LogSettingsController_free(	Rbdb_LogSettingsController** log_settings_controller )	{
 
 	free( *log_settings_controller );
 	*log_settings_controller	=	NULL;
@@ -48,7 +48,7 @@ void RPDB_LogSettingsController_free(	RPDB_LogSettingsController** log_settings_
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_LogSettingsController_parentEnvironment(	RPDB_LogSettingsController* log_settings_controller )	{
+Rbdb_Environment* Rbdb_LogSettingsController_parentEnvironment(	Rbdb_LogSettingsController* log_settings_controller )	{
 	return log_settings_controller->parent_settings_controller->parent_environment;
 }
 
@@ -57,7 +57,7 @@ RPDB_Environment* RPDB_LogSettingsController_parentEnvironment(	RPDB_LogSettings
 ***********/
 
 //	DB_INIT_LOG			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
-int RPDB_LogSettingsController_on( RPDB_LogSettingsController* log_settings_controller )	{
+int Rbdb_LogSettingsController_on( Rbdb_LogSettingsController* log_settings_controller )	{
 
 	if ( log_settings_controller->on == TRUE )	{
 		return DB_INIT_LOG;
@@ -69,7 +69,7 @@ int RPDB_LogSettingsController_on( RPDB_LogSettingsController* log_settings_cont
 	*  turnOn  *
 	**************/
 
-	void RPDB_LogSettingsController_turnOn( RPDB_LogSettingsController* log_settings_controller )	{
+	void Rbdb_LogSettingsController_turnOn( Rbdb_LogSettingsController* log_settings_controller )	{
 		log_settings_controller->on = TRUE;
 	}
 
@@ -77,7 +77,7 @@ int RPDB_LogSettingsController_on( RPDB_LogSettingsController* log_settings_cont
 *  off  *
 *************/
 
-BOOL RPDB_LogSettingsController_off( RPDB_LogSettingsController* log_settings_controller )	{
+BOOL Rbdb_LogSettingsController_off( Rbdb_LogSettingsController* log_settings_controller )	{
 
 	if ( log_settings_controller->on == FALSE )	{
 		return TRUE;
@@ -89,7 +89,7 @@ BOOL RPDB_LogSettingsController_off( RPDB_LogSettingsController* log_settings_co
 	*  turnOff  *
 	*****************/
 
-	void RPDB_LogSettingsController_turnOff( RPDB_LogSettingsController* log_settings_controller )	{
+	void Rbdb_LogSettingsController_turnOff( Rbdb_LogSettingsController* log_settings_controller )	{
 		log_settings_controller->on = FALSE;
 	}
 
@@ -99,9 +99,9 @@ BOOL RPDB_LogSettingsController_off( RPDB_LogSettingsController* log_settings_co
 
 //	DB_LOG_DIRECT		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_log_set_config.html
 //	Inverted from BDB Default
-int RPDB_LogSettingsController_disableSystemBuffering( RPDB_LogSettingsController* log_settings_controller )	{
+int Rbdb_LogSettingsController_disableSystemBuffering( Rbdb_LogSettingsController* log_settings_controller )	{
 	//	Since the default is inverted from how we want to describe it, we want to return the setting if FALSE
-	log_settings_controller->disable_system_buffering = RPDB_LogSettingsController_internal_config( log_settings_controller, DB_LOG_DIRECT );
+	log_settings_controller->disable_system_buffering = Rbdb_LogSettingsController_internal_config( log_settings_controller, DB_LOG_DIRECT );
 	if ( log_settings_controller->disable_system_buffering == TRUE )	{
 		return DB_LOG_DIRECT;
 	}
@@ -112,9 +112,9 @@ int RPDB_LogSettingsController_disableSystemBuffering( RPDB_LogSettingsControlle
 	*  turnBufferingOn  *
 	*************************/
 
-	void RPDB_LogSettingsController_turnDisableSystemBufferingOn( RPDB_LogSettingsController* log_settings_controller )	{
+	void Rbdb_LogSettingsController_turnDisableSystemBufferingOn( Rbdb_LogSettingsController* log_settings_controller )	{
 	
-		RPDB_LogSettingsController_internal_setConfig(	log_settings_controller, 
+		Rbdb_LogSettingsController_internal_setConfig(	log_settings_controller, 
 																										DB_LOG_DIRECT, 
 																										TRUE );
 		log_settings_controller->disable_system_buffering = TRUE;
@@ -124,8 +124,8 @@ int RPDB_LogSettingsController_disableSystemBuffering( RPDB_LogSettingsControlle
 	*  turnBufferingOff  *
 	*************************/
 
-	void RPDB_LogSettingsController_turnDisableSystemBufferingOff( RPDB_LogSettingsController* log_settings_controller )	{
-		RPDB_LogSettingsController_internal_setConfig(	log_settings_controller, 
+	void Rbdb_LogSettingsController_turnDisableSystemBufferingOff( Rbdb_LogSettingsController* log_settings_controller )	{
+		Rbdb_LogSettingsController_internal_setConfig(	log_settings_controller, 
 																										DB_LOG_DIRECT, 
 																										FALSE );
 		log_settings_controller->disable_system_buffering = FALSE;
@@ -136,9 +136,9 @@ int RPDB_LogSettingsController_disableSystemBuffering( RPDB_LogSettingsControlle
 *********************************/
 
 //	DB_LOG_DSYNC		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_log_set_config.html
-int RPDB_LogSettingsController_flushBeforeReturnFromWrite( RPDB_LogSettingsController* log_settings_controller )	{
+int Rbdb_LogSettingsController_flushBeforeReturnFromWrite( Rbdb_LogSettingsController* log_settings_controller )	{
 
-	log_settings_controller->flush_before_return_from_write = RPDB_LogSettingsController_internal_config( log_settings_controller, DB_LOG_DSYNC );
+	log_settings_controller->flush_before_return_from_write = Rbdb_LogSettingsController_internal_config( log_settings_controller, DB_LOG_DSYNC );
 
 	if ( log_settings_controller->flush_before_return_from_write == TRUE )	{
 		return DB_LOG_DSYNC;
@@ -150,8 +150,8 @@ int RPDB_LogSettingsController_flushBeforeReturnFromWrite( RPDB_LogSettingsContr
 	*  turnFlushBeforeReturnFromWriteOn  *
 	*****************************************/
 
-	void RPDB_LogSettingsController_turnFlushBeforeReturnFromWriteOn( RPDB_LogSettingsController* log_settings_controller )	{
-		RPDB_LogSettingsController_internal_setConfig( log_settings_controller, DB_LOG_DSYNC, TRUE );
+	void Rbdb_LogSettingsController_turnFlushBeforeReturnFromWriteOn( Rbdb_LogSettingsController* log_settings_controller )	{
+		Rbdb_LogSettingsController_internal_setConfig( log_settings_controller, DB_LOG_DSYNC, TRUE );
 		log_settings_controller->flush_before_return_from_write = TRUE;
 	}
 
@@ -159,8 +159,8 @@ int RPDB_LogSettingsController_flushBeforeReturnFromWrite( RPDB_LogSettingsContr
 	*  turnFlushBeforeReturnFromWriteOff  *
 	*****************************************/
 
-	void RPDB_LogSettingsController_turnFlushBeforeReturnFromWriteOff( RPDB_LogSettingsController* log_settings_controller )	{
-		RPDB_LogSettingsController_internal_setConfig( log_settings_controller, DB_LOG_DSYNC, FALSE );
+	void Rbdb_LogSettingsController_turnFlushBeforeReturnFromWriteOff( Rbdb_LogSettingsController* log_settings_controller )	{
+		Rbdb_LogSettingsController_internal_setConfig( log_settings_controller, DB_LOG_DSYNC, FALSE );
 		log_settings_controller->flush_before_return_from_write = FALSE;
 	}
 
@@ -169,9 +169,9 @@ int RPDB_LogSettingsController_flushBeforeReturnFromWrite( RPDB_LogSettingsContr
 *********************/
 
 //	DB_LOG_AUTO_REMOVE	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_log_set_config.html
-int RPDB_LogSettingsController_autoremoveLogs( RPDB_LogSettingsController* log_settings_controller )	{
+int Rbdb_LogSettingsController_autoremoveLogs( Rbdb_LogSettingsController* log_settings_controller )	{
 
-	log_settings_controller->autoremove = RPDB_LogSettingsController_internal_config( log_settings_controller, DB_LOG_AUTO_REMOVE );
+	log_settings_controller->autoremove = Rbdb_LogSettingsController_internal_config( log_settings_controller, DB_LOG_AUTO_REMOVE );
 
 	if ( log_settings_controller->autoremove == TRUE )	{
 		return DB_LOG_AUTO_REMOVE;
@@ -183,8 +183,8 @@ int RPDB_LogSettingsController_autoremoveLogs( RPDB_LogSettingsController* log_s
 	*  turnAutoremoveOn  *
 	**************************/
 
-	void RPDB_LogSettingsController_turnAutoremoveLogsOn( RPDB_LogSettingsController* log_settings_controller )	{
-		RPDB_LogSettingsController_internal_setConfig( log_settings_controller, DB_LOG_AUTO_REMOVE, TRUE );
+	void Rbdb_LogSettingsController_turnAutoremoveLogsOn( Rbdb_LogSettingsController* log_settings_controller )	{
+		Rbdb_LogSettingsController_internal_setConfig( log_settings_controller, DB_LOG_AUTO_REMOVE, TRUE );
 		log_settings_controller->autoremove = TRUE;
 	}
 
@@ -192,8 +192,8 @@ int RPDB_LogSettingsController_autoremoveLogs( RPDB_LogSettingsController* log_s
 	*  turnAutoremoveOff  *
 	************************/
 
-	void RPDB_LogSettingsController_turnAutoremoveOff( RPDB_LogSettingsController* log_settings_controller )	{
-		RPDB_LogSettingsController_internal_setConfig( log_settings_controller, DB_LOG_AUTO_REMOVE, FALSE );
+	void Rbdb_LogSettingsController_turnAutoremoveOff( Rbdb_LogSettingsController* log_settings_controller )	{
+		Rbdb_LogSettingsController_internal_setConfig( log_settings_controller, DB_LOG_AUTO_REMOVE, FALSE );
 		log_settings_controller->autoremove = FALSE;
 	}
 
@@ -202,9 +202,9 @@ int RPDB_LogSettingsController_autoremoveLogs( RPDB_LogSettingsController* log_s
 *********************/
 
 //	DB_LOG_IN_MEMORY	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_log_set_config.html
-int RPDB_LogSettingsController_logInMemory( RPDB_LogSettingsController* log_settings_controller )	{
+int Rbdb_LogSettingsController_logInMemory( Rbdb_LogSettingsController* log_settings_controller )	{
 
-	log_settings_controller->log_in_memory = RPDB_LogSettingsController_internal_config( log_settings_controller, DB_LOG_IN_MEMORY );
+	log_settings_controller->log_in_memory = Rbdb_LogSettingsController_internal_config( log_settings_controller, DB_LOG_IN_MEMORY );
 	
 	if ( log_settings_controller->log_in_memory == TRUE )	{
 		return DB_LOG_IN_MEMORY;
@@ -216,8 +216,8 @@ int RPDB_LogSettingsController_logInMemory( RPDB_LogSettingsController* log_sett
 	*  turnLogInMemoryOn  *
 	*************************/
 
-	void RPDB_LogSettingsController_turnLogInMemoryOn( RPDB_LogSettingsController* log_settings_controller )	{
-		RPDB_LogSettingsController_internal_setConfig( log_settings_controller, DB_LOG_IN_MEMORY, TRUE );
+	void Rbdb_LogSettingsController_turnLogInMemoryOn( Rbdb_LogSettingsController* log_settings_controller )	{
+		Rbdb_LogSettingsController_internal_setConfig( log_settings_controller, DB_LOG_IN_MEMORY, TRUE );
 		log_settings_controller->log_in_memory = TRUE;
 	}
 
@@ -225,8 +225,8 @@ int RPDB_LogSettingsController_logInMemory( RPDB_LogSettingsController* log_sett
 	*  turnLogInMemoryOff  *
 	*************************/
 
-	void RPDB_LogSettingsController_turnLogInMemoryOff( RPDB_LogSettingsController* log_settings_controller )	{
-		RPDB_LogSettingsController_internal_setConfig( log_settings_controller, DB_LOG_IN_MEMORY, FALSE );
+	void Rbdb_LogSettingsController_turnLogInMemoryOff( Rbdb_LogSettingsController* log_settings_controller )	{
+		Rbdb_LogSettingsController_internal_setConfig( log_settings_controller, DB_LOG_IN_MEMORY, FALSE );
 		log_settings_controller->log_in_memory = FALSE;
 	}
 
@@ -235,9 +235,9 @@ int RPDB_LogSettingsController_logInMemory( RPDB_LogSettingsController* log_sett
 *********************/
 
 //	DB_LOG_ZERO			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_log_set_config.html
-int RPDB_LogSettingsController_zeroAtCreation( RPDB_LogSettingsController* log_settings_controller )	{
+int Rbdb_LogSettingsController_zeroAtCreation( Rbdb_LogSettingsController* log_settings_controller )	{
 
-	log_settings_controller->zero_at_creation = RPDB_LogSettingsController_internal_config( log_settings_controller, DB_LOG_ZERO );
+	log_settings_controller->zero_at_creation = Rbdb_LogSettingsController_internal_config( log_settings_controller, DB_LOG_ZERO );
 
 	if ( log_settings_controller->zero_at_creation == TRUE )	{
 		return DB_LOG_ZERO;
@@ -249,8 +249,8 @@ int RPDB_LogSettingsController_zeroAtCreation( RPDB_LogSettingsController* log_s
 	*  turnZeroAtCreationOn  *
 	*******************************/
 
-	void RPDB_LogSettingsController_turnZeroAtCreationOn( RPDB_LogSettingsController* log_settings_controller )	{
-		RPDB_LogSettingsController_internal_setConfig( log_settings_controller, DB_LOG_ZERO, TRUE );
+	void Rbdb_LogSettingsController_turnZeroAtCreationOn( Rbdb_LogSettingsController* log_settings_controller )	{
+		Rbdb_LogSettingsController_internal_setConfig( log_settings_controller, DB_LOG_ZERO, TRUE );
 		log_settings_controller->zero_at_creation = TRUE;
 	}
 
@@ -258,8 +258,8 @@ int RPDB_LogSettingsController_zeroAtCreation( RPDB_LogSettingsController* log_s
 	*  turnZeroAtCreationOff  *
 	*****************************/
 
-	void RPDB_LogSettingsController_turnZeroAtCreationOff( RPDB_LogSettingsController* log_settings_controller )	{
-		RPDB_LogSettingsController_internal_setConfig( log_settings_controller, DB_LOG_ZERO, FALSE );
+	void Rbdb_LogSettingsController_turnZeroAtCreationOff( Rbdb_LogSettingsController* log_settings_controller )	{
+		Rbdb_LogSettingsController_internal_setConfig( log_settings_controller, DB_LOG_ZERO, FALSE );
 		log_settings_controller->zero_at_creation = FALSE;
 	}
 
@@ -267,7 +267,7 @@ int RPDB_LogSettingsController_zeroAtCreation( RPDB_LogSettingsController* log_s
 *  forceFlushAfterRecordWrite  *
 *********************************/
 
-int RPDB_LogSettingsController_forceFlushAfterRecordWrite( RPDB_LogSettingsController* log_settings_controller )	{
+int Rbdb_LogSettingsController_forceFlushAfterRecordWrite( Rbdb_LogSettingsController* log_settings_controller )	{
 
 	if ( log_settings_controller->force_flush_after_record_write == TRUE )	{
 		
@@ -281,7 +281,7 @@ int RPDB_LogSettingsController_forceFlushAfterRecordWrite( RPDB_LogSettingsContr
 	*  turnForceFlushAfterRecordWriteOn  *
 	*****************************************/
 
-	void RPDB_LogSettingsController_turnForceFlushAfterRecordWriteOn( RPDB_LogSettingsController* log_settings_controller )	{
+	void Rbdb_LogSettingsController_turnForceFlushAfterRecordWriteOn( Rbdb_LogSettingsController* log_settings_controller )	{
 	
 		log_settings_controller->force_flush_after_record_write = TRUE;
 	}
@@ -290,7 +290,7 @@ int RPDB_LogSettingsController_forceFlushAfterRecordWrite( RPDB_LogSettingsContr
 	*  turnForceFlushAfterRecordWriteOff  *
 	*****************************************/
 
-	void RPDB_LogSettingsController_turnForceFlushAfterRecordWriteOff( RPDB_LogSettingsController* log_settings_controller )	{
+	void Rbdb_LogSettingsController_turnForceFlushAfterRecordWriteOff( Rbdb_LogSettingsController* log_settings_controller )	{
 	
 		log_settings_controller->force_flush_after_record_write = FALSE;
 	}
@@ -300,9 +300,9 @@ int RPDB_LogSettingsController_forceFlushAfterRecordWrite( RPDB_LogSettingsContr
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_lg_bsize.html
-uint32_t RPDB_LogSettingsController_bufferSize( RPDB_LogSettingsController* log_settings_controller )	{
+uint32_t Rbdb_LogSettingsController_bufferSize( Rbdb_LogSettingsController* log_settings_controller )	{
 	
-	RPDB_Environment*		environment;
+	Rbdb_Environment*		environment;
 
 	environment = log_settings_controller->parent_settings_controller->parent_environment;
 
@@ -319,10 +319,10 @@ uint32_t RPDB_LogSettingsController_bufferSize( RPDB_LogSettingsController* log_
 *  setBufferSize  *
 *********************/
 
-void RPDB_LogSettingsController_setBufferSize(	RPDB_LogSettingsController*	log_settings_controller, 
+void Rbdb_LogSettingsController_setBufferSize(	Rbdb_LogSettingsController*	log_settings_controller, 
 												uint32_t						buffer_size )	{
 
-	RPDB_Environment*		environment;
+	Rbdb_Environment*		environment;
 
 	environment = log_settings_controller->parent_settings_controller->parent_environment;
 
@@ -340,9 +340,9 @@ void RPDB_LogSettingsController_setBufferSize(	RPDB_LogSettingsController*	log_s
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_lg_dir.html
-char* RPDB_LogSettingsController_directory( RPDB_LogSettingsController* log_settings_controller )	{
+char* Rbdb_LogSettingsController_directory( Rbdb_LogSettingsController* log_settings_controller )	{
 
-	RPDB_Environment*		environment;
+	Rbdb_Environment*		environment;
 
 	environment = log_settings_controller->parent_settings_controller->parent_environment;
 
@@ -360,10 +360,10 @@ char* RPDB_LogSettingsController_directory( RPDB_LogSettingsController* log_sett
 *  setDirectory  *
 *********************/
 
-void RPDB_LogSettingsController_setDirectory(	RPDB_LogSettingsController*	log_settings_controller, 
+void Rbdb_LogSettingsController_setDirectory(	Rbdb_LogSettingsController*	log_settings_controller, 
 												char*							directory )	{
 
-	RPDB_Environment*		environment;
+	Rbdb_Environment*		environment;
 
 	environment = log_settings_controller->parent_settings_controller->parent_environment;
 
@@ -380,13 +380,13 @@ void RPDB_LogSettingsController_setDirectory(	RPDB_LogSettingsController*	log_se
 
 //	Set the absolute file mode for created log files. This method is only useful for the rare Berkeley DB application that does not control its umask value.
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_lg_mode.html
-int RPDB_LogSettingsController_mode( RPDB_LogSettingsController* log_settings_controller )	{
+int Rbdb_LogSettingsController_mode( Rbdb_LogSettingsController* log_settings_controller )	{
 
-	RPDB_Environment*		environment;
+	Rbdb_Environment*		environment;
 
 	environment = log_settings_controller->parent_settings_controller->parent_environment;
 
-	if (	log_settings_controller->mode == RPDB_UNITIALIZED
+	if (	log_settings_controller->mode == Rbdb_UNITIALIZED
 		&&	environment->wrapped_bdb_environment != NULL )	{
 
 		environment->wrapped_bdb_environment->get_lg_filemode(	environment->wrapped_bdb_environment, 
@@ -399,10 +399,10 @@ int RPDB_LogSettingsController_mode( RPDB_LogSettingsController* log_settings_co
 *  setMode  *
 *****************/
 
-void RPDB_LogSettingsController_setMode(	RPDB_LogSettingsController*	log_settings_controller, 
+void Rbdb_LogSettingsController_setMode(	Rbdb_LogSettingsController*	log_settings_controller, 
 											int								mode )	{
 
-	RPDB_Environment*		environment;
+	Rbdb_Environment*		environment;
 
 	environment = log_settings_controller->parent_settings_controller->parent_environment;
 
@@ -419,9 +419,9 @@ void RPDB_LogSettingsController_setMode(	RPDB_LogSettingsController*	log_setting
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_lg_max.html
-int RPDB_LogSettingsController_maxLogSize( RPDB_LogSettingsController* log_settings_controller )	{
+int Rbdb_LogSettingsController_maxLogSize( Rbdb_LogSettingsController* log_settings_controller )	{
 
-	RPDB_Environment*		environment;
+	Rbdb_Environment*		environment;
 
 	environment = log_settings_controller->parent_settings_controller->parent_environment;
 
@@ -438,9 +438,9 @@ int RPDB_LogSettingsController_maxLogSize( RPDB_LogSettingsController* log_setti
 *  setMaxLogSize  *
 *********************/
 
-void RPDB_LogSettingsController_setMaxLogSize( RPDB_LogSettingsController* log_settings_controller, uint32_t max_size )	{
+void Rbdb_LogSettingsController_setMaxLogSize( Rbdb_LogSettingsController* log_settings_controller, uint32_t max_size )	{
 
-	RPDB_Environment*	environment	= log_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment	= log_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -456,9 +456,9 @@ void RPDB_LogSettingsController_setMaxLogSize( RPDB_LogSettingsController* log_s
 *********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_lg_regionmax.html
-int RPDB_LogSettingsController_maxRegionSize( RPDB_LogSettingsController* log_settings_controller )	{
+int Rbdb_LogSettingsController_maxRegionSize( Rbdb_LogSettingsController* log_settings_controller )	{
 
-	RPDB_Environment*		environment;
+	Rbdb_Environment*		environment;
 
 	environment = log_settings_controller->parent_settings_controller->parent_environment;
 
@@ -475,9 +475,9 @@ int RPDB_LogSettingsController_maxRegionSize( RPDB_LogSettingsController* log_se
 *  setMaxRegionSize  *
 *************************/
 
-void RPDB_LogSettingsController_setMaxRegionSize( RPDB_LogSettingsController* log_settings_controller, uint32_t max_region_size )	{
+void Rbdb_LogSettingsController_setMaxRegionSize( Rbdb_LogSettingsController* log_settings_controller, uint32_t max_region_size )	{
 
-	RPDB_Environment*		environment = log_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = log_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -498,13 +498,13 @@ void RPDB_LogSettingsController_setMaxRegionSize( RPDB_LogSettingsController* lo
 *  config  *
 **************/
 
-BOOL RPDB_LogSettingsController_internal_config( RPDB_LogSettingsController* log_settings_controller, uint32_t which_flag )	{
+BOOL Rbdb_LogSettingsController_internal_config( Rbdb_LogSettingsController* log_settings_controller, uint32_t which_flag )	{
 
-	RPDB_Environment*		environment	= log_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment	= log_settings_controller->parent_settings_controller->parent_environment;
 	int			on_or_off	=	FALSE;
 	
 	if (	environment->wrapped_bdb_environment != NULL
-		&&	RPDB_LogSettingsController_on( log_settings_controller ) )	{
+		&&	Rbdb_LogSettingsController_on( log_settings_controller ) )	{
 
 		environment->wrapped_bdb_environment->log_get_config(	environment->wrapped_bdb_environment, 
 																													which_flag, 
@@ -518,11 +518,11 @@ BOOL RPDB_LogSettingsController_internal_config( RPDB_LogSettingsController* log
 *  setConfig  *
 *****************/
 
-void RPDB_LogSettingsController_internal_setConfig(	RPDB_LogSettingsController* log_settings_controller, 
+void Rbdb_LogSettingsController_internal_setConfig(	Rbdb_LogSettingsController* log_settings_controller, 
 																										uint32_t which_flag, 
 																										BOOL on_or_off )	{
 
-	RPDB_Environment*		environment	= log_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment	= log_settings_controller->parent_settings_controller->parent_environment;
 	
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -536,20 +536,20 @@ void RPDB_LogSettingsController_internal_setConfig(	RPDB_LogSettingsController* 
 *  openFlags  *
 *****************/
 
-int RPDB_LogSettingsController_internal_openFlags( RPDB_LogSettingsController* log_settings_controller __attribute__((unused)) )	{
+int Rbdb_LogSettingsController_internal_openFlags( Rbdb_LogSettingsController* log_settings_controller __attribute__((unused)) )	{
 
 	//	Currently unused - returns 0
-	return RPDB_NO_FLAGS;
+	return Rbdb_NO_FLAGS;
 }
 
 /*****************
 *  closeFlags  *
 *****************/
 
-int RPDB_LogSettingsController_internal_closeFlags( RPDB_LogSettingsController* log_settings_controller __attribute__((unused)) )	{
+int Rbdb_LogSettingsController_internal_closeFlags( Rbdb_LogSettingsController* log_settings_controller __attribute__((unused)) )	{
 
 	//	Currently unused - returns 0
-	return RPDB_NO_FLAGS;
+	return Rbdb_NO_FLAGS;
 }
 
 /*************************
@@ -557,28 +557,28 @@ int RPDB_LogSettingsController_internal_closeFlags( RPDB_LogSettingsController* 
 *************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/log_put.html
-int RPDB_LogSettingsController_internal_appendRecordFlags( RPDB_LogSettingsController* log_settings_controller )	{
+int Rbdb_LogSettingsController_internal_appendRecordFlags( Rbdb_LogSettingsController* log_settings_controller )	{
 	
-	return RPDB_LogSettingsController_forceFlushAfterRecordWrite( log_settings_controller );	
+	return Rbdb_LogSettingsController_forceFlushAfterRecordWrite( log_settings_controller );	
 }
 
 /*********************
 *  setLogConfig  *
 ********************/
 
-void RPDB_LogSettingsController_internal_setLogConfig( RPDB_LogSettingsController* log_settings_controller )	{
+void Rbdb_LogSettingsController_internal_setLogConfig( Rbdb_LogSettingsController* log_settings_controller )	{
 	
-	RPDB_Environment*		environment	= log_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment	= log_settings_controller->parent_settings_controller->parent_environment;
 	
 	if (	environment->wrapped_bdb_environment != NULL
 		&&	environment->is_open )	{
 	
 		environment->wrapped_bdb_environment->log_set_config(	environment->wrapped_bdb_environment,
-																RPDB_LogSettingsController_disableSystemBuffering( log_settings_controller )
-																|	RPDB_LogSettingsController_flushBeforeReturnFromWrite( log_settings_controller )
-																|	RPDB_LogSettingsController_autoremoveLogs( log_settings_controller )
-																|	RPDB_LogSettingsController_logInMemory( log_settings_controller )
-																|	RPDB_LogSettingsController_zeroAtCreation( log_settings_controller ),
+																Rbdb_LogSettingsController_disableSystemBuffering( log_settings_controller )
+																|	Rbdb_LogSettingsController_flushBeforeReturnFromWrite( log_settings_controller )
+																|	Rbdb_LogSettingsController_autoremoveLogs( log_settings_controller )
+																|	Rbdb_LogSettingsController_logInMemory( log_settings_controller )
+																|	Rbdb_LogSettingsController_zeroAtCreation( log_settings_controller ),
 																1	);
 	}
 }
@@ -586,9 +586,9 @@ void RPDB_LogSettingsController_internal_setLogConfig( RPDB_LogSettingsControlle
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_LogSettingsController* RPDB_LogSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_LogSettingsController* log_settings_controller )	{
+Rbdb_LogSettingsController* Rbdb_LogSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_LogSettingsController* log_settings_controller )	{
 
-	RPDB_LogSettingsController* log_settings_controller_copy	=	RPDB_LogSettingsController_new( log_settings_controller->parent_settings_controller );
+	Rbdb_LogSettingsController* log_settings_controller_copy	=	Rbdb_LogSettingsController_new( log_settings_controller->parent_settings_controller );
 
 	//	Instances and Pointers
 	log_settings_controller_copy->buffer_size	=	log_settings_controller->buffer_size;

@@ -1,12 +1,12 @@
 /*
- *		RPDB::SettingsController::DatabaseSettingsController::CursorSettingsController::CursorCacheSettingsController::CursorSettingsCachePriorityController
- *		RPDB::DatabaseController::Database::CursorController::Cursor::CursorSettingsController::CursorCacheSettingsController::CursorSettingsCachePriorityController
+ *		Rbdb::SettingsController::DatabaseSettingsController::CursorSettingsController::CursorCacheSettingsController::CursorSettingsCachePriorityController
+ *		Rbdb::DatabaseController::Database::CursorController::Cursor::CursorSettingsController::CursorCacheSettingsController::CursorSettingsCachePriorityController
  *
  */
 
-#include "RPDB_DatabaseCursorCachePrioritySettingsController.h"
-#include "RPDB_DatabaseCursorCachePrioritySettingsController_internal.h"
-#include "RPDB_DatabaseCachePrioritySettingsController_internal.h"
+#include "Rbdb_DatabaseCursorCachePrioritySettingsController.h"
+#include "Rbdb_DatabaseCursorCachePrioritySettingsController_internal.h"
+#include "Rbdb_DatabaseCachePrioritySettingsController_internal.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -18,9 +18,9 @@
 *  new  *
 ************/
 
-RPDB_DatabaseCursorCachePrioritySettingsController* RPDB_DatabaseCursorCachePrioritySettingsController_new(		RPDB_DatabaseCursorCacheSettingsController*				database_cursor_cache_settings_controller )	{
+Rbdb_DatabaseCursorCachePrioritySettingsController* Rbdb_DatabaseCursorCachePrioritySettingsController_new(		Rbdb_DatabaseCursorCacheSettingsController*				database_cursor_cache_settings_controller )	{
 
-	RPDB_DatabaseCursorCachePrioritySettingsController*		database_cursor_cache_priority_settings_controller = calloc( 1, sizeof( RPDB_DatabaseCursorCachePrioritySettingsController ) );
+	Rbdb_DatabaseCursorCachePrioritySettingsController*		database_cursor_cache_priority_settings_controller = calloc( 1, sizeof( Rbdb_DatabaseCursorCachePrioritySettingsController ) );
 
 	database_cursor_cache_priority_settings_controller->parent_database_cursor_cache_settings_controller = database_cursor_cache_settings_controller;
 
@@ -30,7 +30,7 @@ RPDB_DatabaseCursorCachePrioritySettingsController* RPDB_DatabaseCursorCachePrio
 /***************************
 *  free  *
 ***************************/
-void RPDB_DatabaseCursorCachePrioritySettingsController_free(	RPDB_DatabaseCursorCachePrioritySettingsController** database_cursor_cache_priority_settings_controller )	{
+void Rbdb_DatabaseCursorCachePrioritySettingsController_free(	Rbdb_DatabaseCursorCachePrioritySettingsController** database_cursor_cache_priority_settings_controller )	{
 
 	free( *database_cursor_cache_priority_settings_controller );
 	*database_cursor_cache_priority_settings_controller	=	NULL;
@@ -39,21 +39,21 @@ void RPDB_DatabaseCursorCachePrioritySettingsController_free(	RPDB_DatabaseCurso
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_DatabaseCursorCachePrioritySettingsController_parentEnvironment(	RPDB_DatabaseCursorCachePrioritySettingsController* database_cursor_cache_priority_settings_controller )	{
+Rbdb_Environment* Rbdb_DatabaseCursorCachePrioritySettingsController_parentEnvironment(	Rbdb_DatabaseCursorCachePrioritySettingsController* database_cursor_cache_priority_settings_controller )	{
 	return database_cursor_cache_priority_settings_controller->parent_database_cursor_cache_settings_controller->parent_database_cursor_settings_controller->parent_database_cursor->parent_database_cursor_controller->parent_database->parent_database_controller->parent_environment;
 }
 
 /***************************************
 *  parentDatabase  *
 ***************************************/
-RPDB_Database* RPDB_DatabaseCursorCachePrioritySettingsController_parentDatabase(	RPDB_DatabaseCursorCachePrioritySettingsController* database_cursor_cache_priority_settings_controller )	{
+Rbdb_Database* Rbdb_DatabaseCursorCachePrioritySettingsController_parentDatabase(	Rbdb_DatabaseCursorCachePrioritySettingsController* database_cursor_cache_priority_settings_controller )	{
 	return database_cursor_cache_priority_settings_controller->parent_database_cursor_cache_settings_controller->parent_database_cursor_settings_controller->parent_database_cursor->parent_database_cursor_controller->parent_database;
 }
 
 /***************************************
 *  parentDatabaseCursor  *
 ***************************************/
-RPDB_DatabaseCursor* RPDB_DatabaseCursorCachePrioritySettingsController_parentDatabaseCursor(	RPDB_DatabaseCursorCachePrioritySettingsController* database_cursor_cache_priority_settings_controller )	{
+Rbdb_DatabaseCursor* Rbdb_DatabaseCursorCachePrioritySettingsController_parentDatabaseCursor(	Rbdb_DatabaseCursorCachePrioritySettingsController* database_cursor_cache_priority_settings_controller )	{
 	return database_cursor_cache_priority_settings_controller->parent_database_cursor_cache_settings_controller->parent_database_cursor_settings_controller->parent_database_cursor;
 }
 
@@ -62,9 +62,9 @@ RPDB_DatabaseCursor* RPDB_DatabaseCursorCachePrioritySettingsController_parentDa
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_set_priority.html
-DB_CACHE_PRIORITY RPDB_DatabaseCursorCachePrioritySettingsController_priority( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+DB_CACHE_PRIORITY Rbdb_DatabaseCursorCachePrioritySettingsController_priority( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 	
-	RPDB_Database*					database;
+	Rbdb_Database*					database;
 	
 	database = cursor_cache_priority_settings_controller->parent_database_cursor_cache_settings_controller->parent_database_cursor_settings_controller->parent_database_settings_controller->parent_database;
 	
@@ -83,36 +83,36 @@ DB_CACHE_PRIORITY RPDB_DatabaseCursorCachePrioritySettingsController_priority( R
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_set_priority.html
-BOOL RPDB_DatabaseCursorCachePrioritySettingsController_veryLow( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+BOOL Rbdb_DatabaseCursorCachePrioritySettingsController_veryLow( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	return RPDB_DatabaseCursorCachePrioritySettingsController_internal_isPriority( cursor_cache_priority_settings_controller, DB_PRIORITY_VERY_LOW );
+	return Rbdb_DatabaseCursorCachePrioritySettingsController_internal_isPriority( cursor_cache_priority_settings_controller, DB_PRIORITY_VERY_LOW );
 }
 
 /*****************
 *  setVeryLow  *
 *****************/
 
-void RPDB_DatabaseCursorCachePrioritySettingsController_setVeryLow( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+void Rbdb_DatabaseCursorCachePrioritySettingsController_setVeryLow( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	RPDB_DatabaseCursorCachePrioritySettingsController_internal_setPriorityTo( cursor_cache_priority_settings_controller, DB_PRIORITY_VERY_LOW );
+	Rbdb_DatabaseCursorCachePrioritySettingsController_internal_setPriorityTo( cursor_cache_priority_settings_controller, DB_PRIORITY_VERY_LOW );
 }
 
 /*********************
 *  atLeastVeryLow  *
 *********************/
 
-BOOL RPDB_DatabaseCursorCachePrioritySettingsController_isAtLeastVeryLow( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+BOOL Rbdb_DatabaseCursorCachePrioritySettingsController_isAtLeastVeryLow( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	return RPDB_DatabaseCursorCachePrioritySettingsController_internal_isAtLeast( cursor_cache_priority_settings_controller, DB_PRIORITY_VERY_LOW );
+	return Rbdb_DatabaseCursorCachePrioritySettingsController_internal_isAtLeast( cursor_cache_priority_settings_controller, DB_PRIORITY_VERY_LOW );
 }
 
 /*********************
 *  atMostVeryLow  *
 *********************/
 
-BOOL RPDB_DatabaseCursorCachePrioritySettingsController_isAtMostVeryLow( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+BOOL Rbdb_DatabaseCursorCachePrioritySettingsController_isAtMostVeryLow( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	return RPDB_DatabaseCursorCachePrioritySettingsController_internal_isAtMost( cursor_cache_priority_settings_controller, DB_PRIORITY_VERY_LOW );
+	return Rbdb_DatabaseCursorCachePrioritySettingsController_internal_isAtMost( cursor_cache_priority_settings_controller, DB_PRIORITY_VERY_LOW );
 }
 
 /************
@@ -120,36 +120,36 @@ BOOL RPDB_DatabaseCursorCachePrioritySettingsController_isAtMostVeryLow( RPDB_Da
 ************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_set_priority.html
-BOOL RPDB_DatabaseCursorCachePrioritySettingsController_low( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+BOOL Rbdb_DatabaseCursorCachePrioritySettingsController_low( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	return RPDB_DatabaseCursorCachePrioritySettingsController_internal_isPriority( cursor_cache_priority_settings_controller, DB_PRIORITY_LOW );
+	return Rbdb_DatabaseCursorCachePrioritySettingsController_internal_isPriority( cursor_cache_priority_settings_controller, DB_PRIORITY_LOW );
 }
 
 /*************
 *  setLow  *
 *************/
 
-void RPDB_DatabaseCursorCachePrioritySettingsController_setLow( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+void Rbdb_DatabaseCursorCachePrioritySettingsController_setLow( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	RPDB_DatabaseCursorCachePrioritySettingsController_internal_setPriorityTo( cursor_cache_priority_settings_controller, DB_PRIORITY_LOW );
+	Rbdb_DatabaseCursorCachePrioritySettingsController_internal_setPriorityTo( cursor_cache_priority_settings_controller, DB_PRIORITY_LOW );
 }
 
 /*****************
 *  atLeastLow  *
 *****************/
 
-BOOL RPDB_DatabaseCursorCachePrioritySettingsController_isAtLeastLow( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+BOOL Rbdb_DatabaseCursorCachePrioritySettingsController_isAtLeastLow( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	return RPDB_DatabaseCursorCachePrioritySettingsController_internal_isAtLeast( cursor_cache_priority_settings_controller, DB_PRIORITY_LOW );
+	return Rbdb_DatabaseCursorCachePrioritySettingsController_internal_isAtLeast( cursor_cache_priority_settings_controller, DB_PRIORITY_LOW );
 }
 
 /*********************
 *  atMostLow  *
 *********************/
 
-BOOL RPDB_DatabaseCursorCachePrioritySettingsController_isAtMostLow( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+BOOL Rbdb_DatabaseCursorCachePrioritySettingsController_isAtMostLow( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	return RPDB_DatabaseCursorCachePrioritySettingsController_internal_isAtMost( cursor_cache_priority_settings_controller, DB_PRIORITY_LOW );
+	return Rbdb_DatabaseCursorCachePrioritySettingsController_internal_isAtMost( cursor_cache_priority_settings_controller, DB_PRIORITY_LOW );
 }
 
 /*****************
@@ -157,36 +157,36 @@ BOOL RPDB_DatabaseCursorCachePrioritySettingsController_isAtMostLow( RPDB_Databa
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_set_priority.html
-BOOL RPDB_DatabaseCursorCachePrioritySettingsController_default( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+BOOL Rbdb_DatabaseCursorCachePrioritySettingsController_default( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	return RPDB_DatabaseCursorCachePrioritySettingsController_internal_isPriority( cursor_cache_priority_settings_controller, DB_PRIORITY_DEFAULT );
+	return Rbdb_DatabaseCursorCachePrioritySettingsController_internal_isPriority( cursor_cache_priority_settings_controller, DB_PRIORITY_DEFAULT );
 }
 
 /*****************
 *  setDefault  *
 *****************/
 
-void RPDB_DatabaseCursorCachePrioritySettingsController_setDefault( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+void Rbdb_DatabaseCursorCachePrioritySettingsController_setDefault( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	RPDB_DatabaseCursorCachePrioritySettingsController_internal_setPriorityTo( cursor_cache_priority_settings_controller, DB_PRIORITY_DEFAULT );
+	Rbdb_DatabaseCursorCachePrioritySettingsController_internal_setPriorityTo( cursor_cache_priority_settings_controller, DB_PRIORITY_DEFAULT );
 }
 
 /*********************
 *  atLeastDefault  *
 *********************/
 
-BOOL RPDB_DatabaseCursorCachePrioritySettingsController_isAtLeastDefault( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+BOOL Rbdb_DatabaseCursorCachePrioritySettingsController_isAtLeastDefault( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	return RPDB_DatabaseCursorCachePrioritySettingsController_internal_isAtLeast( cursor_cache_priority_settings_controller, DB_PRIORITY_DEFAULT );
+	return Rbdb_DatabaseCursorCachePrioritySettingsController_internal_isAtLeast( cursor_cache_priority_settings_controller, DB_PRIORITY_DEFAULT );
 }
 
 /*********************
 *  atMostDefault  *
 *********************/
 
-BOOL RPDB_DatabaseCursorCachePrioritySettingsController_isAtMostDefault( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+BOOL Rbdb_DatabaseCursorCachePrioritySettingsController_isAtMostDefault( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	return RPDB_DatabaseCursorCachePrioritySettingsController_internal_isAtMost( cursor_cache_priority_settings_controller, DB_PRIORITY_DEFAULT );
+	return Rbdb_DatabaseCursorCachePrioritySettingsController_internal_isAtMost( cursor_cache_priority_settings_controller, DB_PRIORITY_DEFAULT );
 }
 
 /*************
@@ -194,36 +194,36 @@ BOOL RPDB_DatabaseCursorCachePrioritySettingsController_isAtMostDefault( RPDB_Da
 *************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_set_priority.html
-BOOL RPDB_DatabaseCursorCachePrioritySettingsController_high( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+BOOL Rbdb_DatabaseCursorCachePrioritySettingsController_high( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	return RPDB_DatabaseCursorCachePrioritySettingsController_internal_isPriority( cursor_cache_priority_settings_controller, DB_PRIORITY_HIGH );
+	return Rbdb_DatabaseCursorCachePrioritySettingsController_internal_isPriority( cursor_cache_priority_settings_controller, DB_PRIORITY_HIGH );
 }
 
 /*****************
 *  setHigh  *
 *****************/
 
-void RPDB_DatabaseCursorCachePrioritySettingsController_setHigh( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+void Rbdb_DatabaseCursorCachePrioritySettingsController_setHigh( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	RPDB_DatabaseCursorCachePrioritySettingsController_internal_setPriorityTo( cursor_cache_priority_settings_controller, DB_PRIORITY_HIGH );
+	Rbdb_DatabaseCursorCachePrioritySettingsController_internal_setPriorityTo( cursor_cache_priority_settings_controller, DB_PRIORITY_HIGH );
 }
 
 /*********************
 *  atLeastHigh  *
 *********************/
 
-BOOL RPDB_DatabaseCursorCachePrioritySettingsController_isAtLeastHigh( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+BOOL Rbdb_DatabaseCursorCachePrioritySettingsController_isAtLeastHigh( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	return RPDB_DatabaseCursorCachePrioritySettingsController_internal_isAtLeast( cursor_cache_priority_settings_controller, DB_PRIORITY_HIGH );
+	return Rbdb_DatabaseCursorCachePrioritySettingsController_internal_isAtLeast( cursor_cache_priority_settings_controller, DB_PRIORITY_HIGH );
 }
 
 /*********************
 *  atMostHigh  *
 *********************/
 
-BOOL RPDB_DatabaseCursorCachePrioritySettingsController_isAtMostHigh( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+BOOL Rbdb_DatabaseCursorCachePrioritySettingsController_isAtMostHigh( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	return RPDB_DatabaseCursorCachePrioritySettingsController_internal_isAtMost( cursor_cache_priority_settings_controller, DB_PRIORITY_HIGH );
+	return Rbdb_DatabaseCursorCachePrioritySettingsController_internal_isAtMost( cursor_cache_priority_settings_controller, DB_PRIORITY_HIGH );
 }
 
 /*****************
@@ -231,36 +231,36 @@ BOOL RPDB_DatabaseCursorCachePrioritySettingsController_isAtMostHigh( RPDB_Datab
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_set_priority.html
-BOOL RPDB_DatabaseCursorCachePrioritySettingsController_veryHigh( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+BOOL Rbdb_DatabaseCursorCachePrioritySettingsController_veryHigh( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	return RPDB_DatabaseCursorCachePrioritySettingsController_internal_isPriority( cursor_cache_priority_settings_controller, DB_PRIORITY_VERY_HIGH );
+	return Rbdb_DatabaseCursorCachePrioritySettingsController_internal_isPriority( cursor_cache_priority_settings_controller, DB_PRIORITY_VERY_HIGH );
 }
 
 /*********************
 *  setVeryHigh  *
 *********************/
 
-void RPDB_DatabaseCursorCachePrioritySettingsController_setVeryHigh( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+void Rbdb_DatabaseCursorCachePrioritySettingsController_setVeryHigh( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	RPDB_DatabaseCursorCachePrioritySettingsController_internal_setPriorityTo( cursor_cache_priority_settings_controller, DB_PRIORITY_VERY_HIGH );
+	Rbdb_DatabaseCursorCachePrioritySettingsController_internal_setPriorityTo( cursor_cache_priority_settings_controller, DB_PRIORITY_VERY_HIGH );
 }
 
 /*************************
 *  atLeastVeryHigh  *
 *************************/
 
-BOOL RPDB_DatabaseCursorCachePrioritySettingsController_isAtLeastVeryHigh( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+BOOL Rbdb_DatabaseCursorCachePrioritySettingsController_isAtLeastVeryHigh( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	return RPDB_DatabaseCursorCachePrioritySettingsController_internal_isAtLeast( cursor_cache_priority_settings_controller, DB_PRIORITY_VERY_HIGH );
+	return Rbdb_DatabaseCursorCachePrioritySettingsController_internal_isAtLeast( cursor_cache_priority_settings_controller, DB_PRIORITY_VERY_HIGH );
 }
 
 /*********************
 *  atMostVeryHigh  *
 *********************/
 
-BOOL RPDB_DatabaseCursorCachePrioritySettingsController_isAtMostVeryHigh( RPDB_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
+BOOL Rbdb_DatabaseCursorCachePrioritySettingsController_isAtMostVeryHigh( Rbdb_DatabaseCursorCachePrioritySettingsController* cursor_cache_priority_settings_controller )	{
 
-	return RPDB_DatabaseCursorCachePrioritySettingsController_internal_isAtMost( cursor_cache_priority_settings_controller, DB_PRIORITY_VERY_HIGH );
+	return Rbdb_DatabaseCursorCachePrioritySettingsController_internal_isAtMost( cursor_cache_priority_settings_controller, DB_PRIORITY_VERY_HIGH );
 }
 
 /*******************************************************************************************************************************************************************************************
@@ -274,10 +274,10 @@ BOOL RPDB_DatabaseCursorCachePrioritySettingsController_isAtMostVeryHigh( RPDB_D
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_set_priority.html
-BOOL RPDB_DatabaseCursorCachePrioritySettingsController_internal_isAtLeast(	RPDB_DatabaseCursorCachePrioritySettingsController*	cursor_cache_priority_settings_controller, 
+BOOL Rbdb_DatabaseCursorCachePrioritySettingsController_internal_isAtLeast(	Rbdb_DatabaseCursorCachePrioritySettingsController*	cursor_cache_priority_settings_controller, 
 																																						DB_CACHE_PRIORITY										cache_priority )	{
 
-	DB_CACHE_PRIORITY	current_priority	=	RPDB_DatabaseCursorCachePrioritySettingsController_priority( cursor_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY	current_priority	=	Rbdb_DatabaseCursorCachePrioritySettingsController_priority( cursor_cache_priority_settings_controller );
 
 	BOOL	is_at_least	=	( ( current_priority >= cache_priority ) ? TRUE : FALSE );
 
@@ -288,10 +288,10 @@ BOOL RPDB_DatabaseCursorCachePrioritySettingsController_internal_isAtLeast(	RPDB
 *  isAtMost  *
 *****************/
 
-BOOL RPDB_DatabaseCursorCachePrioritySettingsController_internal_isAtMost(	RPDB_DatabaseCursorCachePrioritySettingsController*	cursor_cache_priority_settings_controller, 
+BOOL Rbdb_DatabaseCursorCachePrioritySettingsController_internal_isAtMost(	Rbdb_DatabaseCursorCachePrioritySettingsController*	cursor_cache_priority_settings_controller, 
 																																						DB_CACHE_PRIORITY										cache_priority )	{
 
-	DB_CACHE_PRIORITY	current_priority	=	RPDB_DatabaseCursorCachePrioritySettingsController_priority( cursor_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY	current_priority	=	Rbdb_DatabaseCursorCachePrioritySettingsController_priority( cursor_cache_priority_settings_controller );
 
 	BOOL	is_at_most	=	( ( current_priority <= cache_priority ) ? TRUE : FALSE );
 
@@ -302,10 +302,10 @@ BOOL RPDB_DatabaseCursorCachePrioritySettingsController_internal_isAtMost(	RPDB_
 *  checkIfPriorityIs  *
 **************************/
 
-BOOL RPDB_DatabaseCursorCachePrioritySettingsController_internal_isPriority(	RPDB_DatabaseCursorCachePrioritySettingsController*	cursor_cache_priority_settings_controller, 
+BOOL Rbdb_DatabaseCursorCachePrioritySettingsController_internal_isPriority(	Rbdb_DatabaseCursorCachePrioritySettingsController*	cursor_cache_priority_settings_controller, 
 																																							DB_CACHE_PRIORITY										cache_priority )	{
 
-	DB_CACHE_PRIORITY	current_priority	=	RPDB_DatabaseCursorCachePrioritySettingsController_priority( cursor_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY	current_priority	=	Rbdb_DatabaseCursorCachePrioritySettingsController_priority( cursor_cache_priority_settings_controller );
 
 	BOOL	is_equal	=	( ( current_priority == cache_priority ) ? TRUE : FALSE );
 
@@ -316,13 +316,13 @@ BOOL RPDB_DatabaseCursorCachePrioritySettingsController_internal_isPriority(	RPD
 *  setPriorityTo  *
 **********************/
 
-void RPDB_DatabaseCursorCachePrioritySettingsController_internal_setPriorityTo(	RPDB_DatabaseCursorCachePrioritySettingsController*	cursor_cache_priority_settings_controller, 
+void Rbdb_DatabaseCursorCachePrioritySettingsController_internal_setPriorityTo(	Rbdb_DatabaseCursorCachePrioritySettingsController*	cursor_cache_priority_settings_controller, 
 																																								DB_CACHE_PRIORITY										cache_priority )	{
 
 
-	RPDB_DatabaseCursorSettingsController*	database_cursor_settings_controller	=	cursor_cache_priority_settings_controller->parent_database_cursor_cache_settings_controller->parent_database_cursor_settings_controller;
+	Rbdb_DatabaseCursorSettingsController*	database_cursor_settings_controller	=	cursor_cache_priority_settings_controller->parent_database_cursor_cache_settings_controller->parent_database_cursor_settings_controller;
 	
-	RPDB_Database*			database	=	NULL;
+	Rbdb_Database*			database	=	NULL;
 	if ( database_cursor_settings_controller->parent_database_cursor != NULL )	{
 		database	=	database_cursor_settings_controller->parent_database_cursor->parent_database_cursor_controller->parent_database;
 	}
@@ -343,9 +343,9 @@ void RPDB_DatabaseCursorCachePrioritySettingsController_internal_setPriorityTo(	
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_DatabaseCursorCachePrioritySettingsController* RPDB_DatabaseCursorCachePrioritySettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseCursorCachePrioritySettingsController* database_cursor_cache_priority_settings_controller )	{
+Rbdb_DatabaseCursorCachePrioritySettingsController* Rbdb_DatabaseCursorCachePrioritySettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseCursorCachePrioritySettingsController* database_cursor_cache_priority_settings_controller )	{
 
-	RPDB_DatabaseCursorCachePrioritySettingsController* database_cursor_cache_priority_settings_controller_copy	=	RPDB_DatabaseCursorCachePrioritySettingsController_new( database_cursor_cache_priority_settings_controller->parent_database_cursor_cache_settings_controller );
+	Rbdb_DatabaseCursorCachePrioritySettingsController* database_cursor_cache_priority_settings_controller_copy	=	Rbdb_DatabaseCursorCachePrioritySettingsController_new( database_cursor_cache_priority_settings_controller->parent_database_cursor_cache_settings_controller );
 
 	//	Instances and Pointers
 	database_cursor_cache_priority_settings_controller_copy->priority	=	database_cursor_cache_priority_settings_controller->priority;

@@ -1,30 +1,30 @@
 /*
- *		RPDB::MutexController::Mutex
+ *		Rbdb::MutexController::Mutex
  *
  *	
  */
 
-#ifndef RPDB_MUTEX
-	#define RPDB_MUTEX
+#ifndef Rbdb_MUTEX
+	#define Rbdb_MUTEX
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_Mutex*					RPDB_Mutex_new(					RPDB_MutexController*				parent_mutex_controller );
+	Rbdb_Mutex*					Rbdb_Mutex_new(					Rbdb_MutexController*				parent_mutex_controller );
 
-	void							RPDB_Mutex_free(	RPDB_Mutex** mutex );
-	RPDB_MutexSettingsController*	RPDB_Mutex_settingsController(	RPDB_Mutex* mutex );
-	RPDB_Environment*		RPDB_Mutex_parentEnvironment(	RPDB_Mutex* mutex );
+	void							Rbdb_Mutex_free(	Rbdb_Mutex** mutex );
+	Rbdb_MutexSettingsController*	Rbdb_Mutex_settingsController(	Rbdb_Mutex* mutex );
+	Rbdb_Environment*		Rbdb_Mutex_parentEnvironment(	Rbdb_Mutex* mutex );
 
-	void								RPDB_Mutex_free(					RPDB_Mutex**						mutex );
-	RPDB_Mutex*					RPDB_Mutex_open(					RPDB_Mutex*						mutex );
-	void							RPDB_Mutex_close(					RPDB_Mutex*						mutex );
-	RPDB_Mutex*					RPDB_Mutex_lock(					RPDB_Mutex*						mutex );
-	RPDB_Mutex*					RPDB_Mutex_unlock(					RPDB_Mutex*						mutex );
-	RPDB_MutexSettingsController*	RPDB_Mutex_settingsController(		RPDB_Mutex*						mutex );
+	void								Rbdb_Mutex_free(					Rbdb_Mutex**						mutex );
+	Rbdb_Mutex*					Rbdb_Mutex_open(					Rbdb_Mutex*						mutex );
+	void							Rbdb_Mutex_close(					Rbdb_Mutex*						mutex );
+	Rbdb_Mutex*					Rbdb_Mutex_lock(					Rbdb_Mutex*						mutex );
+	Rbdb_Mutex*					Rbdb_Mutex_unlock(					Rbdb_Mutex*						mutex );
+	Rbdb_MutexSettingsController*	Rbdb_Mutex_settingsController(		Rbdb_Mutex*						mutex );
 
 
 #endif

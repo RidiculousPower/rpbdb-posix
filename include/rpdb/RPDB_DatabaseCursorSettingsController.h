@@ -1,31 +1,31 @@
 /*
- *		RPDB::DatabaseController::Database::CursorController::Cursor::CursorSettingsController
+ *		Rbdb::DatabaseController::Database::CursorController::Cursor::CursorSettingsController
  *
  *
  */
 
-#ifndef RPDB_DATABASE_CURSOR_SETTINGS_CONTROLLER
-	#define RPDB_DATABASE_CURSOR_SETTINGS_CONTROLLER
+#ifndef Rbdb_DATABASE_CURSOR_SETTINGS_CONTROLLER
+	#define Rbdb_DATABASE_CURSOR_SETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_DatabaseCursorSettingsController*				RPDB_DatabaseCursorSettingsController_new(									RPDB_DatabaseSettingsController*				database_settings_controller );
+	Rbdb_DatabaseCursorSettingsController*				Rbdb_DatabaseCursorSettingsController_new(									Rbdb_DatabaseSettingsController*				database_settings_controller );
 
-	void												RPDB_DatabaseCursorSettingsController_free(								RPDB_DatabaseCursorSettingsController** database_cursor_settings_controller );
-	RPDB_Environment*							RPDB_DatabaseCursorSettingsController_parentEnvironment(		RPDB_DatabaseCursorSettingsController* database_cursor_settings_controller );
-	RPDB_Database* RPDB_DatabaseCursorSettingsController_parentDatabase(	RPDB_DatabaseCursorSettingsController* database_cursor_settings_controller );
-	RPDB_DatabaseCursor* RPDB_DatabaseCursorSettingsController_parentDatabaseCursor(	RPDB_DatabaseCursorSettingsController* database_cursor_settings_controller );
+	void												Rbdb_DatabaseCursorSettingsController_free(								Rbdb_DatabaseCursorSettingsController** database_cursor_settings_controller );
+	Rbdb_Environment*							Rbdb_DatabaseCursorSettingsController_parentEnvironment(		Rbdb_DatabaseCursorSettingsController* database_cursor_settings_controller );
+	Rbdb_Database* Rbdb_DatabaseCursorSettingsController_parentDatabase(	Rbdb_DatabaseCursorSettingsController* database_cursor_settings_controller );
+	Rbdb_DatabaseCursor* Rbdb_DatabaseCursorSettingsController_parentDatabaseCursor(	Rbdb_DatabaseCursorSettingsController* database_cursor_settings_controller );
 																																		
-	BOOL												RPDB_DatabaseCursorSettingsController_duplicateRetainsLocation(			RPDB_DatabaseCursorSettingsController*			cursor_settings_controller );
-	void												RPDB_DatabaseCursorSettingsController_turnDuplicateRetainsLocationOn(		RPDB_DatabaseCursorSettingsController*			cursor_settings_controller );
-	void												RPDB_DatabaseCursorSettingsController_turnDuplicateRetainsLocationOff(		RPDB_DatabaseCursorSettingsController*			cursor_settings_controller );
+	BOOL												Rbdb_DatabaseCursorSettingsController_duplicateRetainsLocation(			Rbdb_DatabaseCursorSettingsController*			cursor_settings_controller );
+	void												Rbdb_DatabaseCursorSettingsController_turnDuplicateRetainsLocationOn(		Rbdb_DatabaseCursorSettingsController*			cursor_settings_controller );
+	void												Rbdb_DatabaseCursorSettingsController_turnDuplicateRetainsLocationOff(		Rbdb_DatabaseCursorSettingsController*			cursor_settings_controller );
 																																	
-	RPDB_DatabaseCursorCacheSettingsController*		RPDB_DatabaseCursorSettingsController_cacheSettingsController(				RPDB_DatabaseCursorSettingsController*			cursor_settings_controller );
-	RPDB_DatabaseCursorReadWriteSettingsController*			RPDB_DatabaseCursorSettingsController_readWriteSettingsController(			RPDB_DatabaseCursorSettingsController*			cursor_settings_controller );
+	Rbdb_DatabaseCursorCacheSettingsController*		Rbdb_DatabaseCursorSettingsController_cacheSettingsController(				Rbdb_DatabaseCursorSettingsController*			cursor_settings_controller );
+	Rbdb_DatabaseCursorReadWriteSettingsController*			Rbdb_DatabaseCursorSettingsController_readWriteSettingsController(			Rbdb_DatabaseCursorSettingsController*			cursor_settings_controller );
 
 #endif
 

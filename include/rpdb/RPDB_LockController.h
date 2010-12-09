@@ -1,57 +1,57 @@
 /*
- *		RPDB::LockController
+ *		Rbdb::LockController
  *
  *
  */
 
-#ifndef RPDB_LOCK_CONTROLLER
-	#define RPDB_LOCK_CONTROLLER
+#ifndef Rbdb_LOCK_CONTROLLER
+	#define Rbdb_LOCK_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 	
-	RPDB_LockController*			RPDB_LockController_new(											RPDB_Environment*				parent_environment );
+	Rbdb_LockController*			Rbdb_LockController_new(											Rbdb_Environment*				parent_environment );
 
-	void							RPDB_LockController_free(	RPDB_LockController** lock_controller );
-	RPDB_LockSettingsController*	RPDB_LockController_settingsController(	RPDB_LockController* lock_controller );
-	RPDB_Environment*		RPDB_LockController_parentEnvironment(	RPDB_LockController* lock_controller );
+	void							Rbdb_LockController_free(	Rbdb_LockController** lock_controller );
+	Rbdb_LockSettingsController*	Rbdb_LockController_settingsController(	Rbdb_LockController* lock_controller );
+	Rbdb_Environment*		Rbdb_LockController_parentEnvironment(	Rbdb_LockController* lock_controller );
 
-	void							RPDB_LockController_free(											RPDB_LockController**			lock_controller );
-	uint32_t						RPDB_LockController_lockerID(										RPDB_LockController*			lock_controller );
-	RPDB_Lock*						RPDB_LockController_createLock(									RPDB_LockController*			lock_controller );
-	void							RPDB_LockController_queueLock(										RPDB_LockController*							lock_controller,
-									   																	RPDB_Lock*						lock_for_queue );
-	void							RPDB_LockController_removeLockFromQueue(							RPDB_LockController*							lock_controller,
-									   																	RPDB_Lock*						queued_lock );
-	RPDB_Lock**					RPDB_LockController_obtainQueuedLocks(								RPDB_LockController*			lock_controller	);
-	RPDB_Lock**					RPDB_LockController_releaseQueuedLocks(							RPDB_LockController*			lock_controller	);
-	RPDB_Lock**					RPDB_LockController_obtainLocks(									RPDB_LockController*			lock_controller,
-									   																	RPDB_Lock**					locks_to_obtain,
+	void							Rbdb_LockController_free(											Rbdb_LockController**			lock_controller );
+	uint32_t						Rbdb_LockController_lockerID(										Rbdb_LockController*			lock_controller );
+	Rbdb_Lock*						Rbdb_LockController_createLock(									Rbdb_LockController*			lock_controller );
+	void							Rbdb_LockController_queueLock(										Rbdb_LockController*							lock_controller,
+									   																	Rbdb_Lock*						lock_for_queue );
+	void							Rbdb_LockController_removeLockFromQueue(							Rbdb_LockController*							lock_controller,
+									   																	Rbdb_Lock*						queued_lock );
+	Rbdb_Lock**					Rbdb_LockController_obtainQueuedLocks(								Rbdb_LockController*			lock_controller	);
+	Rbdb_Lock**					Rbdb_LockController_releaseQueuedLocks(							Rbdb_LockController*			lock_controller	);
+	Rbdb_Lock**					Rbdb_LockController_obtainLocks(									Rbdb_LockController*			lock_controller,
+									   																	Rbdb_Lock**					locks_to_obtain,
 									   																	int								number_of_locks_to_obtain	);
-	RPDB_Lock**					RPDB_LockController_obtainLocksAndOverrideTimeout(					RPDB_LockController*			lock_controller,
-									   																	RPDB_Lock**					locks_to_obtain,
+	Rbdb_Lock**					Rbdb_LockController_obtainLocksAndOverrideTimeout(					Rbdb_LockController*			lock_controller,
+									   																	Rbdb_Lock**					locks_to_obtain,
 									   																	int								number_of_locks_to_obtain,
 									   																	uint32_t						timeout	);
-	RPDB_Lock**					RPDB_LockController_releaseLocks(									RPDB_LockController*			lock_controller,
-									   																	RPDB_Lock**					locks_to_release,
+	Rbdb_Lock**					Rbdb_LockController_releaseLocks(									Rbdb_LockController*			lock_controller,
+									   																	Rbdb_Lock**					locks_to_release,
 									   																	int								number_of_locks_to_release	);
-	void							RPDB_LockController_releaseAllLocks(								RPDB_LockController*			lock_controller	);
-	void							RPDB_LockController_releaseAllLocksOnObject(						RPDB_LockController*			lock_controller,
-									   																	RPDB_Record*					record	);
-	int								RPDB_LockController_clearDefaultLocks(								RPDB_LockController*			lock_controller );
-	int								RPDB_LockController_clearExpiredLocks(								RPDB_LockController*			lock_controller );
-	int								RPDB_LockController_clearLockRequestForLockerWithMostLocks(		RPDB_LockController*			lock_controller );
-	int								RPDB_LockController_clearLockRequestForLockerWithMostWriteLocks(	RPDB_LockController*			lock_controller );
-	int								RPDB_LockController_clearLockRequestForLockerWithLeastLocks(		RPDB_LockController*			lock_controller );
-	int								RPDB_LockController_clearLockRequestForLockerWithLeastWriteLocks(	RPDB_LockController*			lock_controller );
-	int								RPDB_LockController_clearLockRequestForLockerWithOldestLock(		RPDB_LockController*			lock_controller );
-	int								RPDB_LockController_clearLockRequestForLockerWithYoungestLock(		RPDB_LockController*			lock_controller );
-	int								RPDB_LockController_clearLockRequestForRandomLocker(				RPDB_LockController*			lock_controller );
-	void							RPDB_LockController_closeAllLocks(									RPDB_LockController*			lock_controller );
-	RPDB_LockSettingsController*	RPDB_LockController_settingsController(							RPDB_LockController*			lock_controller );
+	void							Rbdb_LockController_releaseAllLocks(								Rbdb_LockController*			lock_controller	);
+	void							Rbdb_LockController_releaseAllLocksOnObject(						Rbdb_LockController*			lock_controller,
+									   																	Rbdb_Record*					record	);
+	int								Rbdb_LockController_clearDefaultLocks(								Rbdb_LockController*			lock_controller );
+	int								Rbdb_LockController_clearExpiredLocks(								Rbdb_LockController*			lock_controller );
+	int								Rbdb_LockController_clearLockRequestForLockerWithMostLocks(		Rbdb_LockController*			lock_controller );
+	int								Rbdb_LockController_clearLockRequestForLockerWithMostWriteLocks(	Rbdb_LockController*			lock_controller );
+	int								Rbdb_LockController_clearLockRequestForLockerWithLeastLocks(		Rbdb_LockController*			lock_controller );
+	int								Rbdb_LockController_clearLockRequestForLockerWithLeastWriteLocks(	Rbdb_LockController*			lock_controller );
+	int								Rbdb_LockController_clearLockRequestForLockerWithOldestLock(		Rbdb_LockController*			lock_controller );
+	int								Rbdb_LockController_clearLockRequestForLockerWithYoungestLock(		Rbdb_LockController*			lock_controller );
+	int								Rbdb_LockController_clearLockRequestForRandomLocker(				Rbdb_LockController*			lock_controller );
+	void							Rbdb_LockController_closeAllLocks(									Rbdb_LockController*			lock_controller );
+	Rbdb_LockSettingsController*	Rbdb_LockController_settingsController(							Rbdb_LockController*			lock_controller );
 
 #endif
 

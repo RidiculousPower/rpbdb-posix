@@ -1,5 +1,5 @@
-#ifndef RPDB_DATABASE_FIXED_RECORD_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_DATABASE_FIXED_RECORD_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_DATABASE_FIXED_RECORD_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_DATABASE_FIXED_RECORD_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,7 +7,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_DatabaseFixedRecordSettingsController* RPDB_DatabaseFixedRecordSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseFixedRecordSettingsController* database_fixed_record_settings_controller );
+Rbdb_DatabaseFixedRecordSettingsController* Rbdb_DatabaseFixedRecordSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseFixedRecordSettingsController* database_fixed_record_settings_controller );
 
 
 #endif

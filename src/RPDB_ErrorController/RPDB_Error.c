@@ -1,5 +1,5 @@
 /*
- *		RPDB::ErrorController::Error
+ *		Rbdb::ErrorController::Error
  *
  *
  */
@@ -10,7 +10,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_Error.h"
+#include "Rbdb_Error.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -23,9 +23,9 @@
 ************/
 
 //	instantiate a new error struct and return it
-RPDB_Error* RPDB_Error_new( RPDB_ErrorController* error_controller )	{
+Rbdb_Error* Rbdb_Error_new( Rbdb_ErrorController* error_controller )	{
 
-	RPDB_Error*		error = calloc( 1, sizeof( RPDB_Error ) );
+	Rbdb_Error*		error = calloc( 1, sizeof( Rbdb_Error ) );
 
 	error->parent_error_controller = error_controller;
 
@@ -37,11 +37,11 @@ RPDB_Error* RPDB_Error_new( RPDB_ErrorController* error_controller )	{
 ****************************/
 
 //	instantiate a new error struct, set error_number, error_function, and additional_explanation_message
-RPDB_Error* RPDB_Error_newErrorWithNumberFunction(	RPDB_ErrorController*	parent_error_controller, 
+Rbdb_Error* Rbdb_Error_newErrorWithNumberFunction(	Rbdb_ErrorController*	parent_error_controller, 
 														int						error_number, 
 														char*					error_function )	{
 
-	RPDB_Error*		error = RPDB_Error_new( parent_error_controller );
+	Rbdb_Error*		error = Rbdb_Error_new( parent_error_controller );
 
 	error->number = error_number;
 	error->function = error_function;
@@ -54,12 +54,12 @@ RPDB_Error* RPDB_Error_newErrorWithNumberFunction(	RPDB_ErrorController*	parent_
 ****************************************/
 
 //	instantiate a new error struct, set error_number, error_function, and additional_explanation_message
-RPDB_Error* RPDB_Error_newErrorWithNumberFunctionAndMessage(	RPDB_ErrorController*	parent_error_controller, 
+Rbdb_Error* Rbdb_Error_newErrorWithNumberFunctionAndMessage(	Rbdb_ErrorController*	parent_error_controller, 
 																int						error_number, 
 																char*					error_function, 
 																char*					additional_explanation_message )	{
 
-	RPDB_Error*		error = RPDB_Error_newErrorWithNumberFunction( parent_error_controller, error_number, error_function );
+	Rbdb_Error*		error = Rbdb_Error_newErrorWithNumberFunction( parent_error_controller, error_number, error_function );
 
 	error->message = additional_explanation_message;
 
@@ -69,7 +69,7 @@ RPDB_Error* RPDB_Error_newErrorWithNumberFunctionAndMessage(	RPDB_ErrorControlle
 /***************************
 *  free  *
 ***************************/
-void RPDB_Error_free(	RPDB_Error** error )	{
+void Rbdb_Error_free(	Rbdb_Error** error )	{
 
 	free( error );
 }
@@ -77,14 +77,14 @@ void RPDB_Error_free(	RPDB_Error** error )	{
 /***************************
 *  settingsController  *
 ***************************/
-RPDB_ErrorSettingsController* RPDB_Error_settingsController(	RPDB_Error* error )	{
+Rbdb_ErrorSettingsController* Rbdb_Error_settingsController(	Rbdb_Error* error )	{
 	return error->settings_controller;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_Error_parentEnvironment(	RPDB_Error* error )	{
+Rbdb_Environment* Rbdb_Error_parentEnvironment(	Rbdb_Error* error )	{
 	return error->parent_error_controller->parent_environment;
 }
 
@@ -93,9 +93,9 @@ RPDB_Environment* RPDB_Error_parentEnvironment(	RPDB_Error* error )	{
 ****************/
 
 //	Prints error that has been thrown and Terminates the application. 
-void RPDB_Error_terminate( RPDB_Error* error )	{
+void Rbdb_Error_terminate( Rbdb_Error* error )	{
 
-	RPDB_Error_internal_outputBDBError( error );
+	Rbdb_Error_internal_outputBDBError( error );
 	
 	fprintf(	stdout,
 				"Terminating from error.\n\n" );
@@ -113,7 +113,7 @@ void RPDB_Error_terminate( RPDB_Error* error )	{
 *******************/
 
 //	Prints to stderr an error that has been thrown
-void RPDB_Error_internal_outputBDBError( RPDB_Error* error )	{
+void Rbdb_Error_internal_outputBDBError( Rbdb_Error* error )	{
 	
 	fprintf( stderr, "Error (%s): %s",	error->function, 
 								db_strerror( error->number )  );

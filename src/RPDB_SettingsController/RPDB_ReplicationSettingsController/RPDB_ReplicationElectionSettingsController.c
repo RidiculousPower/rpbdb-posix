@@ -1,5 +1,5 @@
 /*
- *		RPDB::SettingsController::FileSettingsController
+ *		Rbdb::SettingsController::FileSettingsController
  *
  *
  */
@@ -10,11 +10,11 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_ReplicationElectionSettingsController.h"
+#include "Rbdb_ReplicationElectionSettingsController.h"
 
-#include "RPDB_Environment.h"
+#include "Rbdb_Environment.h"
 
-#include "RPDB_ReplicationElectionSettingsController_internal.h"
+#include "Rbdb_ReplicationElectionSettingsController_internal.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -26,9 +26,9 @@
 *  new  *
 *************/
 
-RPDB_ReplicationElectionSettingsController*	RPDB_ReplicationElectionSettingsController_new( RPDB_ReplicationSettingsController* replication_settings_controller )	{
+Rbdb_ReplicationElectionSettingsController*	Rbdb_ReplicationElectionSettingsController_new( Rbdb_ReplicationSettingsController* replication_settings_controller )	{
 
-	RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller = calloc( 1, sizeof( RPDB_ReplicationElectionSettingsController ) );
+	Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller = calloc( 1, sizeof( Rbdb_ReplicationElectionSettingsController ) );
 
 	replication_elections_settings_controller->parent_replication_settings_controller = replication_settings_controller;
 
@@ -38,7 +38,7 @@ RPDB_ReplicationElectionSettingsController*	RPDB_ReplicationElectionSettingsCont
 /***************************
 *  free  *
 ***************************/
-void RPDB_ReplicationElectionSettingsController_free(	RPDB_ReplicationElectionSettingsController** replication_election_settings_controller )	{
+void Rbdb_ReplicationElectionSettingsController_free(	Rbdb_ReplicationElectionSettingsController** replication_election_settings_controller )	{
 
 	free( *replication_election_settings_controller );
 	*replication_election_settings_controller	=	NULL;
@@ -47,7 +47,7 @@ void RPDB_ReplicationElectionSettingsController_free(	RPDB_ReplicationElectionSe
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_ReplicationElectionSettingsController_parentEnvironment(	RPDB_ReplicationElectionSettingsController* replication_election_settings_controller )	{
+Rbdb_Environment* Rbdb_ReplicationElectionSettingsController_parentEnvironment(	Rbdb_ReplicationElectionSettingsController* replication_election_settings_controller )	{
 	return replication_election_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 }
 
@@ -57,7 +57,7 @@ RPDB_Environment* RPDB_ReplicationElectionSettingsController_parentEnvironment(	
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/repmgr_ack_policy.html
 //	DB_REPMGR_ACKS_ALL
-int		RPDB_ReplicationElectionSettingsController_numberOfSitesRequiredForElection( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+int		Rbdb_ReplicationElectionSettingsController_numberOfSitesRequiredForElection( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
 	return replication_elections_settings_controller->number_of_sites_required_for_election;
 }
@@ -66,7 +66,7 @@ int		RPDB_ReplicationElectionSettingsController_numberOfSitesRequiredForElection
 *  setNumberOfSitesRequiredForElection  *
 *********************************************/
 
-void	RPDB_ReplicationElectionSettingsController_setNumberOfSitesRequiredForElection(	RPDB_ReplicationElectionSettingsController*	replication_elections_settings_controller,
+void	Rbdb_ReplicationElectionSettingsController_setNumberOfSitesRequiredForElection(	Rbdb_ReplicationElectionSettingsController*	replication_elections_settings_controller,
  																							int												number_of_sites_required_for_election	)	{
 
 	replication_elections_settings_controller->number_of_sites_required_for_election = number_of_sites_required_for_election;
@@ -78,7 +78,7 @@ void	RPDB_ReplicationElectionSettingsController_setNumberOfSitesRequiredForElect
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/repmgr_ack_policy.html
 //	DB_REPMGR_ACKS_ALL
-int		RPDB_ReplicationElectionSettingsController_numberOfVotesRequiredForElection( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+int		Rbdb_ReplicationElectionSettingsController_numberOfVotesRequiredForElection( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
 	return replication_elections_settings_controller->number_of_votes_required_for_election;
 }
@@ -87,7 +87,7 @@ int		RPDB_ReplicationElectionSettingsController_numberOfVotesRequiredForElection
 *  setNumberOfSitesRequiredForElection  *
 *********************************************/
 
-void	RPDB_ReplicationElectionSettingsController_setNumberOfVotesRequiredForElection(	RPDB_ReplicationElectionSettingsController*	replication_elections_settings_controller,
+void	Rbdb_ReplicationElectionSettingsController_setNumberOfVotesRequiredForElection(	Rbdb_ReplicationElectionSettingsController*	replication_elections_settings_controller,
  																							int												number_of_votes_required_for_election	)	{
 
 	replication_elections_settings_controller->number_of_votes_required_for_election = number_of_votes_required_for_election;
@@ -99,9 +99,9 @@ void	RPDB_ReplicationElectionSettingsController_setNumberOfVotesRequiredForElect
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/repmgr_ack_policy.html
 //	DB_REPMGR_ACKS_ALL
-BOOL	RPDB_ReplicationElectionSettingsController_waitForAllClients( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+BOOL	Rbdb_ReplicationElectionSettingsController_waitForAllClients( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
-	replication_elections_settings_controller->wait_for_all_clients = ( RPDB_ReplicationElectionSettingsController_internal_currentAckPolicy( replication_elections_settings_controller ) == DB_REPMGR_ACKS_ALL	?
+	replication_elections_settings_controller->wait_for_all_clients = ( Rbdb_ReplicationElectionSettingsController_internal_currentAckPolicy( replication_elections_settings_controller ) == DB_REPMGR_ACKS_ALL	?
 																			TRUE	:
 																			FALSE );
 
@@ -112,11 +112,11 @@ BOOL	RPDB_ReplicationElectionSettingsController_waitForAllClients( RPDB_Replicat
 	*  turnWaitForAllClientsOn  *
 	*********************************/
 
-	void	RPDB_ReplicationElectionSettingsController_turnWaitForAllClientsOn( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+	void	Rbdb_ReplicationElectionSettingsController_turnWaitForAllClientsOn( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
 		replication_elections_settings_controller->wait_for_all_clients = TRUE;
 
-		RPDB_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
+		Rbdb_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
 																					DB_REPMGR_ACKS_ALL );
 	}
 
@@ -124,11 +124,11 @@ BOOL	RPDB_ReplicationElectionSettingsController_waitForAllClients( RPDB_Replicat
 	*  turnWaitForAllClientsOff  *
 	*********************************/
 
-	void	RPDB_ReplicationElectionSettingsController_turnWaitForAllClientsOff( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+	void	Rbdb_ReplicationElectionSettingsController_turnWaitForAllClientsOff( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
 		replication_elections_settings_controller->wait_for_all_clients = FALSE;
 
-		RPDB_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
+		Rbdb_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
 																					DB_REPMGR_ACKS_NONE );
 	}
 
@@ -138,9 +138,9 @@ BOOL	RPDB_ReplicationElectionSettingsController_waitForAllClients( RPDB_Replicat
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/repmgr_ack_policy.html
 //	DB_REPMGR_ACKS_ALL_PEERS
-BOOL	RPDB_ReplicationElectionSettingsController_waitForAllElectablePeers( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+BOOL	Rbdb_ReplicationElectionSettingsController_waitForAllElectablePeers( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
-	replication_elections_settings_controller->wait_for_all_electable_peers = ( RPDB_ReplicationElectionSettingsController_internal_currentAckPolicy( replication_elections_settings_controller ) == DB_REPMGR_ACKS_ALL_PEERS	?
+	replication_elections_settings_controller->wait_for_all_electable_peers = ( Rbdb_ReplicationElectionSettingsController_internal_currentAckPolicy( replication_elections_settings_controller ) == DB_REPMGR_ACKS_ALL_PEERS	?
 																					TRUE	:
 																					FALSE );
 
@@ -151,11 +151,11 @@ BOOL	RPDB_ReplicationElectionSettingsController_waitForAllElectablePeers( RPDB_R
 	*  turnWaitForAllElectablePeersOn  *
 	*************************************/
 
-	void	RPDB_ReplicationElectionSettingsController_turnWaitForAllElectablePeersOn( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+	void	Rbdb_ReplicationElectionSettingsController_turnWaitForAllElectablePeersOn( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
 		replication_elections_settings_controller->wait_for_all_electable_peers = TRUE;
 
-		RPDB_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
+		Rbdb_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
 																					DB_REPMGR_ACKS_ALL_PEERS );
 	}
 
@@ -163,11 +163,11 @@ BOOL	RPDB_ReplicationElectionSettingsController_waitForAllElectablePeers( RPDB_R
 	*  turnWaitForAllElectablePeersOff  *
 	***************************************/
 
-	void	RPDB_ReplicationElectionSettingsController_turnWaitForAllElectablePeersOff( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+	void	Rbdb_ReplicationElectionSettingsController_turnWaitForAllElectablePeersOff( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
 		replication_elections_settings_controller->wait_for_all_electable_peers = FALSE;
 
-		RPDB_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
+		Rbdb_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
 																					DB_REPMGR_ACKS_ALL );
 	}
 
@@ -177,9 +177,9 @@ BOOL	RPDB_ReplicationElectionSettingsController_waitForAllElectablePeers( RPDB_R
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/repmgr_ack_policy.html
 //	DB_REPMGR_ACKS_NONE
-BOOL	RPDB_ReplicationElectionSettingsController_neverWait( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+BOOL	Rbdb_ReplicationElectionSettingsController_neverWait( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
-	replication_elections_settings_controller->never_wait = ( RPDB_ReplicationElectionSettingsController_internal_currentAckPolicy( replication_elections_settings_controller ) == DB_REPMGR_ACKS_NONE	?
+	replication_elections_settings_controller->never_wait = ( Rbdb_ReplicationElectionSettingsController_internal_currentAckPolicy( replication_elections_settings_controller ) == DB_REPMGR_ACKS_NONE	?
 																					TRUE	:
 																					FALSE );
 
@@ -190,11 +190,11 @@ BOOL	RPDB_ReplicationElectionSettingsController_neverWait( RPDB_ReplicationElect
 	*  turnWaitForNoneOn  *
 	*************************/
 
-	void	RPDB_ReplicationElectionSettingsController_turnNeverWaitOn( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+	void	Rbdb_ReplicationElectionSettingsController_turnNeverWaitOn( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
 		replication_elections_settings_controller->never_wait = TRUE;
 
-		RPDB_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
+		Rbdb_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
 																					DB_REPMGR_ACKS_NONE );
 	}
 
@@ -202,11 +202,11 @@ BOOL	RPDB_ReplicationElectionSettingsController_neverWait( RPDB_ReplicationElect
 	*  turnWaitForNoneOff  *
 	*************************/
 
-	void	RPDB_ReplicationElectionSettingsController_turnNeverWaitOff( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+	void	Rbdb_ReplicationElectionSettingsController_turnNeverWaitOff( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
 		replication_elections_settings_controller->never_wait = FALSE;
 
-		RPDB_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
+		Rbdb_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
 																					DB_REPMGR_ACKS_ALL );
 	}
 
@@ -216,9 +216,9 @@ BOOL	RPDB_ReplicationElectionSettingsController_neverWait( RPDB_ReplicationElect
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/repmgr_ack_policy.html
 //	DB_REPMGR_ACKS_ONE
-BOOL	RPDB_ReplicationElectionSettingsController_waitForAtLeastOneClient( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+BOOL	Rbdb_ReplicationElectionSettingsController_waitForAtLeastOneClient( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
-	replication_elections_settings_controller->wait_for_at_least_one_client = ( RPDB_ReplicationElectionSettingsController_internal_currentAckPolicy( replication_elections_settings_controller ) == DB_REPMGR_ACKS_ONE	?
+	replication_elections_settings_controller->wait_for_at_least_one_client = ( Rbdb_ReplicationElectionSettingsController_internal_currentAckPolicy( replication_elections_settings_controller ) == DB_REPMGR_ACKS_ONE	?
 																					TRUE	:
 																					FALSE );
 
@@ -229,11 +229,11 @@ BOOL	RPDB_ReplicationElectionSettingsController_waitForAtLeastOneClient( RPDB_Re
 	*  turnWaitForAtLeastOneClientOn  *
 	*************************************/
 
-	void	RPDB_ReplicationElectionSettingsController_turnWaitForAtLeastOneClientOn( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+	void	Rbdb_ReplicationElectionSettingsController_turnWaitForAtLeastOneClientOn( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
 		replication_elections_settings_controller->wait_for_at_least_one_client = TRUE;
 
-		RPDB_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
+		Rbdb_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
 																					DB_REPMGR_ACKS_ONE );
 	}
 
@@ -241,11 +241,11 @@ BOOL	RPDB_ReplicationElectionSettingsController_waitForAtLeastOneClient( RPDB_Re
 	*  turnWaitForAtLeastOneClientOff  *
 	*************************************/
 
-	void	RPDB_ReplicationElectionSettingsController_turnWaitForAtLeastOneClientOff( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+	void	Rbdb_ReplicationElectionSettingsController_turnWaitForAtLeastOneClientOff( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
 		replication_elections_settings_controller->wait_for_at_least_one_client = FALSE;
 
-		RPDB_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
+		Rbdb_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
 																					DB_REPMGR_ACKS_ALL );
 	}
 
@@ -255,9 +255,9 @@ BOOL	RPDB_ReplicationElectionSettingsController_waitForAtLeastOneClient( RPDB_Re
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/repmgr_ack_policy.html
 //	DB_REPMGR_ACKS_ONE_PEER
-BOOL	RPDB_ReplicationElectionSettingsController_waitForAtLeastOneElectablePeer( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+BOOL	Rbdb_ReplicationElectionSettingsController_waitForAtLeastOneElectablePeer( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
-	replication_elections_settings_controller->wait_for_at_least_one_electable_peer = ( RPDB_ReplicationElectionSettingsController_internal_currentAckPolicy( replication_elections_settings_controller ) == DB_REPMGR_ACKS_ONE_PEER	?
+	replication_elections_settings_controller->wait_for_at_least_one_electable_peer = ( Rbdb_ReplicationElectionSettingsController_internal_currentAckPolicy( replication_elections_settings_controller ) == DB_REPMGR_ACKS_ONE_PEER	?
 																					TRUE	:
 																					FALSE );
 
@@ -268,11 +268,11 @@ BOOL	RPDB_ReplicationElectionSettingsController_waitForAtLeastOneElectablePeer( 
 	*  turnWaitForAtLeastOneElectablePeerOn  *
 	*********************************************/
 
-	void	RPDB_ReplicationElectionSettingsController_turnWaitForAtLeastOneElectablePeerOn( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+	void	Rbdb_ReplicationElectionSettingsController_turnWaitForAtLeastOneElectablePeerOn( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
 		replication_elections_settings_controller->wait_for_at_least_one_electable_peer = TRUE;
 
-		RPDB_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
+		Rbdb_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
 																					DB_REPMGR_ACKS_ONE_PEER );
 	}
 
@@ -280,11 +280,11 @@ BOOL	RPDB_ReplicationElectionSettingsController_waitForAtLeastOneElectablePeer( 
 	*  turnWaitForAtLeastOneElectablePeerOff  *
 	*********************************************/
 
-	void	RPDB_ReplicationElectionSettingsController_turnWaitForAtLeastOneElectablePeerOff( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+	void	Rbdb_ReplicationElectionSettingsController_turnWaitForAtLeastOneElectablePeerOff( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
 		replication_elections_settings_controller->wait_for_at_least_one_electable_peer = FALSE;
 
-		RPDB_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
+		Rbdb_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
 																					DB_REPMGR_ACKS_ALL );
 	}
 
@@ -294,9 +294,9 @@ BOOL	RPDB_ReplicationElectionSettingsController_waitForAtLeastOneElectablePeer( 
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/repmgr_ack_policy.html
 //	DB_REPMGR_ACKS_QUORUM
-BOOL	RPDB_ReplicationElectionSettingsController_waitForMinimumElectablePeersForDurableElection( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+BOOL	Rbdb_ReplicationElectionSettingsController_waitForMinimumElectablePeersForDurableElection( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
-	replication_elections_settings_controller->wait_for_minimum_electable_peers_for_durable_election = ( RPDB_ReplicationElectionSettingsController_internal_currentAckPolicy( replication_elections_settings_controller ) == DB_REPMGR_ACKS_QUORUM	?
+	replication_elections_settings_controller->wait_for_minimum_electable_peers_for_durable_election = ( Rbdb_ReplicationElectionSettingsController_internal_currentAckPolicy( replication_elections_settings_controller ) == DB_REPMGR_ACKS_QUORUM	?
 																												TRUE	:
 																												FALSE );
 
@@ -307,11 +307,11 @@ BOOL	RPDB_ReplicationElectionSettingsController_waitForMinimumElectablePeersForD
 	*  turnWaitForMinimumElectablePeersForDurableElectionOn  *
 	*************************************************************/
 
-	void	RPDB_ReplicationElectionSettingsController_turnWaitForMinimumElectablePeersForDurableElectionOn( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+	void	Rbdb_ReplicationElectionSettingsController_turnWaitForMinimumElectablePeersForDurableElectionOn( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
 		replication_elections_settings_controller->wait_for_minimum_electable_peers_for_durable_election = TRUE;
 
-		RPDB_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
+		Rbdb_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
 																					DB_REPMGR_ACKS_QUORUM );
 
 	}
@@ -320,11 +320,11 @@ BOOL	RPDB_ReplicationElectionSettingsController_waitForMinimumElectablePeersForD
 	*  turnWaitForMinimumElectablePeersForDurableElectionOff  *
 	*************************************************************/
 
-	void	RPDB_ReplicationElectionSettingsController_turnWaitForMinimumElectablePeersForDurableElectionOff( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+	void	Rbdb_ReplicationElectionSettingsController_turnWaitForMinimumElectablePeersForDurableElectionOff( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 
 		replication_elections_settings_controller->wait_for_minimum_electable_peers_for_durable_election = FALSE;
 
-		RPDB_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
+		Rbdb_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	replication_elections_settings_controller,
 																					DB_REPMGR_ACKS_ALL );
 	}
 
@@ -332,8 +332,8 @@ BOOL	RPDB_ReplicationElectionSettingsController_waitForMinimumElectablePeersForD
 *  setSiteIsNowReplicationClientCallbackMethod  *
 *****************************************************/
 /*
-void RPDB_MessageSettingsController_setSiteIsNowReplicationClientCallbackMethod(	RPDB_MessageSettingsController*								message_settings_controller,
- 																					void *(site_is_now_replication_client_callback_method)( RPDB_Environment*	environment ) )	{
+void Rbdb_MessageSettingsController_setSiteIsNowReplicationClientCallbackMethod(	Rbdb_MessageSettingsController*								message_settings_controller,
+ 																					void *(site_is_now_replication_client_callback_method)( Rbdb_Environment*	environment ) )	{
 
 	DB_ENV*		environment	= message_settings_controller->parent_settings_controller->parent_environment->environment;
 	
@@ -341,7 +341,7 @@ void RPDB_MessageSettingsController_setSiteIsNowReplicationClientCallbackMethod(
 	//	Make sure we have our internal callback enabled
 	 if ( environment->wrapped_bdb_environment != NULL )	{
 		environment->wrapped_bdb_environment->set_event_notify(	environment->wrapped_bdb_environment, 
-																& RPDB_MessageSettingsController_internal_eventCallbackMethod );
+																& Rbdb_MessageSettingsController_internal_eventCallbackMethod );
 	}
 }
 */
@@ -349,7 +349,7 @@ void RPDB_MessageSettingsController_setSiteIsNowReplicationClientCallbackMethod(
 *  siteIsNowReplicationClientCallbackMethod  *
 *************************************************/
 /*
-void *(site_is_now_replication_client_callback_method)( RPDB_Environment*	environment ) RPDB_MessageSettingsController_siteIsNowReplicationClientCallbackMethod(	RPDB_MessageSettingsController*		message_settings_controller )	{
+void *(site_is_now_replication_client_callback_method)( Rbdb_Environment*	environment ) Rbdb_MessageSettingsController_siteIsNowReplicationClientCallbackMethod(	Rbdb_MessageSettingsController*		message_settings_controller )	{
 	
 	return message_settings_controller->site_is_now_replication_client_callback_method;
 }
@@ -358,8 +358,8 @@ void *(site_is_now_replication_client_callback_method)( RPDB_Environment*	enviro
 *  setSiteWonReplicationElectionCallbackMethod  *
 *****************************************************/
 /*
-void RPDB_MessageSettingsController_setSiteWonReplicationElectionCallbackMethod(	RPDB_MessageSettingsController*								message_settings_controller,
- 																					void *(site_won_replication_election_callback_method)( RPDB_Environment*	environment ) )	{
+void Rbdb_MessageSettingsController_setSiteWonReplicationElectionCallbackMethod(	Rbdb_MessageSettingsController*								message_settings_controller,
+ 																					void *(site_won_replication_election_callback_method)( Rbdb_Environment*	environment ) )	{
 	
 	DB_ENV*		environment	= message_settings_controller->parent_settings_controller->parent_environment->environment;
 
@@ -367,7 +367,7 @@ void RPDB_MessageSettingsController_setSiteWonReplicationElectionCallbackMethod(
 	//	Make sure we have our internal callback enabled
 	 if ( environment->wrapped_bdb_environment != NULL )	{
 		environment->wrapped_bdb_environment->set_event_notify(	environment->wrapped_bdb_environment, 
-																& RPDB_MessageSettingsController_internal_eventCallbackMethod );
+																& Rbdb_MessageSettingsController_internal_eventCallbackMethod );
 	}
 }
 */
@@ -375,7 +375,7 @@ void RPDB_MessageSettingsController_setSiteWonReplicationElectionCallbackMethod(
 *  siteWonReplicationElectionCallbackMethod  *
 *************************************************/
 /*
-void *(site_won_replication_election_callback_method)( RPDB_Environment*	environment ) RPDB_MessageSettingsController_siteWonReplicationElectionCallbackMethod(	RPDB_MessageSettingsController*		message_settings_controller )	{
+void *(site_won_replication_election_callback_method)( Rbdb_Environment*	environment ) Rbdb_MessageSettingsController_siteWonReplicationElectionCallbackMethod(	Rbdb_MessageSettingsController*		message_settings_controller )	{
 	
 	return message_settings_controller->site_won_replication_election_callback_method;
 }
@@ -384,8 +384,8 @@ void *(site_won_replication_election_callback_method)( RPDB_Environment*	environ
 *  setSiteIsNowMasterOfReplicationGroupCallbackMethod  *
 *********************************************************/
 /*
-void RPDB_MessageSettingsController_setSiteIsNowMasterOfReplicationGroupCallbackMethod(	RPDB_MessageSettingsController*		message_settings_controller,
- 																							void *(site_is_now_master_of_replication_group_callback_method)( RPDB_Environment*	environment ) )	{
+void Rbdb_MessageSettingsController_setSiteIsNowMasterOfReplicationGroupCallbackMethod(	Rbdb_MessageSettingsController*		message_settings_controller,
+ 																							void *(site_is_now_master_of_replication_group_callback_method)( Rbdb_Environment*	environment ) )	{
 	
 	DB_ENV*		environment	= message_settings_controller->parent_settings_controller->parent_environment->environment;
 	
@@ -393,7 +393,7 @@ void RPDB_MessageSettingsController_setSiteIsNowMasterOfReplicationGroupCallback
 	//	Make sure we have our internal callback enabled
 	 if ( environment->wrapped_bdb_environment != NULL )	{
 		environment->wrapped_bdb_environment->set_event_notify(	environment->wrapped_bdb_environment, 
-																& RPDB_MessageSettingsController_internal_eventCallbackMethod );
+																& Rbdb_MessageSettingsController_internal_eventCallbackMethod );
 	}
 }
 */
@@ -401,7 +401,7 @@ void RPDB_MessageSettingsController_setSiteIsNowMasterOfReplicationGroupCallback
 *  siteIsNowMasterOfReplicationGroupCallbackMethod  *
 *********************************************************/
 /*
-void *(site_is_now_master_of_replication_group_callback_method)( RPDB_Environment*	environment ) RPDB_MessageSettingsController_siteIsNowMasterOfReplicationGroupCallbackMethod(	RPDB_MessageSettingsController*		message_settings_controller )	{
+void *(site_is_now_master_of_replication_group_callback_method)( Rbdb_Environment*	environment ) Rbdb_MessageSettingsController_siteIsNowMasterOfReplicationGroupCallbackMethod(	Rbdb_MessageSettingsController*		message_settings_controller )	{
 	
 	return message_settings_controller->site_is_now_master_of_replication_group_callback_method;
 }
@@ -410,8 +410,8 @@ void *(site_is_now_master_of_replication_group_callback_method)( RPDB_Environmen
 *  setReplicationGroupHasNewMasterCallbackMethod  *
 *****************************************************/
 /*
-void RPDB_MessageSettingsController_setReplicationGroupHasNewMasterCallbackMethod(	RPDB_MessageSettingsController*									message_settings_controller,
- 																					void *(replication_group_has_new_master_callback_method)( RPDB_Environment*	environment ) )	{
+void Rbdb_MessageSettingsController_setReplicationGroupHasNewMasterCallbackMethod(	Rbdb_MessageSettingsController*									message_settings_controller,
+ 																					void *(replication_group_has_new_master_callback_method)( Rbdb_Environment*	environment ) )	{
 	
 	DB_ENV*		environment	= message_settings_controller->parent_settings_controller->parent_environment->environment;
 	
@@ -420,7 +420,7 @@ void RPDB_MessageSettingsController_setReplicationGroupHasNewMasterCallbackMetho
 
 	 if ( environment->wrapped_bdb_environment != NULL )	{
 		environment->wrapped_bdb_environment->set_event_notify(	environment->wrapped_bdb_environment, 
-																& RPDB_MessageSettingsController_internal_eventCallbackMethod );
+																& Rbdb_MessageSettingsController_internal_eventCallbackMethod );
 	}
 }
 */
@@ -428,7 +428,7 @@ void RPDB_MessageSettingsController_setReplicationGroupHasNewMasterCallbackMetho
 *  replicationGroupHasNewMasterCallbackMethod  *
 *************************************************/
 /*
-void *(replication_group_has_new_master_callback_method)( RPDB_Environment*	environment ) RPDB_MessageSettingsController_replicationGroupHasNewMasterCallbackMethod(	RPDB_MessageSettingsController*		message_settings_controller )	{
+void *(replication_group_has_new_master_callback_method)( Rbdb_Environment*	environment ) Rbdb_MessageSettingsController_replicationGroupHasNewMasterCallbackMethod(	Rbdb_MessageSettingsController*		message_settings_controller )	{
 	
 	return message_settings_controller->replication_group_has_new_master_callback_method;
 }
@@ -437,8 +437,8 @@ void *(replication_group_has_new_master_callback_method)( RPDB_Environment*	envi
 *  setReplicationAcknowledgementFailedCallbackMethod  *
 *********************************************************/
 /*
-void RPDB_MessageSettingsController_setReplicationAcknowledgementFailedCallbackMethod(	RPDB_MessageSettingsController*									message_settings_controller,
- 																						void *(replication_acknowledgement_failed_callback_method)( RPDB_Environment*	environment ) )	{
+void Rbdb_MessageSettingsController_setReplicationAcknowledgementFailedCallbackMethod(	Rbdb_MessageSettingsController*									message_settings_controller,
+ 																						void *(replication_acknowledgement_failed_callback_method)( Rbdb_Environment*	environment ) )	{
 	
 	DB_ENV*		environment	= message_settings_controller->parent_settings_controller->parent_environment->environment;
 	
@@ -447,7 +447,7 @@ void RPDB_MessageSettingsController_setReplicationAcknowledgementFailedCallbackM
 
 	 if ( environment->wrapped_bdb_environment != NULL )	{
 		environment->wrapped_bdb_environment->set_event_notify(	environment->wrapped_bdb_environment, 
-																& RPDB_MessageSettingsController_internal_eventCallbackMethod );
+																& Rbdb_MessageSettingsController_internal_eventCallbackMethod );
 	}
 }
 */
@@ -455,7 +455,7 @@ void RPDB_MessageSettingsController_setReplicationAcknowledgementFailedCallbackM
 *  replicationAcknowledgementFailedCallbackMethod  *
 *****************************************************/
 /*
-void *(replication_acknowledgement_failed_callback_method)( RPDB_Environment*	environment ) RPDB_MessageSettingsController_replicationAcknowledgementFailedCallbackMethod(	RPDB_MessageSettingsController*		message_settings_controller )	{
+void *(replication_acknowledgement_failed_callback_method)( Rbdb_Environment*	environment ) Rbdb_MessageSettingsController_replicationAcknowledgementFailedCallbackMethod(	Rbdb_MessageSettingsController*		message_settings_controller )	{
 	
 	return message_settings_controller->replication_acknowledgement_failed_callback_method;
 }
@@ -464,8 +464,8 @@ void *(replication_acknowledgement_failed_callback_method)( RPDB_Environment*	en
 *  setReplicationStartupCompletedCallbackMethod  *
 *****************************************************/
 /*
-void RPDB_MessageSettingsController_setReplicationStartupCompletedCallbackMethod(	RPDB_MessageSettingsController*								message_settings_controller,
- 																					void *(replication_startup_completed_callback_method)( RPDB_Environment*	environment ) )	{
+void Rbdb_MessageSettingsController_setReplicationStartupCompletedCallbackMethod(	Rbdb_MessageSettingsController*								message_settings_controller,
+ 																					void *(replication_startup_completed_callback_method)( Rbdb_Environment*	environment ) )	{
 	
 	DB_ENV*		environment	= message_settings_controller->parent_settings_controller->parent_environment->environment;
 	
@@ -474,7 +474,7 @@ void RPDB_MessageSettingsController_setReplicationStartupCompletedCallbackMethod
 
 	 if ( environment->wrapped_bdb_environment != NULL )	{
 		environment->wrapped_bdb_environment->set_event_notify(	environment->wrapped_bdb_environment, 
-																& RPDB_MessageSettingsController_internal_eventCallbackMethod );
+																& Rbdb_MessageSettingsController_internal_eventCallbackMethod );
 	}
 }
 */
@@ -482,7 +482,7 @@ void RPDB_MessageSettingsController_setReplicationStartupCompletedCallbackMethod
 *  replicationStartupCompletedCallbackMethod  *
 *************************************************/
 /*
-void *(replication_startup_completed_callback_method)( RPDB_Environment*	environment ) RPDB_MessageSettingsController_replicationStartupCompletedCallbackMethod(	RPDB_MessageSettingsController*		message_settings_controller )	{
+void *(replication_startup_completed_callback_method)( Rbdb_Environment*	environment ) Rbdb_MessageSettingsController_replicationStartupCompletedCallbackMethod(	Rbdb_MessageSettingsController*		message_settings_controller )	{
 	
 	return message_settings_controller->replication_startup_completed_callback_method;
 }
@@ -498,10 +498,10 @@ void *(replication_startup_completed_callback_method)( RPDB_Environment*	environ
 *  setCurrentAckPolicy  *
 *****************************/
 
-void RPDB_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	RPDB_ReplicationElectionSettingsController*	replication_elections_settings_controller,
+void Rbdb_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	Rbdb_ReplicationElectionSettingsController*	replication_elections_settings_controller,
  																				int												new_ack_policy	)	{
 	
-	RPDB_Environment*	environment = replication_elections_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_elections_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 
 	replication_elections_settings_controller->current_ack_policy = new_ack_policy;
 
@@ -516,9 +516,9 @@ void RPDB_ReplicationElectionSettingsController_internal_setCurrentAckPolicy(	RP
 *  currentAckPolicy  *
 *************************/
 
-int RPDB_ReplicationElectionSettingsController_internal_currentAckPolicy( RPDB_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
+int Rbdb_ReplicationElectionSettingsController_internal_currentAckPolicy( Rbdb_ReplicationElectionSettingsController* replication_elections_settings_controller )	{
 	
-	RPDB_Environment*	environment = replication_elections_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment = replication_elections_settings_controller->parent_replication_settings_controller->parent_settings_controller->parent_environment;
 
 	if (	replication_elections_settings_controller->current_ack_policy == 0
 		&&	environment->wrapped_bdb_environment != NULL )	{
@@ -534,9 +534,9 @@ int RPDB_ReplicationElectionSettingsController_internal_currentAckPolicy( RPDB_R
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_ReplicationElectionSettingsController* RPDB_ReplicationElectionSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_ReplicationElectionSettingsController* replication_election_settings_controller )	{
+Rbdb_ReplicationElectionSettingsController* Rbdb_ReplicationElectionSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_ReplicationElectionSettingsController* replication_election_settings_controller )	{
 
-	RPDB_ReplicationElectionSettingsController* replication_election_settings_controller_copy	=	RPDB_ReplicationElectionSettingsController_new( replication_election_settings_controller->parent_replication_settings_controller );
+	Rbdb_ReplicationElectionSettingsController* replication_election_settings_controller_copy	=	Rbdb_ReplicationElectionSettingsController_new( replication_election_settings_controller->parent_replication_settings_controller );
 
 	//	Instances and Pointers
 	replication_election_settings_controller_copy->wait_for_all_clients	=	replication_election_settings_controller->wait_for_all_clients;

@@ -1,36 +1,36 @@
 /*
- *		RPDB::ErrorController
+ *		Rbdb::ErrorController
  *
  *
  */
 
-#ifndef RPDB_ERROR_CONTROLLER
-	#define RPDB_ERROR_CONTROLLER
+#ifndef Rbdb_ERROR_CONTROLLER
+	#define Rbdb_ERROR_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_ErrorController*	RPDB_ErrorController_new(			RPDB_Environment*						environment );
+	Rbdb_ErrorController*	Rbdb_ErrorController_new(			Rbdb_Environment*						environment );
 
-	void					RPDB_ErrorController_free(	RPDB_ErrorController** error_controller );
-	RPDB_ErrorSettingsController*	RPDB_ErrorController_settingsController(	RPDB_ErrorController* error_controller );
-	RPDB_Environment*		RPDB_ErrorController_parentEnvironment(	RPDB_ErrorController* error_controller );
+	void					Rbdb_ErrorController_free(	Rbdb_ErrorController** error_controller );
+	Rbdb_ErrorSettingsController*	Rbdb_ErrorController_settingsController(	Rbdb_ErrorController* error_controller );
+	Rbdb_Environment*		Rbdb_ErrorController_parentEnvironment(	Rbdb_ErrorController* error_controller );
 
-	RPDB_Error*			RPDB_ErrorController_raiseError(	RPDB_ErrorController*		error_controller, 
+	Rbdb_Error*			Rbdb_ErrorController_raiseError(	Rbdb_ErrorController*		error_controller, 
 																int							error_number, 
 																char*						error_function, 
 																char*						additional_explanation_message );
-	void					RPDB_ErrorController_throwError(	RPDB_ErrorController*		error_controller,
+	void					Rbdb_ErrorController_throwError(	Rbdb_ErrorController*		error_controller,
 																int							error_number, 
 																char*						error_function, 
 																char*						additional_explanation_message );
-	void					RPDB_ErrorController_pushError(	RPDB_ErrorController*		error_controller, 
-																RPDB_Error*				error );
-	RPDB_Error*				RPDB_ErrorController_shiftError(	RPDB_ErrorController*		error_controller );
-	BOOL					RPDB_ErrorController_hasError(		RPDB_ErrorController*		error_controller );
+	void					Rbdb_ErrorController_pushError(	Rbdb_ErrorController*		error_controller, 
+																Rbdb_Error*				error );
+	Rbdb_Error*				Rbdb_ErrorController_shiftError(	Rbdb_ErrorController*		error_controller );
+	BOOL					Rbdb_ErrorController_hasError(		Rbdb_ErrorController*		error_controller );
 
 
 #endif

@@ -1,5 +1,5 @@
 /*
- *		RPDB_settingsController:RPDB_DebugSettingsController
+ *		Rbdb_settingsController:Rbdb_DebugSettingsController
  *
  *
  */
@@ -10,7 +10,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_DebugVerbositySettingsController.h"
+#include "Rbdb_DebugVerbositySettingsController.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -22,9 +22,9 @@
 *  new  *
 *************/
 
-RPDB_DebugVerbositySettingsController* RPDB_DebugVerbositySettingsController_new( RPDB_DebugSettingsController* debug_settings_controller )	{
+Rbdb_DebugVerbositySettingsController* Rbdb_DebugVerbositySettingsController_new( Rbdb_DebugSettingsController* debug_settings_controller )	{
 
-	RPDB_DebugVerbositySettingsController*		debug_verbosity_settings_controller = calloc( 1, sizeof( RPDB_DebugVerbositySettingsController ) );
+	Rbdb_DebugVerbositySettingsController*		debug_verbosity_settings_controller = calloc( 1, sizeof( Rbdb_DebugVerbositySettingsController ) );
 
 	debug_verbosity_settings_controller->parent_debug_settings_controller = debug_settings_controller;
 
@@ -34,7 +34,7 @@ RPDB_DebugVerbositySettingsController* RPDB_DebugVerbositySettingsController_new
 /***************************
 *  free  *
 ***************************/
-void RPDB_DebugVerbositySettingsController_free(	RPDB_DebugVerbositySettingsController** debug_verbosity_settings_controller )	{
+void Rbdb_DebugVerbositySettingsController_free(	Rbdb_DebugVerbositySettingsController** debug_verbosity_settings_controller )	{
 
 	free( *debug_verbosity_settings_controller );
 	*debug_verbosity_settings_controller	=	NULL;
@@ -43,7 +43,7 @@ void RPDB_DebugVerbositySettingsController_free(	RPDB_DebugVerbositySettingsCont
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_DebugVerbositySettingsController_parentEnvironment(	RPDB_DebugVerbositySettingsController* debug_verbosity_settings_controller )	{
+Rbdb_Environment* Rbdb_DebugVerbositySettingsController_parentEnvironment(	Rbdb_DebugVerbositySettingsController* debug_verbosity_settings_controller )	{
 	return debug_verbosity_settings_controller->parent_debug_settings_controller->parent_settings_controller->parent_environment;
 }
 
@@ -52,7 +52,7 @@ RPDB_Environment* RPDB_DebugVerbositySettingsController_parentEnvironment(	RPDB_
 *************************************************/
 
 //	DB_VERB_RECOVERY        	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_verbose.html
-BOOL RPDB_DebugVerbositySettingsController_displayAdditionalInformationDuringRecovery( RPDB_DebugVerbositySettingsController* debug_verbosity_settings_controller )	{
+BOOL Rbdb_DebugVerbositySettingsController_displayAdditionalInformationDuringRecovery( Rbdb_DebugVerbositySettingsController* debug_verbosity_settings_controller )	{
 
 	if ( debug_verbosity_settings_controller->display_additional_information_during_recovery )	{
 		return DB_VERB_RECOVERY;
@@ -65,7 +65,7 @@ BOOL RPDB_DebugVerbositySettingsController_displayAdditionalInformationDuringRec
 	*  turnDisplayAdditionalInformationDuringRecoveryOn  *
 	*********************************************************/
 
-	void RPDB_DebugVerbositySettingsController_turnDisplayAdditionalInformationDuringRecoveryOn( RPDB_DebugVerbositySettingsController* debug_verbosity_settings_controller )	{
+	void Rbdb_DebugVerbositySettingsController_turnDisplayAdditionalInformationDuringRecoveryOn( Rbdb_DebugVerbositySettingsController* debug_verbosity_settings_controller )	{
 		debug_verbosity_settings_controller->display_additional_information_during_recovery = TRUE;
 	}
 
@@ -73,7 +73,7 @@ BOOL RPDB_DebugVerbositySettingsController_displayAdditionalInformationDuringRec
 	*  turnDisplayAdditionalInformationDuringRecoveryOff  *
 	*********************************************************/
 
-	void RPDB_DebugVerbositySettingsController_turnDisplayAdditionalInformationDuringRecoveryOff( RPDB_DebugVerbositySettingsController* debug_verbosity_settings_controller )	{
+	void Rbdb_DebugVerbositySettingsController_turnDisplayAdditionalInformationDuringRecoveryOff( Rbdb_DebugVerbositySettingsController* debug_verbosity_settings_controller )	{
 		debug_verbosity_settings_controller->display_additional_information_during_recovery = FALSE;
 	}
 
@@ -86,9 +86,9 @@ BOOL RPDB_DebugVerbositySettingsController_displayAdditionalInformationDuringRec
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_DebugVerbositySettingsController* RPDB_DebugVerbositySettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DebugVerbositySettingsController* debug_verbosity_settings_controller )	{
+Rbdb_DebugVerbositySettingsController* Rbdb_DebugVerbositySettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DebugVerbositySettingsController* debug_verbosity_settings_controller )	{
 
-	RPDB_DebugVerbositySettingsController* debug_verbosity_settings_controller_copy	=	RPDB_DebugVerbositySettingsController_new( debug_verbosity_settings_controller->parent_debug_settings_controller );
+	Rbdb_DebugVerbositySettingsController* debug_verbosity_settings_controller_copy	=	Rbdb_DebugVerbositySettingsController_new( debug_verbosity_settings_controller->parent_debug_settings_controller );
 
 	//	Instances and Pointers
 	debug_verbosity_settings_controller_copy->display_additional_information_during_recovery	=	debug_verbosity_settings_controller->display_additional_information_during_recovery;

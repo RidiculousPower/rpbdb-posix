@@ -1,5 +1,5 @@
 /*
- *		RPDB::TransactionController
+ *		Rbdb::TransactionController
  *
  *
  */
@@ -10,22 +10,22 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_TransactionController.h"
-#include "RPDB_TransactionController_internal.h"
+#include "Rbdb_TransactionController.h"
+#include "Rbdb_TransactionController_internal.h"
 
-#include "RPDB_Database.h"
-#include "RPDB_Database_internal.h"
+#include "Rbdb_Database.h"
+#include "Rbdb_Database_internal.h"
 
-#include "RPDB_Transaction.h"
-#include "RPDB_Transaction_internal.h"
+#include "Rbdb_Transaction.h"
+#include "Rbdb_Transaction_internal.h"
 
-#include "RPDB_Environment.h"
+#include "Rbdb_Environment.h"
 
-#include "RPDB_ErrorController.h"
+#include "Rbdb_ErrorController.h"
 
-#include "RPDB_SettingsController.h"
-#include "RPDB_TransactionSettingsController.h"
-#include "RPDB_TransactionSettingsController_internal.h"
+#include "Rbdb_SettingsController.h"
+#include "Rbdb_TransactionSettingsController.h"
+#include "Rbdb_TransactionSettingsController_internal.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -37,16 +37,16 @@
 *  new  *
 *************/
 	
-RPDB_TransactionController* RPDB_TransactionController_new( RPDB_Environment* environment )	{
+Rbdb_TransactionController* Rbdb_TransactionController_new( Rbdb_Environment* environment )	{
 
-	RPDB_TransactionController*		transaction_controller = calloc( 1, sizeof( RPDB_TransactionController ) );
+	Rbdb_TransactionController*		transaction_controller = calloc( 1, sizeof( Rbdb_TransactionController ) );
 
 	transaction_controller->parent_environment = environment;
 
-	transaction_controller->settings_controller	=	RPDB_SettingsController_transactionSettingsController( RPDB_Environment_settingsController( environment ) );
+	transaction_controller->settings_controller	=	Rbdb_SettingsController_transactionSettingsController( Rbdb_Environment_settingsController( environment ) );
 	
-	uint32_t	max_transactions_open		=	RPDB_TransactionSettingsController_maxOpen( transaction_controller->settings_controller );
-	transaction_controller->transactions	=	calloc( max_transactions_open, sizeof( RPDB_Transaction* ) );
+	uint32_t	max_transactions_open		=	Rbdb_TransactionSettingsController_maxOpen( transaction_controller->settings_controller );
+	transaction_controller->transactions	=	calloc( max_transactions_open, sizeof( Rbdb_Transaction* ) );
 
 	return transaction_controller;
 }
@@ -54,11 +54,11 @@ RPDB_TransactionController* RPDB_TransactionController_new( RPDB_Environment* en
 /***************************
 *  free  *
 ***************************/
-void RPDB_TransactionController_free(	RPDB_TransactionController** transaction_controller )	{
+void Rbdb_TransactionController_free(	Rbdb_TransactionController** transaction_controller )	{
 
 	if ( ( *transaction_controller )->transactions != NULL )	{
 	
-		RPDB_TransactionController_commitAllTransactions( *transaction_controller );
+		Rbdb_TransactionController_commitAllTransactions( *transaction_controller );
 		
 		//	Free the array of pointers (now that each pointer has been freed)
 		free( ( *transaction_controller )->transactions );
@@ -74,10 +74,10 @@ void RPDB_TransactionController_free(	RPDB_TransactionController** transaction_c
 **********************/
 
 //	Close all Transactions
-void RPDB_TransactionController_closeAllTransactions( RPDB_TransactionController* transaction_controller )	{
+void Rbdb_TransactionController_closeAllTransactions( Rbdb_TransactionController* transaction_controller )	{
 	
-	RPDB_Database_internal_closeAllStoredRuntimeAddresses(	transaction_controller->runtime_storage_database,
-																													(void *(*)(void*)) & RPDB_Transaction_commit );
+	Rbdb_Database_internal_closeAllStoredRuntimeAddresses(	transaction_controller->runtime_storage_database,
+																													(void *(*)(void*)) & Rbdb_Transaction_commit );
 }
 
 /*********************
@@ -85,23 +85,23 @@ void RPDB_TransactionController_closeAllTransactions( RPDB_TransactionController
 *********************/
 
 //	Free all Transactions (close if necessary)
-void RPDB_TransactionController_freeAllTransactions( RPDB_TransactionController* transaction_controller )	{
+void Rbdb_TransactionController_freeAllTransactions( Rbdb_TransactionController* transaction_controller )	{
 
-	RPDB_Database_internal_freeAllStoredRuntimeAddresses(	transaction_controller->runtime_storage_database,
-																												(void *(*)(void**)) & RPDB_Transaction_internal_freeFromRuntimeStorage );
+	Rbdb_Database_internal_freeAllStoredRuntimeAddresses(	transaction_controller->runtime_storage_database,
+																												(void *(*)(void**)) & Rbdb_Transaction_internal_freeFromRuntimeStorage );
 }
 
 /***************************
 *  settingsController  *
 ***************************/
-RPDB_TransactionSettingsController* RPDB_TransactionController_settingsController(	RPDB_TransactionController* transaction_controller )	{
+Rbdb_TransactionSettingsController* Rbdb_TransactionController_settingsController(	Rbdb_TransactionController* transaction_controller )	{
 	return transaction_controller->settings_controller;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_TransactionController_parentEnvironment(	RPDB_TransactionController* transaction_controller )	{
+Rbdb_Environment* Rbdb_TransactionController_parentEnvironment(	Rbdb_TransactionController* transaction_controller )	{
 	return transaction_controller->parent_environment;
 }
 
@@ -114,18 +114,18 @@ RPDB_Environment* RPDB_TransactionController_parentEnvironment(	RPDB_Transaction
 *************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/txn_id.html
-RPDB_Transaction* RPDB_TransactionController_beginTransaction( RPDB_TransactionController* transaction_controller )	{
+Rbdb_Transaction* Rbdb_TransactionController_beginTransaction( Rbdb_TransactionController* transaction_controller )	{
 
-	RPDB_Transaction*	new_transaction	=	RPDB_Transaction_new( transaction_controller );
+	Rbdb_Transaction*	new_transaction	=	Rbdb_Transaction_new( transaction_controller );
 	
-	return RPDB_Transaction_begin( new_transaction );
+	return Rbdb_Transaction_begin( new_transaction );
 }
 
 /*************************
 *  currentTransaction  *
 *************************/
 
-RPDB_Transaction* RPDB_TransactionController_currentTransaction( RPDB_TransactionController* transaction_controller )	{
+Rbdb_Transaction* Rbdb_TransactionController_currentTransaction( Rbdb_TransactionController* transaction_controller )	{
 
 	if ( transaction_controller->current_transaction_depth == 0 )	{
 		return NULL;
@@ -138,24 +138,24 @@ RPDB_Transaction* RPDB_TransactionController_currentTransaction( RPDB_Transactio
 *************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/txn_id.html
-void RPDB_TransactionController_commitTransaction( RPDB_TransactionController* transaction_controller )	{
+void Rbdb_TransactionController_commitTransaction( Rbdb_TransactionController* transaction_controller )	{
 	
 	//	Commit transaction
-	RPDB_Transaction_commit( RPDB_TransactionController_currentTransaction( transaction_controller ) );
+	Rbdb_Transaction_commit( Rbdb_TransactionController_currentTransaction( transaction_controller ) );
 }
 
 /*************************
 *  commitAllTransactions  *
 *************************/
 
-void RPDB_TransactionController_commitAllTransactions( RPDB_TransactionController* transaction_controller )	{
+void Rbdb_TransactionController_commitAllTransactions( Rbdb_TransactionController* transaction_controller )	{
 	
 	//	Walk backwards through transactions to close them
 	//	If they weren't aborted (meaning they're still open) we commit them
-	uint32_t	max_transactions_open		=	RPDB_TransactionSettingsController_maxOpen( RPDB_TransactionController_settingsController( transaction_controller) );
+	uint32_t	max_transactions_open		=	Rbdb_TransactionSettingsController_maxOpen( Rbdb_TransactionController_settingsController( transaction_controller) );
 	for ( /*  max_transactions_open  */ ; max_transactions_open > 0 ; max_transactions_open-- )	{
 		if ( transaction_controller->transactions[ max_transactions_open - 1 ] != NULL )	{
-			RPDB_Transaction_free( & ( transaction_controller->transactions[ max_transactions_open - 1 ] ) );
+			Rbdb_Transaction_free( & ( transaction_controller->transactions[ max_transactions_open - 1 ] ) );
 		}
 	}
 }
@@ -165,9 +165,9 @@ void RPDB_TransactionController_commitAllTransactions( RPDB_TransactionControlle
 *************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/txn_id.html
-void RPDB_TransactionController_rollbackTransaction( RPDB_TransactionController* transaction_controller )	{
+void Rbdb_TransactionController_rollbackTransaction( Rbdb_TransactionController* transaction_controller )	{
 	
-	RPDB_Transaction_rollback( RPDB_TransactionController_currentTransaction( transaction_controller ) );
+	Rbdb_Transaction_rollback( Rbdb_TransactionController_currentTransaction( transaction_controller ) );
 }
 
 /********************************
@@ -177,11 +177,11 @@ void RPDB_TransactionController_rollbackTransaction( RPDB_TransactionController*
 //	for single threaded operations; permits multiple cursors to be grouped under the same locker
 //	this way their locks don't conflict because bdb knows it's safe (since the thread isolates them)
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_cdsgroup_begin.html
-RPDB_Transaction* RPDB_TransactionController_beginConcurrentDataStoreGroup( RPDB_TransactionController* transaction_controller )	{
+Rbdb_Transaction* Rbdb_TransactionController_beginConcurrentDataStoreGroup( Rbdb_TransactionController* transaction_controller )	{
 
-	RPDB_Transaction*	new_transaction	=	RPDB_Transaction_new( transaction_controller );
+	Rbdb_Transaction*	new_transaction	=	Rbdb_Transaction_new( transaction_controller );
 	
-	return RPDB_Transaction_beginConcurrentDataStoreGroup( new_transaction );	
+	return Rbdb_Transaction_beginConcurrentDataStoreGroup( new_transaction );	
 }
 
 /********************************
@@ -189,8 +189,8 @@ RPDB_Transaction* RPDB_TransactionController_beginConcurrentDataStoreGroup( RPDB
 ********************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_cdsgroup_begin.html
-void RPDB_TransactionController_endConcurrentDataStoreGroup( RPDB_TransactionController* transaction_controller )	{
-	return RPDB_TransactionController_commitTransaction( transaction_controller );
+void Rbdb_TransactionController_endConcurrentDataStoreGroup( Rbdb_TransactionController* transaction_controller )	{
+	return Rbdb_TransactionController_commitTransaction( transaction_controller );
 }
 
 /*****************************
@@ -199,11 +199,11 @@ void RPDB_TransactionController_endConcurrentDataStoreGroup( RPDB_TransactionCon
 
 //	The DB_ENV->txn_recover method should only be called after the environment has been recovered.
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/txn_recover.html
-RPDB_Transaction** RPDB_TransactionController_recoverTransactions( RPDB_TransactionController* transaction_controller )	{
+Rbdb_Transaction** Rbdb_TransactionController_recoverTransactions( Rbdb_TransactionController* transaction_controller )	{
 
-	RPDB_Environment*		environment = transaction_controller->parent_environment;
+	Rbdb_Environment*		environment = transaction_controller->parent_environment;
 
-	RPDB_Transaction**		transaction_array	=	NULL;
+	Rbdb_Transaction**		transaction_array	=	NULL;
 	if ( environment->wrapped_bdb_environment != NULL )	{
 		
 		DB_PREPLIST				transaction_recover_prep_list[ transaction_controller->maximum_number_of_transactions_to_recover ];
@@ -221,17 +221,17 @@ RPDB_Transaction** RPDB_TransactionController_recoverTransactions( RPDB_Transact
 		int			connection_error	= RP_NO_ERROR;
 		if ( ( connection_error = environment->wrapped_bdb_environment->txn_recover(	environment->wrapped_bdb_environment,
 																							transaction_recover_prep_list,
-																							RPDB_TransactionSettingsController_maximumNumberOfTransactionsToRecover(
-																								RPDB_SettingsController_transactionSettingsController(
-																									RPDB_Environment_settingsController( environment ) ) ),
+																							Rbdb_TransactionSettingsController_maximumNumberOfTransactionsToRecover(
+																								Rbdb_SettingsController_transactionSettingsController(
+																									Rbdb_Environment_settingsController( environment ) ) ),
 																							&( transaction_controller->maximum_number_of_transactions_to_recover ),
-																							RPDB_TransactionSettingsController_internal_recoverFlags(
-																								RPDB_SettingsController_transactionSettingsController(
-																									RPDB_Environment_settingsController( environment ) ) ) ) ) )	{
+																							Rbdb_TransactionSettingsController_internal_recoverFlags(
+																								Rbdb_SettingsController_transactionSettingsController(
+																									Rbdb_Environment_settingsController( environment ) ) ) ) ) )	{
 
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( environment ),
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( environment ),
 															connection_error, 
-															"RPDB_TransactionController_recoverTransactions" );
+															"Rbdb_TransactionController_recoverTransactions" );
 		}
 		
 		//	FIX
@@ -241,16 +241,16 @@ RPDB_Transaction** RPDB_TransactionController_recoverTransactions( RPDB_Transact
 		}
 		*/
 		
-		transaction_array = calloc(	transaction_controller->maximum_number_of_transactions_to_recover, sizeof( RPDB_Transaction ));
+		transaction_array = calloc(	transaction_controller->maximum_number_of_transactions_to_recover, sizeof( Rbdb_Transaction ));
 														
 		u_int32_t		transaction_iterator;
 		
-		//	Now translate the preplist array into an array of RPDB_Transaction
+		//	Now translate the preplist array into an array of Rbdb_Transaction
 		for ( transaction_iterator = 0 ; transaction_iterator < transaction_controller->maximum_number_of_transactions_to_recover ; transaction_iterator++ )	{
 			
-			RPDB_Transaction*	transaction_to_recover;
+			Rbdb_Transaction*	transaction_to_recover;
 			
-			transaction_to_recover = RPDB_Transaction_internal_newWithoutBDBTransaction(	transaction_controller );
+			transaction_to_recover = Rbdb_Transaction_internal_newWithoutBDBTransaction(	transaction_controller );
 			
 			transaction_to_recover->wrapped_bdb_transaction		=	transaction_recover_prep_list[ transaction_iterator ].txn;		
 			transaction_to_recover->global_id					=	*( transaction_recover_prep_list[ transaction_iterator ].gid );
@@ -271,9 +271,9 @@ RPDB_Transaction** RPDB_TransactionController_recoverTransactions( RPDB_Transact
 *************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/txn_checkpoint.html
-void RPDB_TransactionController_commitCheckpoint( RPDB_TransactionController*	transaction_controller )	{
+void Rbdb_TransactionController_commitCheckpoint( Rbdb_TransactionController*	transaction_controller )	{
 	
-	RPDB_Environment*		environment = transaction_controller->parent_environment;
+	Rbdb_Environment*		environment = transaction_controller->parent_environment;
 	
 	if ( environment->wrapped_bdb_environment != NULL )	{
 		
@@ -283,11 +283,11 @@ void RPDB_TransactionController_commitCheckpoint( RPDB_TransactionController*	tr
 		if ( ( connection_error = environment->wrapped_bdb_environment->txn_checkpoint(	environment->wrapped_bdb_environment,
 																					   0,
 																					   0,
-																					   RPDB_TransactionSettingsController_internal_commitCheckpointFlags( RPDB_SettingsController_transactionSettingsController( RPDB_Environment_settingsController( environment ) ) ) ) ) )	{
+																					   Rbdb_TransactionSettingsController_internal_commitCheckpointFlags( Rbdb_SettingsController_transactionSettingsController( Rbdb_Environment_settingsController( environment ) ) ) ) ) )	{
 																																							  
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( environment ),
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( environment ),
 															connection_error, 
-															"RPDB_TransactionController_commitCheckpoint" );
+															"Rbdb_TransactionController_commitCheckpoint" );
 		}
 	}
 }
@@ -296,10 +296,10 @@ void RPDB_TransactionController_commitCheckpoint( RPDB_TransactionController*	tr
 *  commitCheckpointIfSufficientWrittenData  *
 *************************************************/
 
-void RPDB_TransactionController_commitCheckpointIfSufficientWrittenData(	RPDB_TransactionController*	transaction_controller,
+void Rbdb_TransactionController_commitCheckpointIfSufficientWrittenData(	Rbdb_TransactionController*	transaction_controller,
 																			uint32_t						minimum_written_data_for_checkpoint_in_k )	{
 	
-	RPDB_Environment*				environment = transaction_controller->parent_environment;
+	Rbdb_Environment*				environment = transaction_controller->parent_environment;
 	
 	if ( environment->wrapped_bdb_environment != NULL )	{
 		
@@ -308,11 +308,11 @@ void RPDB_TransactionController_commitCheckpointIfSufficientWrittenData(	RPDB_Tr
 		if ( ( connection_error = environment->wrapped_bdb_environment->txn_checkpoint(	environment->wrapped_bdb_environment,
 																						minimum_written_data_for_checkpoint_in_k,
 																						0,
-																						RPDB_TransactionSettingsController_internal_commitCheckpointFlags( RPDB_SettingsController_transactionSettingsController( RPDB_Environment_settingsController( environment ) ) ) ) ) )	{
+																						Rbdb_TransactionSettingsController_internal_commitCheckpointFlags( Rbdb_SettingsController_transactionSettingsController( Rbdb_Environment_settingsController( environment ) ) ) ) ) )	{
 		  
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( environment ),
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( environment ),
 															connection_error, 
-															"RPDB_TransactionController_commitCheckpoint" );
+															"Rbdb_TransactionController_commitCheckpoint" );
 	  }
 	}
 }
@@ -321,10 +321,10 @@ void RPDB_TransactionController_commitCheckpointIfSufficientWrittenData(	RPDB_Tr
 *  commitCheckpointIfSufficientTimeElapsed  *
 *************************************************/
 
-void RPDB_TransactionController_commitCheckpointIfSufficientTimeElapsed(	RPDB_TransactionController*	transaction_controller,
+void Rbdb_TransactionController_commitCheckpointIfSufficientTimeElapsed(	Rbdb_TransactionController*	transaction_controller,
 																			uint32_t						minimum_time_for_checkpoint_in_minutes )	{
 	
-	RPDB_Environment*		environment = transaction_controller->parent_environment;
+	Rbdb_Environment*		environment = transaction_controller->parent_environment;
 	
 	if ( environment->wrapped_bdb_environment != NULL )	{
 		
@@ -333,11 +333,11 @@ void RPDB_TransactionController_commitCheckpointIfSufficientTimeElapsed(	RPDB_Tr
 		if ( ( connection_error = environment->wrapped_bdb_environment->txn_checkpoint(	environment->wrapped_bdb_environment,
 																						0,
 																						minimum_time_for_checkpoint_in_minutes,
-																						RPDB_TransactionSettingsController_internal_commitCheckpointFlags( RPDB_SettingsController_transactionSettingsController( RPDB_Environment_settingsController( environment ) ) ) ) ) )	{
+																						Rbdb_TransactionSettingsController_internal_commitCheckpointFlags( Rbdb_SettingsController_transactionSettingsController( Rbdb_Environment_settingsController( environment ) ) ) ) ) )	{
 																																							  
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( environment ),
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( environment ),
 															connection_error, 
-															"RPDB_TransactionController_commitCheckpoint" );
+															"Rbdb_TransactionController_commitCheckpoint" );
 		}
 	}
 }
@@ -346,11 +346,11 @@ void RPDB_TransactionController_commitCheckpointIfSufficientTimeElapsed(	RPDB_Tr
 *  commitCheckpointIfSufficientWrittenDataOrTimeElapsed  *
 *************************************************************/
 
-void RPDB_TransactionController_commitCheckpointIfSufficientWrittenDataOrTimeElapsed(	RPDB_TransactionController*	transaction_controller,
+void Rbdb_TransactionController_commitCheckpointIfSufficientWrittenDataOrTimeElapsed(	Rbdb_TransactionController*	transaction_controller,
 																						uint32_t						minimum_written_data_for_checkpoint_in_k,
 																						uint32_t						minimum_time_for_checkpoint_in_minutes )	{
 	
-	RPDB_Environment*		environment = transaction_controller->parent_environment;
+	Rbdb_Environment*		environment = transaction_controller->parent_environment;
 	
 	if ( environment->wrapped_bdb_environment != NULL )	{
 		
@@ -360,11 +360,11 @@ void RPDB_TransactionController_commitCheckpointIfSufficientWrittenDataOrTimeEla
 		if ( ( connection_error = environment->wrapped_bdb_environment->txn_checkpoint(	environment->wrapped_bdb_environment,
 																						minimum_written_data_for_checkpoint_in_k,
 																						minimum_time_for_checkpoint_in_minutes,
-																						RPDB_TransactionSettingsController_internal_commitCheckpointFlags( RPDB_SettingsController_transactionSettingsController( RPDB_Environment_settingsController( environment ) ) ) ) ) )	{
+																						Rbdb_TransactionSettingsController_internal_commitCheckpointFlags( Rbdb_SettingsController_transactionSettingsController( Rbdb_Environment_settingsController( environment ) ) ) ) ) )	{
 																																							  
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( environment ),
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( environment ),
 															connection_error, 
-															"RPDB_TransactionController_commitCheckpoint" );
+															"Rbdb_TransactionController_commitCheckpoint" );
 		}	
 	}
 }
@@ -381,13 +381,13 @@ void RPDB_TransactionController_commitCheckpointIfSufficientWrittenDataOrTimeEla
 *************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/txn_checkpoint.html
-DB_TXN* RPDB_TransactionController_internal_currentTransactionID( RPDB_TransactionController* transaction_controller )	{
+DB_TXN* Rbdb_TransactionController_internal_currentTransactionID( Rbdb_TransactionController* transaction_controller )	{
 
 	//	If we aren't currently in a transaction, we return NULL
 	if (	transaction_controller != NULL
 		&&	transaction_controller->current_transaction_depth )	{
 	
-		RPDB_Transaction*	transaction	=	RPDB_TransactionController_currentTransaction( transaction_controller );
+		Rbdb_Transaction*	transaction	=	Rbdb_TransactionController_currentTransaction( transaction_controller );
 		return transaction->wrapped_bdb_transaction;
 	}
 	

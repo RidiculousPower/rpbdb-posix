@@ -1,5 +1,5 @@
 /*
- *		RPDB::SettingsController::JoinSettingsController
+ *		Rbdb::SettingsController::JoinSettingsController
  *
  *
  */
@@ -10,12 +10,12 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_DatabaseJoinSettingsController.h"
+#include "Rbdb_DatabaseJoinSettingsController.h"
 
-#include "RPDB_DatabaseJoinSettingsController.h"
-#include "RPDB_DatabaseJoinController.h"
+#include "Rbdb_DatabaseJoinSettingsController.h"
+#include "Rbdb_DatabaseJoinController.h"
 
-#include "RPDB_DatabaseJoinSettingsController_internal.h"
+#include "Rbdb_DatabaseJoinSettingsController_internal.h"
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -27,9 +27,9 @@
 *  new  *
 *************/
 	
-RPDB_DatabaseJoinSettingsController* RPDB_DatabaseJoinSettingsController_new( RPDB_DatabaseSettingsController* parent_database_settings_controller )	{
+Rbdb_DatabaseJoinSettingsController* Rbdb_DatabaseJoinSettingsController_new( Rbdb_DatabaseSettingsController* parent_database_settings_controller )	{
 	
-	RPDB_DatabaseJoinSettingsController*		join_settings_controller = calloc( 1, sizeof( RPDB_DatabaseJoinSettingsController ) );
+	Rbdb_DatabaseJoinSettingsController*		join_settings_controller = calloc( 1, sizeof( Rbdb_DatabaseJoinSettingsController ) );
 
 	join_settings_controller->parent_database_settings_controller = parent_database_settings_controller; 
 	
@@ -39,7 +39,7 @@ RPDB_DatabaseJoinSettingsController* RPDB_DatabaseJoinSettingsController_new( RP
 /***************************
 *  free  *
 ***************************/
-void RPDB_DatabaseJoinSettingsController_free(	RPDB_DatabaseJoinSettingsController** join_settings_controller )	{
+void Rbdb_DatabaseJoinSettingsController_free(	Rbdb_DatabaseJoinSettingsController** join_settings_controller )	{
 	
 	free( *join_settings_controller );
 }
@@ -47,14 +47,14 @@ void RPDB_DatabaseJoinSettingsController_free(	RPDB_DatabaseJoinSettingsControll
 /***************************************
 *  parentDatabase  *
 ***************************************/
-RPDB_Database* RPDB_DatabaseJoinSettingsController_parentDatabase(	RPDB_DatabaseJoinSettingsController* join_settings_controller )	{
+Rbdb_Database* Rbdb_DatabaseJoinSettingsController_parentDatabase(	Rbdb_DatabaseJoinSettingsController* join_settings_controller )	{
 	return join_settings_controller->parent_database_settings_controller->parent_database;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_DatabaseJoinSettingsController_parentEnvironment(	RPDB_DatabaseJoinSettingsController* join_settings_controller )	{
+Rbdb_Environment* Rbdb_DatabaseJoinSettingsController_parentEnvironment(	Rbdb_DatabaseJoinSettingsController* join_settings_controller )	{
 	return join_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment;
 }
 
@@ -63,7 +63,7 @@ RPDB_Environment* RPDB_DatabaseJoinSettingsController_parentEnvironment(	RPDB_Da
 *****************************/
 
 //	DB_READ_UNCOMMITTED				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_join.html
-BOOL RPDB_DatabaseJoinController_degreeOneIsolation( RPDB_DatabaseJoinSettingsController* join_settings_controller )	{
+BOOL Rbdb_DatabaseJoinController_degreeOneIsolation( Rbdb_DatabaseJoinSettingsController* join_settings_controller )	{
 	
 	if ( join_settings_controller->degree_one_isolation == TRUE )	{
 		return DB_READ_UNCOMMITTED;
@@ -75,7 +75,7 @@ BOOL RPDB_DatabaseJoinController_degreeOneIsolation( RPDB_DatabaseJoinSettingsCo
 	*  turnDegreeOneIsolationOn  *
 	********************************/
 
-	void RPDB_DatabaseJoinController_turnDegreeOneIsolationOn( RPDB_DatabaseJoinSettingsController* join_settings_controller )	{
+	void Rbdb_DatabaseJoinController_turnDegreeOneIsolationOn( Rbdb_DatabaseJoinSettingsController* join_settings_controller )	{
 		join_settings_controller->degree_one_isolation = TRUE;
 	}
 
@@ -83,7 +83,7 @@ BOOL RPDB_DatabaseJoinController_degreeOneIsolation( RPDB_DatabaseJoinSettingsCo
 	*  turnDegreeOneIsolationOff  *
 	********************************/
 
-	void RPDB_DatabaseJoinController_turnDegreeOneIsolationOff( RPDB_DatabaseJoinSettingsController* join_settings_controller )	{
+	void Rbdb_DatabaseJoinController_turnDegreeOneIsolationOff( Rbdb_DatabaseJoinSettingsController* join_settings_controller )	{
 		join_settings_controller->degree_one_isolation = FALSE;
 	}
 
@@ -92,7 +92,7 @@ BOOL RPDB_DatabaseJoinController_degreeOneIsolation( RPDB_DatabaseJoinSettingsCo
 ******************************************/
 
 //	DB_RMW						http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_join.html
-BOOL RPDB_DatabaseJoinController_writeLocksInsteadOfReadLocks( RPDB_DatabaseJoinSettingsController* join_settings_controller )	{
+BOOL Rbdb_DatabaseJoinController_writeLocksInsteadOfReadLocks( Rbdb_DatabaseJoinSettingsController* join_settings_controller )	{
 	
 	if ( join_settings_controller->use_write_locks_instead_of_read_locks == TRUE )	{
 		return DB_RMW;
@@ -104,7 +104,7 @@ BOOL RPDB_DatabaseJoinController_writeLocksInsteadOfReadLocks( RPDB_DatabaseJoin
 	*  turnWriteLocksInsteadOfReadLocksOn  *
 	********************************************/
 
-	void RPDB_DatabaseJoinController_turnWriteLocksInsteadOfReadLocksOn( RPDB_DatabaseJoinSettingsController* join_settings_controller )	{
+	void Rbdb_DatabaseJoinController_turnWriteLocksInsteadOfReadLocksOn( Rbdb_DatabaseJoinSettingsController* join_settings_controller )	{
 		join_settings_controller->use_write_locks_instead_of_read_locks = TRUE;
 	}
 
@@ -112,7 +112,7 @@ BOOL RPDB_DatabaseJoinController_writeLocksInsteadOfReadLocks( RPDB_DatabaseJoin
 	*  turnWriteLocksInsteadOfReadLocksOff  *
 	********************************************/
 
-	void RPDB_DatabaseJoinController_turnWriteLocksInsteadOfReadLocksOff( RPDB_DatabaseJoinSettingsController* join_settings_controller )	{
+	void Rbdb_DatabaseJoinController_turnWriteLocksInsteadOfReadLocksOff( Rbdb_DatabaseJoinSettingsController* join_settings_controller )	{
 		join_settings_controller->use_write_locks_instead_of_read_locks = FALSE;
 	}
 
@@ -121,7 +121,7 @@ BOOL RPDB_DatabaseJoinController_writeLocksInsteadOfReadLocks( RPDB_DatabaseJoin
 ******************************************/
 
 //	DB_JOIN_NOSORT			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_join.html
-BOOL RPDB_DatabaseJoinController_noSortBeforeJoin( RPDB_DatabaseJoinSettingsController* join_settings_controller )	{
+BOOL Rbdb_DatabaseJoinController_noSortBeforeJoin( Rbdb_DatabaseJoinSettingsController* join_settings_controller )	{
 
 	if ( join_settings_controller->sort_before_join == TRUE )	{
 		return DB_JOIN_NOSORT;
@@ -133,7 +133,7 @@ BOOL RPDB_DatabaseJoinController_noSortBeforeJoin( RPDB_DatabaseJoinSettingsCont
 	*  turnWriteLocksInsteadOfReadLocksOn  *
 	********************************************/
 
-	void RPDB_DatabaseJoinController_turnNoSortBeforeJoinOn( RPDB_DatabaseJoinSettingsController* join_settings_controller )	{
+	void Rbdb_DatabaseJoinController_turnNoSortBeforeJoinOn( Rbdb_DatabaseJoinSettingsController* join_settings_controller )	{
 		join_settings_controller->sort_before_join = TRUE;
 	}
 
@@ -141,7 +141,7 @@ BOOL RPDB_DatabaseJoinController_noSortBeforeJoin( RPDB_DatabaseJoinSettingsCont
 	*  turnWriteLocksInsteadOfReadLocksOff  *
 	********************************************/
 
-	void RPDB_DatabaseJoinController_turnNoSortBeforeJoinOff( RPDB_DatabaseJoinSettingsController* join_settings_controller )	{
+	void Rbdb_DatabaseJoinController_turnNoSortBeforeJoinOff( Rbdb_DatabaseJoinSettingsController* join_settings_controller )	{
 		join_settings_controller->sort_before_join = FALSE;
 	}
 
@@ -155,10 +155,10 @@ BOOL RPDB_DatabaseJoinController_noSortBeforeJoin( RPDB_DatabaseJoinSettingsCont
 *  retrieveFlags  *
 ********************/
 
-BOOL RPDB_DatabaseJoinSettingsController_internal_retrieveFlags( RPDB_DatabaseJoinSettingsController* join_settings_controller )	{
+BOOL Rbdb_DatabaseJoinSettingsController_internal_retrieveFlags( Rbdb_DatabaseJoinSettingsController* join_settings_controller )	{
 	
-	return	RPDB_DatabaseJoinController_degreeOneIsolation( join_settings_controller )
-			|	RPDB_DatabaseJoinController_writeLocksInsteadOfReadLocks( join_settings_controller );
+	return	Rbdb_DatabaseJoinController_degreeOneIsolation( join_settings_controller )
+			|	Rbdb_DatabaseJoinController_writeLocksInsteadOfReadLocks( join_settings_controller );
 	
 }
 
@@ -167,16 +167,16 @@ BOOL RPDB_DatabaseJoinSettingsController_internal_retrieveFlags( RPDB_DatabaseJo
 ****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_join.html
-BOOL RPDB_DatabaseJoinSettingsController_internal_joinFlags( RPDB_DatabaseJoinSettingsController* join_settings_controller )	{
-	return RPDB_DatabaseJoinController_noSortBeforeJoin( join_settings_controller );
+BOOL Rbdb_DatabaseJoinSettingsController_internal_joinFlags( Rbdb_DatabaseJoinSettingsController* join_settings_controller )	{
+	return Rbdb_DatabaseJoinController_noSortBeforeJoin( join_settings_controller );
 }
 
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_DatabaseJoinSettingsController* RPDB_DatabaseJoinSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseJoinSettingsController* join_settings_controller )	{
+Rbdb_DatabaseJoinSettingsController* Rbdb_DatabaseJoinSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseJoinSettingsController* join_settings_controller )	{
 
-	RPDB_DatabaseJoinSettingsController* join_settings_controller_copy	=	RPDB_DatabaseJoinSettingsController_new( join_settings_controller->parent_database_settings_controller );
+	Rbdb_DatabaseJoinSettingsController* join_settings_controller_copy	=	Rbdb_DatabaseJoinSettingsController_new( join_settings_controller->parent_database_settings_controller );
 
 	//	Instances and Pointers
 	join_settings_controller_copy->degree_one_isolation	=	join_settings_controller->degree_one_isolation;

@@ -1,5 +1,5 @@
-#ifndef RPDB_DATABASE_READ_WRITE_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_DATABASE_READ_WRITE_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_DATABASE_READ_WRITE_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_DATABASE_READ_WRITE_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,11 +7,11 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_DatabaseRecordReadWriteSettingsController* RPDB_DatabaseRecordReadWriteSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller );
-int												RPDB_DatabaseRecordReadWriteSettingsController_internal_writeFlags(							RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller);
-int												RPDB_DatabaseRecordReadWriteSettingsController_internal_deleteFlags(							RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller );
-int												RPDB_DatabaseRecordReadWriteSettingsController_internal_existsFlags(							RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller );
-void RPDB_DatabaseRecordReadWriteSettingsController_internal_updateFlags( RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller );
+Rbdb_DatabaseRecordReadWriteSettingsController* Rbdb_DatabaseRecordReadWriteSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller );
+int												Rbdb_DatabaseRecordReadWriteSettingsController_internal_writeFlags(							Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller);
+int												Rbdb_DatabaseRecordReadWriteSettingsController_internal_deleteFlags(							Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller );
+int												Rbdb_DatabaseRecordReadWriteSettingsController_internal_existsFlags(							Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller );
+void Rbdb_DatabaseRecordReadWriteSettingsController_internal_updateFlags( Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller );
 
 
 #endif

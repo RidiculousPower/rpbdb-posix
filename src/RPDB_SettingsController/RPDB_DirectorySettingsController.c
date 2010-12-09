@@ -1,5 +1,5 @@
 /*
- *		RPDB::SettingsDirectoryController
+ *		Rbdb::SettingsDirectoryController
  *
  *
  */
@@ -10,10 +10,10 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_DirectorySettingsController.h"
+#include "Rbdb_DirectorySettingsController.h"
 
-#include "RPDB_Environment.h"
-#include "RPDB_Directory.h"
+#include "Rbdb_Environment.h"
+#include "Rbdb_Directory.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -25,9 +25,9 @@
 *  new  *
 *************/
 
-RPDB_DirectorySettingsController* RPDB_DirectorySettingsController_new( RPDB_SettingsController* settings_controller )	{
+Rbdb_DirectorySettingsController* Rbdb_DirectorySettingsController_new( Rbdb_SettingsController* settings_controller )	{
 
-	RPDB_DirectorySettingsController*		directory_settings_controller = calloc( 1, sizeof( RPDB_DirectorySettingsController ) );
+	Rbdb_DirectorySettingsController*		directory_settings_controller = calloc( 1, sizeof( Rbdb_DirectorySettingsController ) );
 
 	directory_settings_controller->parent_settings_controller = settings_controller;
 
@@ -37,7 +37,7 @@ RPDB_DirectorySettingsController* RPDB_DirectorySettingsController_new( RPDB_Set
 /***************************
 *  free  *
 ***************************/
-void RPDB_DirectorySettingsController_free(	RPDB_DirectorySettingsController** directory_settings_controller )	{
+void Rbdb_DirectorySettingsController_free(	Rbdb_DirectorySettingsController** directory_settings_controller )	{
 
 	free( *directory_settings_controller );
 	*directory_settings_controller	=	NULL;
@@ -46,7 +46,7 @@ void RPDB_DirectorySettingsController_free(	RPDB_DirectorySettingsController** d
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_DirectorySettingsController_parentEnvironment(	RPDB_DirectorySettingsController* directory_settings_controller )	{
+Rbdb_Environment* Rbdb_DirectorySettingsController_parentEnvironment(	Rbdb_DirectorySettingsController* directory_settings_controller )	{
 	return directory_settings_controller->parent_settings_controller->parent_environment;
 }
 
@@ -56,9 +56,9 @@ RPDB_Environment* RPDB_DirectorySettingsController_parentEnvironment(	RPDB_Direc
 
 //	Get home directory
 //	Environment's home directory	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_open.html
-const char* RPDB_DirectorySettingsController_homeDirectory( RPDB_DirectorySettingsController* directory_settings_controller )	{
+const char* Rbdb_DirectorySettingsController_homeDirectory( Rbdb_DirectorySettingsController* directory_settings_controller )	{
 
-	RPDB_Environment*				environment = directory_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*				environment = directory_settings_controller->parent_settings_controller->parent_environment;
 	
 	if (	directory_settings_controller->home_directory_path == NULL
 		&&	environment->wrapped_bdb_environment	)	{
@@ -87,9 +87,9 @@ const char* RPDB_DirectorySettingsController_homeDirectory( RPDB_DirectorySettin
 //	The DB_ENV->set_data_dir method may not be called after the DB_ENV->open method is called. 
 //
 //	We can let BDB manage this for us
-const char** RPDB_DirectorySettingsController_dataDirectories( RPDB_DirectorySettingsController* directory_settings_controller )	{
+const char** Rbdb_DirectorySettingsController_dataDirectories( Rbdb_DirectorySettingsController* directory_settings_controller )	{
 
-	RPDB_Environment*					environment	= directory_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*					environment	= directory_settings_controller->parent_settings_controller->parent_environment;
 
 	const char**	data_directories	=	NULL;
 	if ( directory_settings_controller->directories == NULL )	{
@@ -105,23 +105,23 @@ const char** RPDB_DirectorySettingsController_dataDirectories( RPDB_DirectorySet
 ************************/
 
 //	Add a data directory
-void RPDB_DirectorySettingsController_addDataDirectory(	RPDB_DirectorySettingsController*		directory_settings_controller, 
+void Rbdb_DirectorySettingsController_addDataDirectory(	Rbdb_DirectorySettingsController*		directory_settings_controller, 
 															char*									directory_path  )	{
 
 	//	store directory in settings controller so we can deal with it separate from bdb instances
 	if ( directory_settings_controller->directories == NULL )	{
 
 		//	begin linked list of directories
-		directory_settings_controller->directories			=	RPDB_Directory_new( directory_path );
+		directory_settings_controller->directories			=	Rbdb_Directory_new( directory_path );
 	}
 	else {
 	
 		//	add this directory to the end of linked list of directories
-		RPDB_Directory**	this_directory	=	& ( directory_settings_controller->directories );
+		Rbdb_Directory**	this_directory	=	& ( directory_settings_controller->directories );
 		while ( ( *this_directory )->next != NULL )	{
 			this_directory	=	& ( ( *this_directory )->next );
 		}
-		( *this_directory )->next	=	RPDB_Directory_new( directory_path );
+		( *this_directory )->next	=	Rbdb_Directory_new( directory_path );
 	}
 
 }
@@ -131,10 +131,10 @@ void RPDB_DirectorySettingsController_addDataDirectory(	RPDB_DirectorySettingsCo
 ************************/
 
 //	Sets one of the data directories to be where dbs are created
-void RPDB_DirectorySettingsController_setCreateDirectory(	RPDB_DirectorySettingsController*		directory_settings_controller, 
+void Rbdb_DirectorySettingsController_setCreateDirectory(	Rbdb_DirectorySettingsController*		directory_settings_controller, 
 															char*									directory  )	{
 	
-	RPDB_Environment*				environment	= directory_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*				environment	= directory_settings_controller->parent_settings_controller->parent_environment;
 	
 	environment->create_directory	=	directory;
 	
@@ -149,9 +149,9 @@ void RPDB_DirectorySettingsController_setCreateDirectory(	RPDB_DirectorySettings
 ************************/
 
 //	Sets one of the data directories to be where dbs are created
-char* RPDB_DirectorySettingsController_getCreateDirectory(	RPDB_DirectorySettingsController*		directory_settings_controller  )	{
+char* Rbdb_DirectorySettingsController_getCreateDirectory(	Rbdb_DirectorySettingsController*		directory_settings_controller  )	{
 	
-	RPDB_Environment*				environment	= directory_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*				environment	= directory_settings_controller->parent_settings_controller->parent_environment;
 	
 	if (	environment->create_directory == NULL
 		&&	environment->wrapped_bdb_environment != NULL )	{
@@ -172,9 +172,9 @@ char* RPDB_DirectorySettingsController_getCreateDirectory(	RPDB_DirectorySetting
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_DirectorySettingsController* RPDB_DirectorySettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DirectorySettingsController* directory_settings_controller )	{
+Rbdb_DirectorySettingsController* Rbdb_DirectorySettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DirectorySettingsController* directory_settings_controller )	{
 
-	RPDB_DirectorySettingsController* directory_settings_controller_copy	=	RPDB_DirectorySettingsController_new( directory_settings_controller->parent_settings_controller );
+	Rbdb_DirectorySettingsController* directory_settings_controller_copy	=	Rbdb_DirectorySettingsController_new( directory_settings_controller->parent_settings_controller );
 
 	//	Instances and Pointers
 	directory_settings_controller_copy->home_directory_path	=	directory_settings_controller->home_directory_path;

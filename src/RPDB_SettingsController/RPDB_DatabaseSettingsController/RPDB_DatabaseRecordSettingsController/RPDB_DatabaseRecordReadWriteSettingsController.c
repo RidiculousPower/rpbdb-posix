@@ -1,6 +1,6 @@
 /*
-*		RPDB::SettingsController::DatabaseSettingsController::DatabaseReadWriteSettingsController
-*		RPDB::DatabaseController::Database::DatabaseSettingsController::DatabaseReadWriteSettingsController
+*		Rbdb::SettingsController::DatabaseSettingsController::DatabaseReadWriteSettingsController
+*		Rbdb::DatabaseController::Database::DatabaseSettingsController::DatabaseReadWriteSettingsController
 *
 */
 
@@ -10,22 +10,22 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_DatabaseRecordReadWriteSettingsController.h"
+#include "Rbdb_DatabaseRecordReadWriteSettingsController.h"
 
-#include "RPDB_Environment.h"
-#include "RPDB_Database.h"
+#include "Rbdb_Environment.h"
+#include "Rbdb_Database.h"
 
-#include "RPDB_SettingsController.h"
-#include "RPDB_DatabaseSettingsController.h"
+#include "Rbdb_SettingsController.h"
+#include "Rbdb_DatabaseSettingsController.h"
 
-#include "RPDB_DatabaseRecordReadWriteSettingsController.h"
-#include "RPDB_DatabaseTypeSettingsController.h"
-#include "RPDB_DatabaseTypeBtreeSettingsController.h"
-#include "RPDB_DatabaseTypeHashSettingsController.h"
+#include "Rbdb_DatabaseRecordReadWriteSettingsController.h"
+#include "Rbdb_DatabaseTypeSettingsController.h"
+#include "Rbdb_DatabaseTypeBtreeSettingsController.h"
+#include "Rbdb_DatabaseTypeHashSettingsController.h"
 
-#include "RPDB_DatabaseTypeBtreeSettingsController_internal.h"
-#include "RPDB_DatabaseTypeHashSettingsController_internal.h"
-#include "RPDB_DatabaseRecordReadWriteSettingsController_internal.h"
+#include "Rbdb_DatabaseTypeBtreeSettingsController_internal.h"
+#include "Rbdb_DatabaseTypeHashSettingsController_internal.h"
+#include "Rbdb_DatabaseRecordReadWriteSettingsController_internal.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -37,9 +37,9 @@
 *  new  *
 *************/
 
-RPDB_DatabaseRecordReadWriteSettingsController* RPDB_DatabaseRecordReadWriteSettingsController_new( RPDB_DatabaseRecordSettingsController* database_record_settings_controller )	{
+Rbdb_DatabaseRecordReadWriteSettingsController* Rbdb_DatabaseRecordReadWriteSettingsController_new( Rbdb_DatabaseRecordSettingsController* database_record_settings_controller )	{
 
-	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller = calloc( 1, sizeof( RPDB_DatabaseRecordReadWriteSettingsController ) );
+	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller = calloc( 1, sizeof( Rbdb_DatabaseRecordReadWriteSettingsController ) );
 
 	database_record_read_write_settings_controller->parent_database_record_settings_controller = database_record_settings_controller;
 
@@ -50,7 +50,7 @@ RPDB_DatabaseRecordReadWriteSettingsController* RPDB_DatabaseRecordReadWriteSett
 /***************************
 *  free  *
 ***************************/
-void RPDB_DatabaseRecordReadWriteSettingsController_free(	RPDB_DatabaseRecordReadWriteSettingsController** database_record_read_write_settings_controller )	{
+void Rbdb_DatabaseRecordReadWriteSettingsController_free(	Rbdb_DatabaseRecordReadWriteSettingsController** database_record_read_write_settings_controller )	{
 
 	free( *database_record_read_write_settings_controller );
 	*database_record_read_write_settings_controller	=	NULL;
@@ -59,14 +59,14 @@ void RPDB_DatabaseRecordReadWriteSettingsController_free(	RPDB_DatabaseRecordRea
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_DatabaseRecordReadWriteSettingsController_parentEnvironment(	RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+Rbdb_Environment* Rbdb_DatabaseRecordReadWriteSettingsController_parentEnvironment(	Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	return database_record_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment;
 }
 
 /***************************************
 *  parentDatabase  *
 ***************************************/
-RPDB_Database* RPDB_DatabaseRecordReadWriteSettingsController_parentDatabase(	RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+Rbdb_Database* Rbdb_DatabaseRecordReadWriteSettingsController_parentDatabase(	Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	return database_record_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database;
 }
 
@@ -80,7 +80,7 @@ RPDB_Database* RPDB_DatabaseRecordReadWriteSettingsController_parentDatabase(	RP
 
 //	In-memory databases never intended to be preserved on disk may be created by setting the file parameter to NULL.
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_open.html
-char* RPDB_DatabaseRecordReadWriteSettingsController_filename( RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller )	{
+char* Rbdb_DatabaseRecordReadWriteSettingsController_filename( Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller )	{
 	
 	return database_record_read_write_settings_controller->filename;
 }
@@ -89,7 +89,7 @@ char* RPDB_DatabaseRecordReadWriteSettingsController_filename( RPDB_DatabaseReco
 *  setFilename  *
 *********************/
 
-void RPDB_DatabaseRecordReadWriteSettingsController_setFilename(	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller,
+void Rbdb_DatabaseRecordReadWriteSettingsController_setFilename(	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller,
 																																	char*											filename	)	{
 	
 	database_record_read_write_settings_controller->filename = filename;
@@ -104,7 +104,7 @@ void RPDB_DatabaseRecordReadWriteSettingsController_setFilename(	RPDB_DatabaseRe
 ****************************/
 
 //	DB_NOSYNC				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_close.html
-BOOL RPDB_DatabaseRecordReadWriteSettingsController_prohibitSyncOnClose( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_prohibitSyncOnClose( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 
 	if ( database_record_read_write_settings_controller->prohibit_sync_on_close == TRUE )	{
 		return DB_NOSYNC;
@@ -117,7 +117,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_prohibitSyncOnClose( RPDB_Da
 	*********************************/
 
 	//	DB_NOSYNC				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_close.html
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnProhibitSyncOnCloseOn( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnProhibitSyncOnCloseOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 		database_record_read_write_settings_controller->prohibit_sync_on_close = TRUE;
 	}
 
@@ -126,7 +126,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_prohibitSyncOnClose( RPDB_Da
 	************************************/
 
 	//	DB_NOSYNC				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_close.html
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnProhibitSyncOnCloseOff( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnProhibitSyncOnCloseOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 		database_record_read_write_settings_controller->prohibit_sync_on_close = FALSE;
 	}
 
@@ -135,7 +135,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_prohibitSyncOnClose( RPDB_Da
 ********************/
 
 //	DB_IGNORE_LEASE			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_get.html
-BOOL RPDB_DatabaseRecordReadWriteSettingsController_ignoreLease( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_ignoreLease( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 
 	if ( database_record_read_write_settings_controller->ignore_lease == TRUE )	{
 		return DB_IGNORE_LEASE;
@@ -148,7 +148,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_ignoreLease( RPDB_DatabaseRe
 	****************************/
 
 	//	DB_IGNORE_LEASE			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_get.html
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnIgnoreLeaseOn( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnIgnoreLeaseOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 		database_record_read_write_settings_controller->ignore_lease = TRUE;
 	}
 
@@ -157,7 +157,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_ignoreLease( RPDB_DatabaseRe
 	****************************/
 
 	//	DB_IGNORE_LEASE			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_get.html
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnIgnoreLeaseOff( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnIgnoreLeaseOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 		database_record_read_write_settings_controller->ignore_lease = FALSE;
 	}
 		
@@ -167,7 +167,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_ignoreLease( RPDB_DatabaseRe
 
 //	Bulk operations
 //	DB_MULTIPLE				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_get.html
-BOOL RPDB_DatabaseRecordReadWriteSettingsController_returnMultiple( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_returnMultiple( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 
 	if ( database_record_read_write_settings_controller->return_multiple == TRUE )	{
 		return DB_MULTIPLE;
@@ -180,7 +180,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_returnMultiple( RPDB_Databas
 	******************************/
 
 	//	DB_MULTIPLE				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_get.html
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnReturnMultipleOn( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnReturnMultipleOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 		database_record_read_write_settings_controller->return_multiple = TRUE;
 	}
 
@@ -189,7 +189,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_returnMultiple( RPDB_Databas
 	******************************/
 
 	//	DB_MULTIPLE				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_get.html
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnReturnMultipleOff( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnReturnMultipleOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 		database_record_read_write_settings_controller->return_multiple = FALSE;
 	}
 
@@ -199,7 +199,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_returnMultiple( RPDB_Databas
 
 //	DB_NODUPDATA			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
 //	Btree and Hash only
-BOOL RPDB_DatabaseRecordReadWriteSettingsController_writeDataOnlyIfNonDuplicate( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_writeDataOnlyIfNonDuplicate( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 
 	if ( database_record_read_write_settings_controller->write_data_only_if_non_duplicate == TRUE )	{
 		return DB_NODUPDATA;
@@ -213,9 +213,9 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_writeDataOnlyIfNonDuplicate(
 
 	//	DB_NODUPDATA			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
 	//	Btree and Hash only
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnWriteDataOnlyIfNonDuplicateOn( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnWriteDataOnlyIfNonDuplicateOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 		database_record_read_write_settings_controller->write_data_only_if_non_duplicate = TRUE;
-		RPDB_DatabaseRecordReadWriteSettingsController_turnProhibitOverwriteOff( database_record_read_write_settings_controller );
+		Rbdb_DatabaseRecordReadWriteSettingsController_turnProhibitOverwriteOff( database_record_read_write_settings_controller );
 	}
 
 	/************************************
@@ -224,7 +224,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_writeDataOnlyIfNonDuplicate(
 
 	//	DB_NODUPDATA			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
 	//	Btree and Hash only
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnWriteDataOnlyIfNonDuplicateOff( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnWriteDataOnlyIfNonDuplicateOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 		database_record_read_write_settings_controller->write_data_only_if_non_duplicate = FALSE;
 	}
 
@@ -233,7 +233,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_writeDataOnlyIfNonDuplicate(
 *************************/
 
 //	DB_NOOVERWRITE			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
-BOOL RPDB_DatabaseRecordReadWriteSettingsController_prohibitOverwrite( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_prohibitOverwrite( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 
 	if ( database_record_read_write_settings_controller->prohibit_overwrite == TRUE )	{
 		return DB_NOOVERWRITE;
@@ -246,9 +246,9 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_prohibitOverwrite( RPDB_Data
 	********************************/
 
 	//	DB_NOOVERWRITE			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnProhibitOverwriteOn( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnProhibitOverwriteOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 		database_record_read_write_settings_controller->prohibit_overwrite = TRUE;
-		RPDB_DatabaseRecordReadWriteSettingsController_turnWriteDataOnlyIfNonDuplicateOff( database_record_read_write_settings_controller );
+		Rbdb_DatabaseRecordReadWriteSettingsController_turnWriteDataOnlyIfNonDuplicateOff( database_record_read_write_settings_controller );
 	}
 
 	/********************************
@@ -256,7 +256,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_prohibitOverwrite( RPDB_Data
 	********************************/
 
 	//	DB_NOOVERWRITE			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnProhibitOverwriteOff( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnProhibitOverwriteOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 		database_record_read_write_settings_controller->prohibit_overwrite = FALSE;
 	}
 
@@ -266,7 +266,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_prohibitOverwrite( RPDB_Data
 
 //	DB_FREELIST_ONLY		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_compact.html
 //	Must be set for Hash
-BOOL RPDB_DatabaseRecordReadWriteSettingsController_prohibitPageCompaction( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_prohibitPageCompaction( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 
 	if ( database_record_read_write_settings_controller->prohibit_page_compaction == TRUE )	{
 		return DB_FREELIST_ONLY;
@@ -280,7 +280,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_prohibitPageCompaction( RPDB
 
 	//	DB_FREELIST_ONLY		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_compact.html
 	//	Must be set for Hash
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnProhibitPageCompactionOn( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnProhibitPageCompactionOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 		database_record_read_write_settings_controller->prohibit_page_compaction = TRUE;
 	}
 
@@ -290,7 +290,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_prohibitPageCompaction( RPDB
 
 	//	DB_FREELIST_ONLY		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_compact.html
 	//	Must be set for Hash
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnProhibitPageCompactionOff( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnProhibitPageCompactionOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 		database_record_read_write_settings_controller->prohibit_page_compaction = FALSE;
 	}
 
@@ -299,7 +299,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_prohibitPageCompaction( RPDB
 ********************************/
 
 //	DB_FREE_SPACE			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
-BOOL RPDB_DatabaseRecordReadWriteSettingsController_returnPagesToFilesystem( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_returnPagesToFilesystem( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 
 	if ( database_record_read_write_settings_controller->return_pages_to_filesystem == TRUE )	{
 		return DB_FREE_SPACE;
@@ -312,7 +312,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_returnPagesToFilesystem( RPD
 	*************************************/
 
 	//	DB_FREE_SPACE			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnReturnPagesToFilesystemOn( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnReturnPagesToFilesystemOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 		database_record_read_write_settings_controller->return_pages_to_filesystem = TRUE;
 	}
 
@@ -321,7 +321,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_returnPagesToFilesystem( RPD
 	****************************************/
 
 	//	DB_FREE_SPACE			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnReturnPagesToFilesystemOff( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnReturnPagesToFilesystemOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 		database_record_read_write_settings_controller->return_pages_to_filesystem = FALSE;
 	}
 
@@ -330,7 +330,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_returnPagesToFilesystem( RPD
 *****************************/
 
 //	DB_TRUNCATE		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_open.html
-BOOL RPDB_DatabaseRecordReadWriteSettingsController_truncateFileOnOpen( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_truncateFileOnOpen( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	if ( database_record_read_write_settings_controller->truncate )	{
 		return DB_TRUNCATE;
 	}
@@ -341,7 +341,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_truncateFileOnOpen( RPDB_Dat
 	*  turnTruncateFileOnOpenOn  *
 	************************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnTruncateFileOnOpenOn( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnTruncateFileOnOpenOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 		database_record_read_write_settings_controller->truncate = TRUE;
 	}
 
@@ -349,7 +349,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_truncateFileOnOpen( RPDB_Dat
 	*  turnTruncateFileOnOpenOff  *
 	*********************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnTruncateFileOnOpenOff( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnTruncateFileOnOpenOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 		database_record_read_write_settings_controller->truncate = FALSE;
 	}
 
@@ -358,7 +358,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_truncateFileOnOpen( RPDB_Dat
 ************************************/
 
 //	DB_RMW					http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/dbc_get.html
-BOOL RPDB_DatabaseRecordReadWriteSettingsController_writeLocksInsteadOfReadLocks( RPDB_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_writeLocksInsteadOfReadLocks( Rbdb_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
 
 	if ( database_read_write_settings_controller->write_locks_instead_of_read_locks == TRUE )	{
 		return DB_RMW;
@@ -370,7 +370,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_writeLocksInsteadOfReadLocks
 	*  turnWriteLocksInsteadOfReadLocksOn  *
 	****************************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnWriteLocksInsteadOfReadLocksOn( RPDB_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnWriteLocksInsteadOfReadLocksOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
 		database_read_write_settings_controller->write_locks_instead_of_read_locks = TRUE;
 	}
 
@@ -378,7 +378,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_writeLocksInsteadOfReadLocks
 	*  turnWriteLocksInsteadOfReadLocksOff  *
 	****************************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnWriteLocksInsteadOfReadLocksOff( RPDB_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnWriteLocksInsteadOfReadLocksOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
 		database_read_write_settings_controller->write_locks_instead_of_read_locks = FALSE;
 	}
 
@@ -387,13 +387,13 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_writeLocksInsteadOfReadLocks
 *************************/
 
 //	DB_DUP				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_flags.html
-BOOL RPDB_DatabaseRecordReadWriteSettingsController_unsortedDuplicates( RPDB_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_unsortedDuplicates( Rbdb_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
 	
 	//	If hash or btree, return ->permit_duplicates
 	//	Otherwise, return false
-	RPDB_DatabaseSettingsController*			database_settings_controller			=	database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller;
-	RPDB_DatabaseTypeSettingsController*	database_type_settings_controller	=	RPDB_DatabaseSettingsController_typeSettingsController( database_settings_controller );
-	DBTYPE	database_type	=	RPDB_DatabaseTypeSettingsController_databaseType( database_type_settings_controller );
+	Rbdb_DatabaseSettingsController*			database_settings_controller			=	database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller;
+	Rbdb_DatabaseTypeSettingsController*	database_type_settings_controller	=	Rbdb_DatabaseSettingsController_typeSettingsController( database_settings_controller );
+	DBTYPE	database_type	=	Rbdb_DatabaseTypeSettingsController_databaseType( database_type_settings_controller );
 	
 	if (	(	database_type == DB_BTREE
 			||	database_type == DB_HASH )
@@ -409,20 +409,20 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_unsortedDuplicates( RPDB_Dat
 	 *  turnPermitDuplicatesOn  *
 	 *******************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnUnsortedDuplicatesOn( RPDB_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnUnsortedDuplicatesOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
 		
 		//	If hash or btree, set ->permit_duplicates
 		//	Otherwise, throw an error
 
-		RPDB_DatabaseTypeSettingsController*	database_type_settings_controller	=	RPDB_DatabaseSettingsController_typeSettingsController( database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller );
-		DBTYPE	database_type	=	RPDB_DatabaseTypeSettingsController_databaseType( database_type_settings_controller );
+		Rbdb_DatabaseTypeSettingsController*	database_type_settings_controller	=	Rbdb_DatabaseSettingsController_typeSettingsController( database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller );
+		DBTYPE	database_type	=	Rbdb_DatabaseTypeSettingsController_databaseType( database_type_settings_controller );
 
 		if ( ! (	database_type == DB_BTREE
 				||	database_type == DB_HASH ) )	{
 			
-			RPDB_ErrorController_throwError(	RPDB_ErrorController_new( database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ),
-																				RPDB_ERROR_DUPLICATES_NOT_SUPPORTED,
-																				"RPDB_DatabaseRecordReadWriteSettingsController_turnUnsortedDuplicatesOn",
+			Rbdb_ErrorController_throwError(	Rbdb_ErrorController_new( database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ),
+																				Rbdb_ERROR_DUPLICATES_NOT_SUPPORTED,
+																				"Rbdb_DatabaseRecordReadWriteSettingsController_turnUnsortedDuplicatesOn",
 																				"Duplicate records are only supported by Btree and Hash database types." );
 		}
 		
@@ -433,19 +433,19 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_unsortedDuplicates( RPDB_Dat
 	 *  turnPermitDuplicatesOff  *
 	 *********************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnUnsortedDuplicatesOff( RPDB_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnUnsortedDuplicatesOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
 		
-		RPDB_DatabaseTypeSettingsController*	database_type_settings_controller	=	RPDB_DatabaseSettingsController_typeSettingsController( database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller );
-		DBTYPE	database_type	=	RPDB_DatabaseTypeSettingsController_databaseType( database_type_settings_controller );
+		Rbdb_DatabaseTypeSettingsController*	database_type_settings_controller	=	Rbdb_DatabaseSettingsController_typeSettingsController( database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller );
+		DBTYPE	database_type	=	Rbdb_DatabaseTypeSettingsController_databaseType( database_type_settings_controller );
 
 		//	If hash or btree, set ->permit_duplicates
 		//	Otherwise, throw an error
 		if ( ! (	database_type == DB_BTREE
 				||	database_type == DB_HASH ) )	{
 			
-			RPDB_ErrorController_throwError(	RPDB_ErrorController_new( database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ),
-																				 RPDB_ERROR_DUPLICATES_NOT_SUPPORTED,
-																				 "RPDB_DatabaseRecordReadWriteSettingsController_turnUnsortedDuplicatesOff",
+			Rbdb_ErrorController_throwError(	Rbdb_ErrorController_new( database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ),
+																				 Rbdb_ERROR_DUPLICATES_NOT_SUPPORTED,
+																				 "Rbdb_DatabaseRecordReadWriteSettingsController_turnUnsortedDuplicatesOff",
 																				 "Duplicate records are only supported by Btree and Hash database types." );
 		}
 		database_read_write_settings_controller->permit_duplicates = FALSE;
@@ -456,13 +456,13 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_unsortedDuplicates( RPDB_Dat
 *********************/
 
 //	DB_DUPSORT			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_flags.html
-BOOL RPDB_DatabaseRecordReadWriteSettingsController_sortedDuplicates( RPDB_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_sortedDuplicates( Rbdb_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
 
-	RPDB_DatabaseSettingsController*			parent_database_settings_controller	=	database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller;
+	Rbdb_DatabaseSettingsController*			parent_database_settings_controller	=	database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller;
 
-	RPDB_DatabaseTypeSettingsController*	database_type_settings_controller		=	RPDB_DatabaseSettingsController_typeSettingsController( parent_database_settings_controller );
+	Rbdb_DatabaseTypeSettingsController*	database_type_settings_controller		=	Rbdb_DatabaseSettingsController_typeSettingsController( parent_database_settings_controller );
 
-	DBTYPE	database_type	=	RPDB_DatabaseTypeSettingsController_databaseType( database_type_settings_controller );
+	DBTYPE	database_type	=	Rbdb_DatabaseTypeSettingsController_databaseType( database_type_settings_controller );
 	
 	if (	(	database_type == DB_BTREE
 			 ||	database_type == DB_HASH )
@@ -478,11 +478,11 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_sortedDuplicates( RPDB_Datab
 	 *  turnSortDuplicatesOn  *
 	 *****************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnSortedDuplicatesOn( RPDB_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnSortedDuplicatesOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
 		
 		//	FIX - apply this to all errors		
-		RPDB_Environment*	environment	=	NULL;
-		RPDB_DatabaseSettingsController*			database_settings_controller			=	database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller;
+		Rbdb_Environment*	environment	=	NULL;
+		Rbdb_DatabaseSettingsController*			database_settings_controller			=	database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller;
 
 		//	environmental settings controller
 		if ( database_settings_controller->parent_settings_controller->parent_environment != NULL )	{
@@ -492,21 +492,21 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_sortedDuplicates( RPDB_Datab
 		//	instance settings controller
 		else {
 
-			RPDB_DatabaseTypeSettingsController*	database_type_settings_controller	=	RPDB_DatabaseSettingsController_typeSettingsController( database_settings_controller );
-			DBTYPE	database_type	=	RPDB_DatabaseTypeSettingsController_databaseType( database_type_settings_controller );
+			Rbdb_DatabaseTypeSettingsController*	database_type_settings_controller	=	Rbdb_DatabaseSettingsController_typeSettingsController( database_settings_controller );
+			DBTYPE	database_type	=	Rbdb_DatabaseTypeSettingsController_databaseType( database_type_settings_controller );
 
 			if ( ! (	database_type == DB_BTREE
 						||	database_type == DB_HASH ) )	{
 				environment	=	database_settings_controller->parent_database->parent_database_controller->parent_environment;				
-				RPDB_ErrorController_throwError(	RPDB_ErrorController_new(  environment ),
-																					RPDB_ERROR_DUPLICATES_NOT_SUPPORTED,
-																					"RPDB_DatabaseRecordReadWriteSettingsController_turnSortedDuplicatesOn",
+				Rbdb_ErrorController_throwError(	Rbdb_ErrorController_new(  environment ),
+																					Rbdb_ERROR_DUPLICATES_NOT_SUPPORTED,
+																					"Rbdb_DatabaseRecordReadWriteSettingsController_turnSortedDuplicatesOn",
 																					"Duplicate records are only supported by Btree and Hash database types." );
 			}
 		}
 		
 		//	if we are sorting duplicates we don't want errors for overwriting the same record - just ignore
-		RPDB_DatabaseRecordReadWriteSettingsController_turnWriteDataOnlyIfNonDuplicateOn( database_read_write_settings_controller );
+		Rbdb_DatabaseRecordReadWriteSettingsController_turnWriteDataOnlyIfNonDuplicateOn( database_read_write_settings_controller );
 		
 		database_read_write_settings_controller->sort_duplicates = TRUE;
 	}
@@ -515,10 +515,10 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_sortedDuplicates( RPDB_Datab
 	 *  turnSortDuplicatesOff  *
 	 ******************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnSortedDuplicatesOff( RPDB_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnSortedDuplicatesOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
 
-		RPDB_Environment*	environment	=	NULL;
-		RPDB_DatabaseSettingsController*			database_settings_controller			=	database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller;
+		Rbdb_Environment*	environment	=	NULL;
+		Rbdb_DatabaseSettingsController*			database_settings_controller			=	database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller;
 
 		//	environmental settings controller
 		if ( database_settings_controller->parent_settings_controller->parent_environment != NULL )	{
@@ -528,22 +528,22 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_sortedDuplicates( RPDB_Datab
 		//	instance settings controller
 		else {
 
-			RPDB_DatabaseTypeSettingsController*	database_type_settings_controller	=	RPDB_DatabaseSettingsController_typeSettingsController( database_settings_controller );
-			DBTYPE	database_type	=	RPDB_DatabaseTypeSettingsController_databaseType( database_type_settings_controller );
+			Rbdb_DatabaseTypeSettingsController*	database_type_settings_controller	=	Rbdb_DatabaseSettingsController_typeSettingsController( database_settings_controller );
+			DBTYPE	database_type	=	Rbdb_DatabaseTypeSettingsController_databaseType( database_type_settings_controller );
 
 			if ( ! (	database_type == DB_BTREE
 					||	database_type == DB_HASH ) )	{
 
 				environment	=	database_settings_controller->parent_database->parent_database_controller->parent_environment;
-				RPDB_ErrorController_throwError(	RPDB_ErrorController_new(		environment ),
-																																			RPDB_ERROR_DUPLICATES_NOT_SUPPORTED,
-																																			"RPDB_DatabaseRecordReadWriteSettingsController_turnSortedDuplicatesOff",
+				Rbdb_ErrorController_throwError(	Rbdb_ErrorController_new(		environment ),
+																																			Rbdb_ERROR_DUPLICATES_NOT_SUPPORTED,
+																																			"Rbdb_DatabaseRecordReadWriteSettingsController_turnSortedDuplicatesOff",
 																																			"Duplicate records are only supported by Btree and Hash database types." );
 			}
 		}
 
 		//	this flag only makes sense with sorted duplicates, so if they're not on it goes off
-		RPDB_DatabaseRecordReadWriteSettingsController_turnWriteDataOnlyIfNonDuplicateOff( database_read_write_settings_controller );
+		Rbdb_DatabaseRecordReadWriteSettingsController_turnWriteDataOnlyIfNonDuplicateOff( database_read_write_settings_controller );
 		
 		database_read_write_settings_controller->sort_duplicates = FALSE;
 	}
@@ -552,7 +552,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_sortedDuplicates( RPDB_Datab
 *  databaseAllocatesMemoryUsingMalloc  *
 *****************************************/
 
-BOOL RPDB_DatabaseRecordReadWriteSettingsController_databaseAllocatesMemoryUsingMalloc( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_databaseAllocatesMemoryUsingMalloc( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 	if ( database_record_read_write_settings_controller->database_allocates_memory_using_malloc == TRUE )	{
 		return DB_DBT_MALLOC;
@@ -564,27 +564,27 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_databaseAllocatesMemoryUsing
 	*  turnDatabaseAllocatesMemoryUsingMallocOn  *
 	*************************************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnDatabaseAllocatesMemoryUsingMallocOn( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnDatabaseAllocatesMemoryUsingMallocOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 		database_record_read_write_settings_controller->database_allocates_memory_using_malloc = TRUE;
-		RPDB_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
+		Rbdb_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
 	}
 
 	/*************************************************
 	*  turnDatabaseAllocatesMemoryUsingMallocOff  *
 	*************************************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnDatabaseAllocatesMemoryUsingMallocOff( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnDatabaseAllocatesMemoryUsingMallocOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 		database_record_read_write_settings_controller->database_allocates_memory_using_malloc = FALSE;
-		RPDB_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
+		Rbdb_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
 	}
 
 /*********************************************
 *  databaseAllocatesMemoryUsingRealloc  *
 *********************************************/
 
-BOOL RPDB_DatabaseRecordReadWriteSettingsController_databaseAllocatesMemoryUsingRealloc( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_databaseAllocatesMemoryUsingRealloc( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 	if ( database_record_read_write_settings_controller->database_allocates_memory_using_realloc == TRUE )	{
 		return DB_DBT_REALLOC;
@@ -596,27 +596,27 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_databaseAllocatesMemoryUsing
 	*  turnDatabaseAllocatesMemoryUsingReallocOn  *
 	*************************************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnDatabaseAllocatesMemoryUsingReallocOn( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnDatabaseAllocatesMemoryUsingReallocOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 		database_record_read_write_settings_controller->database_allocates_memory_using_realloc = TRUE;
-		RPDB_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
+		Rbdb_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
 	}
 
 	/*************************************************
 	*  turnDatabaseAllocatesMemoryUsingReallocOff  *
 	*************************************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnDatabaseAllocatesMemoryUsingReallocOff( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnDatabaseAllocatesMemoryUsingReallocOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 		database_record_read_write_settings_controller->database_allocates_memory_using_realloc = FALSE;
-		RPDB_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
+		Rbdb_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
 	}
 
 /*********************************
 *  applicationAllocatesMemory  *
 *********************************/
 
-BOOL RPDB_DatabaseRecordReadWriteSettingsController_applicationAllocatesMemory( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_applicationAllocatesMemory( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 	if ( database_record_read_write_settings_controller->application_allocates_memory == TRUE )	{
 		return DB_DBT_USERMEM;
@@ -628,27 +628,27 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_applicationAllocatesMemory( 
 	*  turnApplicationAllocatesMemoryOn  *
 	*****************************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnApplicationAllocatesMemoryOn( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnApplicationAllocatesMemoryOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 		database_record_read_write_settings_controller->application_allocates_memory = TRUE;
-		RPDB_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
+		Rbdb_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
 	}
 
 	/*****************************************
 	*  turnApplicationAllocatesMemoryOff  *
 	*****************************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnApplicationAllocatesMemoryOff( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnApplicationAllocatesMemoryOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 		database_record_read_write_settings_controller->application_allocates_memory = FALSE;
-		RPDB_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
+		Rbdb_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
 	}
 
 /*****************************
 *  databaseFreesMemory  *
 *****************************/
 
-BOOL RPDB_DatabaseRecordReadWriteSettingsController_databaseFreesMemory( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_databaseFreesMemory( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 	if ( database_record_read_write_settings_controller->database_free_memory == TRUE )	{
 		return DB_DBT_APPMALLOC;
@@ -660,27 +660,27 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_databaseFreesMemory( RPDB_Da
 	*  turnDatabaseFreesMemoryOn  *
 	*********************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnDatabaseFreesMemoryOn( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnDatabaseFreesMemoryOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 		database_record_read_write_settings_controller->database_free_memory = TRUE;
-		RPDB_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
+		Rbdb_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
 	}
 
 	/*********************************
 	*  turnDatabaseFreesMemoryOff  *
 	*********************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnDatabaseFreesMemoryOff( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnDatabaseFreesMemoryOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 		database_record_read_write_settings_controller->database_free_memory = FALSE;
-		RPDB_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
+		Rbdb_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
 	}
 
 /*********************
 *  partialAccess  *
 *********************/
 
-BOOL RPDB_DatabaseRecordReadWriteSettingsController_partialAccess( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_partialAccess( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 	if ( database_record_read_write_settings_controller->partial_access == TRUE )	{
 		return DB_DBT_PARTIAL;
@@ -692,20 +692,20 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_partialAccess( RPDB_Database
 	*  turnPartialAccessOn  *
 	*****************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnPartialAccessOn( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnPartialAccessOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 		database_record_read_write_settings_controller->partial_access = TRUE;
-		RPDB_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
+		Rbdb_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
 	}
 
 	/*****************************
 	*  turnPartialAccessOff  *
 	*****************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnPartialAccessOff( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnPartialAccessOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 		database_record_read_write_settings_controller->partial_access = FALSE;
-		RPDB_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
+		Rbdb_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
 	}
 	
 /*****************************
@@ -713,7 +713,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_partialAccess( RPDB_Database
 *****************************/
 
 //	DB_DSYNC_DB             http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-BOOL RPDB_DatabaseRecordReadWriteSettingsController_syncPriorToWriteReturn( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_syncPriorToWriteReturn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 
 	if ( database_record_read_write_settings_controller->sync_prior_to_write_return == TRUE )	{
 		return DB_DSYNC_DB;
@@ -725,7 +725,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_syncPriorToWriteReturn( RPDB
 	*  turnSyncPriorToWriteReturnOn  *
 	**************************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnSyncPriorToWriteReturnOn( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnSyncPriorToWriteReturnOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 
 		database_record_read_write_settings_controller->sync_prior_to_write_return = TRUE;
 	}
@@ -734,7 +734,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_syncPriorToWriteReturn( RPDB
 	*  turnSyncPriorToWriteReturnOff  *
 	************************************/
 
-	void RPDB_DatabaseRecordReadWriteSettingsController_turnSyncPriorToWriteReturnOff( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnSyncPriorToWriteReturnOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 
 		database_record_read_write_settings_controller->sync_prior_to_write_return = FALSE;
 	}
@@ -743,7 +743,7 @@ BOOL RPDB_DatabaseRecordReadWriteSettingsController_syncPriorToWriteReturn( RPDB
 *  dataBufferSize  *
 *********************/
 
-uint32_t RPDB_DatabaseRecordReadWriteSettingsController_dataBufferSize( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+uint32_t Rbdb_DatabaseRecordReadWriteSettingsController_dataBufferSize( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 
 	//	If we are a local settings controller, return the actual buffer length, otherwise return the global setting
 	if ( database_record_read_write_settings_controller->parent_database_record_settings_controller->parent_record == NULL )	{
@@ -762,7 +762,7 @@ uint32_t RPDB_DatabaseRecordReadWriteSettingsController_dataBufferSize( RPDB_Dat
 *  setDataBufferSize  *
 *************************/
 
-void RPDB_DatabaseRecordReadWriteSettingsController_setDataBufferSize(	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller, 
+void Rbdb_DatabaseRecordReadWriteSettingsController_setDataBufferSize(	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller, 
 													uint32_t							buffer_size )	{
 
 	//	If we are a local settings controller, return the actual buffer length, otherwise return the global setting
@@ -784,7 +784,7 @@ void RPDB_DatabaseRecordReadWriteSettingsController_setDataBufferSize(	RPDB_Data
 //	Returns size of partial write (if applicable)
 //	It is an error to attempt a partial put using the DB->put function in a database that supports duplicate records. 
 //	Partial puts in databases supporting duplicate records must be done using a DBcursor->put function.
-uint32_t RPDB_DatabaseRecordReadWriteSettingsController_partialReadWriteSize( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+uint32_t Rbdb_DatabaseRecordReadWriteSettingsController_partialReadWriteSize( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 
 	//	If we are a local settings controller, return the actual buffer length, otherwise return the global setting
 	if ( database_record_read_write_settings_controller->parent_database_record_settings_controller->parent_record == NULL )	{
@@ -804,7 +804,7 @@ uint32_t RPDB_DatabaseRecordReadWriteSettingsController_partialReadWriteSize( RP
 *  setPartialReadWriteSize  *
 *********************************/
 
-void RPDB_DatabaseRecordReadWriteSettingsController_setPartialReadWriteSize(	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller, 
+void Rbdb_DatabaseRecordReadWriteSettingsController_setPartialReadWriteSize(	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller, 
 																																		uint32_t							partial_read_write_size )	{
 
 	//	If we are a local settings controller, return the actual buffer length, otherwise return the global setting
@@ -823,7 +823,7 @@ void RPDB_DatabaseRecordReadWriteSettingsController_setPartialReadWriteSize(	RPD
 *  partialReadWriteOffset  *
 *****************************/
 
-uint32_t RPDB_DatabaseRecordReadWriteSettingsController_partialReadWriteOffset( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+uint32_t Rbdb_DatabaseRecordReadWriteSettingsController_partialReadWriteOffset( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 
 	//	If we are a local settings controller, return the actual buffer length, otherwise return the global setting
 	if ( database_record_read_write_settings_controller->parent_database_record_settings_controller->parent_record == NULL )	{
@@ -843,7 +843,7 @@ uint32_t RPDB_DatabaseRecordReadWriteSettingsController_partialReadWriteOffset( 
 *  setPartialReadWriteOffset  *
 *********************************/
 
-void RPDB_DatabaseRecordReadWriteSettingsController_setPartialReadWriteOffset(	RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller, 
+void Rbdb_DatabaseRecordReadWriteSettingsController_setPartialReadWriteOffset(	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller, 
 																																								uint32_t							partial_read_write_offset )	{
 
 	//	If we are a local settings controller, return the actual buffer length, otherwise return the global setting
@@ -862,8 +862,8 @@ void RPDB_DatabaseRecordReadWriteSettingsController_setPartialReadWriteOffset(	R
 *  setWriteFailedCallbackMethod  *
 *************************************/
 /*
-void RPDB_MessageSettingsController_setWriteFailedCallbackMethod(	RPDB_MessageSettingsController*				message_settings_controller,
- 																	void *(write_failed_callback_method)( RPDB_Environment*	environment ) )	{
+void Rbdb_MessageSettingsController_setWriteFailedCallbackMethod(	Rbdb_MessageSettingsController*				message_settings_controller,
+ 																	void *(write_failed_callback_method)( Rbdb_Environment*	environment ) )	{
 	
 	DB_ENV*		environment	= message_settings_controller->parent_settings_controller->parent_environment->environment;
 	
@@ -872,7 +872,7 @@ void RPDB_MessageSettingsController_setWriteFailedCallbackMethod(	RPDB_MessageSe
 	
 	 if ( environment->wrapped_bdb_environment != NULL )	{
 		environment->wrapped_bdb_environment->set_event_notify(	environment->wrapped_bdb_environment, 
-																& RPDB_MessageSettingsController_internal_eventCallbackMethod );
+																& Rbdb_MessageSettingsController_internal_eventCallbackMethod );
 	}
 }
 */
@@ -880,7 +880,7 @@ void RPDB_MessageSettingsController_setWriteFailedCallbackMethod(	RPDB_MessageSe
 *  writeFailedCallbackMethod  *
 *********************************/
 /*
-void *(write_failed_callback_method)( RPDB_Environment*	environment ) RPDB_MessageSettingsController_writeFailedCallbackMethod(	RPDB_MessageSettingsController*		message_settings_controller )	{
+void *(write_failed_callback_method)( Rbdb_Environment*	environment ) Rbdb_MessageSettingsController_writeFailedCallbackMethod(	Rbdb_MessageSettingsController*		message_settings_controller )	{
 	
 	return message_settings_controller->write_failed_callback_method;
 }
@@ -899,7 +899,7 @@ void *(write_failed_callback_method)( RPDB_Environment*	environment ) RPDB_Messa
 //	Most every other time flags are used when a function is called, so they can be composited on the fly
 //	Here flags go in a variable rather than parameter, so we have to update them when we change a setting,
 //	and then store the flags for use when appropriate (which is determined by the database handling the DBT). 
-void RPDB_DatabaseRecordReadWriteSettingsController_internal_updateFlags( RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller )	{
+void Rbdb_DatabaseRecordReadWriteSettingsController_internal_updateFlags( Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller )	{
 	
 	uint32_t*	flags_pointer	=	NULL;
 			
@@ -915,11 +915,11 @@ void RPDB_DatabaseRecordReadWriteSettingsController_internal_updateFlags( RPDB_D
 	}
 
 	//	Update the flags stored in the DBT
-	*flags_pointer =	RPDB_DatabaseRecordReadWriteSettingsController_databaseAllocatesMemoryUsingMalloc( database_record_read_write_settings_controller )
-										|	RPDB_DatabaseRecordReadWriteSettingsController_databaseAllocatesMemoryUsingRealloc( database_record_read_write_settings_controller )
-										|	RPDB_DatabaseRecordReadWriteSettingsController_applicationAllocatesMemory( database_record_read_write_settings_controller )
-										|	RPDB_DatabaseRecordReadWriteSettingsController_partialAccess( database_record_read_write_settings_controller )
-										|	RPDB_DatabaseRecordReadWriteSettingsController_databaseFreesMemory( database_record_read_write_settings_controller );
+	*flags_pointer =	Rbdb_DatabaseRecordReadWriteSettingsController_databaseAllocatesMemoryUsingMalloc( database_record_read_write_settings_controller )
+										|	Rbdb_DatabaseRecordReadWriteSettingsController_databaseAllocatesMemoryUsingRealloc( database_record_read_write_settings_controller )
+										|	Rbdb_DatabaseRecordReadWriteSettingsController_applicationAllocatesMemory( database_record_read_write_settings_controller )
+										|	Rbdb_DatabaseRecordReadWriteSettingsController_partialAccess( database_record_read_write_settings_controller )
+										|	Rbdb_DatabaseRecordReadWriteSettingsController_databaseFreesMemory( database_record_read_write_settings_controller );
 }	
 
 /******************************************
@@ -927,10 +927,10 @@ void RPDB_DatabaseRecordReadWriteSettingsController_internal_updateFlags( RPDB_D
 ******************************************/
 
 //	Returns a copy of cursor_settings_controller to be used for instance
-RPDB_DatabaseRecordReadWriteSettingsController* RPDB_DatabaseRecordReadWriteSettingsController_internal_copyOfDefaultSettingsForInstance( RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+Rbdb_DatabaseRecordReadWriteSettingsController* Rbdb_DatabaseRecordReadWriteSettingsController_internal_copyOfDefaultSettingsForInstance( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 
 	//	create a new database_cursor settings controller without a parent
-	RPDB_DatabaseRecordReadWriteSettingsController*	database_record_read_write_settings_controller_copy = RPDB_DatabaseRecordReadWriteSettingsController_new( NULL );
+	Rbdb_DatabaseRecordReadWriteSettingsController*	database_record_read_write_settings_controller_copy = Rbdb_DatabaseRecordReadWriteSettingsController_new( NULL );
 
 	//	copy settings from passed controller into new controller
 	database_record_read_write_settings_controller_copy->prohibit_sync_on_close		= database_record_read_write_settings_controller->prohibit_sync_on_close;
@@ -955,10 +955,10 @@ RPDB_DatabaseRecordReadWriteSettingsController* RPDB_DatabaseRecordReadWriteSett
 **********************/
 	
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_put.html
-int RPDB_DatabaseRecordReadWriteSettingsController_internal_writeFlags( RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller)	{
+int Rbdb_DatabaseRecordReadWriteSettingsController_internal_writeFlags( Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller)	{
 	//	Setter functions ensure exclusivity, so we should be able to simply | together the results
-	return	RPDB_DatabaseRecordReadWriteSettingsController_writeDataOnlyIfNonDuplicate( database_record_read_write_settings_controller )
-			|	RPDB_DatabaseRecordReadWriteSettingsController_prohibitOverwrite( database_record_read_write_settings_controller );
+	return	Rbdb_DatabaseRecordReadWriteSettingsController_writeDataOnlyIfNonDuplicate( database_record_read_write_settings_controller )
+			|	Rbdb_DatabaseRecordReadWriteSettingsController_prohibitOverwrite( database_record_read_write_settings_controller );
 }
 
 /*********************
@@ -967,9 +967,9 @@ int RPDB_DatabaseRecordReadWriteSettingsController_internal_writeFlags( RPDB_Dat
 
 //	Flags is currently unused (0) - this could change. Who knows what the future may hold! :o
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_del.html
-int RPDB_DatabaseRecordReadWriteSettingsController_internal_deleteFlags( RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller __attribute__((unused)) )	{
+int Rbdb_DatabaseRecordReadWriteSettingsController_internal_deleteFlags( Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller __attribute__((unused)) )	{
 
-	return RPDB_NO_FLAGS;
+	return Rbdb_NO_FLAGS;
 }
 
 /*********************
@@ -978,17 +978,17 @@ int RPDB_DatabaseRecordReadWriteSettingsController_internal_deleteFlags( RPDB_Da
 
 //	Flags is currently unused (0) - this could change. Who knows what the future may hold! :o
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_del.html
-int RPDB_DatabaseRecordReadWriteSettingsController_internal_existsFlags( RPDB_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller )	{
+int Rbdb_DatabaseRecordReadWriteSettingsController_internal_existsFlags( Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller )	{
 
-	return RPDB_DatabaseRecordReadWriteSettingsController_writeLocksInsteadOfReadLocks(	database_record_read_write_settings_controller );
+	return Rbdb_DatabaseRecordReadWriteSettingsController_writeLocksInsteadOfReadLocks(	database_record_read_write_settings_controller );
 }
 
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_DatabaseRecordReadWriteSettingsController* RPDB_DatabaseRecordReadWriteSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+Rbdb_DatabaseRecordReadWriteSettingsController* Rbdb_DatabaseRecordReadWriteSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 
-	RPDB_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller_copy	=	RPDB_DatabaseRecordReadWriteSettingsController_new( database_record_read_write_settings_controller->parent_database_record_settings_controller );
+	Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller_copy	=	Rbdb_DatabaseRecordReadWriteSettingsController_new( database_record_read_write_settings_controller->parent_database_record_settings_controller );
 
 	//	Instances and Pointers
 	database_record_read_write_settings_controller_copy->write_locks_instead_of_read_locks	=	database_record_read_write_settings_controller->write_locks_instead_of_read_locks;

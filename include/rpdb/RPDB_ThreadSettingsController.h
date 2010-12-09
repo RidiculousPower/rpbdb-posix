@@ -1,39 +1,39 @@
 /*
- *		RPDB::SettingsController::ThreadSettingsController
+ *		Rbdb::SettingsController::ThreadSettingsController
  *
  *
  */
 
-#ifndef RPDB_THREAD_SETTINGS_CONTROLLER
-	#define RPDB_THREAD_SETTINGS_CONTROLLER
+#ifndef Rbdb_THREAD_SETTINGS_CONTROLLER
+	#define Rbdb_THREAD_SETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_ThreadSettingsController*		RPDB_ThreadSettingsController_new(								RPDB_SettingsController*			settings_controller );
-	void								RPDB_ThreadSettingsController_free(							RPDB_ThreadSettingsController**		thread_settings_controller );
-	RPDB_Environment*			RPDB_ThreadSettingsController_parentEnvironment(	RPDB_ThreadSettingsController*		thread_settings_controller );
-	int								RPDB_ThreadSettingsController_on(								RPDB_ThreadSettingsController*		thread_settings_controller );
-	BOOL								RPDB_ThreadSettingsController_off(								RPDB_ThreadSettingsController*		thread_settings_controller );
-	void								RPDB_ThreadSettingsController_turnOn(							RPDB_ThreadSettingsController*		thread_settings_controller );
-	void								RPDB_ThreadSettingsController_turnOff(							RPDB_ThreadSettingsController*		thread_settings_controller );
+	Rbdb_ThreadSettingsController*		Rbdb_ThreadSettingsController_new(								Rbdb_SettingsController*			settings_controller );
+	void								Rbdb_ThreadSettingsController_free(							Rbdb_ThreadSettingsController**		thread_settings_controller );
+	Rbdb_Environment*			Rbdb_ThreadSettingsController_parentEnvironment(	Rbdb_ThreadSettingsController*		thread_settings_controller );
+	int								Rbdb_ThreadSettingsController_on(								Rbdb_ThreadSettingsController*		thread_settings_controller );
+	BOOL								Rbdb_ThreadSettingsController_off(								Rbdb_ThreadSettingsController*		thread_settings_controller );
+	void								Rbdb_ThreadSettingsController_turnOn(							Rbdb_ThreadSettingsController*		thread_settings_controller );
+	void								Rbdb_ThreadSettingsController_turnOff(							Rbdb_ThreadSettingsController*		thread_settings_controller );
 																																			
-	int									RPDB_ThreadSettingsController_threadCount(						RPDB_ThreadSettingsController*		thread_settings_controller );
-	void								RPDB_ThreadSettingsController_setThreadCount(					RPDB_ThreadSettingsController*		thread_settings_controller, 
+	int									Rbdb_ThreadSettingsController_threadCount(						Rbdb_ThreadSettingsController*		thread_settings_controller );
+	void								Rbdb_ThreadSettingsController_setThreadCount(					Rbdb_ThreadSettingsController*		thread_settings_controller, 
 																										uint32_t							thread_count );
 
-void RPDB_ThreadSettingsController_setUniqueThreadIdentifierCallbackMethod(	RPDB_ThreadSettingsController*					thread_settings_controller,
-																			RPDB_UniqueThreadIdentifierCallbackMethod		unique_thread_identifier_callback_method );
-RPDB_UniqueThreadIdentifierCallbackMethod RPDB_ThreadSettingsController_uniqueThreadIdentifierCallbackMethod( RPDB_ThreadSettingsController* thread_settings_controller );
-void RPDB_ThreadSettingsController_setFormatThreadAndProcessIdentifierForDisplayCallbackMethod(	RPDB_ThreadSettingsController*										thread_settings_controller,
-																								RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod		format_thread_and_process_identifier_for_display_callback_method );
-RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod RPDB_ThreadSettingsController_formatThreadAndProcessIDForDisplayCallbackMethod(	RPDB_ThreadSettingsController* thread_settings_controller	);
-void RPDB_ThreadSettingsController_setIsThreadAliveCallback(	RPDB_ThreadSettingsController* 	thread_settings_controller,
-															 RPDB_IsThreadAliveCallbackMethod		is_thread_alive_callback_method );
-RPDB_IsThreadAliveCallbackMethod RPDB_ThreadSettingsController_isThreadAliveCallbackMethod( RPDB_ThreadSettingsController* thread_settings_controller );
+void Rbdb_ThreadSettingsController_setUniqueThreadIdentifierCallbackMethod(	Rbdb_ThreadSettingsController*					thread_settings_controller,
+																			Rbdb_UniqueThreadIdentifierCallbackMethod		unique_thread_identifier_callback_method );
+Rbdb_UniqueThreadIdentifierCallbackMethod Rbdb_ThreadSettingsController_uniqueThreadIdentifierCallbackMethod( Rbdb_ThreadSettingsController* thread_settings_controller );
+void Rbdb_ThreadSettingsController_setFormatThreadAndProcessIdentifierForDisplayCallbackMethod(	Rbdb_ThreadSettingsController*										thread_settings_controller,
+																								Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod		format_thread_and_process_identifier_for_display_callback_method );
+Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod Rbdb_ThreadSettingsController_formatThreadAndProcessIDForDisplayCallbackMethod(	Rbdb_ThreadSettingsController* thread_settings_controller	);
+void Rbdb_ThreadSettingsController_setIsThreadAliveCallback(	Rbdb_ThreadSettingsController* 	thread_settings_controller,
+															 Rbdb_IsThreadAliveCallbackMethod		is_thread_alive_callback_method );
+Rbdb_IsThreadAliveCallbackMethod Rbdb_ThreadSettingsController_isThreadAliveCallbackMethod( Rbdb_ThreadSettingsController* thread_settings_controller );
 	
 #endif
 

@@ -1,5 +1,5 @@
 /*
- *		RPDB::RPDB_DatabaseController::RPDB_Database::(RPDB_DatabaseCursorController::RPDB_DatabaseCursor::)RPDB_Record
+ *		Rbdb::Rbdb_DatabaseController::Rbdb_Database::(Rbdb_DatabaseCursorController::Rbdb_DatabaseCursor::)Rbdb_Record
  *
  *
  */
@@ -10,23 +10,23 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_Record.h"
-#include "RPDB_Record_internal.h"
+#include "Rbdb_Record.h"
+#include "Rbdb_Record_internal.h"
 
-#include "RPDB_Database_internal.h"
+#include "Rbdb_Database_internal.h"
 
-#include "RPDB_Key.h"
-#include "RPDB_Data.h"
-#include "RPDB_DBT.h"
-#include "RPDB_SecondaryKeys.h"
+#include "Rbdb_Key.h"
+#include "Rbdb_Data.h"
+#include "Rbdb_DBT.h"
+#include "Rbdb_SecondaryKeys.h"
 
-#include "RPDB_Environment.h"
+#include "Rbdb_Environment.h"
 
-#include "RPDB_Database.h"
+#include "Rbdb_Database.h"
 
-#include "RPDB_DatabaseSettingsController.h"
-#include "RPDB_DatabaseRecordSettingsController.h"
-#include "RPDB_DatabaseRecordSettingsController_internal.h"
+#include "Rbdb_DatabaseSettingsController.h"
+#include "Rbdb_DatabaseRecordSettingsController.h"
+#include "Rbdb_DatabaseRecordSettingsController_internal.h"
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -38,37 +38,37 @@
 *  new  *
 *************/
 
-RPDB_Record* RPDB_Record_new( RPDB_Database* parent_database )	{
+Rbdb_Record* Rbdb_Record_new( Rbdb_Database* parent_database )	{
 
-	RPDB_Record*	record = RPDB_Record_internal_newWithoutDBT( parent_database );
+	Rbdb_Record*	record = Rbdb_Record_internal_newWithoutDBT( parent_database );
 
 	if ( parent_database->runtime_storage_database != NULL )	{
-		record->runtime_identifier =	RPDB_Database_internal_storeRuntimeAddress(	parent_database->runtime_storage_database,
+		record->runtime_identifier =	Rbdb_Database_internal_storeRuntimeAddress(	parent_database->runtime_storage_database,
 																																							(void*) record );
 	}
 
 	//	We have one primary key
-	record->key = RPDB_Key_new( record );
+	record->key = Rbdb_Key_new( record );
 
 	//	We can have multiple secondary keys
-	record->primary_key = RPDB_Key_new( record );
+	record->primary_key = Rbdb_Key_new( record );
 
 	//	We have one object
-	record->data = RPDB_Data_new( record );
+	record->data = Rbdb_Data_new( record );
 
 	return record;
 }
 
-void	RPDB_Record_free( RPDB_Record** record )	{
+void	Rbdb_Record_free( Rbdb_Record** record )	{
 
 	if ( ( *record )->parent_database->runtime_storage_database != NULL )	{
-		RPDB_Database_internal_freeStoredRuntimeAddress(	( *record )->parent_database->runtime_storage_database,
+		Rbdb_Database_internal_freeStoredRuntimeAddress(	( *record )->parent_database->runtime_storage_database,
 																											( *record )->runtime_identifier );
 	}
-	RPDB_Record_internal_freeFromRuntimeStorage( record );
+	Rbdb_Record_internal_freeFromRuntimeStorage( record );
 }
 
-void	RPDB_Record_internal_freeFromRuntimeStorage( RPDB_Record** record )	{
+void	Rbdb_Record_internal_freeFromRuntimeStorage( Rbdb_Record** record )	{
 
 	if ( ( *record )->key != NULL )	{
 		
@@ -77,19 +77,19 @@ void	RPDB_Record_internal_freeFromRuntimeStorage( RPDB_Record** record )	{
 			( *record )->primary_key = NULL;
 		}
 		
-		RPDB_Key_free( & ( ( *record )->key ) );
+		Rbdb_Key_free( & ( ( *record )->key ) );
 	}
 	if ( ( *record )->primary_key != NULL )	{
 		
-		RPDB_Key_free( & ( ( *record )->primary_key ) );
+		Rbdb_Key_free( & ( ( *record )->primary_key ) );
 	}
 	if ( ( *record )->data != NULL )	{
 		
-		RPDB_Data_free( & ( ( *record )->data ) );
+		Rbdb_Data_free( & ( ( *record )->data ) );
 	}
 	
 	if ( ( *record )->settings_controller != NULL )	{
-		RPDB_DatabaseRecordSettingsController_free( & ( ( *record )->settings_controller ) );
+		Rbdb_DatabaseRecordSettingsController_free( & ( ( *record )->settings_controller ) );
 	}
 	
 	free( *record );
@@ -100,21 +100,21 @@ void	RPDB_Record_internal_freeFromRuntimeStorage( RPDB_Record** record )	{
 *  settingsController  *
 ***************************/
  
- RPDB_DatabaseRecordSettingsController* RPDB_Record_settingsController(	RPDB_Record* record )	{
+ Rbdb_DatabaseRecordSettingsController* Rbdb_Record_settingsController(	Rbdb_Record* record )	{
 	return record->settings_controller;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_Record_parentEnvironment(	RPDB_Record* record )	{
+Rbdb_Environment* Rbdb_Record_parentEnvironment(	Rbdb_Record* record )	{
 	return record->parent_database->parent_database_controller->parent_environment;
 }
 
 /***************************************
 *  parentDatabase  *
 ***************************************/
-RPDB_Database* RPDB_Record_parentDatabase(	RPDB_Record* record )	{
+Rbdb_Database* Rbdb_Record_parentDatabase(	Rbdb_Record* record )	{
 	return record->parent_database;
 }
 
@@ -126,7 +126,7 @@ RPDB_Database* RPDB_Record_parentDatabase(	RPDB_Record* record )	{
 *  key  *
 **************/
 
-RPDB_Key* RPDB_Record_key( RPDB_Record* record )	{
+Rbdb_Key* Rbdb_Record_key( Rbdb_Record* record )	{
 
 	if ( record != NULL )	{	
 		return record->key;
@@ -138,8 +138,8 @@ RPDB_Key* RPDB_Record_key( RPDB_Record* record )	{
 *  setKey  *
 **************/
 
-void RPDB_Record_setKey(	RPDB_Record*			record,
-							RPDB_Key*				primary_key )	{
+void Rbdb_Record_setKey(	Rbdb_Record*			record,
+							Rbdb_Key*				primary_key )	{
 
 	record->key = primary_key;
 }
@@ -148,11 +148,11 @@ void RPDB_Record_setKey(	RPDB_Record*			record,
 *  setKeyData  *
 ******************/
 
-void RPDB_Record_setKeyFromRawKey(	RPDB_Record*		record,
+void Rbdb_Record_setKeyFromRawKey(	Rbdb_Record*		record,
 										void*				key_raw,
 										uint32_t			key_size )	{
 
-	RPDB_DBT_setData(	(RPDB_DBT*) record->key, 
+	Rbdb_DBT_setData(	(Rbdb_DBT*) record->key, 
 						key_raw,
 						key_size );
 }
@@ -162,7 +162,7 @@ void RPDB_Record_setKeyFromRawKey(	RPDB_Record*		record,
 *  rawData  *
 **************/
 
-void* RPDB_Record_rawData( RPDB_Record* record )	{		
+void* Rbdb_Record_rawData( Rbdb_Record* record )	{		
 	
 	if ( record != NULL )	{	
 		return record->data->wrapped_bdb_dbt->data;
@@ -174,7 +174,7 @@ void* RPDB_Record_rawData( RPDB_Record* record )	{
 *  setRawData  *
 *****************/
 
-void RPDB_Record_setRawData(	RPDB_Record*	record,
+void Rbdb_Record_setRawData(	Rbdb_Record*	record,
 								void*			raw_data,
 								u_int32_t		raw_data_size )	{		
 	
@@ -186,7 +186,7 @@ void RPDB_Record_setRawData(	RPDB_Record*	record,
 *  rawKey  *
 **************/
 
-void* RPDB_Record_rawKey( RPDB_Record* record )	{		
+void* Rbdb_Record_rawKey( Rbdb_Record* record )	{		
 	
 	if ( record != NULL )	{	
 		return record->key->wrapped_bdb_dbt->data;
@@ -198,7 +198,7 @@ void* RPDB_Record_rawKey( RPDB_Record* record )	{
 *  setRawKey  *
 *****************/
 
-void RPDB_Record_setRawKey(	RPDB_Record*	record,
+void Rbdb_Record_setRawKey(	Rbdb_Record*	record,
 								void*			raw_key,
 								u_int32_t		raw_key_size )	{		
 	
@@ -210,7 +210,7 @@ void RPDB_Record_setRawKey(	RPDB_Record*	record,
 *  object  *
 **************/
 
-RPDB_Data* RPDB_Record_data( RPDB_Record* record )	{		
+Rbdb_Data* Rbdb_Record_data( Rbdb_Record* record )	{		
 
 	if ( record != NULL )	{	
 		return record->data;
@@ -222,7 +222,7 @@ RPDB_Data* RPDB_Record_data( RPDB_Record* record )	{
 *  size  *
 **************/
 
-uint32_t RPDB_Record_keySize( RPDB_Record* record )	{		
+uint32_t Rbdb_Record_keySize( Rbdb_Record* record )	{		
 	
 	
 	if ( record != NULL )	{	
@@ -235,7 +235,7 @@ uint32_t RPDB_Record_keySize( RPDB_Record* record )	{
 *  size  *
 **************/
 
-uint32_t RPDB_Record_dataSize( RPDB_Record* record )	{		
+uint32_t Rbdb_Record_dataSize( Rbdb_Record* record )	{		
 	
 
 	if ( record != NULL )	{	
@@ -248,8 +248,8 @@ uint32_t RPDB_Record_dataSize( RPDB_Record* record )	{
 *  setObject  *
 **************/
 
-void RPDB_Record_setData(	RPDB_Record*			record,
-							RPDB_Data*			primary_object )	{
+void Rbdb_Record_setData(	Rbdb_Record*			record,
+							Rbdb_Data*			primary_object )	{
 
 	record->data = primary_object;
 }
@@ -258,11 +258,11 @@ void RPDB_Record_setData(	RPDB_Record*			record,
 *  setObjectData  *
 ******************/
 
-void RPDB_Record_setDataFromRawData(	RPDB_Record*		record,
+void Rbdb_Record_setDataFromRawData(	Rbdb_Record*		record,
 																			void*				data_raw,
 																			uint32_t			data_size )	{
 
-	RPDB_DBT_setData(	(RPDB_DBT*) record->data, 
+	Rbdb_DBT_setData(	(Rbdb_DBT*) record->data, 
 						data_raw,
 						data_size );
 }
@@ -271,7 +271,7 @@ void RPDB_Record_setDataFromRawData(	RPDB_Record*		record,
 *  primaryKey  *
 ******************/
 
-RPDB_Key* RPDB_Record_primaryKey( RPDB_Record* record )	{
+Rbdb_Key* Rbdb_Record_primaryKey( Rbdb_Record* record )	{
 
 	if ( record != NULL )	{	
 		return record->key;
@@ -283,7 +283,7 @@ RPDB_Key* RPDB_Record_primaryKey( RPDB_Record* record )	{
 *  retrievalKey  *
 **********************/
 
-RPDB_Key* RPDB_Record_retrievalKey( RPDB_Record* record )	{
+Rbdb_Key* Rbdb_Record_retrievalKey( Rbdb_Record* record )	{
 		
 	if ( record != NULL )	{	
 		return record->key;
@@ -303,7 +303,7 @@ RPDB_Key* RPDB_Record_retrievalKey( RPDB_Record* record )	{
 *  setStatus  *
 ******************/
 
-void RPDB_Record_setExistsInDatabase(	RPDB_Record*	record,
+void Rbdb_Record_setExistsInDatabase(	Rbdb_Record*	record,
 																			BOOL			data_status	)	{
 
 	record->exists_in_database = data_status;
@@ -313,7 +313,7 @@ void RPDB_Record_setExistsInDatabase(	RPDB_Record*	record,
 *  status  *
 **************/
 
-int RPDB_Record_existsInDatabase( RPDB_Record* record )	{
+int Rbdb_Record_existsInDatabase( Rbdb_Record* record )	{
 	return record->exists_in_database;
 }
 
@@ -321,7 +321,7 @@ int RPDB_Record_existsInDatabase( RPDB_Record* record )	{
 *  setStatus  *
 ******************/
 
-void RPDB_Record_setRequiresUpdateToDatabase(	RPDB_Record*	record,
+void Rbdb_Record_setRequiresUpdateToDatabase(	Rbdb_Record*	record,
 																							BOOL			data_status	)	{
 	record->requires_update_to_database = data_status;
 }
@@ -330,7 +330,7 @@ void RPDB_Record_setRequiresUpdateToDatabase(	RPDB_Record*	record,
 *  status  *
 **************/
 
-int RPDB_Record_requiresUpdateToDatabase( RPDB_Record* record )	{
+int Rbdb_Record_requiresUpdateToDatabase( Rbdb_Record* record )	{
 	return record->requires_update_to_database;
 }
 
@@ -344,19 +344,19 @@ int RPDB_Record_requiresUpdateToDatabase( RPDB_Record* record )	{
 *  newWithoutDBT  *
 *****************************/
 
-RPDB_Record* RPDB_Record_internal_newWithoutDBT(	RPDB_Database* parent_database	)	{
+Rbdb_Record* Rbdb_Record_internal_newWithoutDBT(	Rbdb_Database* parent_database	)	{
 
-	RPDB_Record*		record = calloc( 1, sizeof( RPDB_Record ) );
+	Rbdb_Record*		record = calloc( 1, sizeof( Rbdb_Record ) );
 		
 	if ( parent_database )	{
 	
 		record->parent_database = parent_database;
 		
-		RPDB_DatabaseSettingsController*				database_settings_controller				=	RPDB_Database_settingsController( parent_database );
-		RPDB_DatabaseRecordSettingsController*	database_record_settings_controller	=	RPDB_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+		Rbdb_DatabaseSettingsController*				database_settings_controller				=	Rbdb_Database_settingsController( parent_database );
+		Rbdb_DatabaseRecordSettingsController*	database_record_settings_controller	=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
 
 		//	Make call to instantiate local settings controller
-		record->settings_controller	=	RPDB_DatabaseRecordSettingsController_internal_copyOfSettingsControllerForInstance( database_record_settings_controller );
+		record->settings_controller	=	Rbdb_DatabaseRecordSettingsController_internal_copyOfSettingsControllerForInstance( database_record_settings_controller );
 		
 	}
 	
@@ -367,11 +367,11 @@ RPDB_Record* RPDB_Record_internal_newWithoutDBT(	RPDB_Database* parent_database	
 *  newFromKeyDBTDataDBT  *
 *****************************/
 
-RPDB_Record* RPDB_Record_internal_newFromKeyDBTDataDBT(	RPDB_Database* parent_database,
+Rbdb_Record* Rbdb_Record_internal_newFromKeyDBTDataDBT(	Rbdb_Database* parent_database,
 														DBT*	dbt_key,
 														DBT*	dbt_data	)	{
 	
-	RPDB_Record*	record = RPDB_Record_new( parent_database );
+	Rbdb_Record*	record = Rbdb_Record_new( parent_database );
 		
 	free( record->key->wrapped_bdb_dbt );
 	free( record->data->wrapped_bdb_dbt );
@@ -386,20 +386,20 @@ RPDB_Record* RPDB_Record_internal_newFromKeyDBTDataDBT(	RPDB_Database* parent_da
 *  newFromKeyData  *
 *****************************/
 
-RPDB_Record* RPDB_Record_internal_newFromKeyData(	RPDB_Database* parent_database,
-													RPDB_Key*	dbt_key,
-													RPDB_Data*	dbt_data	)	{
+Rbdb_Record* Rbdb_Record_internal_newFromKeyData(	Rbdb_Database* parent_database,
+													Rbdb_Key*	dbt_key,
+													Rbdb_Data*	dbt_data	)	{
 	
-	RPDB_Record*	record = RPDB_Record_internal_newWithoutDBT( parent_database );
+	Rbdb_Record*	record = Rbdb_Record_internal_newWithoutDBT( parent_database );
 	
 	if ( dbt_key == NULL )	{
 	
-		dbt_key	=	RPDB_Key_new( record );
+		dbt_key	=	Rbdb_Key_new( record );
 	}
 	
 	if ( dbt_data == NULL )	{
 		
-		dbt_data	=	RPDB_Data_new( record );
+		dbt_data	=	Rbdb_Data_new( record );
 	}
 	
 	record->key		= dbt_key;

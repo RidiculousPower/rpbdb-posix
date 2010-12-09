@@ -1,26 +1,26 @@
 /*
- *		RPDB::LogController::LogCursorController
+ *		Rbdb::LogController::LogCursorController
  *
  *	
  */
 
-#ifndef RPDB_LOG_CURSOR_CONTROLLER
-	#define RPDB_LOG_CURSOR_CONTROLLER
+#ifndef Rbdb_LOG_CURSOR_CONTROLLER
+	#define Rbdb_LOG_CURSOR_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_LogCursorController*		RPDB_LogCursorController_new(						RPDB_LogController*			log_controller );
+	Rbdb_LogCursorController*		Rbdb_LogCursorController_new(						Rbdb_LogController*			log_controller );
 
-	void								RPDB_LogCursorController_free(	RPDB_LogCursorController** log_cursor_controller );
-	RPDB_LogSettingsController*	RPDB_LogCursorController_settingsController(	RPDB_LogCursorController* log_cursor_controller );
-	RPDB_Environment*			RPDB_LogCursorController_parentEnvironment(	RPDB_LogCursorController* log_cursor_controller );
+	void								Rbdb_LogCursorController_free(	Rbdb_LogCursorController** log_cursor_controller );
+	Rbdb_LogSettingsController*	Rbdb_LogCursorController_settingsController(	Rbdb_LogCursorController* log_cursor_controller );
+	Rbdb_Environment*			Rbdb_LogCursorController_parentEnvironment(	Rbdb_LogCursorController* log_cursor_controller );
 
-	void							RPDB_LogCursorController_closeAllCursors(			RPDB_LogCursorController*		cursor_controller );
-	void							RPDB_LogCursorController_freeAllCursors(			RPDB_LogCursorController*		cursor_controller );
+	void							Rbdb_LogCursorController_closeAllCursors(			Rbdb_LogCursorController*		cursor_controller );
+	void							Rbdb_LogCursorController_freeAllCursors(			Rbdb_LogCursorController*		cursor_controller );
 
 #endif
 

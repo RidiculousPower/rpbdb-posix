@@ -1,5 +1,5 @@
-#ifndef RPDB_DATABASE_CURSOR_READ_WRITE_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_DATABASE_CURSOR_READ_WRITE_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_DATABASE_CURSOR_READ_WRITE_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_DATABASE_CURSOR_READ_WRITE_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,9 +7,9 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-int													RPDB_DatabaseCursorReadWriteSettingsController_internal_deleteFlags(						RPDB_DatabaseCursorReadWriteSettingsController* cursor_write_retrieve_settings_controller );
-int RPDB_DatabaseCursorReadWriteSettingsController_internal_retrieveFlags( RPDB_DatabaseCursorReadWriteSettingsController* cursor_write_retrieve_settings_controller );
-RPDB_DatabaseCursorReadWriteSettingsController* RPDB_DatabaseCursorReadWriteSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseCursorReadWriteSettingsController* database_cursor_record_read_write_settings_controller );
+int													Rbdb_DatabaseCursorReadWriteSettingsController_internal_deleteFlags(						Rbdb_DatabaseCursorReadWriteSettingsController* cursor_write_retrieve_settings_controller );
+int Rbdb_DatabaseCursorReadWriteSettingsController_internal_retrieveFlags( Rbdb_DatabaseCursorReadWriteSettingsController* cursor_write_retrieve_settings_controller );
+Rbdb_DatabaseCursorReadWriteSettingsController* Rbdb_DatabaseCursorReadWriteSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseCursorReadWriteSettingsController* database_cursor_record_read_write_settings_controller );
 
 #endif
 

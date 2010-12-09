@@ -1,5 +1,5 @@
 /*
- *		RPDB::MutexController::Mutex
+ *		Rbdb::MutexController::Mutex
  *
  *	
  */
@@ -10,18 +10,18 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
  
-#include "RPDB_Mutex.h"
-#include "RPDB_Mutex_internal.h"
+#include "Rbdb_Mutex.h"
+#include "Rbdb_Mutex_internal.h"
 
-#include "RPDB_Database_internal.h"
+#include "Rbdb_Database_internal.h"
 
-#include "RPDB_MutexController.h"
+#include "Rbdb_MutexController.h"
 
-#include "RPDB_Environment.h"
+#include "Rbdb_Environment.h"
 
-#include "RPDB_SettingsController.h"
-#include "RPDB_MutexSettingsController.h"
-#include "RPDB_MutexSettingsController_internal.h"
+#include "Rbdb_SettingsController.h"
+#include "Rbdb_MutexSettingsController.h"
+#include "Rbdb_MutexSettingsController_internal.h"
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -34,19 +34,19 @@
 *************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/mutex_alloc.html
-RPDB_Mutex* RPDB_Mutex_new( RPDB_MutexController* parent_mutex_controller )	{
+Rbdb_Mutex* Rbdb_Mutex_new( Rbdb_MutexController* parent_mutex_controller )	{
 
-	RPDB_Mutex*	mutex	=	calloc( 1, sizeof( RPDB_Mutex ) );
+	Rbdb_Mutex*	mutex	=	calloc( 1, sizeof( Rbdb_Mutex ) );
 
 	if ( parent_mutex_controller->runtime_storage_database != NULL )	{
-		mutex->runtime_identifier =	RPDB_Database_internal_storeRuntimeAddress(	parent_mutex_controller->runtime_storage_database,
+		mutex->runtime_identifier =	Rbdb_Database_internal_storeRuntimeAddress(	parent_mutex_controller->runtime_storage_database,
 																																						(void*) mutex );
 	}
 
 	mutex->parent_mutex_controller = parent_mutex_controller;
 	
 	//	Make call to instantiate local settings controller
-	mutex->settings_controller	=	RPDB_MutexSettingsController_internal_copyOfSettingsControllerForInstance( RPDB_SettingsController_mutexSettingsController( RPDB_Environment_settingsController( parent_mutex_controller->parent_environment ) ) );
+	mutex->settings_controller	=	Rbdb_MutexSettingsController_internal_copyOfSettingsControllerForInstance( Rbdb_SettingsController_mutexSettingsController( Rbdb_Environment_settingsController( parent_mutex_controller->parent_environment ) ) );
 	
 	return mutex;
 }
@@ -54,22 +54,22 @@ RPDB_Mutex* RPDB_Mutex_new( RPDB_MutexController* parent_mutex_controller )	{
 /***************************
 *  free  *
 ***************************/
-void RPDB_Mutex_free(	RPDB_Mutex** mutex )	{
+void Rbdb_Mutex_free(	Rbdb_Mutex** mutex )	{
 
 	if ( ( *mutex )->parent_mutex_controller->runtime_storage_database != NULL )	{
-		RPDB_Database_internal_freeStoredRuntimeAddress(	( *mutex )->parent_mutex_controller->runtime_storage_database,
+		Rbdb_Database_internal_freeStoredRuntimeAddress(	( *mutex )->parent_mutex_controller->runtime_storage_database,
 																											( *mutex )->runtime_identifier );
 	}
-	RPDB_Mutex_internal_freeFromRuntimeStorage( mutex );
+	Rbdb_Mutex_internal_freeFromRuntimeStorage( mutex );
 }
 
 /***************************
 *  free  *
 ***************************/
-void RPDB_Mutex_internal_freeFromRuntimeStorage(	RPDB_Mutex** mutex )	{
+void Rbdb_Mutex_internal_freeFromRuntimeStorage(	Rbdb_Mutex** mutex )	{
 
 	if ( ( *mutex )->settings_controller != NULL )	{
-		RPDB_MutexSettingsController_free( & ( ( *mutex )->settings_controller ) );
+		Rbdb_MutexSettingsController_free( & ( ( *mutex )->settings_controller ) );
 	}
 	
 	free( *mutex );
@@ -79,14 +79,14 @@ void RPDB_Mutex_internal_freeFromRuntimeStorage(	RPDB_Mutex** mutex )	{
 /***************************
 *  settingsController  *
 ***************************/
-RPDB_MutexSettingsController* RPDB_Mutex_settingsController(	RPDB_Mutex* mutex )	{
+Rbdb_MutexSettingsController* Rbdb_Mutex_settingsController(	Rbdb_Mutex* mutex )	{
 	return mutex->settings_controller;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_Mutex_parentEnvironment(	RPDB_Mutex* mutex )	{
+Rbdb_Environment* Rbdb_Mutex_parentEnvironment(	Rbdb_Mutex* mutex )	{
 	return mutex->parent_mutex_controller->parent_environment;
 }
 
@@ -94,12 +94,12 @@ RPDB_Environment* RPDB_Mutex_parentEnvironment(	RPDB_Mutex* mutex )	{
 *  open  *
 *************/
 
-RPDB_Mutex* RPDB_Mutex_open( RPDB_Mutex* mutex )	{
+Rbdb_Mutex* Rbdb_Mutex_open( Rbdb_Mutex* mutex )	{
 
-	RPDB_Environment*		environment	=	mutex->parent_mutex_controller->parent_environment;
+	Rbdb_Environment*		environment	=	mutex->parent_mutex_controller->parent_environment;
 
 	environment->wrapped_bdb_environment->mutex_alloc(	environment->wrapped_bdb_environment,
-								RPDB_MutexSettingsController_internal_openFlags( RPDB_SettingsController_mutexSettingsController( RPDB_Environment_settingsController( environment ) ) ),
+								Rbdb_MutexSettingsController_internal_openFlags( Rbdb_SettingsController_mutexSettingsController( Rbdb_Environment_settingsController( environment ) ) ),
 								&( mutex->wrapped_bdb_mutex ) );	
 	return mutex;
 }
@@ -108,11 +108,11 @@ RPDB_Mutex* RPDB_Mutex_open( RPDB_Mutex* mutex )	{
 *  close  *
 *************/
 
-void RPDB_Mutex_close( RPDB_Mutex* mutex )	{
+void Rbdb_Mutex_close( Rbdb_Mutex* mutex )	{
 
 	//	we call this function close for consistency - internally we are freeing the mutex
 	
-	RPDB_Environment*	environment	=	mutex->parent_mutex_controller->parent_environment;
+	Rbdb_Environment*	environment	=	mutex->parent_mutex_controller->parent_environment;
 	
 	environment->wrapped_bdb_environment->mutex_free(	environment->wrapped_bdb_environment,
 														mutex->wrapped_bdb_mutex );
@@ -124,7 +124,7 @@ void RPDB_Mutex_close( RPDB_Mutex* mutex )	{
 *************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/mutex_lock.html
-RPDB_Mutex* RPDB_Mutex_lock( RPDB_Mutex* mutex )	{
+Rbdb_Mutex* Rbdb_Mutex_lock( Rbdb_Mutex* mutex )	{
 
 	DB_ENV*		environment	=	mutex->parent_mutex_controller->parent_environment->wrapped_bdb_environment;
 	
@@ -139,7 +139,7 @@ RPDB_Mutex* RPDB_Mutex_lock( RPDB_Mutex* mutex )	{
 *************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/mutex_unlock.html
-RPDB_Mutex* RPDB_Mutex_unlock( RPDB_Mutex* mutex )	{
+Rbdb_Mutex* Rbdb_Mutex_unlock( Rbdb_Mutex* mutex )	{
 
 	DB_ENV*		environment	=	mutex->parent_mutex_controller->parent_environment->wrapped_bdb_environment;
 	

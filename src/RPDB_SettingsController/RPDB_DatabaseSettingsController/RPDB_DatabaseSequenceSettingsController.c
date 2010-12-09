@@ -1,6 +1,6 @@
 /*
- *		RPDB::SettingsController::SequenceSettingsController
- *		RPDB::DatabaseController::Database::DatabaseSequenceController::DatabaseSequence::DatabaseSequenceSettingsController
+ *		Rbdb::SettingsController::SequenceSettingsController
+ *		Rbdb::DatabaseController::Database::DatabaseSequenceController::DatabaseSequence::DatabaseSequenceSettingsController
  *
  */
 
@@ -10,16 +10,16 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
  
-#include "RPDB_DatabaseSequenceSettingsController.h"
+#include "Rbdb_DatabaseSequenceSettingsController.h"
 
-	#include "RPDB_TransactionSettingsController.h"
-	#include "RPDB_SettingsController.h"
-	#include "RPDB_Environment.h"
-	#include "RPDB_ThreadSettingsController.h"
-	#include "RPDB_FileSettingsController.h"
-	#include "RPDB_DatabaseSequenceController.h"
+	#include "Rbdb_TransactionSettingsController.h"
+	#include "Rbdb_SettingsController.h"
+	#include "Rbdb_Environment.h"
+	#include "Rbdb_ThreadSettingsController.h"
+	#include "Rbdb_FileSettingsController.h"
+	#include "Rbdb_DatabaseSequenceController.h"
 
-	#include "RPDB_DatabaseSequenceSettingsController_internal.h"
+	#include "Rbdb_DatabaseSequenceSettingsController_internal.h"
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -31,9 +31,9 @@
 *  new  *
 *************/
 	
-RPDB_DatabaseSequenceSettingsController* RPDB_DatabaseSequenceSettingsController_new( RPDB_DatabaseSettingsController* settings_controller )	{
+Rbdb_DatabaseSequenceSettingsController* Rbdb_DatabaseSequenceSettingsController_new( Rbdb_DatabaseSettingsController* settings_controller )	{
 	
-	RPDB_DatabaseSequenceSettingsController*		sequence_settings_controller = calloc( 1, sizeof( RPDB_DatabaseSequenceSettingsController ) );
+	Rbdb_DatabaseSequenceSettingsController*		sequence_settings_controller = calloc( 1, sizeof( Rbdb_DatabaseSequenceSettingsController ) );
 
 	sequence_settings_controller->parent_database_settings_controller = settings_controller;
 
@@ -43,7 +43,7 @@ RPDB_DatabaseSequenceSettingsController* RPDB_DatabaseSequenceSettingsController
 /***************************
 *  free  *
 ***************************/
-void RPDB_DatabaseSequenceSettingsController_free(	RPDB_DatabaseSequenceSettingsController** database_sequence_settings_controller )	{
+void Rbdb_DatabaseSequenceSettingsController_free(	Rbdb_DatabaseSequenceSettingsController** database_sequence_settings_controller )	{
 
 	free( *database_sequence_settings_controller );
 	*database_sequence_settings_controller	=	NULL;
@@ -52,14 +52,14 @@ void RPDB_DatabaseSequenceSettingsController_free(	RPDB_DatabaseSequenceSettings
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_DatabaseSequenceSettingsController_parentEnvironment(	RPDB_DatabaseSequenceSettingsController* database_sequence_settings_controller )	{
+Rbdb_Environment* Rbdb_DatabaseSequenceSettingsController_parentEnvironment(	Rbdb_DatabaseSequenceSettingsController* database_sequence_settings_controller )	{
 	return database_sequence_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment;
 }
 
 /***************************************
 *  parentDatabase  *
 ***************************************/
-RPDB_Database* RPDB_DatabaseSequenceSettingsController_parentDatabase(	RPDB_DatabaseSequenceSettingsController* database_sequence_settings_controller )	{
+Rbdb_Database* Rbdb_DatabaseSequenceSettingsController_parentDatabase(	Rbdb_DatabaseSequenceSettingsController* database_sequence_settings_controller )	{
 	return database_sequence_settings_controller->parent_database_settings_controller->parent_database;
 }
 
@@ -68,9 +68,9 @@ RPDB_Database* RPDB_DatabaseSequenceSettingsController_parentDatabase(	RPDB_Data
 *****************/
 
 //	DB_SEQ_INC				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/seq_set_flags.html
-BOOL RPDB_DatabaseSequenceSettingsController_increasing( RPDB_DatabaseSequenceSettingsController* sequence_settings_controller )	{
+BOOL Rbdb_DatabaseSequenceSettingsController_increasing( Rbdb_DatabaseSequenceSettingsController* sequence_settings_controller )	{
 
-	RPDB_DatabaseSequenceSettingsController_internal_getFlags( sequence_settings_controller );
+	Rbdb_DatabaseSequenceSettingsController_internal_getFlags( sequence_settings_controller );
 
 	return sequence_settings_controller->increasing;
 }
@@ -79,7 +79,7 @@ BOOL RPDB_DatabaseSequenceSettingsController_increasing( RPDB_DatabaseSequenceSe
 *  setAsIncreasing  *
 *************************/
 
-void RPDB_DatabaseSequenceSettingsController_setAsIncreasing( RPDB_DatabaseSequenceSettingsController* sequence_settings_controller )	{
+void Rbdb_DatabaseSequenceSettingsController_setAsIncreasing( Rbdb_DatabaseSequenceSettingsController* sequence_settings_controller )	{
 
 	//	We can only set an actual sequence; otherwise we're setting defaults
 	if ( sequence_settings_controller->parent_sequence != NULL )	{
@@ -99,9 +99,9 @@ void RPDB_DatabaseSequenceSettingsController_setAsIncreasing( RPDB_DatabaseSeque
 *****************/
 
 //	DB_SEQ_DEC              http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/seq_set_flags.html
-BOOL RPDB_DatabaseSequenceSettingsController_decreasing( RPDB_DatabaseSequenceSettingsController* sequence_settings_controller )	{
+BOOL Rbdb_DatabaseSequenceSettingsController_decreasing( Rbdb_DatabaseSequenceSettingsController* sequence_settings_controller )	{
 	
-	RPDB_DatabaseSequenceSettingsController_internal_getFlags( sequence_settings_controller );
+	Rbdb_DatabaseSequenceSettingsController_internal_getFlags( sequence_settings_controller );
 	
 	return sequence_settings_controller->decreasing;
 }
@@ -110,7 +110,7 @@ BOOL RPDB_DatabaseSequenceSettingsController_decreasing( RPDB_DatabaseSequenceSe
 *  setAsDecreasing  *
 *************************/
 
-void RPDB_DatabaseSequenceSettingsController_setAsDecreasing( RPDB_DatabaseSequenceSettingsController* sequence_settings_controller )	{
+void Rbdb_DatabaseSequenceSettingsController_setAsDecreasing( Rbdb_DatabaseSequenceSettingsController* sequence_settings_controller )	{
 	
 	//	We can only set an actual sequence; otherwise we're setting defaults
 	if ( sequence_settings_controller->parent_sequence != NULL )	{
@@ -130,9 +130,9 @@ void RPDB_DatabaseSequenceSettingsController_setAsDecreasing( RPDB_DatabaseSeque
 *************/
 
 //	DB_SEQ_WRAP				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/seq_set_flags.html
-BOOL RPDB_DatabaseSequenceSettingsController_wrap( RPDB_DatabaseSequenceSettingsController* sequence_settings_controller )	{
+BOOL Rbdb_DatabaseSequenceSettingsController_wrap( Rbdb_DatabaseSequenceSettingsController* sequence_settings_controller )	{
 	
-	RPDB_DatabaseSequenceSettingsController_internal_getFlags( sequence_settings_controller );
+	Rbdb_DatabaseSequenceSettingsController_internal_getFlags( sequence_settings_controller );
 	
 	return sequence_settings_controller->wrapping;
 }
@@ -141,7 +141,7 @@ BOOL RPDB_DatabaseSequenceSettingsController_wrap( RPDB_DatabaseSequenceSettings
 *  setToWrap  *
 *****************/
 
-void RPDB_DatabaseSequenceSettingsController_setToWrap( RPDB_DatabaseSequenceSettingsController* sequence_settings_controller )	{
+void Rbdb_DatabaseSequenceSettingsController_setToWrap( Rbdb_DatabaseSequenceSettingsController* sequence_settings_controller )	{
 	
 	//	We can only set an actual sequence; otherwise we're setting defaults
 	if ( sequence_settings_controller->parent_sequence != NULL )	{
@@ -163,7 +163,7 @@ void RPDB_DatabaseSequenceSettingsController_setToWrap( RPDB_DatabaseSequenceSet
 *********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/seq_set_range.html
-int RPDB_DatabaseSequenceSettingsController_rangeMinimum( RPDB_DatabaseSequenceSettingsController* sequence_settings_controller )	{
+int Rbdb_DatabaseSequenceSettingsController_rangeMinimum( Rbdb_DatabaseSequenceSettingsController* sequence_settings_controller )	{
 	
 	return sequence_settings_controller->range_minimum;
 }
@@ -172,7 +172,7 @@ int RPDB_DatabaseSequenceSettingsController_rangeMinimum( RPDB_DatabaseSequenceS
 *  setRangeMinimum  *
 *************************/
 
-void RPDB_DatabaseSequenceSettingsController_setRangeMinimum(	RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller, 
+void Rbdb_DatabaseSequenceSettingsController_setRangeMinimum(	Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller, 
 																db_seq_t									range_minimum )	{
 	
 	sequence_settings_controller->range_minimum = range_minimum;
@@ -182,7 +182,7 @@ void RPDB_DatabaseSequenceSettingsController_setRangeMinimum(	RPDB_DatabaseSeque
 *  rangeMaximum  *
 *********************/
 
-int RPDB_DatabaseSequenceSettingsController_rangeMaximum( RPDB_DatabaseSequenceSettingsController* sequence_settings_controller )	{
+int Rbdb_DatabaseSequenceSettingsController_rangeMaximum( Rbdb_DatabaseSequenceSettingsController* sequence_settings_controller )	{
 	
 	return sequence_settings_controller->range_maximum;
 }
@@ -191,7 +191,7 @@ int RPDB_DatabaseSequenceSettingsController_rangeMaximum( RPDB_DatabaseSequenceS
 *  setRangeMaximum  *
 ************************/
 
-void RPDB_DatabaseSequenceSettingsController_setRangeMaximum(	RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller,
+void Rbdb_DatabaseSequenceSettingsController_setRangeMaximum(	Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller,
 																															db_seq_t									range_maximum )	{
 	
 	sequence_settings_controller->range_maximum = range_maximum;
@@ -202,12 +202,12 @@ void RPDB_DatabaseSequenceSettingsController_setRangeMaximum(	RPDB_DatabaseSeque
 ****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/seq_set_cachesize.html
-int RPDB_DatabaseSequenceSettingsController_cacheSize( RPDB_DatabaseSequenceSettingsController* sequence_settings_controller )	{
+int Rbdb_DatabaseSequenceSettingsController_cacheSize( Rbdb_DatabaseSequenceSettingsController* sequence_settings_controller )	{
 	
 	//	If we have a local settings controller we can set the cachesize; otherwise we are returning a default
 	if ( sequence_settings_controller->parent_sequence != NULL )	{		
 
-		if ( sequence_settings_controller->number_of_cached_elements == RPDB_UNITIALIZED )	{
+		if ( sequence_settings_controller->number_of_cached_elements == Rbdb_UNITIALIZED )	{
 
 			DB_SEQUENCE*	bdb_sequence = sequence_settings_controller->parent_sequence->wrapped_bdb_sequence;
 
@@ -224,7 +224,7 @@ int RPDB_DatabaseSequenceSettingsController_cacheSize( RPDB_DatabaseSequenceSett
 ********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/seq_set_cachesize.html
-void RPDB_DatabaseSequenceSettingsController_setCacheSize(	RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller,
+void Rbdb_DatabaseSequenceSettingsController_setCacheSize(	Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller,
  															uint32_t										number_of_cached_elements	)	{
 	
 	//	If we have a local settings controller we can set the cachesize; otherwise we are setting a default
@@ -246,7 +246,7 @@ void RPDB_DatabaseSequenceSettingsController_setCacheSize(	RPDB_DatabaseSequence
 *  initialValue  *
 ********************/
 
-db_seq_t RPDB_DatabaseSequenceSettingsController_initialValue( RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller )	{
+db_seq_t Rbdb_DatabaseSequenceSettingsController_initialValue( Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller )	{
 
 	return sequence_settings_controller->initial_value;
 }
@@ -257,7 +257,7 @@ db_seq_t RPDB_DatabaseSequenceSettingsController_initialValue( RPDB_DatabaseSequ
 
 //	The DB_SEQUENCE->initial_value method may not be called after the DB_SEQUENCE->open method is called.
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/seq_initial_value.html
-void RPDB_DatabaseSequenceSettingsController_setInitialValue(	RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller,
+void Rbdb_DatabaseSequenceSettingsController_setInitialValue(	Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller,
  												db_seq_t									initial_value )	{
 
 	//	We can only set an initial value on an instance - otherwise we are setting a default
@@ -276,7 +276,7 @@ void RPDB_DatabaseSequenceSettingsController_setInitialValue(	RPDB_DatabaseSeque
 *  defaultStepValue  *
 ************************/
 
-int32_t RPDB_DatabaseSequenceSettingsController_defaultStepValue( RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller )	{
+int32_t Rbdb_DatabaseSequenceSettingsController_defaultStepValue( Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller )	{
 
 	return sequence_settings_controller->default_step_value;
 }
@@ -285,7 +285,7 @@ int32_t RPDB_DatabaseSequenceSettingsController_defaultStepValue( RPDB_DatabaseS
 *  setDefaultStepValue  *
 ************************/
 
-void RPDB_DatabaseSequenceSettingsController_setDefaultStepValue(	RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller,
+void Rbdb_DatabaseSequenceSettingsController_setDefaultStepValue(	Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller,
  													int32_t										default_step_value	)	{
 
 	sequence_settings_controller->default_step_value = default_step_value;
@@ -303,7 +303,7 @@ void RPDB_DatabaseSequenceSettingsController_setDefaultStepValue(	RPDB_DatabaseS
 
 //	We don't need to return anything here - we just need to get the conglomerate flag and figure out what we started with
 //	This needs to be tested
-void RPDB_DatabaseSequenceSettingsController_internal_getFlags( RPDB_DatabaseSequenceSettingsController*	sequence_settings_controller )	{
+void Rbdb_DatabaseSequenceSettingsController_internal_getFlags( Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller )	{
 
 	//	We can only get from an actual sequence
 	if ( sequence_settings_controller->parent_sequence != NULL )	{
@@ -355,21 +355,21 @@ void RPDB_DatabaseSequenceSettingsController_internal_getFlags( RPDB_DatabaseSeq
 *  closeFlags  *
 ****************/
 
-int RPDB_DatabaseSequenceSettingsController_internal_closeFlags( RPDB_DatabaseSequenceSettingsController* sequence_settings_controller __attribute__((unused)) )	{
+int Rbdb_DatabaseSequenceSettingsController_internal_closeFlags( Rbdb_DatabaseSequenceSettingsController* sequence_settings_controller __attribute__((unused)) )	{
 
 	//	Currently unused; returns 0
-	return RPDB_NO_FLAGS;
+	return Rbdb_NO_FLAGS;
 }
 
 /******************
 *  stepByFlags  *
 ******************/
 
-int RPDB_DatabaseSequenceSettingsController_internal_stepByFlags( RPDB_DatabaseSequenceSettingsController* sequence_settings_controller )	{
+int Rbdb_DatabaseSequenceSettingsController_internal_stepByFlags( Rbdb_DatabaseSequenceSettingsController* sequence_settings_controller )	{
 
-	return RPDB_TransactionSettingsController_prohibitSyncOnCommit( 
-				RPDB_SettingsController_transactionSettingsController( 
-					RPDB_Environment_settingsController( sequence_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ) ) );
+	return Rbdb_TransactionSettingsController_prohibitSyncOnCommit( 
+				Rbdb_SettingsController_transactionSettingsController( 
+					Rbdb_Environment_settingsController( sequence_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ) ) );
 
 }
 
@@ -377,43 +377,43 @@ int RPDB_DatabaseSequenceSettingsController_internal_stepByFlags( RPDB_DatabaseS
 *  deleteFlags  *
 *****************/
 
-int RPDB_DatabaseSequenceSettingsController_internal_deleteFlags( RPDB_DatabaseSequenceSettingsController* sequence_settings_controller )	{
+int Rbdb_DatabaseSequenceSettingsController_internal_deleteFlags( Rbdb_DatabaseSequenceSettingsController* sequence_settings_controller )	{
 
-	return RPDB_TransactionSettingsController_prohibitSyncOnCommit( 
-				RPDB_SettingsController_transactionSettingsController( 
-					RPDB_Environment_settingsController( sequence_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ) ) );
+	return Rbdb_TransactionSettingsController_prohibitSyncOnCommit( 
+				Rbdb_SettingsController_transactionSettingsController( 
+					Rbdb_Environment_settingsController( sequence_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ) ) );
 }
 
 /*************************
 *  createSequenceFlags  *
 *************************/
 
-int RPDB_DatabaseSequenceSettingsController_internal_createSequenceFlags( RPDB_DatabaseSequenceController* database_sequence_controller __attribute__((unused)) )	{
+int Rbdb_DatabaseSequenceSettingsController_internal_createSequenceFlags( Rbdb_DatabaseSequenceController* database_sequence_controller __attribute__((unused)) )	{
 
 	//	Currently unused - returns 0
-	return RPDB_NO_FLAGS;
+	return Rbdb_NO_FLAGS;
 }
 
 /*************************
 *  openSequenceFlags  *
 *************************/
 
-int RPDB_DatabaseSequenceSettingsController_internal_openSequenceFlags( RPDB_DatabaseSequenceController* database_sequence_controller )	{
+int Rbdb_DatabaseSequenceSettingsController_internal_openSequenceFlags( Rbdb_DatabaseSequenceController* database_sequence_controller )	{
 
-	RPDB_Environment*	environment = database_sequence_controller->parent_database->parent_database_controller->parent_environment;
+	Rbdb_Environment*	environment = database_sequence_controller->parent_database->parent_database_controller->parent_environment;
 	
-	return	RPDB_ThreadSettingsController_on( RPDB_SettingsController_threadSettingsController( RPDB_Environment_settingsController( environment ) ) )
-			|	RPDB_FileSettingsController_createIfNecessary( RPDB_SettingsController_fileSettingsController( RPDB_Environment_settingsController( environment ) ) )
-			|	RPDB_FileSettingsController_isErrorIfDBExistsBeforeCreate( RPDB_SettingsController_fileSettingsController( RPDB_Environment_settingsController( environment ) ) );
+	return	Rbdb_ThreadSettingsController_on( Rbdb_SettingsController_threadSettingsController( Rbdb_Environment_settingsController( environment ) ) )
+			|	Rbdb_FileSettingsController_createIfNecessary( Rbdb_SettingsController_fileSettingsController( Rbdb_Environment_settingsController( environment ) ) )
+			|	Rbdb_FileSettingsController_isErrorIfDBExistsBeforeCreate( Rbdb_SettingsController_fileSettingsController( Rbdb_Environment_settingsController( environment ) ) );
 	
 }
 
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_DatabaseSequenceSettingsController* RPDB_DatabaseSequenceSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseSequenceSettingsController* database_sequence_settings_controller )	{
+Rbdb_DatabaseSequenceSettingsController* Rbdb_DatabaseSequenceSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseSequenceSettingsController* database_sequence_settings_controller )	{
 
-	RPDB_DatabaseSequenceSettingsController* database_sequence_settings_controller_copy	=	RPDB_DatabaseSequenceSettingsController_new( database_sequence_settings_controller->parent_database_settings_controller );
+	Rbdb_DatabaseSequenceSettingsController* database_sequence_settings_controller_copy	=	Rbdb_DatabaseSequenceSettingsController_new( database_sequence_settings_controller->parent_database_settings_controller );
 
 	//	Instances and Pointers
 	database_sequence_settings_controller_copy->initial_value	=	database_sequence_settings_controller->initial_value;

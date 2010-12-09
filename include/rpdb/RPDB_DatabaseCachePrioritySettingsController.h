@@ -1,50 +1,50 @@
 /*
- *		RPDB::Database::Cursor::CursorSettingsController::CursorCacheSettingsController::CursorSettingsCachePriorityController
+ *		Rbdb::Database::Cursor::CursorSettingsController::CursorCacheSettingsController::CursorSettingsCachePriorityController
  *
  *
  */
 
-#ifndef RPDB_DATABASE_CACHE_PRIORITY_SETTINGS_CONTROLLER
-	#define RPDB_DATABASE_CACHE_PRIORITY_SETTINGS_CONTROLLER
+#ifndef Rbdb_DATABASE_CACHE_PRIORITY_SETTINGS_CONTROLLER
+	#define Rbdb_DATABASE_CACHE_PRIORITY_SETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 					
-	RPDB_DatabaseCachePrioritySettingsController*	RPDB_DatabaseCachePrioritySettingsController_new(											RPDB_DatabaseCacheSettingsController*			database_cache_setting_controller );
+	Rbdb_DatabaseCachePrioritySettingsController*	Rbdb_DatabaseCachePrioritySettingsController_new(											Rbdb_DatabaseCacheSettingsController*			database_cache_setting_controller );
 
-	void											RPDB_DatabaseCachePrioritySettingsController_free(								RPDB_DatabaseCachePrioritySettingsController** database_cache_priority_settings_controller );
-	RPDB_Environment*						RPDB_DatabaseCachePrioritySettingsController_parentEnvironment(	RPDB_DatabaseCachePrioritySettingsController* database_cache_priority_settings_controller );
-	RPDB_Database* RPDB_DatabaseCachePrioritySettingsController_parentDatabase(	RPDB_DatabaseCachePrioritySettingsController* database_cache_priority_settings_controller );
+	void											Rbdb_DatabaseCachePrioritySettingsController_free(								Rbdb_DatabaseCachePrioritySettingsController** database_cache_priority_settings_controller );
+	Rbdb_Environment*						Rbdb_DatabaseCachePrioritySettingsController_parentEnvironment(	Rbdb_DatabaseCachePrioritySettingsController* database_cache_priority_settings_controller );
+	Rbdb_Database* Rbdb_DatabaseCachePrioritySettingsController_parentDatabase(	Rbdb_DatabaseCachePrioritySettingsController* database_cache_priority_settings_controller );
 											
-	DB_CACHE_PRIORITY								RPDB_DatabaseCachePrioritySettingsController_priority(										RPDB_DatabaseCachePrioritySettingsController*		database_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY								Rbdb_DatabaseCachePrioritySettingsController_priority(										Rbdb_DatabaseCachePrioritySettingsController*		database_cache_priority_settings_controller );
 																																																											
-	DB_CACHE_PRIORITY								RPDB_DatabaseCachePrioritySettingsController_veryLow(										RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
-	void											RPDB_DatabaseCachePrioritySettingsController_setVeryLow(									RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
-	DB_CACHE_PRIORITY								RPDB_DatabaseCachePrioritySettingsController_isAtLeastVeryLow(								RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
-	DB_CACHE_PRIORITY								RPDB_DatabaseCachePrioritySettingsController_isAtMostVeryLow(								RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY								Rbdb_DatabaseCachePrioritySettingsController_veryLow(										Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	void											Rbdb_DatabaseCachePrioritySettingsController_setVeryLow(									Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY								Rbdb_DatabaseCachePrioritySettingsController_isAtLeastVeryLow(								Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY								Rbdb_DatabaseCachePrioritySettingsController_isAtMostVeryLow(								Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
 																																															
-	DB_CACHE_PRIORITY								RPDB_DatabaseCachePrioritySettingsController_low(											RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
-	void											RPDB_DatabaseCachePrioritySettingsController_setLow(										RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
-	DB_CACHE_PRIORITY								RPDB_DatabaseCachePrioritySettingsController_isAtLeastLow(									RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
-	DB_CACHE_PRIORITY								RPDB_DatabaseCachePrioritySettingsController_isAtMostLow(									RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY								Rbdb_DatabaseCachePrioritySettingsController_low(											Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	void											Rbdb_DatabaseCachePrioritySettingsController_setLow(										Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY								Rbdb_DatabaseCachePrioritySettingsController_isAtLeastLow(									Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY								Rbdb_DatabaseCachePrioritySettingsController_isAtMostLow(									Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
 																																															
-	DB_CACHE_PRIORITY								RPDB_DatabaseCachePrioritySettingsController_default(		   								RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
-	void											RPDB_DatabaseCachePrioritySettingsController_setDefault(	   								RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
-	DB_CACHE_PRIORITY								RPDB_DatabaseCachePrioritySettingsController_isAtLeastDefault(								RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
-	DB_CACHE_PRIORITY								RPDB_DatabaseCachePrioritySettingsController_isAtMostDefault(								RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY								Rbdb_DatabaseCachePrioritySettingsController_default(		   								Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	void											Rbdb_DatabaseCachePrioritySettingsController_setDefault(	   								Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY								Rbdb_DatabaseCachePrioritySettingsController_isAtLeastDefault(								Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY								Rbdb_DatabaseCachePrioritySettingsController_isAtMostDefault(								Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
 																																															
-	DB_CACHE_PRIORITY								RPDB_DatabaseCachePrioritySettingsController_high(											RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
-	void											RPDB_DatabaseCachePrioritySettingsController_setHigh(										RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
-	DB_CACHE_PRIORITY								RPDB_DatabaseCachePrioritySettingsController_isAtLeastHigh(								RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
-	DB_CACHE_PRIORITY								RPDB_DatabaseCachePrioritySettingsController_isAtMostHigh(									RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY								Rbdb_DatabaseCachePrioritySettingsController_high(											Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	void											Rbdb_DatabaseCachePrioritySettingsController_setHigh(										Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY								Rbdb_DatabaseCachePrioritySettingsController_isAtLeastHigh(								Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY								Rbdb_DatabaseCachePrioritySettingsController_isAtMostHigh(									Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
 																																															
-	DB_CACHE_PRIORITY								RPDB_DatabaseCachePrioritySettingsController_veryHigh(										RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
-	void											RPDB_DatabaseCachePrioritySettingsController_setVeryHigh(									RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
-	DB_CACHE_PRIORITY								RPDB_DatabaseCachePrioritySettingsController_isAtLeastVeryHigh(							RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
-	DB_CACHE_PRIORITY								RPDB_DatabaseCachePrioritySettingsController_isAtMostVeryHigh( 							RPDB_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY								Rbdb_DatabaseCachePrioritySettingsController_veryHigh(										Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	void											Rbdb_DatabaseCachePrioritySettingsController_setVeryHigh(									Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY								Rbdb_DatabaseCachePrioritySettingsController_isAtLeastVeryHigh(							Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
+	DB_CACHE_PRIORITY								Rbdb_DatabaseCachePrioritySettingsController_isAtMostVeryHigh( 							Rbdb_DatabaseCachePrioritySettingsController*	database_cache_priority_settings_controller );
 											
 #endif
 

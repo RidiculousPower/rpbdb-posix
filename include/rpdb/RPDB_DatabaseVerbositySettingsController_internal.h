@@ -1,5 +1,5 @@
-#ifndef RPDB_DATABASE_VERBOSITY_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_DATABASE_VERBOSITY_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_DATABASE_VERBOSITY_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_DATABASE_VERBOSITY_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,7 +7,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_DatabaseVerbositySettingsController* RPDB_DatabaseVerbositySettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseVerbositySettingsController* database_verbosity_settings_controller );
+Rbdb_DatabaseVerbositySettingsController* Rbdb_DatabaseVerbositySettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseVerbositySettingsController* database_verbosity_settings_controller );
 
 
 #endif

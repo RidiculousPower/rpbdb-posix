@@ -1,5 +1,5 @@
 /*
- *		RPDB::MemoryPoolController
+ *		Rbdb::MemoryPoolController
  *
  *	
  */
@@ -10,11 +10,11 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_MemoryPoolController.h"
+#include "Rbdb_MemoryPoolController.h"
 
-#include "RPDB_MemoryPoolFileController.h"
+#include "Rbdb_MemoryPoolFileController.h"
 
-#include "RPDB_LogSequenceNumber.h"
+#include "Rbdb_LogSequenceNumber.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -26,9 +26,9 @@
 *  new  *
 *************/
 
-RPDB_MemoryPoolController* RPDB_MemoryPoolController_new( RPDB_Environment* parent_environment )	{
+Rbdb_MemoryPoolController* Rbdb_MemoryPoolController_new( Rbdb_Environment* parent_environment )	{
 	
-	RPDB_MemoryPoolController*		memory_pool_controller = calloc( 1, sizeof( RPDB_MemoryPoolController ) );
+	Rbdb_MemoryPoolController*		memory_pool_controller = calloc( 1, sizeof( Rbdb_MemoryPoolController ) );
 
 	memory_pool_controller->parent_environment = parent_environment;
 
@@ -38,10 +38,10 @@ RPDB_MemoryPoolController* RPDB_MemoryPoolController_new( RPDB_Environment* pare
 /***************************
 *  free  *
 ***************************/
-void RPDB_MemoryPoolController_free(	RPDB_MemoryPoolController** memory_pool_controller )	{
+void Rbdb_MemoryPoolController_free(	Rbdb_MemoryPoolController** memory_pool_controller )	{
 
 	if ( ( *memory_pool_controller )->file_controller != NULL )	{
-		RPDB_MemoryPoolFileController_free( & ( ( *memory_pool_controller )->file_controller ) );
+		Rbdb_MemoryPoolFileController_free( & ( ( *memory_pool_controller )->file_controller ) );
 	}
 
 	free( *memory_pool_controller );
@@ -51,14 +51,14 @@ void RPDB_MemoryPoolController_free(	RPDB_MemoryPoolController** memory_pool_con
 /***************************
 *  settingsController  *
 ***************************/
-RPDB_MemoryPoolSettingsController* RPDB_MemoryPoolController_settingsController(	RPDB_MemoryPoolController* memory_pool_controller )	{
+Rbdb_MemoryPoolSettingsController* Rbdb_MemoryPoolController_settingsController(	Rbdb_MemoryPoolController* memory_pool_controller )	{
 	return memory_pool_controller->settings_controller;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_MemoryPoolController_parentEnvironment(	RPDB_MemoryPoolController* memory_pool_controller )	{
+Rbdb_Environment* Rbdb_MemoryPoolController_parentEnvironment(	Rbdb_MemoryPoolController* memory_pool_controller )	{
 	return memory_pool_controller->parent_environment;
 }
 
@@ -67,7 +67,7 @@ RPDB_Environment* RPDB_MemoryPoolController_parentEnvironment(	RPDB_MemoryPoolCo
 *********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/memp_trickle.html
-void RPDB_MemoryPoolController_trickleClean(	RPDB_MemoryPoolController*		memory_pool_controller, 
+void Rbdb_MemoryPoolController_trickleClean(	Rbdb_MemoryPoolController*		memory_pool_controller, 
 												int								percent_of_pages_to_clean )	{
 	
 	DB_ENV*		environment = memory_pool_controller->parent_environment->wrapped_bdb_environment;
@@ -83,8 +83,8 @@ void RPDB_MemoryPoolController_trickleClean(	RPDB_MemoryPoolController*		memory_
 
 //	The purpose of the lsn parameter is to enable a transaction manager to ensure, as part of a checkpoint, that all pages modified by a certain time have been written to disk.
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/memp_sync.html
-void RPDB_MemoryPoolController_flush(	RPDB_MemoryPoolController*		memory_pool_controller, 
-										RPDB_LogSequenceNumber*		write_all_records_before_lsn )	{
+void Rbdb_MemoryPoolController_flush(	Rbdb_MemoryPoolController*		memory_pool_controller, 
+										Rbdb_LogSequenceNumber*		write_all_records_before_lsn )	{
 	
 	DB_ENV*		environment = memory_pool_controller->parent_environment->wrapped_bdb_environment;
 	
@@ -97,7 +97,7 @@ void RPDB_MemoryPoolController_flush(	RPDB_MemoryPoolController*		memory_pool_co
 *************************/
 /*
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_alloc.html
-void RPDB_MemoryPoolController_setMallocMethod(	RPDB_MemoryPoolController*				memory_pool_controller,
+void Rbdb_MemoryPoolController_setMallocMethod(	Rbdb_MemoryPoolController*				memory_pool_controller,
  													void*									(*malloc_method)( size_t )	)	{
 
 	DB_ENV*		environment		= memory_pool_controller->parent_environment->wrapped_bdb_environment;
@@ -114,7 +114,7 @@ void RPDB_MemoryPoolController_setMallocMethod(	RPDB_MemoryPoolController*				me
 *  mallocMethod  *
 *********************/
 /*
-void *(*malloc_method)( size_t ) RPDB_MemoryPoolController_mallocMethod( RPDB_MemoryPoolController* memory_pool_controller )	{
+void *(*malloc_method)( size_t ) Rbdb_MemoryPoolController_mallocMethod( Rbdb_MemoryPoolController* memory_pool_controller )	{
 	
 	return memory_pool_controller->malloc_method;
 }
@@ -124,7 +124,7 @@ void *(*malloc_method)( size_t ) RPDB_MemoryPoolController_mallocMethod( RPDB_Me
 *************************/
 /*
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_alloc.html
-void RPDB_MemoryPoolController_setReallocMethod(	RPDB_MemoryPoolController*					memory_pool_controller,
+void Rbdb_MemoryPoolController_setReallocMethod(	Rbdb_MemoryPoolController*					memory_pool_controller,
  													void*										(*realloc_method)( void*, size_t ) )	{
 
 	DB_ENV*		environment		= memory_pool_controller->parent_environment->wrapped_bdb_environment;
@@ -142,7 +142,7 @@ void RPDB_MemoryPoolController_setReallocMethod(	RPDB_MemoryPoolController*					
 *********************/
 /*
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_alloc.html
-void *(*realloc_method)( void*, size_t ) RPDB_MemoryPoolController_reallocMethod( RPDB_MemoryPoolController* memory_pool_controller )	{
+void *(*realloc_method)( void*, size_t ) Rbdb_MemoryPoolController_reallocMethod( Rbdb_MemoryPoolController* memory_pool_controller )	{
 
 	return memory_pool_controller->realloc_method;
 }
@@ -152,7 +152,7 @@ void *(*realloc_method)( void*, size_t ) RPDB_MemoryPoolController_reallocMethod
 *********************/
 /*
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_alloc.html
-void RPDB_MemoryPoolController_setFreeMethod(	RPDB_MemoryPoolController*			memory_pool_controller,
+void Rbdb_MemoryPoolController_setFreeMethod(	Rbdb_MemoryPoolController*			memory_pool_controller,
  												void*								(*free_method)( void* )	)	{
 		
 	DB_ENV*		environment		= memory_pool_controller->parent_environment->wrapped_bdb_environment;
@@ -170,7 +170,7 @@ void RPDB_MemoryPoolController_setFreeMethod(	RPDB_MemoryPoolController*			memor
 *****************/
 /*
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_alloc.html
-void *(*free_method)( void* ) RPDB_MemoryPoolController_freeMethod( RPDB_MemoryPoolController* memory_pool_controller )	{
+void *(*free_method)( void* ) Rbdb_MemoryPoolController_freeMethod( Rbdb_MemoryPoolController* memory_pool_controller )	{
 
 	return memory_pool_controller->free_method;
 }
@@ -180,10 +180,10 @@ void *(*free_method)( void* ) RPDB_MemoryPoolController_freeMethod( RPDB_MemoryP
 *  fileController  *
 ************************/
 
-RPDB_MemoryPoolFileController* RPDB_MemoryPoolController_fileController( RPDB_MemoryPoolController* memory_pool_controller )	{
+Rbdb_MemoryPoolFileController* Rbdb_MemoryPoolController_fileController( Rbdb_MemoryPoolController* memory_pool_controller )	{
 
 	if ( memory_pool_controller->file_controller == NULL )	{
-		memory_pool_controller->file_controller	=	RPDB_MemoryPoolFileController_new( memory_pool_controller );
+		memory_pool_controller->file_controller	=	Rbdb_MemoryPoolFileController_new( memory_pool_controller );
 	}
 	
 	return memory_pool_controller->file_controller;

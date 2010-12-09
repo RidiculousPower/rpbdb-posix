@@ -1,27 +1,27 @@
 /*
- *		RPDB::DatabaseController::Database::DatabaseVerificationController
+ *		Rbdb::DatabaseController::Database::DatabaseVerificationController
  *
  *
  */
 
-#ifndef RPDB_DATABASE_VERIFICATION_CONTROLLER
-	#define RPDB_DATABASE_VERIFICATION_CONTROLLER
+#ifndef Rbdb_DATABASE_VERIFICATION_CONTROLLER
+	#define Rbdb_DATABASE_VERIFICATION_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_DatabaseVerificationController*			RPDB_DatabaseVerificationController_new(					RPDB_Database*							parent_database );
+	Rbdb_DatabaseVerificationController*			Rbdb_DatabaseVerificationController_new(					Rbdb_Database*							parent_database );
 
-	void											RPDB_DatabaseVerificationController_free(	RPDB_DatabaseVerificationController** database_verification_controller );
-	RPDB_DatabaseVerificationSettingsController*	RPDB_DatabaseVerificationController_settingsController(	RPDB_DatabaseVerificationController* database_verification_controller );
-	RPDB_Environment*						RPDB_DatabaseVerificationController_parentEnvironment(	RPDB_DatabaseVerificationController* database_verification_controller );
-	RPDB_Database* RPDB_DatabaseVerificationController_parentDatabase(	RPDB_DatabaseVerificationController* database_verification_controller );
+	void											Rbdb_DatabaseVerificationController_free(	Rbdb_DatabaseVerificationController** database_verification_controller );
+	Rbdb_DatabaseVerificationSettingsController*	Rbdb_DatabaseVerificationController_settingsController(	Rbdb_DatabaseVerificationController* database_verification_controller );
+	Rbdb_Environment*						Rbdb_DatabaseVerificationController_parentEnvironment(	Rbdb_DatabaseVerificationController* database_verification_controller );
+	Rbdb_Database* Rbdb_DatabaseVerificationController_parentDatabase(	Rbdb_DatabaseVerificationController* database_verification_controller );
 
-	RPDB_Database*									RPDB_DatabaseVerificationController_verifyDatabase(		RPDB_DatabaseVerificationController*	database_verification_controller );
-	RPDB_DatabaseVerificationSettingsController*	RPDB_DatabaseVerificationController_settingsController(	RPDB_DatabaseVerificationController* 	database_verification_controller );
+	Rbdb_Database*									Rbdb_DatabaseVerificationController_verifyDatabase(		Rbdb_DatabaseVerificationController*	database_verification_controller );
+	Rbdb_DatabaseVerificationSettingsController*	Rbdb_DatabaseVerificationController_settingsController(	Rbdb_DatabaseVerificationController* 	database_verification_controller );
 
 #endif
 

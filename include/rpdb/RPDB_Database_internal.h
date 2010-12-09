@@ -1,5 +1,5 @@
-#ifndef RPDB_DATABASE_INTERNAL
-	#define RPDB_DATABASE_INTERNAL
+#ifndef Rbdb_DATABASE_INTERNAL
+	#define Rbdb_DATABASE_INTERNAL
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,59 +7,59 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-void RPDB_Database_internal_ensureOpen( RPDB_Database* database );
-void RPDB_Database_internal_initWrappedDatabase(	RPDB_Database* database );
-int		RPDB_Database_internal_secondaryKeyCreationCallbackMethod(	DB*					bdb_secondary_database, 
+void Rbdb_Database_internal_ensureOpen( Rbdb_Database* database );
+void Rbdb_Database_internal_initWrappedDatabase(	Rbdb_Database* database );
+int		Rbdb_Database_internal_secondaryKeyCreationCallbackMethod(	DB*					bdb_secondary_database, 
 																   const DBT*			bdb_key, 
 																   const DBT*			bdb_data, 
 																   DBT*				bdb_return_data );
-void RPDB_Database_internal_openWithoutRuntimeStorage( RPDB_Database* database );
+void Rbdb_Database_internal_openWithoutRuntimeStorage( Rbdb_Database* database );
 
-RPDB_Record* RPDB_Database_internal_writeRawKeyDataPair(	RPDB_Database*	database, 
+Rbdb_Record* Rbdb_Database_internal_writeRawKeyDataPair(	Rbdb_Database*	database, 
 																		 uint32_t						flags,
 																		 void*							primary_key,
 																		 uint32_t						key_size,
 																		 void*							data,
 																		 uint32_t						data_size );
-	RPDB_Record*	RPDB_Database_internal_writeRecord(			RPDB_Database*	database, 
+	Rbdb_Record*	Rbdb_Database_internal_writeRecord(			Rbdb_Database*	database, 
 																			uint32_t						flags,
-																			RPDB_Record*					record );
-RPDB_Record*	RPDB_Database_internal_writeKeyDataPair(	RPDB_Database*	database, 
+																			Rbdb_Record*					record );
+Rbdb_Record*	Rbdb_Database_internal_writeKeyDataPair(	Rbdb_Database*	database, 
 																			uint32_t						flags,
-																			RPDB_Key*						primary_key,
-																			RPDB_Data*					write_data );	
+																			Rbdb_Key*						primary_key,
+																			Rbdb_Data*					write_data );	
 																			
-RPDB_Record* RPDB_Database_internal_retrieveRawKeyDataPair(	RPDB_Database*			database, 
+Rbdb_Record* Rbdb_Database_internal_retrieveRawKeyDataPair(	Rbdb_Database*			database, 
 																			   uint32_t								flag, 
 																			   void*									key,
 																			   uint32_t								key_size,
 																			   void*									data,
 																			   uint32_t								data_size );
-	RPDB_Record*	RPDB_Database_internal_retrieveRecord(	RPDB_Database*	database, 
+	Rbdb_Record*	Rbdb_Database_internal_retrieveRecord(	Rbdb_Database*	database, 
 																		 uint32_t							flag, 
-																		 RPDB_Record*							record );																			
-char* RPDB_Database_internal_secondaryDatabaseNameForIndex( char* index_name,
+																		 Rbdb_Record*							record );																			
+char* Rbdb_Database_internal_secondaryDatabaseNameForIndex( char* index_name,
 																														char*	primary_database_name );
-RPDB_Database* RPDB_Database_internal_configureDatabaseInstanceForSecondaryIndexOnPrimaryDatabase(	RPDB_Database*		primary_database,
-																																																		RPDB_Database*		secondary_database,
+Rbdb_Database* Rbdb_Database_internal_configureDatabaseInstanceForSecondaryIndexOnPrimaryDatabase(	Rbdb_Database*		primary_database,
+																																																		Rbdb_Database*		secondary_database,
 																																																		char*							index_name,
 																																																		BOOL							enable_duplicates,
 																																																		BOOL							enable_sorted_duplicates);
-char* RPDB_Database_internal_filenameForName( char* database_name );
-RPDB_Database* RPDB_Database_internal_initForRuntimeStorage(	RPDB_Database*		runtime_storage_database );
-db_recno_t RPDB_Database_internal_storeRuntimeAddress(	RPDB_Database*	runtime_database,
+char* Rbdb_Database_internal_filenameForName( char* database_name );
+Rbdb_Database* Rbdb_Database_internal_initForRuntimeStorage(	Rbdb_Database*		runtime_storage_database );
+db_recno_t Rbdb_Database_internal_storeRuntimeAddress(	Rbdb_Database*	runtime_database,
 																												void*			runtime_pointer );
-void RPDB_Database_internal_freeStoredRuntimeAddress(	RPDB_Database*	runtime_database,
+void Rbdb_Database_internal_freeStoredRuntimeAddress(	Rbdb_Database*	runtime_database,
 																											db_recno_t			runtime_record_number	);
-void RPDB_Database_internal_closeAllStoredRuntimeAddresses(	RPDB_Database*	runtime_database,
+void Rbdb_Database_internal_closeAllStoredRuntimeAddresses(	Rbdb_Database*	runtime_database,
 																														void *close_function( void* )	);
-void RPDB_Database_internal_freeAllStoredRuntimeAddresses(	RPDB_Database*	runtime_database,
+void Rbdb_Database_internal_freeAllStoredRuntimeAddresses(	Rbdb_Database*	runtime_database,
 																														void *free_function( void** ) );
 
-char* RPDB_Database_internal_errorfilePathForDatabase( RPDB_Database* database );
-void RPDB_Database_internal_freeAllStoredRuntimeAddresses(	RPDB_Database*	runtime_database,
+char* Rbdb_Database_internal_errorfilePathForDatabase( Rbdb_Database* database );
+void Rbdb_Database_internal_freeAllStoredRuntimeAddresses(	Rbdb_Database*	runtime_database,
 																														void *free_function( void** ) );
-void RPDB_Database_internal_freeFromRuntimeStorage( RPDB_Database** database );
+void Rbdb_Database_internal_freeFromRuntimeStorage( Rbdb_Database** database );
 
 #endif
 

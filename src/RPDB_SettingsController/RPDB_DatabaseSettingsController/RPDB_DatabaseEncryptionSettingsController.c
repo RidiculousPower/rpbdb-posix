@@ -1,5 +1,5 @@
 /*
- *		RPDB::Database::DatabaseSettingsController::DatabaseSettingsEncryptionController
+ *		Rbdb::Database::DatabaseSettingsController::DatabaseSettingsEncryptionController
  *
  *
  */
@@ -10,13 +10,13 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_DatabaseEncryptionSettingsController.h"
+#include "Rbdb_DatabaseEncryptionSettingsController.h"
 
-#include "RPDB_Environment.h"
-#include "RPDB_ErrorController.h"
+#include "Rbdb_Environment.h"
+#include "Rbdb_ErrorController.h"
 
-#include "RPDB_DatabaseEncryptionSettingsController_internal.h"
-#include "RPDB_DatabaseRecordReadWriteSettingsController_internal.h"
+#include "Rbdb_DatabaseEncryptionSettingsController_internal.h"
+#include "Rbdb_DatabaseRecordReadWriteSettingsController_internal.h"
 	
 #include <string.h>
 	
@@ -30,9 +30,9 @@
 *  new  *
 *************/
 	
-RPDB_DatabaseEncryptionSettingsController* RPDB_DatabaseEncryptionSettingsController_new( RPDB_DatabaseSettingsController* database_settings_controller )	{
+Rbdb_DatabaseEncryptionSettingsController* Rbdb_DatabaseEncryptionSettingsController_new( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
-	RPDB_DatabaseEncryptionSettingsController*		database_encryption_settings_controller = calloc( 1, sizeof( RPDB_DatabaseEncryptionSettingsController ) );
+	Rbdb_DatabaseEncryptionSettingsController*		database_encryption_settings_controller = calloc( 1, sizeof( Rbdb_DatabaseEncryptionSettingsController ) );
 
 	database_encryption_settings_controller->parent_database_settings_controller = database_settings_controller;
 
@@ -42,7 +42,7 @@ RPDB_DatabaseEncryptionSettingsController* RPDB_DatabaseEncryptionSettingsContro
 /***************************
 *  free  *
 ***************************/
-void RPDB_DatabaseEncryptionSettingsController_free(	RPDB_DatabaseEncryptionSettingsController** database_encryption_settings_controller )	{
+void Rbdb_DatabaseEncryptionSettingsController_free(	Rbdb_DatabaseEncryptionSettingsController** database_encryption_settings_controller )	{
 
 	free( *database_encryption_settings_controller );
 	*database_encryption_settings_controller	=	NULL;
@@ -51,14 +51,14 @@ void RPDB_DatabaseEncryptionSettingsController_free(	RPDB_DatabaseEncryptionSett
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_DatabaseEncryptionSettingsController_parentEnvironment(	RPDB_DatabaseEncryptionSettingsController* database_encryption_settings_controller )	{
+Rbdb_Environment* Rbdb_DatabaseEncryptionSettingsController_parentEnvironment(	Rbdb_DatabaseEncryptionSettingsController* database_encryption_settings_controller )	{
 	return database_encryption_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment;
 }
 
 /***************************************
 *  parentDatabase  *
 ***************************************/
-RPDB_Database* RPDB_DatabaseEncryptionSettingsController_parentDatabase(	RPDB_DatabaseEncryptionSettingsController* database_encryption_settings_controller )	{
+Rbdb_Database* Rbdb_DatabaseEncryptionSettingsController_parentDatabase(	Rbdb_DatabaseEncryptionSettingsController* database_encryption_settings_controller )	{
 	return database_encryption_settings_controller->parent_database_settings_controller->parent_database;
 }
 
@@ -68,9 +68,9 @@ RPDB_Database* RPDB_DatabaseEncryptionSettingsController_parentDatabase(	RPDB_Da
 
 //	DB_ENCRYPT		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_fileid_reset.html
 //	DB_ENCRYPT		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_flags.html
-uint32_t RPDB_DatabaseEncryptionSettingsController_encrypted( RPDB_DatabaseEncryptionSettingsController* database_encryption_settings_controller )	{
+uint32_t Rbdb_DatabaseEncryptionSettingsController_encrypted( Rbdb_DatabaseEncryptionSettingsController* database_encryption_settings_controller )	{
 	
-	RPDB_Database*		database	=	database_encryption_settings_controller->parent_database_settings_controller->parent_database;
+	Rbdb_Database*		database	=	database_encryption_settings_controller->parent_database_settings_controller->parent_database;
 	uint32_t		flags;
 	int				connection_error	= 0;
 
@@ -84,9 +84,9 @@ uint32_t RPDB_DatabaseEncryptionSettingsController_encrypted( RPDB_DatabaseEncry
 																				& flags );
 
 		if ( connection_error )	{
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database->parent_database_controller->parent_environment ), 
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( database->parent_database_controller->parent_environment ), 
 															connection_error, 
-															"RPDB_DatabaseEncryptionSettingsController_containsEncryption" );			
+															"Rbdb_DatabaseEncryptionSettingsController_containsEncryption" );			
 		}
 
 		if ( flags == DB_ENCRYPT )	{
@@ -102,10 +102,10 @@ uint32_t RPDB_DatabaseEncryptionSettingsController_encrypted( RPDB_DatabaseEncry
 	*************************/
 
 	//	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_encrypt.html
-	void RPDB_DatabaseEncryptionSettingsController_turnEncryptionOn(	RPDB_DatabaseEncryptionSettingsController*		database_encryption_settings_controller,
+	void Rbdb_DatabaseEncryptionSettingsController_turnEncryptionOn(	Rbdb_DatabaseEncryptionSettingsController*		database_encryption_settings_controller,
 																																		char*											encryption_password )	{
 
-		RPDB_Database*			database	= database_encryption_settings_controller->parent_database_settings_controller->parent_database;
+		Rbdb_Database*			database	= database_encryption_settings_controller->parent_database_settings_controller->parent_database;
 		int			connection_error	= 0;
 		
 		database_encryption_settings_controller->password	=	encryption_password;
@@ -124,9 +124,9 @@ uint32_t RPDB_DatabaseEncryptionSettingsController_encrypted( RPDB_DatabaseEncry
 
 		if ( connection_error ) {
 		
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_encryption_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ), 
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( database_encryption_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ), 
 																										connection_error, 
-																										"RPDB_DatabaseEncryptionSettingsController_turnEncryptionOn" );
+																										"Rbdb_DatabaseEncryptionSettingsController_turnEncryptionOn" );
 			return;
 		}
 	
@@ -138,10 +138,10 @@ uint32_t RPDB_DatabaseEncryptionSettingsController_encrypted( RPDB_DatabaseEncry
 	*************************/
 
 	//	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_encrypt.html
-	void RPDB_DatabaseEncryptionSettingsController_turnEncryptionOff(	RPDB_DatabaseEncryptionSettingsController*		database_encryption_settings_controller, 
+	void Rbdb_DatabaseEncryptionSettingsController_turnEncryptionOff(	Rbdb_DatabaseEncryptionSettingsController*		database_encryption_settings_controller, 
 																																		char*											encryption_password )	{
 
-		RPDB_Database*			database	= database_encryption_settings_controller->parent_database_settings_controller->parent_database;
+		Rbdb_Database*			database	= database_encryption_settings_controller->parent_database_settings_controller->parent_database;
 
 		if (		database != NULL
 				&&	database->wrapped_bdb_database != NULL )	{
@@ -151,9 +151,9 @@ uint32_t RPDB_DatabaseEncryptionSettingsController_encrypted( RPDB_DatabaseEncry
 																																							encryption_password, 
 																																							FALSE ) ) ) {
 				
-				RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database->parent_database_controller->parent_environment ), 
+				Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( database->parent_database_controller->parent_environment ), 
 																											connection_error, 
-																											"RPDB_DatabaseEncryptionSettingsController_turnEncryptionOff" );
+																											"Rbdb_DatabaseEncryptionSettingsController_turnEncryptionOff" );
 				return;
 			}
 		}
@@ -172,9 +172,9 @@ uint32_t RPDB_DatabaseEncryptionSettingsController_encrypted( RPDB_DatabaseEncry
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_DatabaseEncryptionSettingsController* RPDB_DatabaseEncryptionSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseEncryptionSettingsController* database_encryption_settings_controller )	{
+Rbdb_DatabaseEncryptionSettingsController* Rbdb_DatabaseEncryptionSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseEncryptionSettingsController* database_encryption_settings_controller )	{
 
-	RPDB_DatabaseEncryptionSettingsController* database_encryption_settings_controller_copy	=	RPDB_DatabaseEncryptionSettingsController_new( database_encryption_settings_controller->parent_database_settings_controller );
+	Rbdb_DatabaseEncryptionSettingsController* database_encryption_settings_controller_copy	=	Rbdb_DatabaseEncryptionSettingsController_new( database_encryption_settings_controller->parent_database_settings_controller );
 
 	//	Instances and Pointers
 	database_encryption_settings_controller_copy->encrypted	=	database_encryption_settings_controller->encrypted;

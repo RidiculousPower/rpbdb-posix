@@ -1,5 +1,5 @@
 /*
- *		RPDB::LogController
+ *		Rbdb::LogController
  *
  *		BDB logging implementation for applications described here: 
  *      http://www.oracle.com/technology/documentation/berkeley-db/db/ref/apprec/def.html
@@ -15,21 +15,21 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_LogController.h"
+#include "Rbdb_LogController.h"
 
-#include "RPDB_Log.h"
-#include "RPDB_LogSequenceNumber.h"
-#include "RPDB_LogCursorController.h"
+#include "Rbdb_Log.h"
+#include "Rbdb_LogSequenceNumber.h"
+#include "Rbdb_LogCursorController.h"
 
-#include "RPDB_DatabaseCursorController.h"
+#include "Rbdb_DatabaseCursorController.h"
 
-#include "RPDB_Environment.h"
+#include "Rbdb_Environment.h"
 
-#include "RPDB_TransactionController.h"
-#include "RPDB_TransactionController_internal.h"
+#include "Rbdb_TransactionController.h"
+#include "Rbdb_TransactionController_internal.h"
 
-#include "RPDB_SettingsController.h"
-#include "RPDB_LogSettingsController_internal.h"
+#include "Rbdb_SettingsController.h"
+#include "Rbdb_LogSettingsController_internal.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -41,9 +41,9 @@
 *  new  *
 *************/
 
-RPDB_LogController* RPDB_LogController_new( RPDB_Environment* parent_environment )	{
+Rbdb_LogController* Rbdb_LogController_new( Rbdb_Environment* parent_environment )	{
 	
-	RPDB_LogController*		log_controller = calloc( 1, sizeof( RPDB_LogController ) );
+	Rbdb_LogController*		log_controller = calloc( 1, sizeof( Rbdb_LogController ) );
 
 	log_controller->parent_environment = parent_environment;
 	
@@ -53,10 +53,10 @@ RPDB_LogController* RPDB_LogController_new( RPDB_Environment* parent_environment
 /***************************
 *  free  *
 ***************************/
-void RPDB_LogController_free(	RPDB_LogController** log_controller )	{
+void Rbdb_LogController_free(	Rbdb_LogController** log_controller )	{
 
 	if ( ( *log_controller )->cursor_controller != NULL )	{
-		RPDB_LogCursorController_free( & ( ( *log_controller )->cursor_controller ) );
+		Rbdb_LogCursorController_free( & ( ( *log_controller )->cursor_controller ) );
 	}
 
 	free( *log_controller );
@@ -66,14 +66,14 @@ void RPDB_LogController_free(	RPDB_LogController** log_controller )	{
 /***************************
 *  settingsController  *
 ***************************/
-RPDB_LogSettingsController* RPDB_LogController_settingsController(	RPDB_LogController* log_controller )	{
+Rbdb_LogSettingsController* Rbdb_LogController_settingsController(	Rbdb_LogController* log_controller )	{
 	return log_controller->settings_controller;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_LogController_parentEnvironment(	RPDB_LogController* log_controller )	{
+Rbdb_Environment* Rbdb_LogController_parentEnvironment(	Rbdb_LogController* log_controller )	{
 	return log_controller->parent_environment;
 }
 
@@ -85,16 +85,16 @@ RPDB_Environment* RPDB_LogController_parentEnvironment(	RPDB_LogController* log_
 //	The DB_ENV->log_printf method allows applications to include information in the database environment log files, 
 //	for later review using the db_printlog utility. This method is intended for debugging and performance tuning.
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/log_printf.html
-void RPDB_LogController_appendStringToCurrentLog(	RPDB_LogController*		log_controller,
+void Rbdb_LogController_appendStringToCurrentLog(	Rbdb_LogController*		log_controller,
 																									char*					log_string,
 																									... )	{
 	
-	RPDB_Environment*		environment	=	log_controller->parent_environment;
+	Rbdb_Environment*		environment	=	log_controller->parent_environment;
 	//	FIX - var args needs to be implemented
 
 	DB_TXN*	transaction_id	=	NULL;
 	if ( environment->transaction_controller != NULL )	{
-		transaction_id	=	RPDB_TransactionController_internal_currentTransactionID( environment->transaction_controller );
+		transaction_id	=	Rbdb_TransactionController_internal_currentTransactionID( environment->transaction_controller );
 	}
 		 
 	environment->wrapped_bdb_environment->log_printf(	environment->wrapped_bdb_environment,
@@ -111,8 +111,8 @@ void RPDB_LogController_appendStringToCurrentLog(	RPDB_LogController*		log_contr
 
 //	All log records with DB_LSN values less than or equal to the lsn parameter are written to disk. If lsn is NULL, all records in the log are flushed.
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/log_flush.html	
-void RPDB_LogController_flushLogsToDisk(	RPDB_LogController*		log_controller,
- 											RPDB_LogSequenceNumber*	log_sequence_number )	{
+void Rbdb_LogController_flushLogsToDisk(	Rbdb_LogController*		log_controller,
+ 											Rbdb_LogSequenceNumber*	log_sequence_number )	{
 	
 	DB_ENV*		environment	=	log_controller->parent_environment->wrapped_bdb_environment;
 
@@ -125,27 +125,27 @@ void RPDB_LogController_flushLogsToDisk(	RPDB_LogController*		log_controller,
 *********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/log_put.html
-void RPDB_LogController_appendLogRecord(	RPDB_LogController*		log_controller,
- 											RPDB_Record*				log_record )	{
+void Rbdb_LogController_appendLogRecord(	Rbdb_LogController*		log_controller,
+ 											Rbdb_Record*				log_record )	{
 	
-	RPDB_Environment*		environment	=	log_controller->parent_environment;
+	Rbdb_Environment*		environment	=	log_controller->parent_environment;
 	
-	RPDB_Log*	log	=	RPDB_Log_new( log_controller );
+	Rbdb_Log*	log	=	Rbdb_Log_new( log_controller );
 	
 	environment->wrapped_bdb_environment->log_put(	environment->wrapped_bdb_environment,
 													log->log_sequence_number->wrapped_bdb_log_sequence_number,
 													log_record->data->wrapped_bdb_dbt->data,
-													RPDB_LogSettingsController_internal_appendRecordFlags( RPDB_SettingsController_logSettingsController( RPDB_Environment_settingsController( environment )) ) );
+													Rbdb_LogSettingsController_internal_appendRecordFlags( Rbdb_SettingsController_logSettingsController( Rbdb_Environment_settingsController( environment )) ) );
 }
 
 /*************************
 *  cursorController  *
 *************************/
 
-RPDB_LogCursorController* RPDB_LogController_cursorController( RPDB_LogController* log_controller )	{
+Rbdb_LogCursorController* Rbdb_LogController_cursorController( Rbdb_LogController* log_controller )	{
 
 	if ( log_controller->cursor_controller == NULL )	{
-		log_controller->cursor_controller = RPDB_LogCursorController_new( log_controller );
+		log_controller->cursor_controller = Rbdb_LogCursorController_new( log_controller );
 	}
 	
 	return log_controller->cursor_controller;

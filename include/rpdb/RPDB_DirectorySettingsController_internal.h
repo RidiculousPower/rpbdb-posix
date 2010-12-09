@@ -1,5 +1,5 @@
-#ifndef RPDB_DIRECTORY_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_DIRECTORY_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_DIRECTORY_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_DIRECTORY_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,7 +7,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_DirectorySettingsController* RPDB_DirectorySettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DirectorySettingsController* directory_settings_controller );
+Rbdb_DirectorySettingsController* Rbdb_DirectorySettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DirectorySettingsController* directory_settings_controller );
 
 
 

@@ -1,5 +1,5 @@
-#ifndef RPDB_TRANSACTION_INTERNAL
-	#define RPDB_TRANSACTION_INTERNAL
+#ifndef Rbdb_TRANSACTION_INTERNAL
+	#define Rbdb_TRANSACTION_INTERNAL
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,12 +7,12 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_Transaction* RPDB_Transaction_internal_newWithoutBDBTransaction( RPDB_TransactionController*						parent_transaction_controller );
-DB_TXN*				RPDB_Transaction_internal_transactionID(					RPDB_Transaction*				transaction );
-void				RPDB_Transaction_internal_initDefaultInstanceSettings(		RPDB_Transaction*				transaction );
-void RPDB_Transaction_internal_addDatabaseToListOpenedDuringTransaction(	RPDB_Transaction*	transaction,
-																		 RPDB_Database*		database	);
+Rbdb_Transaction* Rbdb_Transaction_internal_newWithoutBDBTransaction( Rbdb_TransactionController*						parent_transaction_controller );
+DB_TXN*				Rbdb_Transaction_internal_transactionID(					Rbdb_Transaction*				transaction );
+void				Rbdb_Transaction_internal_initDefaultInstanceSettings(		Rbdb_Transaction*				transaction );
+void Rbdb_Transaction_internal_addDatabaseToListOpenedDuringTransaction(	Rbdb_Transaction*	transaction,
+																		 Rbdb_Database*		database	);
 
-void RPDB_Transaction_internal_freeFromRuntimeStorage( RPDB_Transaction** transaction );
+void Rbdb_Transaction_internal_freeFromRuntimeStorage( Rbdb_Transaction** transaction );
 
 #endif

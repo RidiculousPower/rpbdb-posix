@@ -1,5 +1,5 @@
-#ifndef RPDB_MEMORY_POOL_FILE_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_MEMORY_POOL_FILE_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_MEMORY_POOL_FILE_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_MEMORY_POOL_FILE_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,11 +7,11 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_MemoryPoolFileSettingsController*		RPDB_MemoryPoolFileSettingsController_internal_copyOfDefaultSettingsForInstance(	RPDB_MemoryPoolFileSettingsController*				memory_pool_file_settings_controller );
-int											RPDB_MemoryPoolFileSettingsController_internal_createFlags(						RPDB_MemoryPoolFileSettingsController*				memory_pool_file_settings_controller );
-int											RPDB_MemoryPoolFileSettingsController_internal_openFlags(							RPDB_MemoryPoolFileSettingsController*				memory_pool_file_settings_controller );
+Rbdb_MemoryPoolFileSettingsController*		Rbdb_MemoryPoolFileSettingsController_internal_copyOfDefaultSettingsForInstance(	Rbdb_MemoryPoolFileSettingsController*				memory_pool_file_settings_controller );
+int											Rbdb_MemoryPoolFileSettingsController_internal_createFlags(						Rbdb_MemoryPoolFileSettingsController*				memory_pool_file_settings_controller );
+int											Rbdb_MemoryPoolFileSettingsController_internal_openFlags(							Rbdb_MemoryPoolFileSettingsController*				memory_pool_file_settings_controller );
 
-RPDB_MemoryPoolFileSettingsController* RPDB_MemoryPoolFileSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_MemoryPoolFileSettingsController* memory_pool_file_settings_controller );
+Rbdb_MemoryPoolFileSettingsController* Rbdb_MemoryPoolFileSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller );
 
 #endif
 

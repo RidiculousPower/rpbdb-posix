@@ -1,5 +1,5 @@
 /*
- *		RPDB::Directory
+ *		Rbdb::Directory
  *
  *
  */
@@ -10,8 +10,8 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_Directory.h"
-#include "RPDB_Directory_internal.h"
+#include "Rbdb_Directory.h"
+#include "Rbdb_Directory_internal.h"
 
 #include <string.h>
 #include <unistd.h>
@@ -27,9 +27,9 @@
 *  new  *
 ********/
 
-RPDB_Directory* RPDB_Directory_new( char* directory_path )	{
+Rbdb_Directory* Rbdb_Directory_new( char* directory_path )	{
 	
-	RPDB_Directory*	new_directory	=	calloc( 1, sizeof( RPDB_Directory ) );
+	Rbdb_Directory*	new_directory	=	calloc( 1, sizeof( Rbdb_Directory ) );
 	
 	new_directory->path	=	directory_path;
 	
@@ -40,7 +40,7 @@ RPDB_Directory* RPDB_Directory_new( char* directory_path )	{
 *  ensurePathExistsForFile  *
 ****************************/
 
-void RPDB_Directory_internal_ensureDirectoryPathExistsForFile( char* file_path )	{
+void Rbdb_Directory_internal_ensureDirectoryPathExistsForFile( char* file_path )	{
 		
 	//	walk backwards until first /, replace with \0 and return as new string
 	char*	file_path_base	=	strdup( file_path );

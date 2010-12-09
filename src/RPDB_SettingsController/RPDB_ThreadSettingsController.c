@@ -1,5 +1,5 @@
 /*
- *		RPDB::SettingsController::ThreadSettingsController
+ *		Rbdb::SettingsController::ThreadSettingsController
  *
  *
  */
@@ -10,15 +10,15 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_ThreadSettingsController.h"
+#include "Rbdb_ThreadSettingsController.h"
 
-#include "RPDB_RuntimeStorageController.h"
-#include "RPDB_RuntimeStorageController_internal.h"
-#include "RPDB_SettingsController.h"
-#include "RPDB_Environment.h"
-#include "RPDB_MutexSettingsController.h"
+#include "Rbdb_RuntimeStorageController.h"
+#include "Rbdb_RuntimeStorageController_internal.h"
+#include "Rbdb_SettingsController.h"
+#include "Rbdb_Environment.h"
+#include "Rbdb_MutexSettingsController.h"
 
-#include "RPDB_ThreadSettingsController_internal.h"
+#include "Rbdb_ThreadSettingsController_internal.h"
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -30,9 +30,9 @@
 *  new  *
 ************/
 	
-RPDB_ThreadSettingsController* RPDB_ThreadSettingsController_new( RPDB_SettingsController* settings_controller )	{
+Rbdb_ThreadSettingsController* Rbdb_ThreadSettingsController_new( Rbdb_SettingsController* settings_controller )	{
 
-	RPDB_ThreadSettingsController*		thread_settings_controller = calloc( 1, sizeof( RPDB_ThreadSettingsController ) );
+	Rbdb_ThreadSettingsController*		thread_settings_controller = calloc( 1, sizeof( Rbdb_ThreadSettingsController ) );
 
 	thread_settings_controller->parent_settings_controller = settings_controller;
 
@@ -42,7 +42,7 @@ RPDB_ThreadSettingsController* RPDB_ThreadSettingsController_new( RPDB_SettingsC
 /***************************
 *  free  *
 ***************************/
-void RPDB_ThreadSettingsController_free(	RPDB_ThreadSettingsController** thread_settings_controller )	{
+void Rbdb_ThreadSettingsController_free(	Rbdb_ThreadSettingsController** thread_settings_controller )	{
 
 	free( *thread_settings_controller );
 	*thread_settings_controller	=	NULL;
@@ -51,7 +51,7 @@ void RPDB_ThreadSettingsController_free(	RPDB_ThreadSettingsController** thread_
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_ThreadSettingsController_parentEnvironment(	RPDB_ThreadSettingsController* thread_settings_controller )	{
+Rbdb_Environment* Rbdb_ThreadSettingsController_parentEnvironment(	Rbdb_ThreadSettingsController* thread_settings_controller )	{
 	return thread_settings_controller->parent_settings_controller->parent_environment;
 }
 
@@ -60,7 +60,7 @@ RPDB_Environment* RPDB_ThreadSettingsController_parentEnvironment(	RPDB_ThreadSe
 **********/
 
 //	DB_THREAD		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_open.html
-int RPDB_ThreadSettingsController_on( RPDB_ThreadSettingsController* thread_settings_controller )	{
+int Rbdb_ThreadSettingsController_on( Rbdb_ThreadSettingsController* thread_settings_controller )	{
 	if ( thread_settings_controller->on == TRUE )	{
 		return DB_THREAD;
 	}
@@ -71,7 +71,7 @@ int RPDB_ThreadSettingsController_on( RPDB_ThreadSettingsController* thread_sett
 *  off  *
 ************/
 
-BOOL RPDB_ThreadSettingsController_off( RPDB_ThreadSettingsController* thread_settings_controller )	{
+BOOL Rbdb_ThreadSettingsController_off( Rbdb_ThreadSettingsController* thread_settings_controller )	{
 	if ( thread_settings_controller->on == FALSE )	{
 		return TRUE;
 	}
@@ -82,7 +82,7 @@ BOOL RPDB_ThreadSettingsController_off( RPDB_ThreadSettingsController* thread_se
 *  turnOn  *
 ****************/
 
-void RPDB_ThreadSettingsController_turnOn( RPDB_ThreadSettingsController* thread_settings_controller )	{
+void Rbdb_ThreadSettingsController_turnOn( Rbdb_ThreadSettingsController* thread_settings_controller )	{
 	thread_settings_controller->on = TRUE;
 }
 
@@ -90,7 +90,7 @@ void RPDB_ThreadSettingsController_turnOn( RPDB_ThreadSettingsController* thread
 *  turnOff  *
 ****************/
 
-void RPDB_ThreadSettingsController_turnOff( RPDB_ThreadSettingsController* thread_settings_controller )	{
+void Rbdb_ThreadSettingsController_turnOff( Rbdb_ThreadSettingsController* thread_settings_controller )	{
 	thread_settings_controller->on = FALSE;
 }
 
@@ -99,9 +99,9 @@ void RPDB_ThreadSettingsController_turnOff( RPDB_ThreadSettingsController* threa
 *********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_thread_count.html
-int RPDB_ThreadSettingsController_threadCount( RPDB_ThreadSettingsController* thread_settings_controller )	{
+int Rbdb_ThreadSettingsController_threadCount( Rbdb_ThreadSettingsController* thread_settings_controller )	{
 
-	RPDB_Environment*		environment = thread_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = thread_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -116,10 +116,10 @@ int RPDB_ThreadSettingsController_threadCount( RPDB_ThreadSettingsController* th
 *  setThreadCount  *
 **********************/
 
-void RPDB_ThreadSettingsController_setThreadCount(	RPDB_ThreadSettingsController*		thread_settings_controller, 
+void Rbdb_ThreadSettingsController_setThreadCount(	Rbdb_ThreadSettingsController*		thread_settings_controller, 
 													uint32_t							thread_count )	{
 
-	RPDB_Environment*		environment = thread_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = thread_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -134,10 +134,10 @@ void RPDB_ThreadSettingsController_setThreadCount(	RPDB_ThreadSettingsController
 *  setUniqueThreadIdentifierCallbackMethod  *
 ************************************************/
 
-void RPDB_ThreadSettingsController_setUniqueThreadIdentifierCallbackMethod(	RPDB_ThreadSettingsController*					thread_settings_controller,
- 																				RPDB_UniqueThreadIdentifierCallbackMethod		unique_thread_identifier_callback_method )	{
+void Rbdb_ThreadSettingsController_setUniqueThreadIdentifierCallbackMethod(	Rbdb_ThreadSettingsController*					thread_settings_controller,
+ 																				Rbdb_UniqueThreadIdentifierCallbackMethod		unique_thread_identifier_callback_method )	{
 
-	RPDB_Environment*	environment	=	thread_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment	=	thread_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 		if ( unique_thread_identifier_callback_method == NULL )	{
@@ -146,7 +146,7 @@ void RPDB_ThreadSettingsController_setUniqueThreadIdentifierCallbackMethod(	RPDB
 		}
 		else {			
 			environment->wrapped_bdb_environment->set_thread_id(	environment->wrapped_bdb_environment,
-																	& RPDB_ThreadSettingsController_internal_uniqueThreadIdentifierCallbackMethod );
+																	& Rbdb_ThreadSettingsController_internal_uniqueThreadIdentifierCallbackMethod );
 		}
 	}
 	thread_settings_controller->unique_thread_identifier_callback_method = unique_thread_identifier_callback_method;
@@ -157,7 +157,7 @@ void RPDB_ThreadSettingsController_setUniqueThreadIdentifierCallbackMethod(	RPDB
 ********************************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_thread_id.html
-RPDB_UniqueThreadIdentifierCallbackMethod RPDB_ThreadSettingsController_uniqueThreadIdentifierCallbackMethod( RPDB_ThreadSettingsController* thread_settings_controller )	{
+Rbdb_UniqueThreadIdentifierCallbackMethod Rbdb_ThreadSettingsController_uniqueThreadIdentifierCallbackMethod( Rbdb_ThreadSettingsController* thread_settings_controller )	{
 
 	return thread_settings_controller->unique_thread_identifier_callback_method;
 }
@@ -166,14 +166,14 @@ RPDB_UniqueThreadIdentifierCallbackMethod RPDB_ThreadSettingsController_uniqueTh
 *  setFormatThreadAndProcessIdentifierForDisplayCallbackMethod  *
 ********************************************************************/
 
-void RPDB_ThreadSettingsController_setFormatThreadAndProcessIdentifierForDisplayCallbackMethod(	RPDB_ThreadSettingsController*										thread_settings_controller,
- 																									RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod		format_thread_and_process_identifier_for_display_callback_method )	{
+void Rbdb_ThreadSettingsController_setFormatThreadAndProcessIdentifierForDisplayCallbackMethod(	Rbdb_ThreadSettingsController*										thread_settings_controller,
+ 																									Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod		format_thread_and_process_identifier_for_display_callback_method )	{
 
-	RPDB_Environment*	environment	=	thread_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment	=	thread_settings_controller->parent_settings_controller->parent_environment;
 
 	if ( environment->wrapped_bdb_environment != NULL )	{
 		environment->wrapped_bdb_environment->set_thread_id_string(	environment->wrapped_bdb_environment,
-																	& RPDB_ThreadSettingsController_internal_formatThreadAndProcessIdentifierForDisplayCallbackMethod );
+																	& Rbdb_ThreadSettingsController_internal_formatThreadAndProcessIdentifierForDisplayCallbackMethod );
 	}
 	thread_settings_controller->format_thread_and_process_identifier_for_display_callback_method = format_thread_and_process_identifier_for_display_callback_method;
 }
@@ -183,7 +183,7 @@ void RPDB_ThreadSettingsController_setFormatThreadAndProcessIdentifierForDisplay
 ****************************************************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_thread_id_string.html
-RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod RPDB_ThreadSettingsController_formatThreadAndProcessIDForDisplayCallbackMethod(	RPDB_ThreadSettingsController* thread_settings_controller	)	{
+Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod Rbdb_ThreadSettingsController_formatThreadAndProcessIDForDisplayCallbackMethod(	Rbdb_ThreadSettingsController* thread_settings_controller	)	{
 
 	return thread_settings_controller->format_thread_and_process_identifier_for_display_callback_method;
 }
@@ -193,14 +193,14 @@ RPDB_FormatThreadAndProcessIdentifierForDisplayCallbackMethod RPDB_ThreadSetting
 ************************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_isalive.html
-void RPDB_ThreadSettingsController_setIsThreadAliveCallback(	RPDB_ThreadSettingsController* 	thread_settings_controller,
- 																RPDB_IsThreadAliveCallbackMethod		is_thread_alive_callback_method )	{
+void Rbdb_ThreadSettingsController_setIsThreadAliveCallback(	Rbdb_ThreadSettingsController* 	thread_settings_controller,
+ 																Rbdb_IsThreadAliveCallbackMethod		is_thread_alive_callback_method )	{
 	
-	RPDB_Environment*	environment	=	thread_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*	environment	=	thread_settings_controller->parent_settings_controller->parent_environment;
 	
 	if ( environment->wrapped_bdb_environment != NULL )	{
 		environment->wrapped_bdb_environment->set_isalive(	environment->wrapped_bdb_environment,
-															& RPDB_ThreadSettingsController_internal_isThreadAliveCallbackMethod );
+															& Rbdb_ThreadSettingsController_internal_isThreadAliveCallbackMethod );
 	}
 	thread_settings_controller->is_thread_alive_callback_method = is_thread_alive_callback_method;
 }
@@ -210,7 +210,7 @@ void RPDB_ThreadSettingsController_setIsThreadAliveCallback(	RPDB_ThreadSettings
 ************************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_isalive.html
-RPDB_IsThreadAliveCallbackMethod RPDB_ThreadSettingsController_isThreadAliveCallbackMethod( RPDB_ThreadSettingsController* thread_settings_controller )	{
+Rbdb_IsThreadAliveCallbackMethod Rbdb_ThreadSettingsController_isThreadAliveCallbackMethod( Rbdb_ThreadSettingsController* thread_settings_controller )	{
 
 	return thread_settings_controller->is_thread_alive_callback_method;
 }
@@ -225,14 +225,14 @@ RPDB_IsThreadAliveCallbackMethod RPDB_ThreadSettingsController_isThreadAliveCall
 *  uniqueThreadIdentifierCallbackMethod  *
 ********************************************/
 
-void RPDB_ThreadSettingsController_internal_uniqueThreadIdentifierCallbackMethod(	DB_ENV*				bdb_environment,
+void Rbdb_ThreadSettingsController_internal_uniqueThreadIdentifierCallbackMethod(	DB_ENV*				bdb_environment,
 																					pid_t*				process_id,
 																					db_threadid_t*		thread_id	)	{
 	
-	RPDB_Environment*								environment						=	RPDB_RuntimeStorageController_internal_environmentForBDBEnvironment(	RPDB_RuntimeStorageController_sharedInstance(),
+	Rbdb_Environment*								environment						=	Rbdb_RuntimeStorageController_internal_environmentForBDBEnvironment(	Rbdb_RuntimeStorageController_sharedInstance(),
 																																								bdb_environment );
 	
-	RPDB_ThreadSettingsController*		thread_settings_controller		=	RPDB_SettingsController_threadSettingsController( RPDB_Environment_settingsController( environment ) );
+	Rbdb_ThreadSettingsController*		thread_settings_controller		=	Rbdb_SettingsController_threadSettingsController( Rbdb_Environment_settingsController( environment ) );
 	
 	thread_settings_controller->unique_thread_identifier_callback_method(	environment,
 																			process_id,
@@ -243,15 +243,15 @@ void RPDB_ThreadSettingsController_internal_uniqueThreadIdentifierCallbackMethod
 *  formatThreadAndProcessIdentifierForDisplayCallbackMethod  *
 ****************************************************************/
 
-char* RPDB_ThreadSettingsController_internal_formatThreadAndProcessIdentifierForDisplayCallbackMethod(	DB_ENV*			bdb_environment,
+char* Rbdb_ThreadSettingsController_internal_formatThreadAndProcessIdentifierForDisplayCallbackMethod(	DB_ENV*			bdb_environment,
 																										pid_t			process_id,
 																										db_threadid_t	thread_id,
 																										char*			string_buffer )	{
 	
-	RPDB_Environment*								environment						=	RPDB_RuntimeStorageController_internal_environmentForBDBEnvironment(	RPDB_RuntimeStorageController_sharedInstance(),
+	Rbdb_Environment*								environment						=	Rbdb_RuntimeStorageController_internal_environmentForBDBEnvironment(	Rbdb_RuntimeStorageController_sharedInstance(),
 																																								bdb_environment );
 
-	RPDB_ThreadSettingsController*		thread_settings_controller		=	RPDB_SettingsController_threadSettingsController( RPDB_Environment_settingsController( environment ) );
+	Rbdb_ThreadSettingsController*		thread_settings_controller		=	Rbdb_SettingsController_threadSettingsController( Rbdb_Environment_settingsController( environment ) );
 
 	return thread_settings_controller->format_thread_and_process_identifier_for_display_callback_method(	environment,
 																											process_id,
@@ -263,20 +263,20 @@ char* RPDB_ThreadSettingsController_internal_formatThreadAndProcessIdentifierFor
 *  isThreadAliveCallbackMethod  *
 ************************************/
 
-int RPDB_ThreadSettingsController_internal_isThreadAliveCallbackMethod(	DB_ENV*			bdb_environment,
+int Rbdb_ThreadSettingsController_internal_isThreadAliveCallbackMethod(	DB_ENV*			bdb_environment,
 																			pid_t			process_id,
 																			db_threadid_t	thread_id,
 																			uint32_t		flags __attribute__((unused)) )	{
 	
-	RPDB_Environment*		environment		=	RPDB_RuntimeStorageController_internal_environmentForBDBEnvironment(	RPDB_RuntimeStorageController_sharedInstance(),
+	Rbdb_Environment*		environment		=	Rbdb_RuntimeStorageController_internal_environmentForBDBEnvironment(	Rbdb_RuntimeStorageController_sharedInstance(),
 																														bdb_environment );
 	
-	RPDB_SettingsController*			settings_controller				=	RPDB_Environment_settingsController( environment );
+	Rbdb_SettingsController*			settings_controller				=	Rbdb_Environment_settingsController( environment );
 
-	RPDB_ThreadSettingsController*		thread_settings_controller		=	RPDB_SettingsController_threadSettingsController( settings_controller );
+	Rbdb_ThreadSettingsController*		thread_settings_controller		=	Rbdb_SettingsController_threadSettingsController( settings_controller );
 	BOOL	associated_with_single_process	=	FALSE;
 	if ( settings_controller->mutex_settings_controller != NULL )	{
-		associated_with_single_process	=	RPDB_MutexSettingsController_associatedWithSingleProcess( settings_controller->mutex_settings_controller );
+		associated_with_single_process	=	Rbdb_MutexSettingsController_associatedWithSingleProcess( settings_controller->mutex_settings_controller );
 	}
 	return thread_settings_controller->is_thread_alive_callback_method(	environment,
 																		process_id,
@@ -288,9 +288,9 @@ int RPDB_ThreadSettingsController_internal_isThreadAliveCallbackMethod(	DB_ENV*	
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_ThreadSettingsController* RPDB_ThreadSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_ThreadSettingsController* thread_settings_controller )	{
+Rbdb_ThreadSettingsController* Rbdb_ThreadSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_ThreadSettingsController* thread_settings_controller )	{
 
-	RPDB_ThreadSettingsController* thread_settings_controller_copy	=	RPDB_ThreadSettingsController_new( thread_settings_controller->parent_settings_controller );
+	Rbdb_ThreadSettingsController* thread_settings_controller_copy	=	Rbdb_ThreadSettingsController_new( thread_settings_controller->parent_settings_controller );
 
 	//	Instances and Pointers
 	thread_settings_controller_copy->thread_count	=	thread_settings_controller->thread_count;

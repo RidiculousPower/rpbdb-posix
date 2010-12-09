@@ -1,5 +1,5 @@
 /*
- *		RPDB::LogController::LogCursorController
+ *		Rbdb::LogController::LogCursorController
  *
  *	
  */
@@ -10,22 +10,22 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_LogCursorController.h"
-#include "RPDB_LogCursorController_internal.h"
+#include "Rbdb_LogCursorController.h"
+#include "Rbdb_LogCursorController_internal.h"
 
-#include "RPDB_LogCursor.h"
-#include "RPDB_LogCursor_internal.h"
+#include "Rbdb_LogCursor.h"
+#include "Rbdb_LogCursor_internal.h"
 
-#include "RPDB_Environment.h"
+#include "Rbdb_Environment.h"
 
-#include "RPDB_Database.h"
-#include "RPDB_Database_internal.h"
-#include "RPDB_DatabaseCursor.h"
+#include "Rbdb_Database.h"
+#include "Rbdb_Database_internal.h"
+#include "Rbdb_DatabaseCursor.h"
 
-#include "RPDB_Record.h"
-#include "RPDB_Data.h"
+#include "Rbdb_Record.h"
+#include "Rbdb_Data.h"
 
-#include "RPDB_RuntimeStorageController.h"
+#include "Rbdb_RuntimeStorageController.h"
 
 #include <string.h>
 
@@ -39,13 +39,13 @@
 *  new  *
 ************/
 
-RPDB_LogCursorController* RPDB_LogCursorController_new( RPDB_LogController* parent_log_controller )	{
+Rbdb_LogCursorController* Rbdb_LogCursorController_new( Rbdb_LogController* parent_log_controller )	{
 	
-	RPDB_LogCursorController*		log_cursor_controller = calloc( 1, sizeof( RPDB_LogCursorController ) );
+	Rbdb_LogCursorController*		log_cursor_controller = calloc( 1, sizeof( Rbdb_LogCursorController ) );
 
 	log_cursor_controller->parent_log_controller	=	parent_log_controller;
 
-	RPDB_RUNTIME_STORAGE( log_cursor_controller,	"log_cursor_controller" );
+	Rbdb_RUNTIME_STORAGE( log_cursor_controller,	"log_cursor_controller" );
 
 	return log_cursor_controller;
 }
@@ -53,10 +53,10 @@ RPDB_LogCursorController* RPDB_LogCursorController_new( RPDB_LogController* pare
 /***************************
 *  free  *
 ***************************/
-void RPDB_LogCursorController_free(	RPDB_LogCursorController** log_cursor_controller )	{
+void Rbdb_LogCursorController_free(	Rbdb_LogCursorController** log_cursor_controller )	{
 
 	if ( ( *log_cursor_controller )->runtime_storage_database != NULL )	{
-		RPDB_Database_free( & ( ( *log_cursor_controller )->runtime_storage_database ) );
+		Rbdb_Database_free( & ( ( *log_cursor_controller )->runtime_storage_database ) );
 	}
 	free( *log_cursor_controller );
 	*log_cursor_controller	=	NULL;
@@ -65,14 +65,14 @@ void RPDB_LogCursorController_free(	RPDB_LogCursorController** log_cursor_contro
 /***************************
 *  settingsController  *
 ***************************/
-RPDB_LogSettingsController* RPDB_LogCursorController_settingsController(	RPDB_LogCursorController* log_cursor_controller )	{
+Rbdb_LogSettingsController* Rbdb_LogCursorController_settingsController(	Rbdb_LogCursorController* log_cursor_controller )	{
 	return log_cursor_controller->settings_controller;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_LogCursorController_parentEnvironment(	RPDB_LogCursorController* log_cursor_controller )	{
+Rbdb_Environment* Rbdb_LogCursorController_parentEnvironment(	Rbdb_LogCursorController* log_cursor_controller )	{
 	return log_cursor_controller->parent_log_controller->parent_environment;
 }
 
@@ -80,21 +80,21 @@ RPDB_Environment* RPDB_LogCursorController_parentEnvironment(	RPDB_LogCursorCont
 *  closeAllCursors  *
 *************************/
 
-void RPDB_LogCursorController_closeAllCursors( RPDB_LogCursorController* cursor_controller )	{
+void Rbdb_LogCursorController_closeAllCursors( Rbdb_LogCursorController* cursor_controller )	{
 
-	RPDB_Database_internal_closeAllStoredRuntimeAddresses(	cursor_controller->runtime_storage_database,
-																													(void *(*)(void*)) & RPDB_LogCursor_close );
+	Rbdb_Database_internal_closeAllStoredRuntimeAddresses(	cursor_controller->runtime_storage_database,
+																													(void *(*)(void*)) & Rbdb_LogCursor_close );
 }
 
 /*********************
 *  freeAllCursors  *
 *********************/
 
-void RPDB_LogCursorController_freeAllCursors( RPDB_LogCursorController* cursor_controller )	{
+void Rbdb_LogCursorController_freeAllCursors( Rbdb_LogCursorController* cursor_controller )	{
 
-	RPDB_LogCursorController_closeAllCursors( cursor_controller );
-	RPDB_Database_internal_freeAllStoredRuntimeAddresses(	cursor_controller->runtime_storage_database,
-																												(void *(*)(void**)) & RPDB_LogCursor_internal_freeFromRuntimeStorage );
+	Rbdb_LogCursorController_closeAllCursors( cursor_controller );
+	Rbdb_Database_internal_freeAllStoredRuntimeAddresses(	cursor_controller->runtime_storage_database,
+																												(void *(*)(void**)) & Rbdb_LogCursor_internal_freeFromRuntimeStorage );
 }
 
 /*******************************************************************************************************************************************************************************************

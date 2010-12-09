@@ -1,30 +1,30 @@
 /*
- *		RPDB::Database::DatabaseSettingsController::DatabaseSettingsEncryptionController
+ *		Rbdb::Database::DatabaseSettingsController::DatabaseSettingsEncryptionController
  *
  *
  */
 
-#ifndef RPDB_DATABASE_ENCRYPTION_SETTINGS_CONTROLLER
-	#define RPDB_DATABASE_ENCRYPTION_SETTINGS_CONTROLLER
+#ifndef Rbdb_DATABASE_ENCRYPTION_SETTINGS_CONTROLLER
+	#define Rbdb_DATABASE_ENCRYPTION_SETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 	 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_DatabaseEncryptionSettingsController*			RPDB_DatabaseEncryptionSettingsController_new(											RPDB_DatabaseSettingsController*				database_settings_controller );
+	Rbdb_DatabaseEncryptionSettingsController*			Rbdb_DatabaseEncryptionSettingsController_new(											Rbdb_DatabaseSettingsController*				database_settings_controller );
 
-	void												RPDB_DatabaseEncryptionSettingsController_free(									RPDB_DatabaseEncryptionSettingsController** database_encryption_settings_controller );
-	RPDB_Environment*							RPDB_DatabaseEncryptionSettingsController_parentEnvironment(			RPDB_DatabaseEncryptionSettingsController* database_encryption_settings_controller );
-	RPDB_Database* RPDB_DatabaseEncryptionSettingsController_parentDatabase(	RPDB_DatabaseEncryptionSettingsController* database_encryption_settings_controller );
+	void												Rbdb_DatabaseEncryptionSettingsController_free(									Rbdb_DatabaseEncryptionSettingsController** database_encryption_settings_controller );
+	Rbdb_Environment*							Rbdb_DatabaseEncryptionSettingsController_parentEnvironment(			Rbdb_DatabaseEncryptionSettingsController* database_encryption_settings_controller );
+	Rbdb_Database* Rbdb_DatabaseEncryptionSettingsController_parentDatabase(	Rbdb_DatabaseEncryptionSettingsController* database_encryption_settings_controller );
 
-	uint32_t											RPDB_DatabaseEncryptionSettingsController_encrypted(									RPDB_DatabaseEncryptionSettingsController*		database_encryption_settings_controller );
-	void												RPDB_DatabaseEncryptionSettingsController_turnEncryptionOn(							RPDB_DatabaseEncryptionSettingsController*		database_encryption_settings_controller, 
+	uint32_t											Rbdb_DatabaseEncryptionSettingsController_encrypted(									Rbdb_DatabaseEncryptionSettingsController*		database_encryption_settings_controller );
+	void												Rbdb_DatabaseEncryptionSettingsController_turnEncryptionOn(							Rbdb_DatabaseEncryptionSettingsController*		database_encryption_settings_controller, 
 																																				char*											encryption_password );
-	void												RPDB_DatabaseEncryptionSettingsController_turnEncryptionOff(							RPDB_DatabaseEncryptionSettingsController*		database_encryption_settings_controller, 
+	void												Rbdb_DatabaseEncryptionSettingsController_turnEncryptionOff(							Rbdb_DatabaseEncryptionSettingsController*		database_encryption_settings_controller, 
 																																				char*											encryption_password );
-	RPDB_DatabaseEncryptionSettingsController*			RPDB_DatabaseEncryptionSettingsController_internal_copyOfDefaultSettingsForInstance(	RPDB_DatabaseEncryptionSettingsController*		database_encryption_settings_controller );
+	Rbdb_DatabaseEncryptionSettingsController*			Rbdb_DatabaseEncryptionSettingsController_internal_copyOfDefaultSettingsForInstance(	Rbdb_DatabaseEncryptionSettingsController*		database_encryption_settings_controller );
 
 
 #endif

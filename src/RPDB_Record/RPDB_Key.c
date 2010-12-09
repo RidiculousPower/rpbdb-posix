@@ -1,5 +1,5 @@
 /*
- *		RPDB::RPDB_DatabaseController::RPDB_Database::(RPDB_DatabaseCursorController::RPDB_DatabaseCursor::)RPDB_Record::RPDB_DBT => RPDB_Key
+ *		Rbdb::Rbdb_DatabaseController::Rbdb_Database::(Rbdb_DatabaseCursorController::Rbdb_DatabaseCursor::)Rbdb_Record::Rbdb_DBT => Rbdb_Key
  *
  *
  */
@@ -10,9 +10,9 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_Key.h"
+#include "Rbdb_Key.h"
 
-#include "RPDB_DBT.h"
+#include "Rbdb_DBT.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -24,44 +24,44 @@
 *  new  *
 *************/
 
-RPDB_Key* RPDB_Key_new( RPDB_Record* parent_record )	{
+Rbdb_Key* Rbdb_Key_new( Rbdb_Record* parent_record )	{
 
-	return (RPDB_Key*) RPDB_DBT_new( parent_record );
+	return (Rbdb_Key*) Rbdb_DBT_new( parent_record );
 }
 
 /***************************
 *  free  *
 ***************************/
-void RPDB_Key_free(	RPDB_Key** key )	{
+void Rbdb_Key_free(	Rbdb_Key** key )	{
 
-	RPDB_DBT_free( (RPDB_DBT**) key );
+	Rbdb_DBT_free( (Rbdb_DBT**) key );
 }
 
 /***************************
 *  settingsController  *
 ***************************/
-RPDB_DatabaseRecordSettingsController* RPDB_Key_settingsController(	RPDB_Key* key )	{
+Rbdb_DatabaseRecordSettingsController* Rbdb_Key_settingsController(	Rbdb_Key* key )	{
 	return key->settings_controller;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_Key_parentEnvironment(	RPDB_Key* key )	{
+Rbdb_Environment* Rbdb_Key_parentEnvironment(	Rbdb_Key* key )	{
 	return key->parent_record->parent_database->parent_database_controller->parent_environment;
 }
 
 /***************************************
 *  parentDatabase  *
 ***************************************/
-RPDB_Database* RPDB_Key_parentDatabase(	RPDB_Key* dbt )	{
+Rbdb_Database* Rbdb_Key_parentDatabase(	Rbdb_Key* dbt )	{
 	return dbt->parent_record->parent_database;
 }
 
 /***************************************
 *  parentRecord  *
 ***************************************/
-RPDB_Record* RPDB_Key_parentRecord(	RPDB_DatabaseRecordSettingsController* key )	{
+Rbdb_Record* Rbdb_Key_parentRecord(	Rbdb_DatabaseRecordSettingsController* key )	{
 	return key->parent_record;
 }
 
@@ -69,20 +69,20 @@ RPDB_Record* RPDB_Key_parentRecord(	RPDB_DatabaseRecordSettingsController* key )
 *  keyData  *
 *****************/
 
-void* RPDB_Key_keyData( RPDB_Key* key )	{
+void* Rbdb_Key_keyData( Rbdb_Key* key )	{
 
-	return RPDB_DBT_data( (RPDB_DBT*) key );
+	return Rbdb_DBT_data( (Rbdb_DBT*) key );
 }
 
 /******************
 *  setKeyData  *
 ******************/
 
-void RPDB_Key_setKeyData(	RPDB_Key*	key,
+void Rbdb_Key_setKeyData(	Rbdb_Key*	key,
 							void*		key_raw,
 							uint32_t	key_size )	{
 
-	RPDB_DBT_setData(	(RPDB_DBT*) key,
+	Rbdb_DBT_setData(	(Rbdb_DBT*) key,
 						key_raw,
 						key_size );
 }
@@ -92,10 +92,10 @@ void RPDB_Key_setKeyData(	RPDB_Key*	key,
 *************/
 
 //	Note that applications can determine the length of a record by setting the ulen field 
-//	(RPDB_DatabaseRecordSettingsController_dataBufferSize) to 0 and checking the return value in the size field.
-uint32_t RPDB_Key_size( RPDB_Key* data )	{
+//	(Rbdb_DatabaseRecordSettingsController_dataBufferSize) to 0 and checking the return value in the size field.
+uint32_t Rbdb_Key_size( Rbdb_Key* data )	{
 
-	return RPDB_DBT_size(	(RPDB_DBT*) data  );
+	return Rbdb_DBT_size(	(Rbdb_DBT*) data  );
 }	
 
 /*******************************************************************************************************************************************************************************************
@@ -104,10 +104,10 @@ uint32_t RPDB_Key_size( RPDB_Key* data )	{
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_Key* RPDB_Key_internal_newrb_RPDB_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT(	RPDB_Record*	parent_record, 
+Rbdb_Key* Rbdb_Key_internal_newrb_Rbdb_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT(	Rbdb_Record*	parent_record, 
 											DBT*			bdb_dbt )	{
 	
-	RPDB_Key*	key	=	RPDB_Key_new( parent_record );
+	Rbdb_Key*	key	=	Rbdb_Key_new( parent_record );
 	
 	//	Free our existing DBT
 	free( key->wrapped_bdb_dbt );

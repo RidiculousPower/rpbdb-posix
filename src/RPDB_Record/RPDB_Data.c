@@ -1,5 +1,5 @@
 /*
- *		RPDB::RPDB_DatabaseController::RPDB_Database::(RPDB_DatabaseCursorController::RPDB_DatabaseCursor::)RPDB_Record::RPDB_DBT => RPDB_Data
+ *		Rbdb::Rbdb_DatabaseController::Rbdb_Database::(Rbdb_DatabaseCursorController::Rbdb_DatabaseCursor::)Rbdb_Record::Rbdb_DBT => Rbdb_Data
  *
  *
  */
@@ -10,10 +10,10 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_Data.h"
-#include "RPDB_Data_internal.h"
+#include "Rbdb_Data.h"
+#include "Rbdb_Data_internal.h"
 
-#include "RPDB_DBT.h"
+#include "Rbdb_DBT.h"
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -25,44 +25,44 @@
 *  new  *
 *************/
 
-RPDB_Data* RPDB_Data_new( RPDB_Record* parent_record )	{
+Rbdb_Data* Rbdb_Data_new( Rbdb_Record* parent_record )	{
 
-	return (RPDB_Data*) RPDB_DBT_new( parent_record );
+	return (Rbdb_Data*) Rbdb_DBT_new( parent_record );
 }
 
 /***************************
 *  free  *
 ***************************/
-void RPDB_Data_free(	RPDB_Data** data )	{
+void Rbdb_Data_free(	Rbdb_Data** data )	{
 
-	RPDB_DBT_free( (RPDB_DBT**) data );
+	Rbdb_DBT_free( (Rbdb_DBT**) data );
 }
 
 /***************************
 *  settingsController  *
 ***************************/
-RPDB_DatabaseRecordSettingsController* RPDB_Data_settingsController(	RPDB_Data* data )	{
+Rbdb_DatabaseRecordSettingsController* Rbdb_Data_settingsController(	Rbdb_Data* data )	{
 	return data->settings_controller;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_Data_parentEnvironment(	RPDB_Data* data )	{
+Rbdb_Environment* Rbdb_Data_parentEnvironment(	Rbdb_Data* data )	{
 	return data->parent_record->parent_database->parent_database_controller->parent_environment;
 }
 
 /***************************************
 *  parentDatabase  *
 ***************************************/
-RPDB_Database* RPDB_Data_parentDatabase(	RPDB_Data* data )	{
+Rbdb_Database* Rbdb_Data_parentDatabase(	Rbdb_Data* data )	{
 	return data->parent_record->parent_database;
 }
 
 /***************************************
 *  parentRecord  *
 ***************************************/
-RPDB_Record* RPDB_Data_parentRecord(	RPDB_DatabaseRecordSettingsController* data )	{
+Rbdb_Record* Rbdb_Data_parentRecord(	Rbdb_DatabaseRecordSettingsController* data )	{
 	return data->parent_record;
 }
 
@@ -70,20 +70,20 @@ RPDB_Record* RPDB_Data_parentRecord(	RPDB_DatabaseRecordSettingsController* data
 *  rawData  *
 *****************/
 
-void* RPDB_Data_rawData( RPDB_Data* data )	{
+void* Rbdb_Data_rawData( Rbdb_Data* data )	{
 
-	return RPDB_DBT_data( (RPDB_DBT*) data );
+	return Rbdb_DBT_data( (Rbdb_DBT*) data );
 }
 
 /******************
 *  setRawData  *
 ******************/
 
-void RPDB_Data_setRawData(	RPDB_Data*	data,
+void Rbdb_Data_setRawData(	Rbdb_Data*	data,
 							void*		data_raw,
 							uint32_t	data_size )	{
 
-	RPDB_DBT_setData(	(RPDB_DBT*) data,
+	Rbdb_DBT_setData(	(Rbdb_DBT*) data,
 						data_raw,
 						data_size );
 }
@@ -93,10 +93,10 @@ void RPDB_Data_setRawData(	RPDB_Data*	data,
 *************/
 
 //	Note that applications can determine the length of a record by setting the ulen field 
-//	(RPDB_DatabaseRecordSettingsController_dataBufferSize) to 0 and checking the return value in the size field.
-uint32_t RPDB_Data_size( RPDB_Data* data )	{
+//	(Rbdb_DatabaseRecordSettingsController_dataBufferSize) to 0 and checking the return value in the size field.
+uint32_t Rbdb_Data_size( Rbdb_Data* data )	{
 
-	return RPDB_DBT_size(	(RPDB_DBT*) data  );
+	return Rbdb_DBT_size(	(Rbdb_DBT*) data  );
 }	
 
 /*******************************************************************************************************************************************************************************************
@@ -105,10 +105,10 @@ uint32_t RPDB_Data_size( RPDB_Data* data )	{
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_Data* RPDB_Data_internal_newrb_RPDB_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT(	RPDB_Record*	parent_record, 
+Rbdb_Data* Rbdb_Data_internal_newrb_Rbdb_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT(	Rbdb_Record*	parent_record, 
 																																																					DBT*			bdb_dbt )	{
 	
-	RPDB_Data*	data	=	RPDB_Data_new( parent_record );
+	Rbdb_Data*	data	=	Rbdb_Data_new( parent_record );
 	
 	//	Free our existing DBT
 	free( data->wrapped_bdb_dbt );

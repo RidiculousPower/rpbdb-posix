@@ -1,5 +1,5 @@
-#ifndef RPDB_FILE_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_FILE_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_FILE_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_FILE_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,7 +7,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_FileSettingsController* RPDB_FileSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_FileSettingsController* file_settings_controller );
+Rbdb_FileSettingsController* Rbdb_FileSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_FileSettingsController* file_settings_controller );
 
 #endif
 

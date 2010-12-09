@@ -1,5 +1,5 @@
 /*
- *		RPDB
+ *		Rbdb
  *
  *	
  */
@@ -10,7 +10,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_main.h"
+#include "Rbdb_main.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -27,7 +27,7 @@
 ************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_version.html
-char* RPDB_version()	{
+char* Rbdb_version()	{
 	
 	return db_version(	NULL,
 						NULL,
@@ -39,7 +39,7 @@ char* RPDB_version()	{
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_version.html
-int RPDB_versionMajor()	{
+int Rbdb_versionMajor()	{
 	
 	int		major	=	0;
 	
@@ -55,7 +55,7 @@ int RPDB_versionMajor()	{
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_version.html
-int RPDB_versionMinor()	{
+int Rbdb_versionMinor()	{
 	
 	int		minor	=	0;
 	
@@ -71,7 +71,7 @@ int RPDB_versionMinor()	{
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_version.html
-int RPDB_versionPatch()	{
+int Rbdb_versionPatch()	{
 	
 	int		patch	=	0;
 	
@@ -87,7 +87,7 @@ int RPDB_versionPatch()	{
 ****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_version.html
-char* RPDB_versionData(	int*						major,
+char* Rbdb_versionData(	int*						major,
 						int*						minor, 
 						int*						patch )	{
 	

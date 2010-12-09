@@ -1,5 +1,5 @@
-#ifndef RPDB_RECORD_INTERNAL
-	#define RPDB_RECORD_INTERNAL
+#ifndef Rbdb_RECORD_INTERNAL
+	#define Rbdb_RECORD_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,16 +7,16 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_Record* RPDB_Record_internal_newWithoutDBT(	RPDB_Database* parent_database	);
+Rbdb_Record* Rbdb_Record_internal_newWithoutDBT(	Rbdb_Database* parent_database	);
 
-RPDB_Record* RPDB_Record_internal_newFromKeyDBTDataDBT(	RPDB_Database* parent_database,
+Rbdb_Record* Rbdb_Record_internal_newFromKeyDBTDataDBT(	Rbdb_Database* parent_database,
 													  DBT*	dbt_key,
 													  DBT*	dbt_data	);
 
-RPDB_Record* RPDB_Record_internal_newFromKeyData(	RPDB_Database* parent_database,
-												   RPDB_Key*	dbt_key,
-												   RPDB_Data*	dbt_data	);
+Rbdb_Record* Rbdb_Record_internal_newFromKeyData(	Rbdb_Database* parent_database,
+												   Rbdb_Key*	dbt_key,
+												   Rbdb_Data*	dbt_data	);
 	
-void	RPDB_Record_internal_freeFromRuntimeStorage( RPDB_Record** record );
+void	Rbdb_Record_internal_freeFromRuntimeStorage( Rbdb_Record** record );
 
 #endif

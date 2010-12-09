@@ -1,5 +1,5 @@
 /*
- *		RPDB_settingsController:RPDB_DebugSettingsController
+ *		Rbdb_settingsController:Rbdb_DebugSettingsController
  *
  *
  */
@@ -10,7 +10,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_DatabaseVerbositySettingsController.h"
+#include "Rbdb_DatabaseVerbositySettingsController.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -22,9 +22,9 @@
 *  new  *
 *************/
 
-RPDB_DatabaseVerbositySettingsController* RPDB_DatabaseVerbositySettingsController_new( RPDB_DatabaseSettingsController* database_settings_controller )	{
+Rbdb_DatabaseVerbositySettingsController* Rbdb_DatabaseVerbositySettingsController_new( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
-	RPDB_DatabaseVerbositySettingsController*		database_verbosity_settings_controller = calloc( 1, sizeof( RPDB_DatabaseVerbositySettingsController ) );
+	Rbdb_DatabaseVerbositySettingsController*		database_verbosity_settings_controller = calloc( 1, sizeof( Rbdb_DatabaseVerbositySettingsController ) );
 
 	database_verbosity_settings_controller->parent_database_settings_controller = database_settings_controller;
 
@@ -34,7 +34,7 @@ RPDB_DatabaseVerbositySettingsController* RPDB_DatabaseVerbositySettingsControll
 /***************************
 *  free  *
 ***************************/
-void RPDB_DatabaseVerbositySettingsController_free(	RPDB_DatabaseVerbositySettingsController** database_verbosity_settings_controller )	{
+void Rbdb_DatabaseVerbositySettingsController_free(	Rbdb_DatabaseVerbositySettingsController** database_verbosity_settings_controller )	{
 
 	free( *database_verbosity_settings_controller );
 	*database_verbosity_settings_controller	=	NULL;
@@ -43,14 +43,14 @@ void RPDB_DatabaseVerbositySettingsController_free(	RPDB_DatabaseVerbositySettin
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_DatabaseVerbositySettingsController_parentEnvironment(	RPDB_DatabaseVerbositySettingsController* database_verbosity_settings_controller )	{
+Rbdb_Environment* Rbdb_DatabaseVerbositySettingsController_parentEnvironment(	Rbdb_DatabaseVerbositySettingsController* database_verbosity_settings_controller )	{
 	return database_verbosity_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment;
 }
 
 /***************************************
 *  parentDatabase  *
 ***************************************/
-RPDB_Database* RPDB_DatabaseVerbositySettingsController_parentDatabase(	RPDB_DatabaseVerbositySettingsController* database_verbosity_settings_controller )	{
+Rbdb_Database* Rbdb_DatabaseVerbositySettingsController_parentDatabase(	Rbdb_DatabaseVerbositySettingsController* database_verbosity_settings_controller )	{
 	return database_verbosity_settings_controller->parent_database_settings_controller->parent_database;
 }
 
@@ -59,7 +59,7 @@ RPDB_Database* RPDB_DatabaseVerbositySettingsController_parentDatabase(	RPDB_Dat
 *****************************************************/
 
 //	DB_VERB_REGISTER        	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_verbose.html
-int RPDB_DatabaseVerbositySettingsController_displayAdditionalInformationForDBRegisterFlag( RPDB_DatabaseVerbositySettingsController* database_verbosity_settings_controller )	{
+int Rbdb_DatabaseVerbositySettingsController_displayAdditionalInformationForDBRegisterFlag( Rbdb_DatabaseVerbositySettingsController* database_verbosity_settings_controller )	{
 
 	if ( database_verbosity_settings_controller->display_additional_information_for_db_register_flag )	{
 		return DB_VERB_REGISTER;
@@ -72,7 +72,7 @@ int RPDB_DatabaseVerbositySettingsController_displayAdditionalInformationForDBRe
 	*  turnDisplayAdditionalInformationForDBRegisterFlagOn  *
 	*************************************************************/
 
-	void RPDB_DatabaseVerbositySettingsController_turnDisplayAdditionalInformationForDBRegisterFlagOn( RPDB_DatabaseVerbositySettingsController* database_verbosity_settings_controller )	{
+	void Rbdb_DatabaseVerbositySettingsController_turnDisplayAdditionalInformationForDBRegisterFlagOn( Rbdb_DatabaseVerbositySettingsController* database_verbosity_settings_controller )	{
 
 		database_verbosity_settings_controller->display_additional_information_for_db_register_flag = TRUE;
 	}
@@ -81,7 +81,7 @@ int RPDB_DatabaseVerbositySettingsController_displayAdditionalInformationForDBRe
 	*  turnDisplayAdditionalInformationForDBRegisterFlagOff  *
 	*************************************************************/
 
-	void RPDB_DatabaseVerbositySettingsController_turnDisplayAdditionalInformationForDBRegisterFlagOff( RPDB_DatabaseVerbositySettingsController* database_verbosity_settings_controller )	{
+	void Rbdb_DatabaseVerbositySettingsController_turnDisplayAdditionalInformationForDBRegisterFlagOff( Rbdb_DatabaseVerbositySettingsController* database_verbosity_settings_controller )	{
 
 		database_verbosity_settings_controller->display_additional_information_for_db_register_flag = FALSE;
 	}
@@ -95,9 +95,9 @@ int RPDB_DatabaseVerbositySettingsController_displayAdditionalInformationForDBRe
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_DatabaseVerbositySettingsController* RPDB_DatabaseVerbositySettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseVerbositySettingsController* database_verbosity_settings_controller )	{
+Rbdb_DatabaseVerbositySettingsController* Rbdb_DatabaseVerbositySettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseVerbositySettingsController* database_verbosity_settings_controller )	{
 
-	RPDB_DatabaseVerbositySettingsController* database_verbosity_settings_controller_copy	=	RPDB_DatabaseVerbositySettingsController_new( database_verbosity_settings_controller->parent_database_settings_controller );
+	Rbdb_DatabaseVerbositySettingsController* database_verbosity_settings_controller_copy	=	Rbdb_DatabaseVerbositySettingsController_new( database_verbosity_settings_controller->parent_database_settings_controller );
 
 	//	Instances and Pointers
 	database_verbosity_settings_controller_copy->display_additional_information_for_db_register_flag	=	database_verbosity_settings_controller->display_additional_information_for_db_register_flag;

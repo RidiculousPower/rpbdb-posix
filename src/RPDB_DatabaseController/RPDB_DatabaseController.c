@@ -1,5 +1,5 @@
 /*
- *		RPDB::DatabaseController
+ *		Rbdb::DatabaseController
  *
  *
  */
@@ -10,20 +10,20 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_DatabaseController.h"
-#include "RPDB_DatabaseController_internal.h"
+#include "Rbdb_DatabaseController.h"
+#include "Rbdb_DatabaseController_internal.h"
 
-#include "RPDB_Database.h"
-#include "RPDB_Database_internal.h"
-#include "RPDB_DatabaseCursorController.h"
-#include "RPDB_DatabaseCursor.h"
+#include "Rbdb_Database.h"
+#include "Rbdb_Database_internal.h"
+#include "Rbdb_DatabaseCursorController.h"
+#include "Rbdb_DatabaseCursor.h"
 
-#include "RPDB_Environment.h"
+#include "Rbdb_Environment.h"
 
-#include "RPDB_Record.h"
-#include "RPDB_Data.h"
+#include "Rbdb_Record.h"
+#include "Rbdb_Data.h"
 
-#include "RPDB_RuntimeStorageController.h"
+#include "Rbdb_RuntimeStorageController.h"
 
 #include <string.h>
 
@@ -37,13 +37,13 @@
 *  new  *
 ********/
 	
-RPDB_DatabaseController* RPDB_DatabaseController_new( RPDB_Environment* parent_environment )	{
+Rbdb_DatabaseController* Rbdb_DatabaseController_new( Rbdb_Environment* parent_environment )	{
 
-	RPDB_DatabaseController*		database_controller		=	RPDB_DatabaseController_internal_newWithoutRuntimeStorage( parent_environment );
+	Rbdb_DatabaseController*		database_controller		=	Rbdb_DatabaseController_internal_newWithoutRuntimeStorage( parent_environment );
 
 	database_controller->parent_environment	=	parent_environment;
 
-	RPDB_RUNTIME_STORAGE( database_controller, "database_controller" );
+	Rbdb_RUNTIME_STORAGE( database_controller, "database_controller" );
 
 	database_controller->record_number	=	1;
 
@@ -54,13 +54,13 @@ RPDB_DatabaseController* RPDB_DatabaseController_new( RPDB_Environment* parent_e
 *  free  *
 *********/
 
-void RPDB_DatabaseController_free(	RPDB_DatabaseController** database_controller )	{
+void Rbdb_DatabaseController_free(	Rbdb_DatabaseController** database_controller )	{
 	
 	//	close and free all databases
-	RPDB_DatabaseController_freeAllDatabases( *database_controller );
+	Rbdb_DatabaseController_freeAllDatabases( *database_controller );
 
 	if ( ( *database_controller )->runtime_storage_database != NULL )	{
-		RPDB_Database_free( & ( ( *database_controller )->runtime_storage_database ) );
+		Rbdb_Database_free( & ( ( *database_controller )->runtime_storage_database ) );
 	}
 
 	free( *database_controller );
@@ -75,7 +75,7 @@ void RPDB_DatabaseController_free(	RPDB_DatabaseController** database_controller
 *  settingsController  *
 ***********************/
 
-RPDB_DatabaseSettingsController* RPDB_DatabaseController_settingsController(	RPDB_DatabaseController* database_controller )	{
+Rbdb_DatabaseSettingsController* Rbdb_DatabaseController_settingsController(	Rbdb_DatabaseController* database_controller )	{
 	return database_controller->settings_controller;
 }
 
@@ -83,7 +83,7 @@ RPDB_DatabaseSettingsController* RPDB_DatabaseController_settingsController(	RPD
 *  parentEnvironment  *
 **********************/
 
-RPDB_Environment* RPDB_DatabaseController_parentEnvironment(	RPDB_DatabaseController* database_controller )	{
+Rbdb_Environment* Rbdb_DatabaseController_parentEnvironment(	Rbdb_DatabaseController* database_controller )	{
 	return database_controller->parent_environment;
 }
 
@@ -96,10 +96,10 @@ RPDB_Environment* RPDB_DatabaseController_parentEnvironment(	RPDB_DatabaseContro
 ****************/
 
 //	Create a new database for requested name
-RPDB_Database* RPDB_DatabaseController_newDatabase(	RPDB_DatabaseController*	database_controller, 
+Rbdb_Database* Rbdb_DatabaseController_newDatabase(	Rbdb_DatabaseController*	database_controller, 
 																										char*											database_name	)	{
 	
-	RPDB_Database*	database						=	RPDB_Database_new(	database_controller,
+	Rbdb_Database*	database						=	Rbdb_Database_new(	database_controller,
 																														database_name );
 
 	return database;
@@ -110,10 +110,10 @@ RPDB_Database* RPDB_DatabaseController_newDatabase(	RPDB_DatabaseController*	dat
 **********************/
 
 //	Close all Databases
-void RPDB_DatabaseController_closeAllDatabases( RPDB_DatabaseController* database_controller )	{
+void Rbdb_DatabaseController_closeAllDatabases( Rbdb_DatabaseController* database_controller )	{
 	
-	RPDB_Database_internal_closeAllStoredRuntimeAddresses(	database_controller->runtime_storage_database,
-																													(void *(*)(void*)) & RPDB_Database_close );
+	Rbdb_Database_internal_closeAllStoredRuntimeAddresses(	database_controller->runtime_storage_database,
+																													(void *(*)(void*)) & Rbdb_Database_close );
 }
 
 /*********************
@@ -121,10 +121,10 @@ void RPDB_DatabaseController_closeAllDatabases( RPDB_DatabaseController* databas
 *********************/
 
 //	Free all Databases (close if necessary)
-void RPDB_DatabaseController_freeAllDatabases( RPDB_DatabaseController* database_controller )	{
+void Rbdb_DatabaseController_freeAllDatabases( Rbdb_DatabaseController* database_controller )	{
 
-	RPDB_Database_internal_freeAllStoredRuntimeAddresses(	database_controller->runtime_storage_database,
-																												(void *(*)(void**)) & RPDB_Database_internal_freeFromRuntimeStorage );
+	Rbdb_Database_internal_freeAllStoredRuntimeAddresses(	database_controller->runtime_storage_database,
+																												(void *(*)(void**)) & Rbdb_Database_internal_freeFromRuntimeStorage );
 }
 
 /*******************************************************************************************************************************************************************************************
@@ -137,9 +137,9 @@ void RPDB_DatabaseController_freeAllDatabases( RPDB_DatabaseController* database
 *  newWithoutRuntimeStorage  *
 *****************************/
 
-RPDB_DatabaseController* RPDB_DatabaseController_internal_newWithoutRuntimeStorage( RPDB_Environment* parent_environment )	{
+Rbdb_DatabaseController* Rbdb_DatabaseController_internal_newWithoutRuntimeStorage( Rbdb_Environment* parent_environment )	{
 
-	RPDB_DatabaseController*		database_controller = calloc( 1, sizeof( RPDB_DatabaseController ) );
+	Rbdb_DatabaseController*		database_controller = calloc( 1, sizeof( Rbdb_DatabaseController ) );
 	
 	database_controller->parent_environment = parent_environment;
 

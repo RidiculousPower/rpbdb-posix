@@ -1,8 +1,8 @@
 
-#ifndef RPDB_LOG_INTERNAL
-	#define RPDB_LOG_INTERNAL
+#ifndef Rbdb_LOG_INTERNAL
+	#define Rbdb_LOG_INTERNAL
 
-void RPDB_Log_internal_freeFromRuntimeStorage(	RPDB_Log** log );
+void Rbdb_Log_internal_freeFromRuntimeStorage(	Rbdb_Log** log );
 
 #endif
 

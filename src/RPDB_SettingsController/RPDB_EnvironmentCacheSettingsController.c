@@ -1,5 +1,5 @@
 /*
- *		RPDB::RPDB_SettingsController::RPDB_EnvironmentCacheSettingsController
+ *		Rbdb::Rbdb_SettingsController::Rbdb_EnvironmentCacheSettingsController
  *
  *
  */
@@ -10,9 +10,9 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_EnvironmentCacheSettingsController.h"
+#include "Rbdb_EnvironmentCacheSettingsController.h"
 
-#include "RPDB_Environment.h"
+#include "Rbdb_Environment.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -24,9 +24,9 @@
 *  new  *
 ********/
 
-RPDB_EnvironmentCacheSettingsController* RPDB_EnvironmentCacheSettingsController_new( RPDB_SettingsController* settings_controller )	{
+Rbdb_EnvironmentCacheSettingsController* Rbdb_EnvironmentCacheSettingsController_new( Rbdb_SettingsController* settings_controller )	{
 
-	RPDB_EnvironmentCacheSettingsController*		cache_settings_controller = calloc( 1, sizeof( RPDB_EnvironmentCacheSettingsController ) );
+	Rbdb_EnvironmentCacheSettingsController*		cache_settings_controller = calloc( 1, sizeof( Rbdb_EnvironmentCacheSettingsController ) );
 
 	cache_settings_controller->parent_settings_controller = settings_controller;
 
@@ -37,7 +37,7 @@ RPDB_EnvironmentCacheSettingsController* RPDB_EnvironmentCacheSettingsController
 /*********
 *  free  *
 *********/
-void RPDB_EnvironmentCacheSettingsController_free(	RPDB_EnvironmentCacheSettingsController** environment_cache_settings_controller )	{
+void Rbdb_EnvironmentCacheSettingsController_free(	Rbdb_EnvironmentCacheSettingsController** environment_cache_settings_controller )	{
 
 	free( *environment_cache_settings_controller );
 	*environment_cache_settings_controller	=	NULL;
@@ -46,7 +46,7 @@ void RPDB_EnvironmentCacheSettingsController_free(	RPDB_EnvironmentCacheSettings
 /**********************
 *  parentEnvironment  *
 **********************/
-RPDB_Environment* RPDB_EnvironmentCacheSettingsController_parentEnvironment(	RPDB_EnvironmentCacheSettingsController* environment_cache_settings_controller )	{
+Rbdb_Environment* Rbdb_EnvironmentCacheSettingsController_parentEnvironment(	Rbdb_EnvironmentCacheSettingsController* environment_cache_settings_controller )	{
 	return environment_cache_settings_controller->parent_settings_controller->parent_environment;
 }
 
@@ -55,7 +55,7 @@ RPDB_Environment* RPDB_EnvironmentCacheSettingsController_parentEnvironment(	RPD
 **************/
 
 //	DB_DIRECT_DB            http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
-BOOL RPDB_EnvironmentCacheSettingsController_buffering( RPDB_EnvironmentCacheSettingsController* cache_settings_controller )	{
+BOOL Rbdb_EnvironmentCacheSettingsController_buffering( Rbdb_EnvironmentCacheSettingsController* cache_settings_controller )	{
 	if ( cache_settings_controller->buffering == TRUE )	{
 		return DB_DIRECT_DB;
 	}
@@ -66,7 +66,7 @@ BOOL RPDB_EnvironmentCacheSettingsController_buffering( RPDB_EnvironmentCacheSet
 	*  turnBufferingOn  *
 	********************/
 
-	void RPDB_EnvironmentCacheSettingsController_turnBufferingOn( RPDB_EnvironmentCacheSettingsController* cache_settings_controller )	{
+	void Rbdb_EnvironmentCacheSettingsController_turnBufferingOn( Rbdb_EnvironmentCacheSettingsController* cache_settings_controller )	{
 		cache_settings_controller->buffering = TRUE;
 	}
 
@@ -74,7 +74,7 @@ BOOL RPDB_EnvironmentCacheSettingsController_buffering( RPDB_EnvironmentCacheSet
 	*  turnBufferingOff  *
 	*********************/
 
-	void RPDB_EnvironmentCacheSettingsController_turnBufferingOff( RPDB_EnvironmentCacheSettingsController* cache_settings_controller )	{
+	void Rbdb_EnvironmentCacheSettingsController_turnBufferingOff( Rbdb_EnvironmentCacheSettingsController* cache_settings_controller )	{
 		cache_settings_controller->buffering = FALSE;
 	}
 
@@ -83,9 +83,9 @@ BOOL RPDB_EnvironmentCacheSettingsController_buffering( RPDB_EnvironmentCacheSet
 ****************/
 
 //http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
-uint64_t RPDB_EnvironmentCacheSettingsController_sizeInBytes( RPDB_EnvironmentCacheSettingsController* cache_settings_controller )	{
+uint64_t Rbdb_EnvironmentCacheSettingsController_sizeInBytes( Rbdb_EnvironmentCacheSettingsController* cache_settings_controller )	{
 
-	RPDB_Environment*			environment = cache_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*			environment = cache_settings_controller->parent_settings_controller->parent_environment;
 					
 	uint32_t		gigabytes_size					=	0;
 	uint32_t		additional_bytes_size		=	0;
@@ -102,9 +102,9 @@ uint64_t RPDB_EnvironmentCacheSettingsController_sizeInBytes( RPDB_EnvironmentCa
 																																										& additional_bytes_size,
 																																										&	number_of_regions ) ) )	{
 
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( environment ),
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( environment ),
 																										connection_error, 
-																										"RPDB_EnvironmentCacheSettingsController_sizeInBytes" );
+																										"Rbdb_EnvironmentCacheSettingsController_sizeInBytes" );
 		}
 	}
 	
@@ -123,9 +123,9 @@ uint64_t RPDB_EnvironmentCacheSettingsController_sizeInBytes( RPDB_EnvironmentCa
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
-double RPDB_EnvironmentCacheSettingsController_sizeInKBytes( RPDB_EnvironmentCacheSettingsController* cache_settings_controller )	{
+double Rbdb_EnvironmentCacheSettingsController_sizeInKBytes( Rbdb_EnvironmentCacheSettingsController* cache_settings_controller )	{
 
-	double	size_kbytes = (double)RPDB_EnvironmentCacheSettingsController_sizeInBytes( cache_settings_controller );
+	double	size_kbytes = (double)Rbdb_EnvironmentCacheSettingsController_sizeInBytes( cache_settings_controller );
 	
 	return size_kbytes / (double)1024;
 }
@@ -135,9 +135,9 @@ double RPDB_EnvironmentCacheSettingsController_sizeInKBytes( RPDB_EnvironmentCac
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
-double RPDB_EnvironmentCacheSettingsController_sizeInMBytes( RPDB_EnvironmentCacheSettingsController* cache_settings_controller )	{
+double Rbdb_EnvironmentCacheSettingsController_sizeInMBytes( Rbdb_EnvironmentCacheSettingsController* cache_settings_controller )	{
 
-	double	size_mbytes = (double)RPDB_EnvironmentCacheSettingsController_sizeInKBytes( cache_settings_controller );
+	double	size_mbytes = (double)Rbdb_EnvironmentCacheSettingsController_sizeInKBytes( cache_settings_controller );
 	
 	return size_mbytes / (double)1024;
 }
@@ -147,9 +147,9 @@ double RPDB_EnvironmentCacheSettingsController_sizeInMBytes( RPDB_EnvironmentCac
 *****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
-double RPDB_EnvironmentCacheSettingsController_sizeInGBytes( RPDB_EnvironmentCacheSettingsController* cache_settings_controller )	{
+double Rbdb_EnvironmentCacheSettingsController_sizeInGBytes( Rbdb_EnvironmentCacheSettingsController* cache_settings_controller )	{
 
-	double	size_gbytes = (double)RPDB_EnvironmentCacheSettingsController_sizeInMBytes( cache_settings_controller );
+	double	size_gbytes = (double)Rbdb_EnvironmentCacheSettingsController_sizeInMBytes( cache_settings_controller );
 	return size_gbytes / (double)1024;
 }
 
@@ -159,10 +159,10 @@ double RPDB_EnvironmentCacheSettingsController_sizeInGBytes( RPDB_EnvironmentCac
 *******************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
-void RPDB_EnvironmentCacheSettingsController_setSizeInBytes(	RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
+void Rbdb_EnvironmentCacheSettingsController_setSizeInBytes(	Rbdb_EnvironmentCacheSettingsController*	cache_settings_controller, 
 																															uint64_t																	size_in_bytes )	{
 
-	RPDB_Environment*		environment = cache_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = cache_settings_controller->parent_settings_controller->parent_environment;
 
 	uint32_t	bytes_in_gigabyte	=	1024 * 1024 * 1024;
 
@@ -178,9 +178,9 @@ void RPDB_EnvironmentCacheSettingsController_setSizeInBytes(	RPDB_EnvironmentCac
 																																										additional_bytes_size,
 																																										1 ) ) )	{
 
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( environment ),
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( environment ),
 																										connection_error, 
-																										"RPDB_EnvironmentCacheSettingsController_setSizeInBytes" );		
+																										"Rbdb_EnvironmentCacheSettingsController_setSizeInBytes" );		
 		}
 	}
 }
@@ -190,11 +190,11 @@ void RPDB_EnvironmentCacheSettingsController_setSizeInBytes(	RPDB_EnvironmentCac
 ********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
-void RPDB_EnvironmentCacheSettingsController_setSizeInKBytes( RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
+void Rbdb_EnvironmentCacheSettingsController_setSizeInKBytes( Rbdb_EnvironmentCacheSettingsController*	cache_settings_controller, 
 																															uint32_t																	size_kbytes  )	{
 	
 	uint64_t	size_bytes	=	(uint64_t) size_kbytes * 1024;
-	RPDB_EnvironmentCacheSettingsController_setSizeInBytes(	cache_settings_controller, 
+	Rbdb_EnvironmentCacheSettingsController_setSizeInBytes(	cache_settings_controller, 
 																													size_bytes );
 }
 
@@ -203,10 +203,10 @@ void RPDB_EnvironmentCacheSettingsController_setSizeInKBytes( RPDB_EnvironmentCa
 ********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
-void RPDB_EnvironmentCacheSettingsController_setSizeInMBytes( RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
+void Rbdb_EnvironmentCacheSettingsController_setSizeInMBytes( Rbdb_EnvironmentCacheSettingsController*	cache_settings_controller, 
 																															uint32_t																	size_mbytes  )	{
 
-	RPDB_EnvironmentCacheSettingsController_setSizeInKBytes(	cache_settings_controller, 
+	Rbdb_EnvironmentCacheSettingsController_setSizeInKBytes(	cache_settings_controller, 
 																														size_mbytes * 1024 );
 }
 
@@ -215,10 +215,10 @@ void RPDB_EnvironmentCacheSettingsController_setSizeInMBytes( RPDB_EnvironmentCa
 ********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
-void RPDB_EnvironmentCacheSettingsController_setSizeInGBytes( RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
+void Rbdb_EnvironmentCacheSettingsController_setSizeInGBytes( Rbdb_EnvironmentCacheSettingsController*	cache_settings_controller, 
 																															uint32_t																	size_gbytes  )	{
 
-	RPDB_EnvironmentCacheSettingsController_setSizeInMBytes(	cache_settings_controller, 
+	Rbdb_EnvironmentCacheSettingsController_setSizeInMBytes(	cache_settings_controller, 
 																														size_gbytes * 1024 );
 }
 
@@ -227,13 +227,13 @@ void RPDB_EnvironmentCacheSettingsController_setSizeInGBytes( RPDB_EnvironmentCa
 *************************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
-void RPDB_EnvironmentCacheSettingsController_setSizeInGBytesMBytesKBytesBytes(	RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
+void Rbdb_EnvironmentCacheSettingsController_setSizeInGBytesMBytesKBytesBytes(	Rbdb_EnvironmentCacheSettingsController*	cache_settings_controller, 
 																																								uint32_t																	size_gbytes, 
 																																								uint32_t																	additional_size_mbytes, 
 																																								uint32_t																	additional_size_kbytes, 
 																																								uint32_t																	additional_size_in_bytes  )	{
 
-	RPDB_EnvironmentCacheSettingsController_setSizeInBytes( cache_settings_controller,	
+	Rbdb_EnvironmentCacheSettingsController_setSizeInBytes( cache_settings_controller,	
 																													size_gbytes * 1024 * 1024 * 1024
 																													+	additional_size_mbytes * 1024 * 1024
 																													+	additional_size_kbytes * 1024
@@ -245,12 +245,12 @@ void RPDB_EnvironmentCacheSettingsController_setSizeInGBytesMBytesKBytesBytes(	R
 *******************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
-void RPDB_EnvironmentCacheSettingsController_setSizeInMBytesKBytesBytes(	RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
+void Rbdb_EnvironmentCacheSettingsController_setSizeInMBytesKBytesBytes(	Rbdb_EnvironmentCacheSettingsController*	cache_settings_controller, 
 																																					uint32_t																	size_mbytes, 
 																																					uint32_t																	additional_size_kbytes, 
 																																					uint32_t																	additional_size_in_bytes  )	{
 
-	RPDB_EnvironmentCacheSettingsController_setSizeInBytes( cache_settings_controller,	
+	Rbdb_EnvironmentCacheSettingsController_setSizeInBytes( cache_settings_controller,	
 																													size_mbytes * 1024 * 1024
 																													+	additional_size_kbytes * 1024
 																													+	additional_size_in_bytes );
@@ -261,11 +261,11 @@ void RPDB_EnvironmentCacheSettingsController_setSizeInMBytesKBytesBytes(	RPDB_En
 *************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
-void RPDB_EnvironmentCacheSettingsController_setSizeInKBytesBytes( RPDB_EnvironmentCacheSettingsController*		cache_settings_controller, 
+void Rbdb_EnvironmentCacheSettingsController_setSizeInKBytesBytes( Rbdb_EnvironmentCacheSettingsController*		cache_settings_controller, 
 																																	uint32_t																		size_kbytes, 
 																																	uint32_t																		additional_size_in_bytes  )	{
 
-	RPDB_EnvironmentCacheSettingsController_setSizeInBytes( cache_settings_controller,	
+	Rbdb_EnvironmentCacheSettingsController_setSizeInBytes( cache_settings_controller,	
 																													size_kbytes * 1024
 																													+	additional_size_in_bytes );
 }
@@ -276,11 +276,11 @@ void RPDB_EnvironmentCacheSettingsController_setSizeInKBytesBytes( RPDB_Environm
 ******************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
-void RPDB_EnvironmentCacheSettingsController_setSizeInBytesWithRegions(	RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
+void Rbdb_EnvironmentCacheSettingsController_setSizeInBytesWithRegions(	Rbdb_EnvironmentCacheSettingsController*	cache_settings_controller, 
 																																				uint64_t																	size_in_bytes,
 																																				int																				number_of_regions )	{
 
-	RPDB_Environment*		environment = cache_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = cache_settings_controller->parent_settings_controller->parent_environment;
 
 	uint32_t	additional_bytes_size	=		size_in_bytes 
 																		%	( /* 1 gbyte in bytes */ 1024 * 1024 * 1024);
@@ -296,9 +296,9 @@ void RPDB_EnvironmentCacheSettingsController_setSizeInBytesWithRegions(	RPDB_Env
 																																										additional_bytes_size,
 																																										number_of_regions ) ) )	{
 
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( environment ),
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( environment ),
 																										connection_error, 
-																										"RPDB_EnvironmentCacheSettingsController_setSizeInBytesWithRegions" );		
+																										"Rbdb_EnvironmentCacheSettingsController_setSizeInBytesWithRegions" );		
 		}
 	}
 }
@@ -308,10 +308,10 @@ void RPDB_EnvironmentCacheSettingsController_setSizeInBytesWithRegions(	RPDB_Env
 *******************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
-void RPDB_EnvironmentCacheSettingsController_setSizeInKBytesWithRegions(	RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
+void Rbdb_EnvironmentCacheSettingsController_setSizeInKBytesWithRegions(	Rbdb_EnvironmentCacheSettingsController*	cache_settings_controller, 
 																																					uint32_t																	size_kbytes,
 																																					int																				number_of_regions  )	{
-	RPDB_EnvironmentCacheSettingsController_setSizeInBytesWithRegions(	cache_settings_controller, 
+	Rbdb_EnvironmentCacheSettingsController_setSizeInBytesWithRegions(	cache_settings_controller, 
 																																			size_kbytes * 1024,
 																																			number_of_regions );
 }
@@ -321,11 +321,11 @@ void RPDB_EnvironmentCacheSettingsController_setSizeInKBytesWithRegions(	RPDB_En
 *******************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
-void RPDB_EnvironmentCacheSettingsController_setSizeInMBytesWithRegions( RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
+void Rbdb_EnvironmentCacheSettingsController_setSizeInMBytesWithRegions( Rbdb_EnvironmentCacheSettingsController*	cache_settings_controller, 
 																																					uint32_t																	size_mbytes,
 																																					int																				number_of_regions  )	{
 
-	RPDB_EnvironmentCacheSettingsController_setSizeInKBytesWithRegions(	cache_settings_controller, 
+	Rbdb_EnvironmentCacheSettingsController_setSizeInKBytesWithRegions(	cache_settings_controller, 
 																																			size_mbytes * 1024,
 																																			number_of_regions );
 }
@@ -335,11 +335,11 @@ void RPDB_EnvironmentCacheSettingsController_setSizeInMBytesWithRegions( RPDB_En
 *******************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
-void RPDB_EnvironmentCacheSettingsController_setSizeInGBytesWithRegions(	RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
+void Rbdb_EnvironmentCacheSettingsController_setSizeInGBytesWithRegions(	Rbdb_EnvironmentCacheSettingsController*	cache_settings_controller, 
 																																					uint32_t																	size_gbytes,
 																																					int																				number_of_regions  )	{
 
-	RPDB_EnvironmentCacheSettingsController_setSizeInMBytesWithRegions(	cache_settings_controller, 
+	Rbdb_EnvironmentCacheSettingsController_setSizeInMBytesWithRegions(	cache_settings_controller, 
 																																			size_gbytes * 1024,
 																																			number_of_regions );
 }
@@ -349,14 +349,14 @@ void RPDB_EnvironmentCacheSettingsController_setSizeInGBytesWithRegions(	RPDB_En
 ************************************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
-void RPDB_EnvironmentCacheSettingsController_setSizeInGBytesMBytesKBytesBytesWithRegions(	RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
+void Rbdb_EnvironmentCacheSettingsController_setSizeInGBytesMBytesKBytesBytesWithRegions(	Rbdb_EnvironmentCacheSettingsController*	cache_settings_controller, 
 																																													uint32_t																	size_gbytes, 
 																																													uint32_t																	additional_size_mbytes, 
 																																													uint32_t																	additional_size_kbytes, 
 																																													uint32_t																	additional_size_in_bytes,
 																																													int																				number_of_regions  )	{
 
-	RPDB_EnvironmentCacheSettingsController_setSizeInBytesWithRegions(	cache_settings_controller,	
+	Rbdb_EnvironmentCacheSettingsController_setSizeInBytesWithRegions(	cache_settings_controller,	
 																																			size_gbytes * 1024 * 1024 * 1024
 																																			+	additional_size_mbytes * 1024 * 1024
 																																			+	additional_size_kbytes * 1024
@@ -369,13 +369,13 @@ void RPDB_EnvironmentCacheSettingsController_setSizeInGBytesMBytesKBytesBytesWit
 ******************************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
-void RPDB_EnvironmentCacheSettingsController_setSizeInMBytesKBytesBytesWithRegions(	RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
+void Rbdb_EnvironmentCacheSettingsController_setSizeInMBytesKBytesBytesWithRegions(	Rbdb_EnvironmentCacheSettingsController*	cache_settings_controller, 
 																																										uint32_t																	size_mbytes, 
 																																										uint32_t																	additional_size_kbytes, 
 																																										uint32_t																	additional_size_in_bytes,
 																																										int																				number_of_regions  )	{
 
-	RPDB_EnvironmentCacheSettingsController_setSizeInBytesWithRegions(	cache_settings_controller,	
+	Rbdb_EnvironmentCacheSettingsController_setSizeInBytesWithRegions(	cache_settings_controller,	
 																																			size_mbytes * 1024 * 1024
 																																			+	additional_size_kbytes * 1024
 																																			+	additional_size_in_bytes,
@@ -387,12 +387,12 @@ void RPDB_EnvironmentCacheSettingsController_setSizeInMBytesKBytesBytesWithRegio
 ************************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cachesize.html
-void RPDB_EnvironmentCacheSettingsController_setSizeInKBytesBytesWithRegions( RPDB_EnvironmentCacheSettingsController*		cache_settings_controller, 
+void Rbdb_EnvironmentCacheSettingsController_setSizeInKBytesBytesWithRegions( Rbdb_EnvironmentCacheSettingsController*		cache_settings_controller, 
 																																							uint32_t																		size_kbytes, 
 																																							uint32_t																		additional_size_in_bytes,
 																																							int																					number_of_regions  )	{
 
-	RPDB_EnvironmentCacheSettingsController_setSizeInBytesWithRegions(	cache_settings_controller,	
+	Rbdb_EnvironmentCacheSettingsController_setSizeInBytesWithRegions(	cache_settings_controller,	
 																																			size_kbytes * 1024
 																																			+	additional_size_in_bytes,
 																																			number_of_regions );
@@ -403,9 +403,9 @@ void RPDB_EnvironmentCacheSettingsController_setSizeInKBytesBytesWithRegions( RP
 *******************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
-uint64_t RPDB_EnvironmentCacheSettingsController_maxSizeInBytes( RPDB_EnvironmentCacheSettingsController* cache_settings_controller )	{
+uint64_t Rbdb_EnvironmentCacheSettingsController_maxSizeInBytes( Rbdb_EnvironmentCacheSettingsController* cache_settings_controller )	{
 
-	RPDB_Environment*			environment = cache_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*			environment = cache_settings_controller->parent_settings_controller->parent_environment;
 					
 	uint32_t		gigabytes_size					=	0;
 	uint32_t		additional_bytes_size		=	0;		
@@ -419,9 +419,9 @@ uint64_t RPDB_EnvironmentCacheSettingsController_maxSizeInBytes( RPDB_Environmen
 																																										& gigabytes_size, 
 																																										& additional_bytes_size ) ) )	{
 
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( environment ),
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( environment ),
 																										connection_error, 
-																										"RPDB_EnvironmentCacheSettingsController_maxSizeInBytes" );
+																										"Rbdb_EnvironmentCacheSettingsController_maxSizeInBytes" );
 		}
 
 		//	Return in bytes
@@ -441,9 +441,9 @@ uint64_t RPDB_EnvironmentCacheSettingsController_maxSizeInBytes( RPDB_Environmen
 ********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
-double RPDB_EnvironmentCacheSettingsController_maxSizeInKBytes( RPDB_EnvironmentCacheSettingsController* cache_settings_controller )	{
+double Rbdb_EnvironmentCacheSettingsController_maxSizeInKBytes( Rbdb_EnvironmentCacheSettingsController* cache_settings_controller )	{
 
-	double	max_size_kbytes = (double)RPDB_EnvironmentCacheSettingsController_maxSizeInBytes( cache_settings_controller );
+	double	max_size_kbytes = (double)Rbdb_EnvironmentCacheSettingsController_maxSizeInBytes( cache_settings_controller );
 	
 	return max_size_kbytes / (double)1024;
 }
@@ -453,9 +453,9 @@ double RPDB_EnvironmentCacheSettingsController_maxSizeInKBytes( RPDB_Environment
 ********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
-double RPDB_EnvironmentCacheSettingsController_maxSizeInMBytes( RPDB_EnvironmentCacheSettingsController* cache_settings_controller )	{
+double Rbdb_EnvironmentCacheSettingsController_maxSizeInMBytes( Rbdb_EnvironmentCacheSettingsController* cache_settings_controller )	{
 
-	double	max_size_mbytes = (double)RPDB_EnvironmentCacheSettingsController_maxSizeInKBytes( cache_settings_controller );
+	double	max_size_mbytes = (double)Rbdb_EnvironmentCacheSettingsController_maxSizeInKBytes( cache_settings_controller );
 	
 	return max_size_mbytes / (double)1024;
 }
@@ -465,9 +465,9 @@ double RPDB_EnvironmentCacheSettingsController_maxSizeInMBytes( RPDB_Environment
 ********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
-double RPDB_EnvironmentCacheSettingsController_maxSizeInGBytes( RPDB_EnvironmentCacheSettingsController* cache_settings_controller )	{
+double Rbdb_EnvironmentCacheSettingsController_maxSizeInGBytes( Rbdb_EnvironmentCacheSettingsController* cache_settings_controller )	{
 
-	double	max_size_gbytes = (double)RPDB_EnvironmentCacheSettingsController_maxSizeInMBytes( cache_settings_controller );
+	double	max_size_gbytes = (double)Rbdb_EnvironmentCacheSettingsController_maxSizeInMBytes( cache_settings_controller );
 	return max_size_gbytes / (double)1024;
 }
 
@@ -476,10 +476,10 @@ double RPDB_EnvironmentCacheSettingsController_maxSizeInGBytes( RPDB_Environment
 **********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
-void RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes(	RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
+void Rbdb_EnvironmentCacheSettingsController_setMaxSizeInBytes(	Rbdb_EnvironmentCacheSettingsController*	cache_settings_controller, 
 																																uint64_t																	max_size_in_bytes )	{
 
-	RPDB_Environment*		environment = cache_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment = cache_settings_controller->parent_settings_controller->parent_environment;
 
 	uint32_t	bytes_in_gigabyte	=	1024 * 1024 * 1024;
 
@@ -495,9 +495,9 @@ void RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes(	RPDB_Environment
 																																										(uint32_t) gigabytes_size, 
 																																										(uint32_t) additional_bytes_size ) ) )	{
 
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( environment ),
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( environment ),
 																										connection_error, 
-																										"RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes" );		
+																										"Rbdb_EnvironmentCacheSettingsController_setMaxSizeInBytes" );		
 		}
 	}
 }
@@ -507,11 +507,11 @@ void RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes(	RPDB_Environment
 ***********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
-void RPDB_EnvironmentCacheSettingsController_setMaxSizeInKBytes( RPDB_EnvironmentCacheSettingsController* cache_settings_controller, uint32_t max_size_kbytes )	{
+void Rbdb_EnvironmentCacheSettingsController_setMaxSizeInKBytes( Rbdb_EnvironmentCacheSettingsController* cache_settings_controller, uint32_t max_size_kbytes )	{
 
 	uint64_t	max_size_bytes	=	(uint64_t) max_size_kbytes * 1024;
 
-	RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes(	cache_settings_controller,
+	Rbdb_EnvironmentCacheSettingsController_setMaxSizeInBytes(	cache_settings_controller,
 																															max_size_bytes );
 }
 
@@ -520,9 +520,9 @@ void RPDB_EnvironmentCacheSettingsController_setMaxSizeInKBytes( RPDB_Environmen
 ***********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
-void RPDB_EnvironmentCacheSettingsController_setMaxSizeInMBytes( RPDB_EnvironmentCacheSettingsController* cache_settings_controller, uint32_t max_size_mbytes )	{
+void Rbdb_EnvironmentCacheSettingsController_setMaxSizeInMBytes( Rbdb_EnvironmentCacheSettingsController* cache_settings_controller, uint32_t max_size_mbytes )	{
 
-	RPDB_EnvironmentCacheSettingsController_setMaxSizeInKBytes( cache_settings_controller, max_size_mbytes * 1024 );
+	Rbdb_EnvironmentCacheSettingsController_setMaxSizeInKBytes( cache_settings_controller, max_size_mbytes * 1024 );
 }
 
 /***********************
@@ -530,9 +530,9 @@ void RPDB_EnvironmentCacheSettingsController_setMaxSizeInMBytes( RPDB_Environmen
 ***********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
-void RPDB_EnvironmentCacheSettingsController_setMaxSizeInGBytes( RPDB_EnvironmentCacheSettingsController* cache_settings_controller, uint32_t max_size_gbytes )	{
+void Rbdb_EnvironmentCacheSettingsController_setMaxSizeInGBytes( Rbdb_EnvironmentCacheSettingsController* cache_settings_controller, uint32_t max_size_gbytes )	{
 
-	RPDB_EnvironmentCacheSettingsController_setMaxSizeInMBytes( cache_settings_controller, max_size_gbytes * 1024 );
+	Rbdb_EnvironmentCacheSettingsController_setMaxSizeInMBytes( cache_settings_controller, max_size_gbytes * 1024 );
 }
 
 /****************************************
@@ -540,7 +540,7 @@ void RPDB_EnvironmentCacheSettingsController_setMaxSizeInGBytes( RPDB_Environmen
 ****************************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
-void RPDB_EnvironmentCacheSettingsController_setMaxSizeInGBytesMBytesKBytesBytes(	RPDB_EnvironmentCacheSettingsController*	cache_settings_controller,
+void Rbdb_EnvironmentCacheSettingsController_setMaxSizeInGBytesMBytesKBytesBytes(	Rbdb_EnvironmentCacheSettingsController*	cache_settings_controller,
 																																									uint32_t																	max_size_gbytes,
 																																									uint32_t																	additional_max_size_mbytes,
 																																									uint32_t																	additional_max_size_kbytes,
@@ -551,7 +551,7 @@ void RPDB_EnvironmentCacheSettingsController_setMaxSizeInGBytesMBytesKBytesBytes
 															+	(uint64_t) additional_max_size_kbytes * 1024
 															+	(uint64_t) additional_max_size_in_bytes;
 
-	RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes(	cache_settings_controller,	
+	Rbdb_EnvironmentCacheSettingsController_setMaxSizeInBytes(	cache_settings_controller,	
 																															max_size_in_bytes );
 }
 
@@ -560,7 +560,7 @@ void RPDB_EnvironmentCacheSettingsController_setMaxSizeInGBytesMBytesKBytesBytes
 **********************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
-void RPDB_EnvironmentCacheSettingsController_setMaxSizeInMBytesKBytesBytes(	RPDB_EnvironmentCacheSettingsController*	cache_settings_controller, 
+void Rbdb_EnvironmentCacheSettingsController_setMaxSizeInMBytesKBytesBytes(	Rbdb_EnvironmentCacheSettingsController*	cache_settings_controller, 
 																																						uint32_t																	max_size_mbytes, 
 																																						uint32_t																	additional_max_size_kbytes, 
 																																						uint32_t																	additional_max_size_in_bytes )	{
@@ -569,7 +569,7 @@ void RPDB_EnvironmentCacheSettingsController_setMaxSizeInMBytesKBytesBytes(	RPDB
 															+	(uint64_t) additional_max_size_kbytes * 1024
 															+	(uint64_t) additional_max_size_in_bytes;
 
-	RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes(	cache_settings_controller,
+	Rbdb_EnvironmentCacheSettingsController_setMaxSizeInBytes(	cache_settings_controller,
 																															max_size_in_bytes );
 }
 
@@ -578,14 +578,14 @@ void RPDB_EnvironmentCacheSettingsController_setMaxSizeInMBytesKBytesBytes(	RPDB
 ****************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_cache_max.html
-void RPDB_EnvironmentCacheSettingsController_setMaxSizeInKBytesBytes( RPDB_EnvironmentCacheSettingsController* cache_settings_controller, 
+void Rbdb_EnvironmentCacheSettingsController_setMaxSizeInKBytesBytes( Rbdb_EnvironmentCacheSettingsController* cache_settings_controller, 
 																																			uint32_t		max_size_kbytes, 
 																																			uint32_t		additional_max_size_in_bytes )	{
 
 	uint64_t	max_size_in_bytes	=	(uint64_t) max_size_kbytes * 1024
 															+	(uint64_t) additional_max_size_in_bytes;
 
-	RPDB_EnvironmentCacheSettingsController_setMaxSizeInBytes(	cache_settings_controller,	
+	Rbdb_EnvironmentCacheSettingsController_setMaxSizeInBytes(	cache_settings_controller,	
 																															max_size_in_bytes );
 }
 
@@ -599,9 +599,9 @@ void RPDB_EnvironmentCacheSettingsController_setMaxSizeInKBytesBytes( RPDB_Envir
 *  copyOfSettingsControllerForInstance  *
 ****************************************/
 
-RPDB_EnvironmentCacheSettingsController* RPDB_EnvironmentCacheSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_EnvironmentCacheSettingsController* environment_cache_settings_controller )	{
+Rbdb_EnvironmentCacheSettingsController* Rbdb_EnvironmentCacheSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_EnvironmentCacheSettingsController* environment_cache_settings_controller )	{
 
-	RPDB_EnvironmentCacheSettingsController* environment_cache_settings_controller_copy	=	RPDB_EnvironmentCacheSettingsController_new( environment_cache_settings_controller->parent_settings_controller );
+	Rbdb_EnvironmentCacheSettingsController* environment_cache_settings_controller_copy	=	Rbdb_EnvironmentCacheSettingsController_new( environment_cache_settings_controller->parent_settings_controller );
 
 	//	Instances and Pointers
 	environment_cache_settings_controller_copy->max_size_in_bytes	=	environment_cache_settings_controller->max_size_in_bytes;

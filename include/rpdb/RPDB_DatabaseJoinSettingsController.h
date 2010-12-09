@@ -1,35 +1,35 @@
 /*
- *		RPDB::SettingsController::JoinSettingsController
+ *		Rbdb::SettingsController::JoinSettingsController
  *
  *
  */
 
-#ifndef RPDB_JOINSETTINGS_CONTROLLER
-	#define RPDB_JOINSETTINGS_CONTROLLER
+#ifndef Rbdb_JOINSETTINGS_CONTROLLER
+	#define Rbdb_JOINSETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-RPDB_DatabaseJoinSettingsController* RPDB_DatabaseJoinSettingsController_new( RPDB_DatabaseSettingsController* parent_database_settings_controller );
+Rbdb_DatabaseJoinSettingsController* Rbdb_DatabaseJoinSettingsController_new( Rbdb_DatabaseSettingsController* parent_database_settings_controller );
 
-	void							RPDB_DatabaseJoinSettingsController_free(								RPDB_DatabaseJoinSettingsController** join_settings_controller );
-RPDB_Database* RPDB_DatabaseJoinSettingsController_parentDatabase(	RPDB_DatabaseJoinSettingsController* join_settings_controller );
-	RPDB_Environment*		RPDB_DatabaseJoinSettingsController_parentEnvironment(		RPDB_DatabaseJoinSettingsController* join_settings_controller );
+	void							Rbdb_DatabaseJoinSettingsController_free(								Rbdb_DatabaseJoinSettingsController** join_settings_controller );
+Rbdb_Database* Rbdb_DatabaseJoinSettingsController_parentDatabase(	Rbdb_DatabaseJoinSettingsController* join_settings_controller );
+	Rbdb_Environment*		Rbdb_DatabaseJoinSettingsController_parentEnvironment(		Rbdb_DatabaseJoinSettingsController* join_settings_controller );
 
-	BOOL							RPDB_DatabaseJoinController_degreeOneIsolation(						RPDB_DatabaseJoinSettingsController*		join_settings_controller );
-	void							RPDB_DatabaseJoinController_turnDegreeOneIsolationOn(					RPDB_DatabaseJoinSettingsController*		join_settings_controller );
-	void							RPDB_DatabaseJoinController_turnDegreeOneIsolationOff(				RPDB_DatabaseJoinSettingsController*		join_settings_controller );
+	BOOL							Rbdb_DatabaseJoinController_degreeOneIsolation(						Rbdb_DatabaseJoinSettingsController*		join_settings_controller );
+	void							Rbdb_DatabaseJoinController_turnDegreeOneIsolationOn(					Rbdb_DatabaseJoinSettingsController*		join_settings_controller );
+	void							Rbdb_DatabaseJoinController_turnDegreeOneIsolationOff(				Rbdb_DatabaseJoinSettingsController*		join_settings_controller );
 
-	BOOL							RPDB_DatabaseJoinController_writeLocksInsteadOfReadLocks(			RPDB_DatabaseJoinSettingsController*		join_settings_controller );
-	void							RPDB_DatabaseJoinController_turnWriteLocksInsteadOfReadLocksOn(		RPDB_DatabaseJoinSettingsController*		join_settings_controller );
-	void							RPDB_DatabaseJoinController_turnWriteLocksInsteadOfReadLocksOff(	RPDB_DatabaseJoinSettingsController*		join_settings_controller );
+	BOOL							Rbdb_DatabaseJoinController_writeLocksInsteadOfReadLocks(			Rbdb_DatabaseJoinSettingsController*		join_settings_controller );
+	void							Rbdb_DatabaseJoinController_turnWriteLocksInsteadOfReadLocksOn(		Rbdb_DatabaseJoinSettingsController*		join_settings_controller );
+	void							Rbdb_DatabaseJoinController_turnWriteLocksInsteadOfReadLocksOff(	Rbdb_DatabaseJoinSettingsController*		join_settings_controller );
 
-	BOOL							RPDB_DatabaseJoinController_noSortBeforeJoin(							RPDB_DatabaseJoinSettingsController*		join_settings_controller );
-	void							RPDB_DatabaseJoinController_turnNoSortBeforeJoinOn(					RPDB_DatabaseJoinSettingsController*		join_settings_controller );
-	void							RPDB_DatabaseJoinController_turnNoSortBeforeJoinOff(					RPDB_DatabaseJoinSettingsController*		join_settings_controller );
+	BOOL							Rbdb_DatabaseJoinController_noSortBeforeJoin(							Rbdb_DatabaseJoinSettingsController*		join_settings_controller );
+	void							Rbdb_DatabaseJoinController_turnNoSortBeforeJoinOn(					Rbdb_DatabaseJoinSettingsController*		join_settings_controller );
+	void							Rbdb_DatabaseJoinController_turnNoSortBeforeJoinOff(					Rbdb_DatabaseJoinSettingsController*		join_settings_controller );
 
 #endif
 

@@ -1,5 +1,5 @@
-#ifndef RPDB_LOCK_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_LOCK_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_LOCK_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_LOCK_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,11 +7,11 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-int		RPDB_LockSettingsController_internal_openFlags(				RPDB_LockSettingsController*		lock_settings_controller );
-int		RPDB_LockSettingsController_internal_clearDeadlocksFlags(		RPDB_LockSettingsController*		lock_settings_controller );
-int		RPDB_LockSettingsController_internal_obtainAndReleaseFlags(	RPDB_LockSettingsController*		lock_settings_controller );
+int		Rbdb_LockSettingsController_internal_openFlags(				Rbdb_LockSettingsController*		lock_settings_controller );
+int		Rbdb_LockSettingsController_internal_clearDeadlocksFlags(		Rbdb_LockSettingsController*		lock_settings_controller );
+int		Rbdb_LockSettingsController_internal_obtainAndReleaseFlags(	Rbdb_LockSettingsController*		lock_settings_controller );
 
-RPDB_LockSettingsController* RPDB_LockSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_LockSettingsController* lock_settings_controller );
+Rbdb_LockSettingsController* Rbdb_LockSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_LockSettingsController* lock_settings_controller );
 
 #endif
 

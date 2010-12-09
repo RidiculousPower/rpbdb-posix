@@ -1,44 +1,44 @@
 /*
- *		RPDB::Database::DatabaseVerificationController::DatabaseVerificationSettingsController
+ *		Rbdb::Database::DatabaseVerificationController::DatabaseVerificationSettingsController
  *
  *
  */
 
-#ifndef RPDB_DATABASE_VERIFICATION_SETTINGS_CONTROLLER
-	#define RPDB_DATABASE_VERIFICATION_SETTINGS_CONTROLLER
+#ifndef Rbdb_DATABASE_VERIFICATION_SETTINGS_CONTROLLER
+	#define Rbdb_DATABASE_VERIFICATION_SETTINGS_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_DatabaseVerificationSettingsController*	RPDB_DatabaseVerificationSettingsController_new(									RPDB_DatabaseSettingsController*					parent_database_settings_controller );
-	void											RPDB_DatabaseVerificationSettingsController_free(									RPDB_DatabaseVerificationSettingsController**		database_verification_settings_controller );
-	RPDB_Environment*						RPDB_DatabaseVerificationSettingsController_parentEnvironment(			RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller );
-	RPDB_Database* RPDB_DatabaseVerificationSettingsController_parentDatabase(	RPDB_DatabaseVerificationSettingsController* database_verification_settings_controller );
+	Rbdb_DatabaseVerificationSettingsController*	Rbdb_DatabaseVerificationSettingsController_new(									Rbdb_DatabaseSettingsController*					parent_database_settings_controller );
+	void											Rbdb_DatabaseVerificationSettingsController_free(									Rbdb_DatabaseVerificationSettingsController**		database_verification_settings_controller );
+	Rbdb_Environment*						Rbdb_DatabaseVerificationSettingsController_parentEnvironment(			Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller );
+	Rbdb_Database* Rbdb_DatabaseVerificationSettingsController_parentDatabase(	Rbdb_DatabaseVerificationSettingsController* database_verification_settings_controller );
 
-	FILE*											RPDB_DatabaseVerificationSettingsController_file(									RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller );
-	void											RPDB_DatabaseVerificationSettingsController_setFile(								RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller, 
+	FILE*											Rbdb_DatabaseVerificationSettingsController_file(									Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller );
+	void											Rbdb_DatabaseVerificationSettingsController_setFile(								Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller, 
 																																		FILE*												data_output_file );
-	char*											RPDB_DatabaseVerificationSettingsController_filePath(								RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller );
-	void											RPDB_DatabaseVerificationSettingsController_setFilePath(							RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller, 
+	char*											Rbdb_DatabaseVerificationSettingsController_filePath(								Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller );
+	void											Rbdb_DatabaseVerificationSettingsController_setFilePath(							Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller, 
 																																		char*												data_output_file_path );
-	BOOL											RPDB_DatabaseVerificationSettingsController_aggressiveKeyDataPairDump(				RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller );
-	void											RPDB_DatabaseVerificationSettingsController_turnAggressiveKeyDataPairDumpOn(		RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller );
-	void											RPDB_DatabaseVerificationSettingsController_turnAggressiveKeyDataPairDumpOff(		RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller );
-	BOOL											RPDB_DatabaseVerificationSettingsController_printableCharacters(					RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller );
-	void											RPDB_DatabaseVerificationSettingsController_turnPrintableCharactersOn(				RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller );
-	void											RPDB_DatabaseVerificationSettingsController_turnPrintableCharactersOff(			RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller );
-	BOOL 											RPDB_DatabaseVerificationSettingsController_skipOrderCheck(						RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller );
-	void											RPDB_DatabaseVerificationSettingsController_turnSkipOrderCheckOn(					RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller );
-	void											RPDB_DatabaseVerificationSettingsController_turnSkipOrderCheckOff(					RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller );
-	BOOL											RPDB_DatabaseVerificationSettingsController_onlyOrderCheck(						RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller );
-	void											RPDB_DatabaseVerificationSettingsController_turnOnlyOrderCheckOn(					RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller );
-	void											RPDB_DatabaseVerificationSettingsController_turnOnlyOrderCheckOff(					RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller );
-	BOOL											RPDB_DatabaseVerificationSettingsController_forceOrderCheck(						RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller );
-	void											RPDB_DatabaseVerificationSettingsController_turnForceOrderCheckOn(					RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller );
-	void											RPDB_DatabaseVerificationSettingsController_turnForceOrderCheckOff(				RPDB_DatabaseVerificationSettingsController*		database_verification_settings_controller );
+	BOOL											Rbdb_DatabaseVerificationSettingsController_aggressiveKeyDataPairDump(				Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller );
+	void											Rbdb_DatabaseVerificationSettingsController_turnAggressiveKeyDataPairDumpOn(		Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller );
+	void											Rbdb_DatabaseVerificationSettingsController_turnAggressiveKeyDataPairDumpOff(		Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller );
+	BOOL											Rbdb_DatabaseVerificationSettingsController_printableCharacters(					Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller );
+	void											Rbdb_DatabaseVerificationSettingsController_turnPrintableCharactersOn(				Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller );
+	void											Rbdb_DatabaseVerificationSettingsController_turnPrintableCharactersOff(			Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller );
+	BOOL 											Rbdb_DatabaseVerificationSettingsController_skipOrderCheck(						Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller );
+	void											Rbdb_DatabaseVerificationSettingsController_turnSkipOrderCheckOn(					Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller );
+	void											Rbdb_DatabaseVerificationSettingsController_turnSkipOrderCheckOff(					Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller );
+	BOOL											Rbdb_DatabaseVerificationSettingsController_onlyOrderCheck(						Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller );
+	void											Rbdb_DatabaseVerificationSettingsController_turnOnlyOrderCheckOn(					Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller );
+	void											Rbdb_DatabaseVerificationSettingsController_turnOnlyOrderCheckOff(					Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller );
+	BOOL											Rbdb_DatabaseVerificationSettingsController_forceOrderCheck(						Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller );
+	void											Rbdb_DatabaseVerificationSettingsController_turnForceOrderCheckOn(					Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller );
+	void											Rbdb_DatabaseVerificationSettingsController_turnForceOrderCheckOff(				Rbdb_DatabaseVerificationSettingsController*		database_verification_settings_controller );
 
 
 #endif

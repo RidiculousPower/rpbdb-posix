@@ -1,5 +1,5 @@
-#ifndef RPDB_DATABASE_VARIABLE_RECORD_SETTINGS_CONTROLLER_INTERNAL
-	#define RPDB_DATABASE_VARIABLE_RECORD_SETTINGS_CONTROLLER_INTERNAL
+#ifndef Rbdb_DATABASE_VARIABLE_RECORD_SETTINGS_CONTROLLER_INTERNAL
+	#define Rbdb_DATABASE_VARIABLE_RECORD_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -7,7 +7,7 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-RPDB_DatabaseRecordVariableLengthSettingsController* RPDB_DatabaseRecordVariableLengthSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller );
+Rbdb_DatabaseRecordVariableLengthSettingsController* Rbdb_DatabaseRecordVariableLengthSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseRecordVariableLengthSettingsController* database_record_variable_length_settings_controller );
 
 
 #endif

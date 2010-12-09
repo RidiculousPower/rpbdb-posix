@@ -1,8 +1,8 @@
  
-#ifndef RPDB_MEMORY_POOL_FILE_INTERNAL
-	#define RPDB_MEMORY_POOL_FILE_INTERNAL
+#ifndef Rbdb_MEMORY_POOL_FILE_INTERNAL
+	#define Rbdb_MEMORY_POOL_FILE_INTERNAL
 
-	void RPDB_MemoryPoolFile_freeFromRuntimeStorage(	RPDB_MemoryPoolFile** memory_pool_file );
+	void Rbdb_MemoryPoolFile_freeFromRuntimeStorage(	Rbdb_MemoryPoolFile** memory_pool_file );
 
 #endif
 

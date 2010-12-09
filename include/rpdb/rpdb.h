@@ -1,53 +1,53 @@
-#ifndef RPDB
-	#define RPDB
+#ifndef Rbdb
+	#define Rbdb
 	
-	//	Standard includes for users of RPDB
+	//	Standard includes for users of Rbdb
 	
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 	
 	//	Types and Constants
-	#include "RPDB_Types.h"
-	#include "RPDB_Constants.h"
+	#include "Rbdb_Types.h"
+	#include "Rbdb_Constants.h"
 
 	//	Main - version info, etc.
-	#include "RPDB_main.h"
+	#include "Rbdb_main.h"
 	
 	//	Environment
-	#include "RPDB_Environment.h"
+	#include "Rbdb_Environment.h"
 	
 	//	Database
-	#include "RPDB_DatabaseController.h"
-		#include "RPDB_Database.h"
-			#include "RPDB_DatabaseCursorController.h"
-				#include "RPDB_DatabaseCursor.h"
+	#include "Rbdb_DatabaseController.h"
+		#include "Rbdb_Database.h"
+			#include "Rbdb_DatabaseCursorController.h"
+				#include "Rbdb_DatabaseCursor.h"
 	
 	//	Error
-	#include "RPDB_ErrorController.h"
-		#include "RPDB_Error.h"
+	#include "Rbdb_ErrorController.h"
+		#include "Rbdb_Error.h"
 	
 	//	Records, Data, Keys
-	#include "RPDB_Record.h"
-	#include "RPDB_Data.h"
-	#include "RPDB_Key.h"
+	#include "Rbdb_Record.h"
+	#include "Rbdb_Data.h"
+	#include "Rbdb_Key.h"
 	
 	//	Runtime Storage
-	#include "RPDB_RuntimeStorageController.h"
-		#include "RPDB_RuntimeStorage.h"
+	#include "Rbdb_RuntimeStorageController.h"
+		#include "Rbdb_RuntimeStorage.h"
 	
 	//	Settings
-	#include "RPDB_SettingsController.h"
-		#include "RPDB_DatabaseSettingsController.h"
-			#include "RPDB_DatabaseAssociationSettingsController.h"
-			#include "RPDB_DatabaseCursorSettingsController.h"
-				#include "RPDB_DatabaseCursorReadWriteSettingsController.h"
-			#include "RPDB_DatabaseErrorSettingsController.h"
-			#include "RPDB_DatabaseRecordReadWriteSettingsController.h"
-			#include "RPDB_DatabaseRecordSettingsController.h"
-			#include "RPDB_DatabaseTypeSettingsController.h"
-				#include "RPDB_DatabaseTypeBtreeSettingsController.h"
-		#include "RPDB_DirectorySettingsController.h"
-		#include "RPDB_ErrorSettingsController.h"
-		#include "RPDB_FileSettingsController.h"
-		#include "RPDB_MemoryPoolSettingsController.h"
+	#include "Rbdb_SettingsController.h"
+		#include "Rbdb_DatabaseSettingsController.h"
+			#include "Rbdb_DatabaseAssociationSettingsController.h"
+			#include "Rbdb_DatabaseCursorSettingsController.h"
+				#include "Rbdb_DatabaseCursorReadWriteSettingsController.h"
+			#include "Rbdb_DatabaseErrorSettingsController.h"
+			#include "Rbdb_DatabaseRecordReadWriteSettingsController.h"
+			#include "Rbdb_DatabaseRecordSettingsController.h"
+			#include "Rbdb_DatabaseTypeSettingsController.h"
+				#include "Rbdb_DatabaseTypeBtreeSettingsController.h"
+		#include "Rbdb_DirectorySettingsController.h"
+		#include "Rbdb_ErrorSettingsController.h"
+		#include "Rbdb_FileSettingsController.h"
+		#include "Rbdb_MemoryPoolSettingsController.h"
 		
 #endif

@@ -1,5 +1,5 @@
 /*
- *		RPDB::Database::DatabaseSettingsController
+ *		Rbdb::Database::DatabaseSettingsController
  *
  *
  */
@@ -10,57 +10,57 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_DatabaseSettingsController.h"
+#include "Rbdb_DatabaseSettingsController.h"
 
-//	#include "RPDB_Compact.h"
-#include "RPDB_ErrorController.h"
-#include "RPDB_Database.h"
-#include "RPDB_DatabaseErrorSettingsController.h"
-#include "RPDB_DatabaseRecordFixedLengthSettingsController.h"
-#include "RPDB_DatabaseCacheSettingsController.h"
-#include "RPDB_DatabaseAssociationSettingsController.h"
-#include "RPDB_DatabaseCompactSettingsController.h"
-#include "RPDB_DatabaseEncryptionSettingsController.h"
-#include "RPDB_DatabaseTypeSettingsController.h"
-#include "RPDB_DatabaseRecordReadWriteSettingsController.h"
-#include "RPDB_DatabaseCursorSettingsController.h"
-#include "RPDB_SettingsController.h"
-#include "RPDB_Environment.h"
-#include "RPDB_DatabaseVerbositySettingsController.h"
-#include "RPDB_DatabaseVerificationSettingsController.h"
-#include "RPDB_DatabaseSequenceSettingsController.h"
-#include "RPDB_DatabaseRecordVariableLengthSettingsController.h"
-#include "RPDB_DatabaseRecordSettingsController.h"
-#include "RPDB_DatabaseJoinSettingsController.h"
+//	#include "Rbdb_Compact.h"
+#include "Rbdb_ErrorController.h"
+#include "Rbdb_Database.h"
+#include "Rbdb_DatabaseErrorSettingsController.h"
+#include "Rbdb_DatabaseRecordFixedLengthSettingsController.h"
+#include "Rbdb_DatabaseCacheSettingsController.h"
+#include "Rbdb_DatabaseAssociationSettingsController.h"
+#include "Rbdb_DatabaseCompactSettingsController.h"
+#include "Rbdb_DatabaseEncryptionSettingsController.h"
+#include "Rbdb_DatabaseTypeSettingsController.h"
+#include "Rbdb_DatabaseRecordReadWriteSettingsController.h"
+#include "Rbdb_DatabaseCursorSettingsController.h"
+#include "Rbdb_SettingsController.h"
+#include "Rbdb_Environment.h"
+#include "Rbdb_DatabaseVerbositySettingsController.h"
+#include "Rbdb_DatabaseVerificationSettingsController.h"
+#include "Rbdb_DatabaseSequenceSettingsController.h"
+#include "Rbdb_DatabaseRecordVariableLengthSettingsController.h"
+#include "Rbdb_DatabaseRecordSettingsController.h"
+#include "Rbdb_DatabaseJoinSettingsController.h"
 
-#include "RPDB_DatabaseAssociationSettingsController.h"
+#include "Rbdb_DatabaseAssociationSettingsController.h"
 
-#include "RPDB_TransactionSettingsController.h"
-#include "RPDB_LockSettingsController.h"
-#include "RPDB_LogSettingsController.h"
-#include "RPDB_MemoryPoolSettingsController.h"
-#include "RPDB_MemoryPoolReadWriteSettingsController.h"
-#include "RPDB_ReplicationSettingsController.h"
-#include "RPDB_DebugSettingsController.h"
-#include "RPDB_FileSettingsController.h"
-#include "RPDB_ThreadSettingsController.h"
+#include "Rbdb_TransactionSettingsController.h"
+#include "Rbdb_LockSettingsController.h"
+#include "Rbdb_LogSettingsController.h"
+#include "Rbdb_MemoryPoolSettingsController.h"
+#include "Rbdb_MemoryPoolReadWriteSettingsController.h"
+#include "Rbdb_ReplicationSettingsController.h"
+#include "Rbdb_DebugSettingsController.h"
+#include "Rbdb_FileSettingsController.h"
+#include "Rbdb_ThreadSettingsController.h"
 
-#include "RPDB_DatabaseVerbositySettingsController_internal.h"
-#include "RPDB_DatabaseSequenceSettingsController_internal.h"
-#include "RPDB_DatabaseRecordReadWriteSettingsController_internal.h"
-#include "RPDB_DatabaseCursorSettingsController_internal.h"
-#include "RPDB_DatabaseRecordVariableLengthSettingsController_internal.h"
-#include "RPDB_DatabaseVerificationSettingsController_internal.h"
-#include "RPDB_DatabaseRecordSettingsController_internal.h"
+#include "Rbdb_DatabaseVerbositySettingsController_internal.h"
+#include "Rbdb_DatabaseSequenceSettingsController_internal.h"
+#include "Rbdb_DatabaseRecordReadWriteSettingsController_internal.h"
+#include "Rbdb_DatabaseCursorSettingsController_internal.h"
+#include "Rbdb_DatabaseRecordVariableLengthSettingsController_internal.h"
+#include "Rbdb_DatabaseVerificationSettingsController_internal.h"
+#include "Rbdb_DatabaseRecordSettingsController_internal.h"
 
-#include "RPDB_DatabaseSettingsController_internal.h"
-#include "RPDB_DatabaseErrorSettingsController_internal.h"
-#include "RPDB_DatabaseRecordFixedLengthSettingsController_internal.h"
-#include "RPDB_DatabaseCacheSettingsController_internal.h"
-#include "RPDB_DatabaseAssociationSettingsController_internal.h"
-#include "RPDB_DatabaseCompactSettingsController_internal.h"
-#include "RPDB_DatabaseEncryptionSettingsController_internal.h"
-#include "RPDB_DatabaseTypeSettingsController_internal.h"
+#include "Rbdb_DatabaseSettingsController_internal.h"
+#include "Rbdb_DatabaseErrorSettingsController_internal.h"
+#include "Rbdb_DatabaseRecordFixedLengthSettingsController_internal.h"
+#include "Rbdb_DatabaseCacheSettingsController_internal.h"
+#include "Rbdb_DatabaseAssociationSettingsController_internal.h"
+#include "Rbdb_DatabaseCompactSettingsController_internal.h"
+#include "Rbdb_DatabaseEncryptionSettingsController_internal.h"
+#include "Rbdb_DatabaseTypeSettingsController_internal.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -72,9 +72,9 @@
 *  new  *
 *************/
 
-RPDB_DatabaseSettingsController* RPDB_DatabaseSettingsController_new( RPDB_SettingsController* settings_controller )	{
+Rbdb_DatabaseSettingsController* Rbdb_DatabaseSettingsController_new( Rbdb_SettingsController* settings_controller )	{
 
-	RPDB_DatabaseSettingsController*		database_settings_controller = calloc( 1, sizeof( RPDB_DatabaseSettingsController ) );
+	Rbdb_DatabaseSettingsController*		database_settings_controller = calloc( 1, sizeof( Rbdb_DatabaseSettingsController ) );
 	
 	database_settings_controller->parent_settings_controller = settings_controller;
 
@@ -84,40 +84,40 @@ RPDB_DatabaseSettingsController* RPDB_DatabaseSettingsController_new( RPDB_Setti
 /***************************
 *  free  *
 ***************************/
-void RPDB_DatabaseSettingsController_free(	RPDB_DatabaseSettingsController** database_settings_controller )	{
+void Rbdb_DatabaseSettingsController_free(	Rbdb_DatabaseSettingsController** database_settings_controller )	{
 
 	if ( ( *database_settings_controller )->verification_settings_controller != NULL )	{
-		RPDB_DatabaseVerificationSettingsController_free( & ( ( *database_settings_controller )->verification_settings_controller ) );
+		Rbdb_DatabaseVerificationSettingsController_free( & ( ( *database_settings_controller )->verification_settings_controller ) );
 	}
 	if ( ( *database_settings_controller )->error_settings_controller != NULL )	{
-		RPDB_DatabaseErrorSettingsController_free( & ( ( *database_settings_controller )->error_settings_controller ) );
+		Rbdb_DatabaseErrorSettingsController_free( & ( ( *database_settings_controller )->error_settings_controller ) );
 	}
 	if ( ( *database_settings_controller )->cursor_settings_controller != NULL )	{
-		RPDB_DatabaseCursorSettingsController_free( & ( ( *database_settings_controller )->cursor_settings_controller ) );
+		Rbdb_DatabaseCursorSettingsController_free( & ( ( *database_settings_controller )->cursor_settings_controller ) );
 	}
 	if ( ( *database_settings_controller )->sequence_settings_controller != NULL )	{
-		RPDB_DatabaseSequenceSettingsController_free( & ( ( *database_settings_controller )->sequence_settings_controller ) );
+		Rbdb_DatabaseSequenceSettingsController_free( & ( ( *database_settings_controller )->sequence_settings_controller ) );
 	}
 	if ( ( *database_settings_controller )->verbosity_settings_controller != NULL )	{
-		RPDB_DatabaseVerbositySettingsController_free( & ( ( *database_settings_controller )->verbosity_settings_controller ) );
+		Rbdb_DatabaseVerbositySettingsController_free( & ( ( *database_settings_controller )->verbosity_settings_controller ) );
 	}
 	if ( ( *database_settings_controller )->compact_settings_controller != NULL )	{
-		RPDB_DatabaseCompactSettingsController_free( & ( ( *database_settings_controller )->compact_settings_controller ) );
+		Rbdb_DatabaseCompactSettingsController_free( & ( ( *database_settings_controller )->compact_settings_controller ) );
 	}
 	if ( ( *database_settings_controller )->cache_settings_controller != NULL )	{
-		RPDB_DatabaseCacheSettingsController_free( & ( ( *database_settings_controller )->cache_settings_controller ) );
+		Rbdb_DatabaseCacheSettingsController_free( & ( ( *database_settings_controller )->cache_settings_controller ) );
 	}
 	if ( ( *database_settings_controller )->encryption_settings_controller != NULL )	{
-		RPDB_DatabaseEncryptionSettingsController_free( & ( ( *database_settings_controller )->encryption_settings_controller ) );
+		Rbdb_DatabaseEncryptionSettingsController_free( & ( ( *database_settings_controller )->encryption_settings_controller ) );
 	}
 	if ( ( *database_settings_controller )->association_settings_controller != NULL )	{
-		RPDB_DatabaseAssociationSettingsController_free( & ( ( *database_settings_controller )->association_settings_controller ) );
+		Rbdb_DatabaseAssociationSettingsController_free( & ( ( *database_settings_controller )->association_settings_controller ) );
 	}
 	if ( ( *database_settings_controller )->type_settings_controller != NULL )	{
-		RPDB_DatabaseTypeSettingsController_free( & ( ( *database_settings_controller )->type_settings_controller ) );
+		Rbdb_DatabaseTypeSettingsController_free( & ( ( *database_settings_controller )->type_settings_controller ) );
 	}
 	if ( ( *database_settings_controller )->record_settings_controller != NULL )	{
-		RPDB_DatabaseRecordSettingsController_free( & ( ( *database_settings_controller )->record_settings_controller ) );
+		Rbdb_DatabaseRecordSettingsController_free( & ( ( *database_settings_controller )->record_settings_controller ) );
 	}
 	
 	free( *database_settings_controller );
@@ -127,14 +127,14 @@ void RPDB_DatabaseSettingsController_free(	RPDB_DatabaseSettingsController** dat
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_DatabaseSettingsController_parentEnvironment(	RPDB_DatabaseSettingsController* database_settings_controller )	{
+Rbdb_Environment* Rbdb_DatabaseSettingsController_parentEnvironment(	Rbdb_DatabaseSettingsController* database_settings_controller )	{
 	return database_settings_controller->parent_database->parent_database_controller->parent_environment;
 }
 
 /***************************************
 *  parentDatabase  *
 ***************************************/
-RPDB_Database* RPDB_DatabaseSettingsController_parentDatabase(	RPDB_DatabaseSettingsController* database_settings_controller )	{
+Rbdb_Database* Rbdb_DatabaseSettingsController_parentDatabase(	Rbdb_DatabaseSettingsController* database_settings_controller )	{
 	return database_settings_controller->parent_database;
 }
 
@@ -147,7 +147,7 @@ RPDB_Database* RPDB_DatabaseSettingsController_parentDatabase(	RPDB_DatabaseSett
 ****************/
 
 //	DB_CHKSUM				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_flags.html
-int RPDB_DatabaseSettingsController_checksum( RPDB_DatabaseSettingsController* database_settings_controller )	{
+int Rbdb_DatabaseSettingsController_checksum( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 	if ( database_settings_controller->checksum == TRUE )	{
 		return DB_CHKSUM;
 	}
@@ -159,7 +159,7 @@ int RPDB_DatabaseSettingsController_checksum( RPDB_DatabaseSettingsController* d
 	************************/
 
 	//	DB_CHKSUM				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_flags.html
-	void RPDB_DatabaseSettingsController_turnChecksumOn( RPDB_DatabaseSettingsController* database_settings_controller )	{
+	void Rbdb_DatabaseSettingsController_turnChecksumOn( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 		database_settings_controller->checksum = TRUE;
 	}
 
@@ -168,7 +168,7 @@ int RPDB_DatabaseSettingsController_checksum( RPDB_DatabaseSettingsController* d
 	************************/
 
 	//	DB_CHKSUM				http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_flags.html
-	void RPDB_DatabaseSettingsController_turnChecksumOff( RPDB_DatabaseSettingsController* database_settings_controller )	{
+	void Rbdb_DatabaseSettingsController_turnChecksumOff( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 		database_settings_controller->checksum = FALSE;
 	}
 
@@ -177,7 +177,7 @@ int RPDB_DatabaseSettingsController_checksum( RPDB_DatabaseSettingsController* d
 *************/
 
 //	DB_TXN_NOT_DURABLE		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_flags.html
-int RPDB_DatabaseSettingsController_transactionDurability( RPDB_DatabaseSettingsController* database_settings_controller )	{
+int Rbdb_DatabaseSettingsController_transactionDurability( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 	if ( database_settings_controller->transaction_durability_off == TRUE )	{
 		return DB_TXN_NOT_DURABLE;
 	}
@@ -189,7 +189,7 @@ int RPDB_DatabaseSettingsController_transactionDurability( RPDB_DatabaseSettings
 	******************/
 
 	//	DB_TXN_NOT_DURABLE		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_flags.html
-	void RPDB_DatabaseSettingsController_turnTransactionDurabilityOn( RPDB_DatabaseSettingsController* database_settings_controller )	{
+	void Rbdb_DatabaseSettingsController_turnTransactionDurabilityOn( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 		database_settings_controller->transaction_durability_off = TRUE;
 	}
 
@@ -198,7 +198,7 @@ int RPDB_DatabaseSettingsController_transactionDurability( RPDB_DatabaseSettings
 	********************/
 
 	//	DB_TXN_NOT_DURABLE		http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_flags.html
-	void RPDB_DatabaseSettingsController_turnTransactionDurabilityOff( RPDB_DatabaseSettingsController* database_settings_controller )	{
+	void Rbdb_DatabaseSettingsController_turnTransactionDurabilityOff( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 		database_settings_controller->transaction_durability_off = FALSE;
 	}
 
@@ -211,9 +211,9 @@ int RPDB_DatabaseSettingsController_transactionDurability( RPDB_DatabaseSettings
 ****************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_pagesize.html
-uint32_t RPDB_DatabaseSettingsController_pagesize( RPDB_DatabaseSettingsController* database_settings_controller )	{
+uint32_t Rbdb_DatabaseSettingsController_pagesize( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
-	RPDB_Database*	database = database_settings_controller->parent_database;
+	Rbdb_Database*	database = database_settings_controller->parent_database;
 	
 	int				connection_error	= 0;
 
@@ -225,9 +225,9 @@ uint32_t RPDB_DatabaseSettingsController_pagesize( RPDB_DatabaseSettingsControll
 		if ( ( connection_error = database->wrapped_bdb_database->get_pagesize(	database->wrapped_bdb_database, 
 																																						&( database_settings_controller->pagesize ) ) ) )	{
 
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_settings_controller->parent_database->parent_database_controller->parent_environment ),
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( database_settings_controller->parent_database->parent_database_controller->parent_environment ),
 															connection_error, 
-															"RPDB_DatabaseType" );
+															"Rbdb_DatabaseType" );
 		}
 	}
 	
@@ -238,10 +238,10 @@ uint32_t RPDB_DatabaseSettingsController_pagesize( RPDB_DatabaseSettingsControll
 *  setPageSize  *
 ********************/
 
-void RPDB_DatabaseSettingsController_setPageSize(	RPDB_DatabaseSettingsController*	database_settings_controller, 
+void Rbdb_DatabaseSettingsController_setPageSize(	Rbdb_DatabaseSettingsController*	database_settings_controller, 
 																									uint32_t							pagesize )	{
 
-	RPDB_Database*	database = database_settings_controller->parent_database;
+	Rbdb_Database*	database = database_settings_controller->parent_database;
 
 	int			connection_error	= RP_NO_ERROR;
 
@@ -252,9 +252,9 @@ void RPDB_DatabaseSettingsController_setPageSize(	RPDB_DatabaseSettingsControlle
 		if ( ( connection_error = database->wrapped_bdb_database->set_pagesize(	database->wrapped_bdb_database, 
 																																						pagesize ) ) )	{
 
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_settings_controller->parent_database->parent_database_controller->parent_environment ),
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( database_settings_controller->parent_database->parent_database_controller->parent_environment ),
 															connection_error, 
-															"RPDB_DatabaseType" );
+															"Rbdb_DatabaseType" );
 		}
 	}
 }
@@ -265,9 +265,9 @@ void RPDB_DatabaseSettingsController_setPageSize(	RPDB_DatabaseSettingsControlle
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_lorder.html
 //	Byte order for stored integers in database
-BOOL RPDB_DatabaseSettingsController_isBigEndian( RPDB_DatabaseSettingsController* database_settings_controller )	{
+BOOL Rbdb_DatabaseSettingsController_isBigEndian( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
-	RPDB_Database*	database = database_settings_controller->parent_database;
+	Rbdb_Database*	database = database_settings_controller->parent_database;
 
 	int			load_order;
 	
@@ -281,9 +281,9 @@ BOOL RPDB_DatabaseSettingsController_isBigEndian( RPDB_DatabaseSettingsControlle
 		if ( ( connection_error = database->wrapped_bdb_database->get_lorder(	database->wrapped_bdb_database, 
 																				& load_order )) )	{
 
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_settings_controller->parent_database->parent_database_controller->parent_environment ),
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( database_settings_controller->parent_database->parent_database_controller->parent_environment ),
 															connection_error, 
-															"RPDB_DatabaseType" );
+															"Rbdb_DatabaseType" );
 		}
 
 		database_settings_controller->big_endian = load_order == 4321 ? TRUE : FALSE;
@@ -298,9 +298,9 @@ BOOL RPDB_DatabaseSettingsController_isBigEndian( RPDB_DatabaseSettingsControlle
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_lorder.html
 //	Byte order for stored integers in database
-void RPDB_DatabaseSettingsController_setByteOrderToBigEndian( RPDB_DatabaseSettingsController* database_settings_controller )	{
+void Rbdb_DatabaseSettingsController_setByteOrderToBigEndian( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
-	RPDB_Database*	database = database_settings_controller->parent_database;
+	Rbdb_Database*	database = database_settings_controller->parent_database;
 	
 	int			connection_error	= 0;
 
@@ -312,9 +312,9 @@ void RPDB_DatabaseSettingsController_setByteOrderToBigEndian( RPDB_DatabaseSetti
 		if ( ( connection_error = database->wrapped_bdb_database->set_lorder(	database->wrapped_bdb_database,
 																				4321 )) )	{
 
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_settings_controller->parent_database->parent_database_controller->parent_environment ),
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( database_settings_controller->parent_database->parent_database_controller->parent_environment ),
 													connection_error, 
-													"RPDB_DatabaseType" );
+													"Rbdb_DatabaseType" );
 		}
 	}
 }
@@ -325,9 +325,9 @@ void RPDB_DatabaseSettingsController_setByteOrderToBigEndian( RPDB_DatabaseSetti
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_lorder.html
 //	Byte order for stored integers in database
-BOOL RPDB_DatabaseSettingsController_isLittleEndian( RPDB_DatabaseSettingsController* database_settings_controller )	{
+BOOL Rbdb_DatabaseSettingsController_isLittleEndian( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
-	RPDB_Database*	database = database_settings_controller->parent_database;
+	Rbdb_Database*	database = database_settings_controller->parent_database;
 
 	int			load_order;
 
@@ -341,9 +341,9 @@ BOOL RPDB_DatabaseSettingsController_isLittleEndian( RPDB_DatabaseSettingsContro
 		if ( ( connection_error = database->wrapped_bdb_database->get_lorder(	database->wrapped_bdb_database, 
 																																					& load_order ) ) )	{
 
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_settings_controller->parent_database->parent_database_controller->parent_environment ),
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( database_settings_controller->parent_database->parent_database_controller->parent_environment ),
 													connection_error, 
-													"RPDB_DatabaseType" );
+													"Rbdb_DatabaseType" );
 		}
 		database_settings_controller->little_endian = load_order == 1234 ? TRUE : FALSE;
 	}
@@ -355,9 +355,9 @@ BOOL RPDB_DatabaseSettingsController_isLittleEndian( RPDB_DatabaseSettingsContro
 *  setByteOrderToLittleEndian  *
 *************************************/
 
-void RPDB_DatabaseSettingsController_setByteOrderToLittleEndian( RPDB_DatabaseSettingsController* database_settings_controller )	{
+void Rbdb_DatabaseSettingsController_setByteOrderToLittleEndian( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
-	RPDB_Database*	database = database_settings_controller->parent_database;
+	Rbdb_Database*	database = database_settings_controller->parent_database;
 	
 	int			connection_error	= 0;
 
@@ -369,9 +369,9 @@ void RPDB_DatabaseSettingsController_setByteOrderToLittleEndian( RPDB_DatabaseSe
 		if ( ( connection_error = database->wrapped_bdb_database->set_lorder(	database->wrapped_bdb_database, 
 																																					1234 ) ) )	{
 
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_settings_controller->parent_database->parent_database_controller->parent_environment ),
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( database_settings_controller->parent_database->parent_database_controller->parent_environment ),
 													connection_error, 
-													"RPDB_DatabaseType" );
+													"Rbdb_DatabaseType" );
 		}
 	}
 }
@@ -381,9 +381,9 @@ void RPDB_DatabaseSettingsController_setByteOrderToLittleEndian( RPDB_DatabaseSe
 ********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_get_byteswapped.html
-BOOL RPDB_DatabaseSettingsController_isByteswapped( RPDB_DatabaseSettingsController* database_settings_controller )	{
+BOOL Rbdb_DatabaseSettingsController_isByteswapped( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
-	RPDB_Database*	database = database_settings_controller->parent_database;
+	Rbdb_Database*	database = database_settings_controller->parent_database;
 	
 	int			connection_error	= 0;
 
@@ -393,9 +393,9 @@ BOOL RPDB_DatabaseSettingsController_isByteswapped( RPDB_DatabaseSettingsControl
 		if ( ( connection_error = database->wrapped_bdb_database->get_byteswapped(	database->wrapped_bdb_database, 
 																																								(int*) &( database_settings_controller->is_byteswapped ) )) )	{
 
-			RPDB_ErrorController_internal_throwBDBError(	RPDB_Environment_errorController( database_settings_controller->parent_database->parent_database_controller->parent_environment ),
+			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( database_settings_controller->parent_database->parent_database_controller->parent_environment ),
 																																											connection_error, 
-																																											"RPDB_DatabaseType" );
+																																											"Rbdb_DatabaseType" );
 		}
 	}
 	
@@ -409,7 +409,7 @@ BOOL RPDB_DatabaseSettingsController_isByteswapped( RPDB_DatabaseSettingsControl
 //	Return the maximum size possible for the database given page size, etc. 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/ref/am_misc/dbsizes.html
 //	Not a built in function - we will have to get page size, etc. in order to calculate.
-int RPDB_DatabaseSettingsController_maxSizePageIn( RPDB_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
+int Rbdb_DatabaseSettingsController_maxSizePageIn( Rbdb_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
 	
 	//	FIX
 	return 0;
@@ -423,10 +423,10 @@ int RPDB_DatabaseSettingsController_maxSizePageIn( RPDB_DatabaseSettingsControll
 *  recordSettingsController  *
 ************************************/
 
-RPDB_DatabaseRecordSettingsController* RPDB_DatabaseSettingsController_recordSettingsController( RPDB_DatabaseSettingsController*	database_settings_controller )	{
+Rbdb_DatabaseRecordSettingsController* Rbdb_DatabaseSettingsController_recordSettingsController( Rbdb_DatabaseSettingsController*	database_settings_controller )	{
 	
 	if ( database_settings_controller->record_settings_controller == NULL )	{
-		database_settings_controller->record_settings_controller = RPDB_DatabaseRecordSettingsController_new( database_settings_controller );
+		database_settings_controller->record_settings_controller = Rbdb_DatabaseRecordSettingsController_new( database_settings_controller );
 	}
 	
 	return database_settings_controller->record_settings_controller;
@@ -438,10 +438,10 @@ RPDB_DatabaseRecordSettingsController* RPDB_DatabaseSettingsController_recordSet
 *  errorSettingsController  *
 ********************************/
 
-RPDB_DatabaseErrorSettingsController* RPDB_DatabaseSettingsController_errorSettingsController( RPDB_DatabaseSettingsController* database_settings_controller )	{
+Rbdb_DatabaseErrorSettingsController* Rbdb_DatabaseSettingsController_errorSettingsController( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
 	if ( database_settings_controller->error_settings_controller == NULL )	{
-		database_settings_controller->error_settings_controller = RPDB_DatabaseErrorSettingsController_new( database_settings_controller );
+		database_settings_controller->error_settings_controller = Rbdb_DatabaseErrorSettingsController_new( database_settings_controller );
 	}
 
 	return database_settings_controller->error_settings_controller;
@@ -451,10 +451,10 @@ RPDB_DatabaseErrorSettingsController* RPDB_DatabaseSettingsController_errorSetti
 *  cacheController  *
 ************************/
 
-RPDB_DatabaseCacheSettingsController* RPDB_DatabaseSettingsController_cacheSettingsController( RPDB_DatabaseSettingsController* database_settings_controller )	{
+Rbdb_DatabaseCacheSettingsController* Rbdb_DatabaseSettingsController_cacheSettingsController( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
 	if ( database_settings_controller->cache_settings_controller == NULL )	{
-		database_settings_controller->cache_settings_controller = RPDB_DatabaseCacheSettingsController_new( database_settings_controller );
+		database_settings_controller->cache_settings_controller = Rbdb_DatabaseCacheSettingsController_new( database_settings_controller );
 	}
 
 	return database_settings_controller->cache_settings_controller;
@@ -464,10 +464,10 @@ RPDB_DatabaseCacheSettingsController* RPDB_DatabaseSettingsController_cacheSetti
 *  associateController  *
 ****************************/
 
-RPDB_DatabaseAssociationSettingsController* RPDB_DatabaseSettingsController_associationSettingsController( RPDB_DatabaseSettingsController* database_settings_controller )	{
+Rbdb_DatabaseAssociationSettingsController* Rbdb_DatabaseSettingsController_associationSettingsController( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
 	if ( database_settings_controller->association_settings_controller == NULL )	{
-		database_settings_controller->association_settings_controller = RPDB_DatabaseAssociationSettingsController_new( database_settings_controller );
+		database_settings_controller->association_settings_controller = Rbdb_DatabaseAssociationSettingsController_new( database_settings_controller );
 	}
 
 	return database_settings_controller->association_settings_controller;
@@ -477,10 +477,10 @@ RPDB_DatabaseAssociationSettingsController* RPDB_DatabaseSettingsController_asso
 *  compactController  *
 *************************/
 
-RPDB_DatabaseCompactSettingsController* RPDB_DatabaseSettingsController_compactSettingsController( RPDB_DatabaseSettingsController* database_settings_controller )	{
+Rbdb_DatabaseCompactSettingsController* Rbdb_DatabaseSettingsController_compactSettingsController( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
 	if ( database_settings_controller->compact_settings_controller == NULL )	{
-		database_settings_controller->compact_settings_controller = RPDB_DatabaseCompactSettingsController_new( database_settings_controller );
+		database_settings_controller->compact_settings_controller = Rbdb_DatabaseCompactSettingsController_new( database_settings_controller );
 	}
 
 	return database_settings_controller->compact_settings_controller;
@@ -490,10 +490,10 @@ RPDB_DatabaseCompactSettingsController* RPDB_DatabaseSettingsController_compactS
 *  encryptionController  *
 *****************************/
 
-RPDB_DatabaseEncryptionSettingsController* RPDB_DatabaseSettingsController_encryptionSettingsController( RPDB_DatabaseSettingsController* database_settings_controller )	{
+Rbdb_DatabaseEncryptionSettingsController* Rbdb_DatabaseSettingsController_encryptionSettingsController( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
 	if ( database_settings_controller->encryption_settings_controller == NULL )	{
-		database_settings_controller->encryption_settings_controller = RPDB_DatabaseEncryptionSettingsController_new( database_settings_controller );
+		database_settings_controller->encryption_settings_controller = Rbdb_DatabaseEncryptionSettingsController_new( database_settings_controller );
 	}
 
 	return database_settings_controller->encryption_settings_controller;
@@ -503,10 +503,10 @@ RPDB_DatabaseEncryptionSettingsController* RPDB_DatabaseSettingsController_encry
 *  verbosityController  *
 *****************************/
 
-RPDB_DatabaseVerbositySettingsController* RPDB_DatabaseSettingsController_verbositySettingsController( RPDB_DatabaseSettingsController* database_settings_controller )	{
+Rbdb_DatabaseVerbositySettingsController* Rbdb_DatabaseSettingsController_verbositySettingsController( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
 	if ( database_settings_controller->verbosity_settings_controller == NULL )	{
-		database_settings_controller->verbosity_settings_controller = RPDB_DatabaseVerbositySettingsController_new( database_settings_controller );
+		database_settings_controller->verbosity_settings_controller = Rbdb_DatabaseVerbositySettingsController_new( database_settings_controller );
 	}
 
 	return database_settings_controller->verbosity_settings_controller;
@@ -516,10 +516,10 @@ RPDB_DatabaseVerbositySettingsController* RPDB_DatabaseSettingsController_verbos
 *  verificationController  *
 *****************************/
 
-RPDB_DatabaseVerificationSettingsController* RPDB_DatabaseSettingsController_verificationSettingsController( RPDB_DatabaseSettingsController* database_settings_controller )	{
+Rbdb_DatabaseVerificationSettingsController* Rbdb_DatabaseSettingsController_verificationSettingsController( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
 	if ( database_settings_controller->verification_settings_controller == NULL )	{
-		database_settings_controller->verification_settings_controller = RPDB_DatabaseVerificationSettingsController_new( database_settings_controller );
+		database_settings_controller->verification_settings_controller = Rbdb_DatabaseVerificationSettingsController_new( database_settings_controller );
 	}
 
 	return database_settings_controller->verification_settings_controller;
@@ -529,10 +529,10 @@ RPDB_DatabaseVerificationSettingsController* RPDB_DatabaseSettingsController_ver
 *  cursorController  *
 *****************************/
 
-RPDB_DatabaseCursorSettingsController* RPDB_DatabaseSettingsController_cursorSettingsController( RPDB_DatabaseSettingsController* database_settings_controller )	{
+Rbdb_DatabaseCursorSettingsController* Rbdb_DatabaseSettingsController_cursorSettingsController( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
 	if ( database_settings_controller->cursor_settings_controller == NULL )	{
-		database_settings_controller->cursor_settings_controller = RPDB_DatabaseCursorSettingsController_new( database_settings_controller );
+		database_settings_controller->cursor_settings_controller = Rbdb_DatabaseCursorSettingsController_new( database_settings_controller );
 	}
 
 	return database_settings_controller->cursor_settings_controller;
@@ -542,10 +542,10 @@ RPDB_DatabaseCursorSettingsController* RPDB_DatabaseSettingsController_cursorSet
 *  sequenceController  *
 *****************************/
 
-RPDB_DatabaseSequenceSettingsController* RPDB_DatabaseSettingsController_sequenceSettingsController( RPDB_DatabaseSettingsController* database_settings_controller )	{
+Rbdb_DatabaseSequenceSettingsController* Rbdb_DatabaseSettingsController_sequenceSettingsController( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
 	if ( database_settings_controller->sequence_settings_controller == NULL )	{
-		database_settings_controller->sequence_settings_controller = RPDB_DatabaseSequenceSettingsController_new( database_settings_controller );
+		database_settings_controller->sequence_settings_controller = Rbdb_DatabaseSequenceSettingsController_new( database_settings_controller );
 	}
 
 	return database_settings_controller->sequence_settings_controller;
@@ -555,10 +555,10 @@ RPDB_DatabaseSequenceSettingsController* RPDB_DatabaseSettingsController_sequenc
 *  typeSettingsController  *
 *****************************/
 
-RPDB_DatabaseTypeSettingsController* RPDB_DatabaseSettingsController_typeSettingsController( RPDB_DatabaseSettingsController* database_settings_controller )	{
+Rbdb_DatabaseTypeSettingsController* Rbdb_DatabaseSettingsController_typeSettingsController( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
 	if ( database_settings_controller->type_settings_controller == NULL )	{
-		database_settings_controller->type_settings_controller = RPDB_DatabaseTypeSettingsController_new( database_settings_controller );
+		database_settings_controller->type_settings_controller = Rbdb_DatabaseTypeSettingsController_new( database_settings_controller );
 	}
 
 	return database_settings_controller->type_settings_controller;
@@ -568,10 +568,10 @@ RPDB_DatabaseTypeSettingsController* RPDB_DatabaseSettingsController_typeSetting
 *  joinSettingsController  *
 ************************************/
 
-RPDB_DatabaseJoinSettingsController* RPDB_DatabaseSettingsController_joinSettingsController( RPDB_DatabaseSettingsController*	database_settings_controller )	{
+Rbdb_DatabaseJoinSettingsController* Rbdb_DatabaseSettingsController_joinSettingsController( Rbdb_DatabaseSettingsController*	database_settings_controller )	{
 	
 	if ( database_settings_controller->join_settings_controller == NULL )	{
-		database_settings_controller->join_settings_controller = RPDB_DatabaseJoinSettingsController_new( database_settings_controller );
+		database_settings_controller->join_settings_controller = Rbdb_DatabaseJoinSettingsController_new( database_settings_controller );
 	}
 	
 	return database_settings_controller->join_settings_controller;
@@ -588,7 +588,7 @@ RPDB_DatabaseJoinSettingsController* RPDB_DatabaseSettingsController_joinSetting
 *  createFlags  *
 **********************/
 
-int RPDB_DatabaseSettingsController_internal_createFlags( RPDB_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
+int Rbdb_DatabaseSettingsController_internal_createFlags( Rbdb_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
 	//	FIX
 	return FALSE;
 }
@@ -597,17 +597,17 @@ int RPDB_DatabaseSettingsController_internal_createFlags( RPDB_DatabaseSettingsC
 *  openFlags  *
 ******************/
 
-int RPDB_DatabaseSettingsController_internal_openFlags( RPDB_DatabaseSettingsController* database_settings_controller )	{
+int Rbdb_DatabaseSettingsController_internal_openFlags( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 	
-	RPDB_SettingsController*											settings_controller													=	RPDB_Environment_settingsController( database_settings_controller->parent_settings_controller->parent_environment );
-	RPDB_MemoryPoolSettingsController*						memory_pool_settings_controller							=	RPDB_SettingsController_memoryPoolSettingsController( settings_controller );
-	RPDB_MemoryPoolReadWriteSettingsController*		memory_pool_read_write_settings_controller	=	RPDB_MemoryPoolSettingsController_readWriteSettingsController( memory_pool_settings_controller );
+	Rbdb_SettingsController*											settings_controller													=	Rbdb_Environment_settingsController( database_settings_controller->parent_settings_controller->parent_environment );
+	Rbdb_MemoryPoolSettingsController*						memory_pool_settings_controller							=	Rbdb_SettingsController_memoryPoolSettingsController( settings_controller );
+	Rbdb_MemoryPoolReadWriteSettingsController*		memory_pool_read_write_settings_controller	=	Rbdb_MemoryPoolSettingsController_readWriteSettingsController( memory_pool_settings_controller );
 	
-	return	RPDB_FileSettingsController_permitEnvironmentBasedFileNaming(	RPDB_SettingsController_fileSettingsController( settings_controller ) )
-			|	RPDB_FileSettingsController_useEnvironmentHomePermissionsForFileNaming(	RPDB_SettingsController_fileSettingsController( RPDB_Environment_settingsController( database_settings_controller->parent_settings_controller->parent_environment ) ) )
-			|	RPDB_FileSettingsController_createIfNecessary(	RPDB_SettingsController_fileSettingsController( settings_controller ) )
-			|	RPDB_DebugSettingsController_openInLockdown(	RPDB_SettingsController_debugSettingsController( settings_controller ) )
-			|	RPDB_MemoryPoolReadWriteSettingsController_useSystemMemoryForStorage(	memory_pool_read_write_settings_controller );
+	return	Rbdb_FileSettingsController_permitEnvironmentBasedFileNaming(	Rbdb_SettingsController_fileSettingsController( settings_controller ) )
+			|	Rbdb_FileSettingsController_useEnvironmentHomePermissionsForFileNaming(	Rbdb_SettingsController_fileSettingsController( Rbdb_Environment_settingsController( database_settings_controller->parent_settings_controller->parent_environment ) ) )
+			|	Rbdb_FileSettingsController_createIfNecessary(	Rbdb_SettingsController_fileSettingsController( settings_controller ) )
+			|	Rbdb_DebugSettingsController_openInLockdown(	Rbdb_SettingsController_debugSettingsController( settings_controller ) )
+			|	Rbdb_MemoryPoolReadWriteSettingsController_useSystemMemoryForStorage(	memory_pool_read_write_settings_controller );
 }
 
 /********************
@@ -616,7 +616,7 @@ int RPDB_DatabaseSettingsController_internal_openFlags( RPDB_DatabaseSettingsCon
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_close.html
 //	DB_NOSYNC
-int RPDB_DatabaseSettingsController_internal_closeFlags( RPDB_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
+int Rbdb_DatabaseSettingsController_internal_closeFlags( Rbdb_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
 	//	FIX
 	return FALSE;
 }
@@ -627,7 +627,7 @@ int RPDB_DatabaseSettingsController_internal_closeFlags( RPDB_DatabaseSettingsCo
 
 //	Flags is currently unused (0) - this could change. Who knows what the future may hold! :o
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_rename.html
-int RPDB_DatabaseSettingsController_internal_renameFlags( RPDB_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
+int Rbdb_DatabaseSettingsController_internal_renameFlags( Rbdb_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
 	return FALSE;
 }
 
@@ -637,7 +637,7 @@ int RPDB_DatabaseSettingsController_internal_renameFlags( RPDB_DatabaseSettingsC
 
 //	Flags is currently unused (0) - this could change. Who knows what the future may hold! :o
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_truncate.html
-int RPDB_DatabaseSettingsController_internal_emptyFlags( RPDB_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
+int Rbdb_DatabaseSettingsController_internal_emptyFlags( Rbdb_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
 	return FALSE;
 }
 
@@ -647,7 +647,7 @@ int RPDB_DatabaseSettingsController_internal_emptyFlags( RPDB_DatabaseSettingsCo
 
 //	Flags is currently unused (0) - this could change. Who knows what the future may hold! :o
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_remove.html
-int RPDB_DatabaseSettingsController_internal_eraseFlags( RPDB_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
+int Rbdb_DatabaseSettingsController_internal_eraseFlags( Rbdb_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
 	return FALSE;
 }
 
@@ -656,7 +656,7 @@ int RPDB_DatabaseSettingsController_internal_eraseFlags( RPDB_DatabaseSettingsCo
 *********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_upgrade.html
-int RPDB_DatabaseSettingsController_internal_upgradeFlags( RPDB_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
+int Rbdb_DatabaseSettingsController_internal_upgradeFlags( Rbdb_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
 
 	//	FIX
 	return FALSE;
@@ -667,7 +667,7 @@ int RPDB_DatabaseSettingsController_internal_upgradeFlags( RPDB_DatabaseSettings
 *********************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_fileid_reset.html
-int RPDB_DatabaseSettingsController_internal_resetIDFlags( RPDB_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
+int Rbdb_DatabaseSettingsController_internal_resetIDFlags( Rbdb_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
 
 	//	FIX
 	return FALSE;
@@ -679,7 +679,7 @@ int RPDB_DatabaseSettingsController_internal_resetIDFlags( RPDB_DatabaseSettings
 
 //	Flags is currently unused (0) - this could change. Who knows what the future may hold! :o
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_sync.html
-int RPDB_DatabaseSettingsController_internal_syncFlags( RPDB_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
+int Rbdb_DatabaseSettingsController_internal_syncFlags( Rbdb_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
 	return FALSE;
 }
 
@@ -688,13 +688,13 @@ int RPDB_DatabaseSettingsController_internal_syncFlags( RPDB_DatabaseSettingsCon
 *************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_associate.html
-int RPDB_DatabaseSettingsController_internal_associateFlags( RPDB_DatabaseSettingsController* database_settings_controller )	{
+int Rbdb_DatabaseSettingsController_internal_associateFlags( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
 	//	FIX
 	//	if DB_CREATE is set then we want to return it unless createSecondaryIndexOnAssociation is false
 	
-	return RPDB_DatabaseAssociationSettingsController_secondaryAssociationCreatesIndex( RPDB_DatabaseSettingsController_associationSettingsController( database_settings_controller ) )
-			|	RPDB_DatabaseAssociationSettingsController_immutableSecondaryKey( RPDB_DatabaseSettingsController_associationSettingsController( database_settings_controller ) );
+	return Rbdb_DatabaseAssociationSettingsController_secondaryAssociationCreatesIndex( Rbdb_DatabaseSettingsController_associationSettingsController( database_settings_controller ) )
+			|	Rbdb_DatabaseAssociationSettingsController_immutableSecondaryKey( Rbdb_DatabaseSettingsController_associationSettingsController( database_settings_controller ) );
 }
 
 /*********************
@@ -703,8 +703,8 @@ int RPDB_DatabaseSettingsController_internal_associateFlags( RPDB_DatabaseSettin
 
 //	Flags is currently unused (0) - this could change. Who knows what the future may hold! :o
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_key_range.html
-int RPDB_DatabaseSettingsController_internal_keyRangeFlags( RPDB_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
-	return RPDB_NO_FLAGS;
+int Rbdb_DatabaseSettingsController_internal_keyRangeFlags( Rbdb_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
+	return Rbdb_NO_FLAGS;
 }
 
 /**************************
@@ -712,7 +712,7 @@ int RPDB_DatabaseSettingsController_internal_keyRangeFlags( RPDB_DatabaseSetting
 **************************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_compact.html
-DB_COMPACT* RPDB_DatabaseSettingsController_internal_compactParameters( RPDB_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
+DB_COMPACT* Rbdb_DatabaseSettingsController_internal_compactParameters( Rbdb_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
 
 	//	FIX
 //	return &( database->database_status_controller->compact_status );
@@ -725,28 +725,28 @@ DB_COMPACT* RPDB_DatabaseSettingsController_internal_compactParameters( RPDB_Dat
 
 //	Flags is currently unused (0) - this could change. Who knows what the future may hold! :o
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_compact.html
-int RPDB_DatabaseSettingsController_internal_compactFlags( RPDB_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
-	return RPDB_NO_FLAGS;
+int Rbdb_DatabaseSettingsController_internal_compactFlags( Rbdb_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
+	return Rbdb_NO_FLAGS;
 }
 
 /**********************************************
 *  prepareDatabaseForFileTransferFlags  *
 **********************************************/
 
-int RPDB_DatabaseSettingsController_internal_prepareDatabaseForFileTransferFlags( RPDB_DatabaseSettingsController* database_settings_controller )	{
+int Rbdb_DatabaseSettingsController_internal_prepareDatabaseForFileTransferFlags( Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
-	return RPDB_DatabaseEncryptionSettingsController_encrypted( 
-					RPDB_DatabaseSettingsController_encryptionSettingsController( 
-						RPDB_SettingsController_databaseSettingsController( 
-							RPDB_Environment_settingsController( database_settings_controller->parent_database->parent_database_controller->parent_environment ) ) ) );	
+	return Rbdb_DatabaseEncryptionSettingsController_encrypted( 
+					Rbdb_DatabaseSettingsController_encryptionSettingsController( 
+						Rbdb_SettingsController_databaseSettingsController( 
+							Rbdb_Environment_settingsController( database_settings_controller->parent_database->parent_database_controller->parent_environment ) ) ) );	
 }
 
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_DatabaseSettingsController* RPDB_DatabaseSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_DatabaseSettingsController* database_settings_controller )	{
+Rbdb_DatabaseSettingsController* Rbdb_DatabaseSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseSettingsController* database_settings_controller )	{
 
-	RPDB_DatabaseSettingsController* database_settings_controller_copy	=	RPDB_DatabaseSettingsController_new( database_settings_controller->parent_settings_controller );
+	Rbdb_DatabaseSettingsController* database_settings_controller_copy	=	Rbdb_DatabaseSettingsController_new( database_settings_controller->parent_settings_controller );
 	
 	//	Instances and Pointers
 	database_settings_controller_copy->is_byteswapped				=	database_settings_controller->is_byteswapped;
@@ -759,47 +759,47 @@ RPDB_DatabaseSettingsController* RPDB_DatabaseSettingsController_internal_copyOf
 
 	//	Tell Controllers to copy
 	if ( database_settings_controller->error_settings_controller != NULL )	{
-		database_settings_controller_copy->error_settings_controller										=	RPDB_DatabaseErrorSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->error_settings_controller );
+		database_settings_controller_copy->error_settings_controller										=	Rbdb_DatabaseErrorSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->error_settings_controller );
 		database_settings_controller_copy->error_settings_controller->parent_database_settings_controller	=	database_settings_controller_copy;
 	}
 	if ( database_settings_controller->cache_settings_controller != NULL )	{
-		database_settings_controller_copy->cache_settings_controller										=	RPDB_DatabaseCacheSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->cache_settings_controller );
+		database_settings_controller_copy->cache_settings_controller										=	Rbdb_DatabaseCacheSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->cache_settings_controller );
 		database_settings_controller_copy->cache_settings_controller->parent_database_settings_controller	=	database_settings_controller_copy;
 	}
 	if ( database_settings_controller->association_settings_controller != NULL )	{
-		database_settings_controller_copy->association_settings_controller									=	RPDB_DatabaseAssociationSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->association_settings_controller );
+		database_settings_controller_copy->association_settings_controller									=	Rbdb_DatabaseAssociationSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->association_settings_controller );
 		database_settings_controller_copy->association_settings_controller->parent_database_settings_controller	=	database_settings_controller_copy;
 	}
 	if ( database_settings_controller->compact_settings_controller != NULL )	{
-		database_settings_controller_copy->compact_settings_controller										=	RPDB_DatabaseCompactSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->compact_settings_controller );
+		database_settings_controller_copy->compact_settings_controller										=	Rbdb_DatabaseCompactSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->compact_settings_controller );
 		database_settings_controller_copy->compact_settings_controller->parent_database_settings_controller	=	database_settings_controller_copy;
 	}
 	if ( database_settings_controller->encryption_settings_controller != NULL )	{
-		database_settings_controller_copy->encryption_settings_controller									=	RPDB_DatabaseEncryptionSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->encryption_settings_controller );
+		database_settings_controller_copy->encryption_settings_controller									=	Rbdb_DatabaseEncryptionSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->encryption_settings_controller );
 		database_settings_controller_copy->encryption_settings_controller->parent_database_settings_controller	=	database_settings_controller_copy;
 	}
 	if ( database_settings_controller->verbosity_settings_controller != NULL )	{
-		database_settings_controller_copy->verbosity_settings_controller									=	RPDB_DatabaseVerbositySettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->verbosity_settings_controller );
+		database_settings_controller_copy->verbosity_settings_controller									=	Rbdb_DatabaseVerbositySettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->verbosity_settings_controller );
 		database_settings_controller_copy->verbosity_settings_controller->parent_database_settings_controller	=	database_settings_controller_copy;
 	}
 	if ( database_settings_controller->type_settings_controller != NULL )	{
-		database_settings_controller_copy->type_settings_controller											=	RPDB_DatabaseTypeSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->type_settings_controller );
+		database_settings_controller_copy->type_settings_controller											=	Rbdb_DatabaseTypeSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->type_settings_controller );
 		database_settings_controller_copy->type_settings_controller->parent_database_settings_controller	=	database_settings_controller_copy;
 	}
 	if ( database_settings_controller->sequence_settings_controller != NULL )	{
-		database_settings_controller_copy->sequence_settings_controller										=	RPDB_DatabaseSequenceSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->sequence_settings_controller );
+		database_settings_controller_copy->sequence_settings_controller										=	Rbdb_DatabaseSequenceSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->sequence_settings_controller );
 		database_settings_controller_copy->sequence_settings_controller->parent_database_settings_controller	=	database_settings_controller_copy;
 	}
 	if ( database_settings_controller->cursor_settings_controller != NULL )	{
-		database_settings_controller_copy->cursor_settings_controller										=	RPDB_DatabaseCursorSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->cursor_settings_controller );
+		database_settings_controller_copy->cursor_settings_controller										=	Rbdb_DatabaseCursorSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->cursor_settings_controller );
 		database_settings_controller_copy->cursor_settings_controller->parent_database_settings_controller	=	database_settings_controller_copy;
 	}
 	if ( database_settings_controller->verification_settings_controller != NULL )	{
-		database_settings_controller_copy->verification_settings_controller									=	RPDB_DatabaseVerificationSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->verification_settings_controller );
+		database_settings_controller_copy->verification_settings_controller									=	Rbdb_DatabaseVerificationSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->verification_settings_controller );
 		database_settings_controller_copy->verification_settings_controller->parent_database_settings_controller	=	database_settings_controller_copy;
 	}
 	if ( database_settings_controller->record_settings_controller != NULL )	{
-		database_settings_controller_copy->record_settings_controller										=	RPDB_DatabaseRecordSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->record_settings_controller );
+		database_settings_controller_copy->record_settings_controller										=	Rbdb_DatabaseRecordSettingsController_internal_copyOfSettingsControllerForInstance( database_settings_controller->record_settings_controller );
 		database_settings_controller_copy->record_settings_controller->parent_database_settings_controller	=	database_settings_controller_copy;
 	}
 	

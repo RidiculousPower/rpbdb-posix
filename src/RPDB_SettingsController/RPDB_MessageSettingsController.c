@@ -1,5 +1,5 @@
 /*
- *		RPDB::SettingsController::FileSettingsController
+ *		Rbdb::SettingsController::FileSettingsController
  *
  *
  */
@@ -10,14 +10,14 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RPDB_MessageSettingsController.h"
+#include "Rbdb_MessageSettingsController.h"
 
-#include "RPDB_ErrorController.h"
-#include "RPDB_RuntimeStorageController.h"
-#include "RPDB_SettingsController.h"
-#include "RPDB_Environment.h"
+#include "Rbdb_ErrorController.h"
+#include "Rbdb_RuntimeStorageController.h"
+#include "Rbdb_SettingsController.h"
+#include "Rbdb_Environment.h"
 
-#include "RPDB_MessageSettingsController_internal.h"
+#include "Rbdb_MessageSettingsController_internal.h"
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -29,9 +29,9 @@
 *  new  *
 *************/
 
-RPDB_MessageSettingsController* RPDB_MessageSettingsController_new( RPDB_SettingsController* settings_controller )	{
+Rbdb_MessageSettingsController* Rbdb_MessageSettingsController_new( Rbdb_SettingsController* settings_controller )	{
 	
-	RPDB_MessageSettingsController*		message_settings_controller = calloc( 1, sizeof( RPDB_MessageSettingsController ) );
+	Rbdb_MessageSettingsController*		message_settings_controller = calloc( 1, sizeof( Rbdb_MessageSettingsController ) );
 
 	message_settings_controller->parent_settings_controller = settings_controller;
 	
@@ -41,7 +41,7 @@ RPDB_MessageSettingsController* RPDB_MessageSettingsController_new( RPDB_Setting
 /***************************
 *  free  *
 ***************************/
-void RPDB_MessageSettingsController_free(	RPDB_MessageSettingsController** message_settings_controller )	{
+void Rbdb_MessageSettingsController_free(	Rbdb_MessageSettingsController** message_settings_controller )	{
 
 	//	Make sure file is open so we don't close a closed file.
 	if ( ( *message_settings_controller )->message_file_is_open )	{
@@ -58,7 +58,7 @@ void RPDB_MessageSettingsController_free(	RPDB_MessageSettingsController** messa
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-RPDB_Environment* RPDB_MessageSettingsController_parentEnvironment(	RPDB_MessageSettingsController* message_settings_controller )	{
+Rbdb_Environment* Rbdb_MessageSettingsController_parentEnvironment(	Rbdb_MessageSettingsController* message_settings_controller )	{
 	return message_settings_controller->parent_settings_controller->parent_environment;
 }
 
@@ -67,9 +67,9 @@ RPDB_Environment* RPDB_MessageSettingsController_parentEnvironment(	RPDB_Message
 *************/
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_msgfile.html
-FILE* RPDB_MessageSettingsController_file( RPDB_MessageSettingsController* message_settings_controller )	{
+FILE* Rbdb_MessageSettingsController_file( Rbdb_MessageSettingsController* message_settings_controller )	{
 
-	RPDB_Environment*		environment	= message_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment	= message_settings_controller->parent_settings_controller->parent_environment;
 	FILE*		message_file;
 	
 	if ( environment->wrapped_bdb_environment != NULL )	{
@@ -88,9 +88,9 @@ FILE* RPDB_MessageSettingsController_file( RPDB_MessageSettingsController* messa
 *  setFile  *
 *****************/
 
-void RPDB_MessageSettingsController_setFile( RPDB_MessageSettingsController* message_settings_controller, FILE* message_file )	{
+void Rbdb_MessageSettingsController_setFile( Rbdb_MessageSettingsController* message_settings_controller, FILE* message_file )	{
 
-	RPDB_Environment*		environment	= message_settings_controller->parent_settings_controller->parent_environment;
+	Rbdb_Environment*		environment	= message_settings_controller->parent_settings_controller->parent_environment;
 	
 	if ( environment->wrapped_bdb_environment != NULL )	{
 
@@ -105,21 +105,21 @@ void RPDB_MessageSettingsController_setFile( RPDB_MessageSettingsController* mes
 *  setFileFromPath  *
 *************************/
 
-int RPDB_MessageSettingsController_setFileFromPath( RPDB_MessageSettingsController* message_settings_controller, char* message_file_path )	{
+int Rbdb_MessageSettingsController_setFileFromPath( Rbdb_MessageSettingsController* message_settings_controller, char* message_file_path )	{
 
 	FILE*		message_file;
 	
 	message_file = fopen( message_file_path, "w");
 	
 	if ( message_file == NULL )	{
-		RPDB_ErrorController_throwError(	RPDB_Environment_errorController( message_settings_controller->parent_settings_controller->parent_environment ),
+		Rbdb_ErrorController_throwError(	Rbdb_Environment_errorController( message_settings_controller->parent_settings_controller->parent_environment ),
 											-1,
-											"RPDB_MessageSettingsController_file",
+											"Rbdb_MessageSettingsController_file",
 											"Could not open file at path." );
 		return 1;
 	}
 	
-	RPDB_MessageSettingsController_setFile(	message_settings_controller, 
+	Rbdb_MessageSettingsController_setFile(	message_settings_controller, 
 												message_file );
 
 	//	Don't we need to close this name at some point?
@@ -131,8 +131,8 @@ int RPDB_MessageSettingsController_setFileFromPath( RPDB_MessageSettingsControll
 *  setMessageCallback  *
 *************************/
 /*
-void RPDB_MessageSettingsController_setMessageCallbackMethod(	RPDB_MessageSettingsController*					message_settings_controller, 
-																void (*message_callback_method)(	RPDB_Environment*			environment, 
+void Rbdb_MessageSettingsController_setMessageCallbackMethod(	Rbdb_MessageSettingsController*					message_settings_controller, 
+																void (*message_callback_method)(	Rbdb_Environment*			environment, 
 																									const char*		message ) )	{
 	
 	DB_ENV*		environment	= message_settings_controller->parent_settings_controller->parent_environment->environment;
@@ -143,7 +143,7 @@ void RPDB_MessageSettingsController_setMessageCallbackMethod(	RPDB_MessageSettin
 		environment->set_msgcall(	environment, 
 									( message_settings_controller->message_callback == NULL ?
 										NULL :
-										& RPDB_MessageSettingsController_internal_messageCallback ) );
+										& Rbdb_MessageSettingsController_internal_messageCallback ) );
 	}
 	
 	message_settings_controller->message_callback = callback;	
@@ -154,8 +154,8 @@ void RPDB_MessageSettingsController_setMessageCallbackMethod(	RPDB_MessageSettin
 *************************/
 /*
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_msgcall.html
-void (*message_callback_method)(	RPDB_Environment*			environment, 
-									const char*		message ) RPDB_MessageSettingsController_messageCallbackMethod( RPDB_MessageSettingsController* message_settings_controller )	{
+void (*message_callback_method)(	Rbdb_Environment*			environment, 
+									const char*		message ) Rbdb_MessageSettingsController_messageCallbackMethod( Rbdb_MessageSettingsController* message_settings_controller )	{
 	return message_settings_controller->message_callback;
 }
 */
@@ -171,13 +171,13 @@ void (*message_callback_method)(	RPDB_Environment*			environment,
 *  messageCallback  *
 *************************/
 	/*
-void RPDB_MessageSettingsController_internal_messageCallbackMethod(	const DB_ENV*	bdb_environment, 
+void Rbdb_MessageSettingsController_internal_messageCallbackMethod(	const DB_ENV*	bdb_environment, 
 																		const char*		message )	{
 
-	RPDB_Environment*								environment					=	RPDB_RuntimeStorageController_environmentForBDBEnvironment( bdb_environment );
+	Rbdb_Environment*								environment					=	Rbdb_RuntimeStorageController_environmentForBDBEnvironment( bdb_environment );
 	
-	RPDB_MessageSettingsController*	message_settings_controller	=	RPDB_SettingsController_messageSettingsController(
-																			RPDB_Environment_settingsController( environment ) );
+	Rbdb_MessageSettingsController*	message_settings_controller	=	Rbdb_SettingsController_messageSettingsController(
+																			Rbdb_Environment_settingsController( environment ) );
 	
 	*( message_settings_controller->message_callback_method )(	environment,
 																message );
@@ -188,7 +188,7 @@ void RPDB_MessageSettingsController_internal_messageCallbackMethod(	const DB_ENV
 *********************/
 /*
 //	This callback is called if any internal callbacks are defined. 
-void RPDB_MessageSettingsController_internal_eventCallbackMethod(	DB_ENV*			environment, 
+void Rbdb_MessageSettingsController_internal_eventCallbackMethod(	DB_ENV*			environment, 
 																	uint32_t		event, 
 																	void*			event_info )	{
 	
@@ -259,9 +259,9 @@ void RPDB_MessageSettingsController_internal_eventCallbackMethod(	DB_ENV*			envi
 /*******************************************
 *  copyOfSettingsControllerForInstance  *
 *******************************************/
-RPDB_MessageSettingsController* RPDB_MessageSettingsController_internal_copyOfSettingsControllerForInstance(	RPDB_MessageSettingsController* message_settings_controller )	{
+Rbdb_MessageSettingsController* Rbdb_MessageSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_MessageSettingsController* message_settings_controller )	{
 
-	RPDB_MessageSettingsController* message_settings_controller_copy	=	RPDB_MessageSettingsController_new( message_settings_controller->parent_settings_controller );
+	Rbdb_MessageSettingsController* message_settings_controller_copy	=	Rbdb_MessageSettingsController_new( message_settings_controller->parent_settings_controller );
 
 	//	Instances and Pointers
 	message_settings_controller_copy->message_file_is_open	=	message_settings_controller->message_file_is_open;

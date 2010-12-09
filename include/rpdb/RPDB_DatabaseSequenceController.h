@@ -1,27 +1,27 @@
 /*
- *		RPDB::DatabaseController::Database::DatabaseSequenceController
+ *		Rbdb::DatabaseController::Database::DatabaseSequenceController
  *
  *
  */
 
-#ifndef RPDB_DATABASE_SEQUENCE_CONTROLLER
-	#define RPDB_DATABASE_SEQUENCE_CONTROLLER
+#ifndef Rbdb_DATABASE_SEQUENCE_CONTROLLER
+	#define Rbdb_DATABASE_SEQUENCE_CONTROLLER
 
-	#include "RPDB_BaseStandardInclude.h"
+	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
 	*  Prototypes  *
 	****************/
 
-	RPDB_DatabaseSequenceController*			RPDB_DatabaseSequenceController_new(					RPDB_Database*						parent_database );
+	Rbdb_DatabaseSequenceController*			Rbdb_DatabaseSequenceController_new(					Rbdb_Database*						parent_database );
 
-	void										RPDB_DatabaseSequenceController_free(	RPDB_DatabaseSequenceController** database_sequence_controller );
-	RPDB_DatabaseSequenceSettingsController*	RPDB_DatabaseSequenceController_settingsController(	RPDB_DatabaseSequenceController* database_sequence_controller );
-	RPDB_Environment*					RPDB_DatabaseSequenceController_parentEnvironment(	RPDB_DatabaseSequenceController* database_sequence_controller );
-	RPDB_Database* RPDB_DatabaseSequenceController_parentDatabase(	RPDB_DatabaseSequenceController* database_sequence_controller );
+	void										Rbdb_DatabaseSequenceController_free(	Rbdb_DatabaseSequenceController** database_sequence_controller );
+	Rbdb_DatabaseSequenceSettingsController*	Rbdb_DatabaseSequenceController_settingsController(	Rbdb_DatabaseSequenceController* database_sequence_controller );
+	Rbdb_Environment*					Rbdb_DatabaseSequenceController_parentEnvironment(	Rbdb_DatabaseSequenceController* database_sequence_controller );
+	Rbdb_Database* Rbdb_DatabaseSequenceController_parentDatabase(	Rbdb_DatabaseSequenceController* database_sequence_controller );
 
-	RPDB_DatabaseSequence*						RPDB_DatabaseSequenceController_createSequence(		RPDB_DatabaseSequenceController*	database_sequence_controller );
-	RPDB_DatabaseSequenceSettingsController*	RPDB_DatabaseSequenceController_settingsController(	RPDB_DatabaseSequenceController* 	database_sequence_controller );
+	Rbdb_DatabaseSequence*						Rbdb_DatabaseSequenceController_createSequence(		Rbdb_DatabaseSequenceController*	database_sequence_controller );
+	Rbdb_DatabaseSequenceSettingsController*	Rbdb_DatabaseSequenceController_settingsController(	Rbdb_DatabaseSequenceController* 	database_sequence_controller );
 
 #endif
 
