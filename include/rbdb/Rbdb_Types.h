@@ -1,5 +1,5 @@
-#ifndef Rbdb_TYPES
-	#define Rbdb_TYPES
+#ifndef RBDB_TYPES
+	#define RBDB_TYPES
 
 	#include <db.h>
 	#include "Rbdb_Constants.h"
@@ -25,10 +25,10 @@ typedef struct Rbdb_LogCursorController									Rbdb_LogCursorController;
 typedef struct Rbdb_LogCursor												Rbdb_LogCursor;
 typedef struct Rbdb_LogSequenceNumber										Rbdb_LogSequenceNumber;
 typedef struct Rbdb_Record													Rbdb_Record;
-typedef struct Rbdb_DBT													Rbdb_DBT;
-typedef Rbdb_DBT 															Rbdb_Key;
+typedef struct RBDB_DBT													RBDB_DBT;
+typedef RBDB_DBT 															Rbdb_Key;
 typedef struct Rbdb_SecondaryKeys											Rbdb_SecondaryKeys;
-typedef Rbdb_DBT 															Rbdb_Data;
+typedef RBDB_DBT 															Rbdb_Data;
 typedef struct Rbdb_MemoryPoolFilePageController							Rbdb_MemoryPoolFilePageController;
 typedef struct Rbdb_MemoryPoolFilePage										Rbdb_MemoryPoolFilePage;
 typedef struct Rbdb_MemoryPoolFileController								Rbdb_MemoryPoolFileController;
@@ -98,7 +98,7 @@ typedef struct Rbdb_CompactStatus											Rbdb_CompactStatus;
 typedef struct Rbdb_Directory												Rbdb_Directory;
 typedef struct Rbdb_DatabaseOpenedDuringTransaction						Rbdb_DatabaseOpenedDuringTransaction;
 
-typedef		Rbdb_SECONDARY_KEY_CREATION_RETURN	(*Rbdb_SecondaryKeyCallbackMethod)(	Rbdb_Database*			secondary_database,
+typedef		RBDB_SECONDARY_KEY_CREATION_RETURN	(*Rbdb_SecondaryKeyCallbackMethod)(	Rbdb_Database*			secondary_database,
 																																									Rbdb_Record*			primary_record,
 																																									Rbdb_SecondaryKeys*	secondary_keys_to_return );
 
@@ -1762,9 +1762,11 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							Rbdb_DatabaseSequenceController*				parent_database_sequence_controller;
 
 							db_recno_t										runtime_identifier;
-							
-							//	Variables
-							db_seq_t										current_value;
+
+							BOOL															is_open;
+
+							Rbdb_Database*										parent_storage_database;
+							Rbdb_Key*													storage_key;
 
 							//	Wrapped BDB sequence
 							DB_SEQUENCE*									wrapped_bdb_sequence;
@@ -1783,7 +1785,9 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						//	Parent
 						Rbdb_Database*									parent_database;
 
-						Rbdb_Database*	runtime_storage_database;
+						Rbdb_Database*									runtime_storage_database;
+
+						Rbdb_Database*									sequence_storage_database;
 	
 						Rbdb_SettingsController*								environment_settings_controller;
 						Rbdb_DatabaseSequenceSettingsController*				settings_controller;
@@ -1794,7 +1798,7 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						*	Data Type Definitions	*
 						****************************/
 
-						struct Rbdb_DBT	{
+						struct RBDB_DBT	{
 
 							//	Parent
 							Rbdb_Record*											parent_record;

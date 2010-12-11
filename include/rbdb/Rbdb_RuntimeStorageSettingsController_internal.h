@@ -1,5 +1,5 @@
-#ifndef Rbdb_RUNTIME_STORAGE_SETTINGS_CONTROLLER_INTERNAL
-	#define Rbdb_RUNTIME_STORAGE_SETTINGS_CONTROLLER_INTERNAL
+#ifndef RBDB_RUNTIME_STORAGE_SETTINGS_CONTROLLER_INTERNAL
+	#define RBDB_RUNTIME_STORAGE_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************

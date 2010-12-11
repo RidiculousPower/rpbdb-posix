@@ -49,7 +49,7 @@ Rbdb_DatabaseJoinController* Rbdb_DatabaseJoinController_new( Rbdb_Database* par
 
 	database_join_controller->parent_database	=	parent_database;
 
-	Rbdb_RUNTIME_STORAGE( database_join_controller, "database_join_controller" );
+	RBDB_RUNTIME_STORAGE( database_join_controller, "database_join_controller" );
 
 	return database_join_controller;
 }

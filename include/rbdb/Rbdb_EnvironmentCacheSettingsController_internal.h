@@ -1,5 +1,5 @@
-#ifndef Rbdb_ENVIRONMENT_CACHE_SETTINGS_CONTROLLER_INTERNAL
-	#define Rbdb_ENVIRONMENT_CACHE_SETTINGS_CONTROLLER_INTERNAL
+#ifndef RBDB_ENVIRONMENT_CACHE_SETTINGS_CONTROLLER_INTERNAL
+	#define RBDB_ENVIRONMENT_CACHE_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************

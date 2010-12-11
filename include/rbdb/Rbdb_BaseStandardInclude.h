@@ -1,8 +1,8 @@
 
 //	Rbdb Universal Standard Include: included by every Rbdb base type.
 
-#ifndef Rbdb_BASE_STANDARD_INCLUDE
-	#define Rbdb_BASE_STANDARD_INCLUDE
+#ifndef RBDB_BASE_STANDARD_INCLUDE
+	#define RBDB_BASE_STANDARD_INCLUDE
 	
 	//	calloc and malloc
 	#include <stdlib.h>

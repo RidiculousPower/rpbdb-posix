@@ -1,5 +1,5 @@
-#ifndef Rbdb_DIRECTORY
-	#define Rbdb_DIRECTORY
+#ifndef RBDB_DIRECTORY
+	#define RBDB_DIRECTORY
 
 	#include "Rbdb_BaseStandardInclude.h"
 

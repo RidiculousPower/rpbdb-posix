@@ -43,7 +43,7 @@ Rbdb_DatabaseController* Rbdb_DatabaseController_new( Rbdb_Environment* parent_e
 
 	database_controller->parent_environment	=	parent_environment;
 
-	Rbdb_RUNTIME_STORAGE( database_controller, "database_controller" );
+	RBDB_RUNTIME_STORAGE( database_controller, "database_controller" );
 
 	database_controller->record_number	=	1;
 

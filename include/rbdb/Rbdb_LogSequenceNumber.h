@@ -4,8 +4,8 @@
  *	
  */
 
-#ifndef Rbdb_LOG_SEQUENCE_NUMBER
-	#define Rbdb_LOG_SEQUENCE_NUMBER
+#ifndef RBDB_LOG_SEQUENCE_NUMBER
+	#define RBDB_LOG_SEQUENCE_NUMBER
 	
 	#include "Rbdb_BaseStandardInclude.h"
 

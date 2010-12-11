@@ -1,5 +1,5 @@
-#ifndef Rbdb_DATABASE_SEQUENCE_INTERNAL
-	#define Rbdb_DATABASE_SEQUENCE_INTERNAL
+#ifndef RBDB_DATABASE_SEQUENCE_INTERNAL
+	#define RBDB_DATABASE_SEQUENCE_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -8,5 +8,6 @@
 *******************************************************************************************************************************************************************************************/
 
 void Rbdb_DatabaseSequence_internal_freeFromRuntimeStorage(	Rbdb_DatabaseSequence** database_sequence );
+void Rbdb_DatabaseSequence_internal_initWrappedSequence(	Rbdb_DatabaseSequence* database_sequence );
 
 #endif

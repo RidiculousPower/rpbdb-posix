@@ -17,7 +17,7 @@
 
 #include "Rbdb_Key.h"
 #include "Rbdb_Data.h"
-#include "Rbdb_DBT.h"
+#include "RBDB_DBT.h"
 #include "Rbdb_SecondaryKeys.h"
 
 #include "Rbdb_Environment.h"
@@ -152,7 +152,7 @@ void Rbdb_Record_setKeyFromRawKey(	Rbdb_Record*		record,
 										void*				key_raw,
 										uint32_t			key_size )	{
 
-	Rbdb_DBT_setData(	(Rbdb_DBT*) record->key, 
+	RBDB_DBT_setData(	(RBDB_DBT*) record->key, 
 						key_raw,
 						key_size );
 }
@@ -262,7 +262,7 @@ void Rbdb_Record_setDataFromRawData(	Rbdb_Record*		record,
 																			void*				data_raw,
 																			uint32_t			data_size )	{
 
-	Rbdb_DBT_setData(	(Rbdb_DBT*) record->data, 
+	RBDB_DBT_setData(	(RBDB_DBT*) record->data, 
 						data_raw,
 						data_size );
 }

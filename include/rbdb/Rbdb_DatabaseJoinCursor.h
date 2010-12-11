@@ -4,8 +4,8 @@
  *
  */
 
-#ifndef Rbdb_JOIN_CURSOR
-	#define Rbdb_JOIN_CURSOR
+#ifndef RBDB_JOIN_CURSOR
+	#define RBDB_JOIN_CURSOR
 
 	#include "Rbdb_BaseStandardInclude.h"
 

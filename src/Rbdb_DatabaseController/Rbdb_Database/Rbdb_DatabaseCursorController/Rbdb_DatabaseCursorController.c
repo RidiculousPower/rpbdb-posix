@@ -48,7 +48,7 @@ Rbdb_DatabaseCursorController* Rbdb_DatabaseCursorController_new( Rbdb_Database*
 
 	database_cursor_controller->parent_database	=	parent_database;
 
-	Rbdb_RUNTIME_STORAGE( database_cursor_controller, "database_cursor_controller" );
+	RBDB_RUNTIME_STORAGE( database_cursor_controller, "database_cursor_controller" );
 	
  	return database_cursor_controller;
 }

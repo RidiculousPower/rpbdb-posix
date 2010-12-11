@@ -4,8 +4,8 @@
  *
  */
 
-#ifndef Rbdb_LOCK_CONTROLLER
-	#define Rbdb_LOCK_CONTROLLER
+#ifndef RBDB_LOCK_CONTROLLER
+	#define RBDB_LOCK_CONTROLLER
 
 	#include "Rbdb_BaseStandardInclude.h"
 

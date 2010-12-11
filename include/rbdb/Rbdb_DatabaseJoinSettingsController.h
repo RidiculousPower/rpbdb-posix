@@ -4,8 +4,8 @@
  *
  */
 
-#ifndef Rbdb_JOINSETTINGS_CONTROLLER
-	#define Rbdb_JOINSETTINGS_CONTROLLER
+#ifndef RBDB_JOINSETTINGS_CONTROLLER
+	#define RBDB_JOINSETTINGS_CONTROLLER
 
 	#include "Rbdb_BaseStandardInclude.h"
 

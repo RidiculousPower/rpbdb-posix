@@ -12,8 +12,8 @@
 
 */
 
-#ifndef Rbdb_ENVIRONMENT
-	#define Rbdb_ENVIRONMENT
+#ifndef RBDB_ENVIRONMENT
+	#define RBDB_ENVIRONMENT
 
 	 /***************
 	 *  Includes  *

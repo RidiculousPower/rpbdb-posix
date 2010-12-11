@@ -4,8 +4,8 @@
  *
  */
 
-#ifndef Rbdb_RUNTIMESTORAGE
-	#define Rbdb_RUNTIMESTORAGE
+#ifndef RBDB_RUNTIMESTORAGE
+	#define RBDB_RUNTIMESTORAGE
 
 	#include "Rbdb_BaseStandardInclude.h"
 

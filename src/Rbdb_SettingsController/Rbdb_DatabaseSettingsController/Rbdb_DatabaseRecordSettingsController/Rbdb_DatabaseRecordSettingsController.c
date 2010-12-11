@@ -13,7 +13,7 @@
 #include "Rbdb_DatabaseRecordSettingsController.h"
 	#include "Rbdb_DatabaseRecordSettingsController_internal.h"
 
-	#include "Rbdb_DBT.h"
+	#include "RBDB_DBT.h"
 
 	#include "Rbdb_SettingsController.h"
 	#include "Rbdb_MemoryPoolSettingsController.h"

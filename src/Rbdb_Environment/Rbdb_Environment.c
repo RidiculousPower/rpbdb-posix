@@ -47,6 +47,7 @@
 #include "Rbdb_LogSettingsController.h"
 #include "Rbdb_TransactionSettingsController.h"
 #include "Rbdb_ThreadSettingsController.h"
+#include "Rbdb_DatabaseSequenceSettingsController.h"
 
 #include "Rbdb_SettingsController_internal.h"
 #include "Rbdb_LockDeadlockDetectorSettingsController_internal.h"
@@ -78,7 +79,7 @@ Rbdb_Environment* Rbdb_Environment_new(	char* environment_home_directory )	{
 	int		directory_length	=	0;
 	//	If no directory is specified we use current working directory
 	if ( environment_home_directory == NULL )	{
-		environment_home_directory	=	Rbdb_DEFAULT_ENVIRONMENT_HOME_DIRECTORY;
+		environment_home_directory	=	RBDB_DEFAULT_ENVIRONMENT_HOME_DIRECTORY;
 	}
 	
 	//	if we have environment in memory, don't check path (it has none)
@@ -204,18 +205,19 @@ void Rbdb_Environment_initDefaults( Rbdb_Environment* environment )	{
 	Rbdb_ThreadSettingsController*					thread_settings_controller				=	Rbdb_SettingsController_threadSettingsController( settings_controller );
 	Rbdb_DatabaseSettingsController*				database_settings_controller			=	Rbdb_SettingsController_databaseSettingsController( settings_controller );
 	Rbdb_DatabaseTypeSettingsController*		database_type_settings_controller	=	Rbdb_DatabaseSettingsController_typeSettingsController( database_settings_controller );
+	Rbdb_DatabaseSequenceSettingsController*		database_sequence_settings_controller	=	Rbdb_DatabaseSettingsController_sequenceSettingsController( database_settings_controller );
 
 	Rbdb_DatabaseCursorSettingsController*	database_cursor_settings_controller	=	Rbdb_DatabaseSettingsController_cursorSettingsController( database_settings_controller );
 
 	//	we always want default cursor duplication to actually duplicate the cursor
 	Rbdb_DatabaseCursorSettingsController_turnDuplicateRetainsLocationOn( database_cursor_settings_controller );
 
-	#ifdef Rbdb_DEFAULT_MEMORY_POOL_ON
+	#ifdef RBDB_DEFAULT_MEMORY_POOL_ON
 		//	And make sure we actually have a memory pool
 		Rbdb_MemoryPoolSettingsController_turnOn( memory_pool_settings_controller );
 	#endif
 
-	#ifdef Rbdb_DEFAULT_TRANSACTION_DATA_STORE_ON
+	#ifdef RBDB_DEFAULT_TRANSACTION_DATA_STORE_ON
 	
 
 		Rbdb_TransactionSettingsController_turnOn( transaction_settings_controller );
@@ -232,13 +234,13 @@ void Rbdb_Environment_initDefaults( Rbdb_Environment* environment )	{
 		
 	#else
 	
-		#ifdef Rbdb_DEFAULT_CONCURRENT_DATA_STORE_ON
+		#ifdef RBDB_DEFAULT_CONCURRENT_DATA_STORE_ON
 			Rbdb_TransactionSettingsController_turnConcurrentDataStoreLockingOn( transaction_settings_controller );
 		#endif
 	
 	#endif
 
-	#ifdef Rbdb_DEFAULT_SET_ENVIRONMENT_PATH_ON
+	#ifdef RBDB_DEFAULT_SET_ENVIRONMENT_PATH_ON
 
 		//	Set our environment home as our database directory
 		if ( environment->directory != NULL )	{
@@ -248,24 +250,24 @@ void Rbdb_Environment_initDefaults( Rbdb_Environment* environment )	{
 
 	#endif
 															
-	#ifdef Rbdb_DEFAULT_CREATE_IF_NECESSARY
+	#ifdef RBDB_DEFAULT_CREATE_IF_NECESSARY
 		Rbdb_FileSettingsController_turnCreateIfNecessaryOn( file_settings_controller );
 	#endif
 	
-	#ifdef Rbdb_DEFAULT_TO_BTREE
+	#ifdef RBDB_DEFAULT_TO_BTREE
 		//	Unless otherwise specified, all of our runtime storage will be hash - set the environmental default
 		Rbdb_DatabaseTypeSettingsController_setTypeToBTree( database_type_settings_controller );
 	#endif
 	
-	#ifdef Rbdb_MULTIPLE_ACCESS
+	#ifdef RBDB_MULTIPLE_ACCESS
 		Rbdb_ThreadSettingsController_turnOn( thread_settings_controller );
 	#endif
 
-	#ifdef Rbdb_DEFAULT_ENVIRONMENT_LOG
-		#if Rbdb_DEFAULT_ENVIRONMENT_LOG == TRUE
+	#ifdef RBDB_DEFAULT_ENVIRONMENT_LOG
+		#if RBDB_DEFAULT_ENVIRONMENT_LOG == TRUE
 			if (		environment->directory 
 					&&	environment->directory[0] != '\0' )	{			
-				if ( Rbdb_DEFAULT_ENVIRONMENT_LOG_TO_FILE )	{
+				if ( RBDB_DEFAULT_ENVIRONMENT_LOG_TO_FILE )	{
 					char*	log_file_path	=	Rbdb_Environment_internal_errorfilePathForEnvironment(	environment );
 					Rbdb_ErrorSettingsController_setFileFromPath(	error_settings_controller,
 																												log_file_path );
@@ -279,6 +281,10 @@ void Rbdb_Environment_initDefaults( Rbdb_Environment* environment )	{
 		#endif
 	#endif
 
+	Rbdb_DatabaseSequenceSettingsController_setAsIncreasing(			database_sequence_settings_controller );
+	Rbdb_DatabaseSequenceSettingsController_setAsIncreasing(			database_sequence_settings_controller );
+	Rbdb_DatabaseSequenceSettingsController_setInitialValue(			database_sequence_settings_controller, 0 );
+	Rbdb_DatabaseSequenceSettingsController_setDefaultStepValue(	database_sequence_settings_controller, 1 );
 
 }
 
@@ -448,7 +454,7 @@ Rbdb_Environment* Rbdb_Environment_erase( Rbdb_Environment* environment )	{
 
 void Rbdb_Environment_checkForEnvironmentFailure( Rbdb_Environment* environment )	{
 	environment->wrapped_bdb_environment->failchk(	environment->wrapped_bdb_environment,
-																									Rbdb_NO_FLAGS );
+																									RBDB_NO_FLAGS );
 }	
 
 /***********
@@ -914,9 +920,9 @@ void Rbdb_Environment_internal_initWrappedEnvironment(	Rbdb_Environment*		enviro
 			}
 		}
 
-		#ifdef Rbdb_DEFAULT_FAILCHECK
+		#ifdef RBDB_DEFAULT_FAILCHECK
 			Rbdb_ThreadSettingsController_setThreadCount(	Rbdb_SettingsController_threadSettingsController( settings_controller ),
-																										Rbdb_DEFAULT_THREAD_COUNT );
+																										RBDB_DEFAULT_THREAD_COUNT );
 			
 			//	Set callback method for is_alive
 			//	we have to call the internal function here rather than our own wrapper b/c at this point the bdb database has not been stored in runtime storage
@@ -999,34 +1005,34 @@ int Rbdb_Environment_internal_defaultIsThreadAliveCallback(	DB_ENV*			bdb_enviro
 *  errorfilePathForEnvironment  *
 ******************************/
 
-//	environment home directory + Rbdb_DEFAULT_ENVIRONMENT_LOG_DIRECTORY + Rbdb_DEFAULT_ENVIRONMENT_LOG_FILE + Rbdb_DEFAULT_ENVIRONMENT_LOG_FILE_SUFFIX
+//	environment home directory + RBDB_DEFAULT_ENVIRONMENT_LOG_DIRECTORY + RBDB_DEFAULT_ENVIRONMENT_LOG_FILE + RBDB_DEFAULT_ENVIRONMENT_LOG_FILE_SUFFIX
 char* Rbdb_Environment_internal_errorfilePathForEnvironment( Rbdb_Environment*		environment )	{
 	
 	//	get environment home directory
 	char*	environment_home_directory		=	Rbdb_Environment_homeDirectory( environment );
 	int		environment_directory_length	=	strlen( environment_home_directory );
 
-	int		log_directory_length	=	strlen( Rbdb_DEFAULT_ENVIRONMENT_LOG_DIRECTORY );
+	int		log_directory_length	=	strlen( RBDB_DEFAULT_ENVIRONMENT_LOG_DIRECTORY );
 
 	BOOL	logfile_needs_slash	=	FALSE;
 	if (		log_directory_length
-			&&	Rbdb_DEFAULT_ENVIRONMENT_LOG_DIRECTORY[ log_directory_length - 1 ] != '/' )	{
+			&&	RBDB_DEFAULT_ENVIRONMENT_LOG_DIRECTORY[ log_directory_length - 1 ] != '/' )	{
 
 		logfile_needs_slash	=	TRUE;
 	}
 
 	int	return_path_length	=	environment_directory_length
 													+	log_directory_length
-													+ strlen( Rbdb_DEFAULT_ENVIRONMENT_LOG_FILE )
-													+ strlen( Rbdb_DEFAULT_ENVIRONMENT_LOG_FILE_SUFFIX );
+													+ strlen( RBDB_DEFAULT_ENVIRONMENT_LOG_FILE )
+													+ strlen( RBDB_DEFAULT_ENVIRONMENT_LOG_FILE_SUFFIX );
 	
 	char*	path_to_return	=	calloc( return_path_length + 1, sizeof( char ) );
 	
 	sprintf( path_to_return, "%s%s%s%s%s",	environment_home_directory,
-																					Rbdb_DEFAULT_ENVIRONMENT_LOG_DIRECTORY,
+																					RBDB_DEFAULT_ENVIRONMENT_LOG_DIRECTORY,
 																					( logfile_needs_slash ? "/" : "" ),
-																					Rbdb_DEFAULT_ENVIRONMENT_LOG_FILE,
-																					Rbdb_DEFAULT_ENVIRONMENT_LOG_FILE_SUFFIX );
+																					RBDB_DEFAULT_ENVIRONMENT_LOG_FILE,
+																					RBDB_DEFAULT_ENVIRONMENT_LOG_FILE_SUFFIX );
 	return path_to_return;
 }
 

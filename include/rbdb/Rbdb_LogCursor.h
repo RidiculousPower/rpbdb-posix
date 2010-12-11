@@ -4,8 +4,8 @@
  *	
  */
 
-#ifndef Rbdb_LOG_CURSOR
-	#define Rbdb_LOG_CURSOR
+#ifndef RBDB_LOG_CURSOR
+	#define RBDB_LOG_CURSOR
 
 	#include "Rbdb_BaseStandardInclude.h"
 

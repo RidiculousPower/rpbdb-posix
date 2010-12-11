@@ -1,5 +1,5 @@
 /*
- *		Rbdb::Rbdb_DatabaseController::Rbdb_Database::(Rbdb_DatabaseCursorController::Rbdb_DatabaseCursor::)Rbdb_Record::Rbdb_DBT => Rbdb_Data
+ *		Rbdb::Rbdb_DatabaseController::Rbdb_Database::(Rbdb_DatabaseCursorController::Rbdb_DatabaseCursor::)Rbdb_Record::RBDB_DBT => Rbdb_Data
  *
  *
  */
@@ -13,7 +13,7 @@
 #include "Rbdb_Data.h"
 #include "Rbdb_Data_internal.h"
 
-#include "Rbdb_DBT.h"
+#include "RBDB_DBT.h"
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -27,7 +27,7 @@
 
 Rbdb_Data* Rbdb_Data_new( Rbdb_Record* parent_record )	{
 
-	return (Rbdb_Data*) Rbdb_DBT_new( parent_record );
+	return (Rbdb_Data*) RBDB_DBT_new( parent_record );
 }
 
 /***************************
@@ -35,7 +35,7 @@ Rbdb_Data* Rbdb_Data_new( Rbdb_Record* parent_record )	{
 ***************************/
 void Rbdb_Data_free(	Rbdb_Data** data )	{
 
-	Rbdb_DBT_free( (Rbdb_DBT**) data );
+	RBDB_DBT_free( (RBDB_DBT**) data );
 }
 
 /***************************
@@ -72,7 +72,7 @@ Rbdb_Record* Rbdb_Data_parentRecord(	Rbdb_DatabaseRecordSettingsController* data
 
 void* Rbdb_Data_rawData( Rbdb_Data* data )	{
 
-	return Rbdb_DBT_data( (Rbdb_DBT*) data );
+	return RBDB_DBT_data( (RBDB_DBT*) data );
 }
 
 /******************
@@ -83,7 +83,7 @@ void Rbdb_Data_setRawData(	Rbdb_Data*	data,
 							void*		data_raw,
 							uint32_t	data_size )	{
 
-	Rbdb_DBT_setData(	(Rbdb_DBT*) data,
+	RBDB_DBT_setData(	(RBDB_DBT*) data,
 						data_raw,
 						data_size );
 }
@@ -96,7 +96,7 @@ void Rbdb_Data_setRawData(	Rbdb_Data*	data,
 //	(Rbdb_DatabaseRecordSettingsController_dataBufferSize) to 0 and checking the return value in the size field.
 uint32_t Rbdb_Data_size( Rbdb_Data* data )	{
 
-	return Rbdb_DBT_size(	(Rbdb_DBT*) data  );
+	return RBDB_DBT_size(	(RBDB_DBT*) data  );
 }	
 
 /*******************************************************************************************************************************************************************************************

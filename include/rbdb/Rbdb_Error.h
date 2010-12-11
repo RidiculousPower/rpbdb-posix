@@ -4,8 +4,8 @@
  *
  */
 
-#ifndef Rbdb_ERROR
-	#define Rbdb_ERROR
+#ifndef RBDB_ERROR
+	#define RBDB_ERROR
 
 	#include "Rbdb_BaseStandardInclude.h"
 

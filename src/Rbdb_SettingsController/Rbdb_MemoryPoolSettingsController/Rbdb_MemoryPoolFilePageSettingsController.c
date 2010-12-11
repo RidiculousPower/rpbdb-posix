@@ -256,7 +256,7 @@ BOOL Rbdb_MemoryPoolFilePageSettingsController_internal_retrievePageFromCacheFla
 BOOL Rbdb_MemoryPoolFilePageSettingsController_internal_writePageToCacheFlags( Rbdb_MemoryPoolFilePageSettingsController*		memory_pool_file_page_settings_controller __attribute__((unused)) )	{
 
 	//	Currently unused - returns 0
-	return Rbdb_NO_FLAGS;
+	return RBDB_NO_FLAGS;
 }
 
 /*******************************************

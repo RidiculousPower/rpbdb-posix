@@ -149,7 +149,7 @@ Rbdb_Record* Rbdb_DatabaseJoinCursor_retrieveKey(	Rbdb_DatabaseJoinCursor*	join_
 
 	Rbdb_Record*		record	=	Rbdb_Record_new( join_cursor->primary_database );
 
-	//	Free the empty Rbdb_DBT* we allocated
+	//	Free the empty RBDB_DBT* we allocated
 	Rbdb_Key_free( & ( record->key ) );
 
 	//	point to the new key
@@ -200,7 +200,7 @@ Rbdb_Record* Rbdb_DatabaseJoinCursor_iterate(	Rbdb_DatabaseJoinCursor*	database_
 	if ( ( error  = database_join_cursor->wrapped_bdb_join_cursor->get(	database_join_cursor->wrapped_bdb_join_cursor,
 																																			record->key->wrapped_bdb_dbt,
 																																			record->data->wrapped_bdb_dbt,
-																																			Rbdb_NO_FLAGS ) ) != 0 ) {
+																																			RBDB_NO_FLAGS ) ) != 0 ) {
 		
 		//	If we get here we want no error or DB_NOTFOUND
 		if ( error == DB_NOTFOUND )	{

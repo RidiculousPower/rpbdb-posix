@@ -1,11 +1,11 @@
 /*
- *		Rbdb::Rbdb_DatabaseController::Rbdb_Database::(Rbdb_DatabaseCursorController::Rbdb_DatabaseCursor::)Rbdb_Record::Rbdb_DBT => Rbdb_Data
+ *		Rbdb::Rbdb_DatabaseController::Rbdb_Database::(Rbdb_DatabaseCursorController::Rbdb_DatabaseCursor::)Rbdb_Record::RBDB_DBT => Rbdb_Data
  *
  *
  */
 
-#ifndef Rbdb_DATA
-	#define Rbdb_DATA
+#ifndef RBDB_DATA
+	#define RBDB_DATA
 
 	#include "Rbdb_BaseStandardInclude.h"
 

@@ -148,7 +148,7 @@ Rbdb_DatabaseCursorReadWriteSettingsController* Rbdb_DatabaseCursorSettingsContr
 int Rbdb_DatabaseCursorSettingsController_internal_countDataItemsFlags( Rbdb_DatabaseCursorSettingsController* cursor_settings_controller __attribute__((unused)) )	{
 	
 	//	Currently unused - always returns 0;
-	return Rbdb_NO_FLAGS;
+	return RBDB_NO_FLAGS;
 }
 
 /************************
@@ -170,7 +170,7 @@ int Rbdb_DatabaseCursorSettingsController_internal_duplicateFlags( Rbdb_Database
 int Rbdb_DatabaseCursorSettingsController_internal_openFlags( Rbdb_DatabaseCursorSettingsController* cursor_settings_controller __attribute__((unused)) )	{
 
 	//	FIX
-	return Rbdb_NO_FLAGS;
+	return RBDB_NO_FLAGS;
 }
 
 /*******************************************

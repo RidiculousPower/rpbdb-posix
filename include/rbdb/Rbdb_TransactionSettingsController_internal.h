@@ -1,5 +1,5 @@
-#ifndef Rbdb_TRANSACTION_SETTINGS_CONTROLLER_INTERNAL
-	#define Rbdb_TRANSACTION_SETTINGS_CONTROLLER_INTERNAL
+#ifndef RBDB_TRANSACTION_SETTINGS_CONTROLLER_INTERNAL
+	#define RBDB_TRANSACTION_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************

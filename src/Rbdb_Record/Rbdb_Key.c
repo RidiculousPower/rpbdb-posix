@@ -1,5 +1,5 @@
 /*
- *		Rbdb::Rbdb_DatabaseController::Rbdb_Database::(Rbdb_DatabaseCursorController::Rbdb_DatabaseCursor::)Rbdb_Record::Rbdb_DBT => Rbdb_Key
+ *		Rbdb::Rbdb_DatabaseController::Rbdb_Database::(Rbdb_DatabaseCursorController::Rbdb_DatabaseCursor::)Rbdb_Record::RBDB_DBT => Rbdb_Key
  *
  *
  */
@@ -12,7 +12,7 @@
 
 #include "Rbdb_Key.h"
 
-#include "Rbdb_DBT.h"
+#include "RBDB_DBT.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -26,7 +26,7 @@
 
 Rbdb_Key* Rbdb_Key_new( Rbdb_Record* parent_record )	{
 
-	return (Rbdb_Key*) Rbdb_DBT_new( parent_record );
+	return (Rbdb_Key*) RBDB_DBT_new( parent_record );
 }
 
 /***************************
@@ -34,7 +34,7 @@ Rbdb_Key* Rbdb_Key_new( Rbdb_Record* parent_record )	{
 ***************************/
 void Rbdb_Key_free(	Rbdb_Key** key )	{
 
-	Rbdb_DBT_free( (Rbdb_DBT**) key );
+	RBDB_DBT_free( (RBDB_DBT**) key );
 }
 
 /***************************
@@ -71,7 +71,7 @@ Rbdb_Record* Rbdb_Key_parentRecord(	Rbdb_DatabaseRecordSettingsController* key )
 
 void* Rbdb_Key_keyData( Rbdb_Key* key )	{
 
-	return Rbdb_DBT_data( (Rbdb_DBT*) key );
+	return RBDB_DBT_data( (RBDB_DBT*) key );
 }
 
 /******************
@@ -82,7 +82,7 @@ void Rbdb_Key_setKeyData(	Rbdb_Key*	key,
 							void*		key_raw,
 							uint32_t	key_size )	{
 
-	Rbdb_DBT_setData(	(Rbdb_DBT*) key,
+	RBDB_DBT_setData(	(RBDB_DBT*) key,
 						key_raw,
 						key_size );
 }
@@ -95,7 +95,7 @@ void Rbdb_Key_setKeyData(	Rbdb_Key*	key,
 //	(Rbdb_DatabaseRecordSettingsController_dataBufferSize) to 0 and checking the return value in the size field.
 uint32_t Rbdb_Key_size( Rbdb_Key* data )	{
 
-	return Rbdb_DBT_size(	(Rbdb_DBT*) data  );
+	return RBDB_DBT_size(	(RBDB_DBT*) data  );
 }	
 
 /*******************************************************************************************************************************************************************************************

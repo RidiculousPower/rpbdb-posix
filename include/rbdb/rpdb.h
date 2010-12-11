@@ -1,5 +1,5 @@
-#ifndef Rbdb
-	#define Rbdb
+#ifndef RBDB
+	#define RBDB
 	
 	//	Standard includes for users of Rbdb
 	

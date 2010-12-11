@@ -4,8 +4,8 @@
  *
  */
 
-#ifndef Rbdb_TRANSACTION_HEADER
-	#define Rbdb_TRANSACTION_HEADER
+#ifndef RBDB_TRANSACTION_HEADER
+	#define RBDB_TRANSACTION_HEADER
 
 	#include "Rbdb_BaseStandardInclude.h"
 

@@ -4,8 +4,8 @@
  *	
  */
 
-#ifndef Rbdb_MUTEX
-	#define Rbdb_MUTEX
+#ifndef RBDB_MUTEX
+	#define RBDB_MUTEX
 
 	#include "Rbdb_BaseStandardInclude.h"
 

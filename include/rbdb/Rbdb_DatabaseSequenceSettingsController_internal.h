@@ -1,5 +1,5 @@
-#ifndef Rbdb_DATABASE_SEQUENCE_SETTINGS_CONTROLLER_INTERNAL
-	#define Rbdb_DATABASE_SEQUENCE_SETTINGS_CONTROLLER_INTERNAL
+#ifndef RBDB_DATABASE_SEQUENCE_SETTINGS_CONTROLLER_INTERNAL
+	#define RBDB_DATABASE_SEQUENCE_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -11,7 +11,7 @@ void	Rbdb_DatabaseSequenceSettingsController_internal_getFlags(				Rbdb_Database
 int		Rbdb_DatabaseSequenceSettingsController_internal_closeFlags(			Rbdb_DatabaseSequenceSettingsController*		sequence_settings_controller );
 int		Rbdb_DatabaseSequenceSettingsController_internal_stepByFlags(			Rbdb_DatabaseSequenceSettingsController*		sequence_settings_controller );
 int		Rbdb_DatabaseSequenceSettingsController_internal_deleteFlags(			Rbdb_DatabaseSequenceSettingsController*		sequence_settings_controller );
-int		Rbdb_DatabaseSequenceSettingsController_internal_createSequenceFlags(	Rbdb_DatabaseSequenceController*				database_sequence_controller );
+int Rbdb_DatabaseSequenceSettingsController_internal_createSequenceFlags( Rbdb_DatabaseSequenceSettingsController* sequence_settings_controller __attribute__((unused)) );
 int		Rbdb_DatabaseSequenceSettingsController_internal_openSequenceFlags(	Rbdb_DatabaseSequenceController*				database_sequence_controller );
 Rbdb_DatabaseSequenceSettingsController* Rbdb_DatabaseSequenceSettingsController_internal_copyOfSettingsControllerForInstance(	Rbdb_DatabaseSequenceSettingsController* database_sequence_settings_controller );
 

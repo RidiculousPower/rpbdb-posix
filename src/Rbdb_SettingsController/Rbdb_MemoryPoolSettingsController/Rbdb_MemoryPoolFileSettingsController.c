@@ -148,7 +148,7 @@ void Rbdb_MemoryPoolFileSettingsController_setFileID(	Rbdb_MemoryPoolFileSetting
 //	The ftype must be the same as a ftype parameter previously specified to the DB_ENV->memp_register method.
 int Rbdb_MemoryPoolFileSettingsController_fileType( Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 
-	if (	memory_pool_file_settings_controller->file_type == Rbdb_UNITIALIZED
+	if (	memory_pool_file_settings_controller->file_type == RBDB_UNITIALIZED
 		&&	memory_pool_file_settings_controller->parent_memory_pool_file != NULL )	{
 		memory_pool_file_settings_controller->parent_memory_pool_file->wrapped_bdb_memory_pool_file->get_ftype(	memory_pool_file_settings_controller->parent_memory_pool_file->wrapped_bdb_memory_pool_file, 
 																					&( memory_pool_file_settings_controller->file_type ) );
@@ -177,7 +177,7 @@ void Rbdb_MemoryPoolFileSettingsController_setFileType(	Rbdb_MemoryPoolFileSetti
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/memp_set_lsn_offset.html
 int Rbdb_MemoryPoolFileSettingsController_logSequenceNumberOffset( Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller )	{
 	
-	if (	memory_pool_file_settings_controller->log_sequence_number_offset == Rbdb_UNITIALIZED
+	if (	memory_pool_file_settings_controller->log_sequence_number_offset == RBDB_UNITIALIZED
 		&&	memory_pool_file_settings_controller->parent_memory_pool_file != NULL )	{
 		memory_pool_file_settings_controller->parent_memory_pool_file->wrapped_bdb_memory_pool_file->get_lsn_offset(	memory_pool_file_settings_controller->parent_memory_pool_file->wrapped_bdb_memory_pool_file, 
 																						&( memory_pool_file_settings_controller->log_sequence_number_offset ) );
@@ -459,7 +459,7 @@ Rbdb_MemoryPoolFilePageSettingsController* Rbdb_MemoryPoolFileSettingsController
 int Rbdb_MemoryPoolFileSettingsController_internal_createFlags( Rbdb_MemoryPoolFileSettingsController* memory_pool_file_settings_controller __attribute__((unused)) )	{
 
 	//	Not currently used - returns 0
-	return Rbdb_NO_FLAGS;
+	return RBDB_NO_FLAGS;
 }
 
 /********************

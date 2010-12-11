@@ -4,8 +4,8 @@
  *	
  */
 
-#ifndef Rbdb_REPLICATION_CONTROLLER
-	#define Rbdb_REPLICATION_CONTROLLER
+#ifndef RBDB_REPLICATION_CONTROLLER
+	#define RBDB_REPLICATION_CONTROLLER
 
 	#include "Rbdb_BaseStandardInclude.h"
 

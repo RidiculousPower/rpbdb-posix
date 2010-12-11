@@ -1,5 +1,5 @@
-#ifndef Rbdb_DATABASE_VARIABLE_RECORD_SETTINGS_CONTROLLER_INTERNAL
-	#define Rbdb_DATABASE_VARIABLE_RECORD_SETTINGS_CONTROLLER_INTERNAL
+#ifndef RBDB_DATABASE_VARIABLE_RECORD_SETTINGS_CONTROLLER_INTERNAL
+	#define RBDB_DATABASE_VARIABLE_RECORD_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************

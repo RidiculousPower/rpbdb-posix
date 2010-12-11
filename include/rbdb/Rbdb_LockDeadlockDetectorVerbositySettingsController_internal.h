@@ -1,5 +1,5 @@
-#ifndef Rbdb_LOCK_DEADLOCK_DETECTOR_VERBOSITY_SETTINGS_CONTROLLER_INTERNAL
-	#define Rbdb_LOCK_DEADLOCK_DETECTOR_VERBOSITY_SETTINGS_CONTROLLER_INTERNAL
+#ifndef RBDB_LOCK_DEADLOCK_DETECTOR_VERBOSITY_SETTINGS_CONTROLLER_INTERNAL
+	#define RBDB_LOCK_DEADLOCK_DETECTOR_VERBOSITY_SETTINGS_CONTROLLER_INTERNAL
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************

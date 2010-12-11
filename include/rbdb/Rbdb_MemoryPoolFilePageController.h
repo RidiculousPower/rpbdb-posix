@@ -4,8 +4,8 @@
  *	
  */
 
-#ifndef Rbdb_MEMORY_POOL_FILE_PAGE_CONTROLLER
-	#define Rbdb_MEMORY_POOL_FILE_PAGE_CONTROLLER
+#ifndef RBDB_MEMORY_POOL_FILE_PAGE_CONTROLLER
+	#define RBDB_MEMORY_POOL_FILE_PAGE_CONTROLLER
 
 	#include "Rbdb_BaseStandardInclude.h"
 

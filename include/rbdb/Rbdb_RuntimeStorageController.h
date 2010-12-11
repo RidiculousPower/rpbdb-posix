@@ -4,8 +4,8 @@
  *
  */
 
-#ifndef Rbdb_RUNTIME_STORAGE_CONTROLLER
-	#define Rbdb_RUNTIME_STORAGE_CONTROLLER
+#ifndef RBDB_RUNTIME_STORAGE_CONTROLLER
+	#define RBDB_RUNTIME_STORAGE_CONTROLLER
 
 	#include "Rbdb_BaseStandardInclude.h"
 

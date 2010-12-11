@@ -254,7 +254,7 @@ void Rbdb_MemoryPoolSettingsController_internal_initDefaultSettings( Rbdb_Memory
 int Rbdb_MemoryPoolSettingsController_internal_closeFlags( Rbdb_MemoryPoolFile* memory_pool_file __attribute__((unused)) )	{
 
 	//	Not currently used - returns 0
-	return Rbdb_NO_FLAGS;
+	return RBDB_NO_FLAGS;
 }
 
 /*******************************************

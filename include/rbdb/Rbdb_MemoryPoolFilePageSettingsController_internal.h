@@ -1,5 +1,5 @@
-#ifndef Rbdb_MEMORY_POOL_FILE_PAGE_SETTINGS_CONTROLLER_INTERNAL
-	#define Rbdb_MEMORY_POOL_FILE_PAGE_SETTINGS_CONTROLLER_INTERNAL
+#ifndef RBDB_MEMORY_POOL_FILE_PAGE_SETTINGS_CONTROLLER_INTERNAL
+	#define RBDB_MEMORY_POOL_FILE_PAGE_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************

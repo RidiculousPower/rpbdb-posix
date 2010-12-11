@@ -1,5 +1,5 @@
-#ifndef Rbdb_MAIN
-	#define Rbdb_MAIN
+#ifndef RBDB_MAIN
+	#define RBDB_MAIN
 
 	/****************
 	*  Includes  *

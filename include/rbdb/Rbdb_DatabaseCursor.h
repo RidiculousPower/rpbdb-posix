@@ -4,8 +4,8 @@
  *
  */
 
-#ifndef Rbdb_DATABASE_CURSOR
-	#define Rbdb_DATABASE_CURSOR
+#ifndef RBDB_DATABASE_CURSOR
+	#define RBDB_DATABASE_CURSOR
 
 	#include "Rbdb_BaseStandardInclude.h"
 

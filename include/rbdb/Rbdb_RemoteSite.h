@@ -4,8 +4,8 @@
  *
  */
 
-#ifndef Rbdb_REMOTE_SITE
-	#define Rbdb_REMOTE_SITE
+#ifndef RBDB_REMOTE_SITE
+	#define RBDB_REMOTE_SITE
 
 	#include "Rbdb_BaseStandardInclude.h"
 

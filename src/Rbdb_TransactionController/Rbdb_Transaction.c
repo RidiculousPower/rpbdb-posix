@@ -201,9 +201,9 @@ Rbdb_Transaction* Rbdb_Transaction_begin( Rbdb_Transaction*		transaction )	{
 	if ( Rbdb_Transaction_isOpen( transaction ) )	{
 	
 		Rbdb_ErrorController_throwError(	Rbdb_Environment_errorController( environment ),
-											Rbdb_ERROR_TRANSACTION_OPEN, 
+											RBDB_ERROR_TRANSACTION_OPEN, 
 											"Rbdb_Transaction_beginTransaction",
-											Rbdb_ERROR_MESSAGE_TRANSACTION_OPEN );
+											RBDB_ERROR_MESSAGE_TRANSACTION_OPEN );
 	}
 
 	DB_TXN*	transaction_id	=	NULL;

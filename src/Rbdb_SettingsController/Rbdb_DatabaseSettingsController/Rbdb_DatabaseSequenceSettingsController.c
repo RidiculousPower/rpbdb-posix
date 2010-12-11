@@ -84,10 +84,10 @@ void Rbdb_DatabaseSequenceSettingsController_setAsIncreasing( Rbdb_DatabaseSeque
 	//	We can only set an actual sequence; otherwise we're setting defaults
 	if ( sequence_settings_controller->parent_sequence != NULL )	{
 		
-		DB_SEQUENCE*	db_sequence	=	sequence_settings_controller->parent_sequence->wrapped_bdb_sequence;
+		Rbdb_DatabaseSequence*	sequence	=	sequence_settings_controller->parent_sequence;
 		
-		db_sequence->set_flags(	db_sequence,
-								DB_SEQ_INC );
+		sequence->wrapped_bdb_sequence->set_flags(	sequence->wrapped_bdb_sequence,
+																								DB_SEQ_INC );
 	}
 
 	sequence_settings_controller->increasing = TRUE;
@@ -115,10 +115,10 @@ void Rbdb_DatabaseSequenceSettingsController_setAsDecreasing( Rbdb_DatabaseSeque
 	//	We can only set an actual sequence; otherwise we're setting defaults
 	if ( sequence_settings_controller->parent_sequence != NULL )	{
 		
-		DB_SEQUENCE*	db_sequence	=	sequence_settings_controller->parent_sequence->wrapped_bdb_sequence;
+		Rbdb_DatabaseSequence*	sequence	=	sequence_settings_controller->parent_sequence;
 		
-		db_sequence->set_flags(	db_sequence,
-								DB_SEQ_DEC );
+		sequence->wrapped_bdb_sequence->set_flags(	sequence->wrapped_bdb_sequence,
+																								DB_SEQ_DEC );
 	}
 	
 	sequence_settings_controller->increasing = FALSE;
@@ -146,12 +146,12 @@ void Rbdb_DatabaseSequenceSettingsController_setToWrap( Rbdb_DatabaseSequenceSet
 	//	We can only set an actual sequence; otherwise we're setting defaults
 	if ( sequence_settings_controller->parent_sequence != NULL )	{
 		
-		DB_SEQUENCE*	db_sequence	=	sequence_settings_controller->parent_sequence->wrapped_bdb_sequence;
+		Rbdb_DatabaseSequence*	sequence	=	sequence_settings_controller->parent_sequence;
 		
 		if ( sequence_settings_controller->wrapping == FALSE )	{
 			
-			db_sequence->set_flags(	db_sequence,
-									DB_SEQ_WRAP );
+			sequence->wrapped_bdb_sequence->set_flags(	sequence->wrapped_bdb_sequence,
+																									DB_SEQ_WRAP );
 		}
 	}
 	
@@ -207,13 +207,13 @@ int Rbdb_DatabaseSequenceSettingsController_cacheSize( Rbdb_DatabaseSequenceSett
 	//	If we have a local settings controller we can set the cachesize; otherwise we are returning a default
 	if ( sequence_settings_controller->parent_sequence != NULL )	{		
 
-		if ( sequence_settings_controller->number_of_cached_elements == Rbdb_UNITIALIZED )	{
+		if ( sequence_settings_controller->number_of_cached_elements == RBDB_UNITIALIZED )	{
 
-			DB_SEQUENCE*	bdb_sequence = sequence_settings_controller->parent_sequence->wrapped_bdb_sequence;
+			Rbdb_DatabaseSequence*	sequence	=	sequence_settings_controller->parent_sequence;
 
-			bdb_sequence->get_cachesize(	bdb_sequence,
-											&( sequence_settings_controller->number_of_cached_elements ) );
-		}
+			sequence->wrapped_bdb_sequence->get_cachesize(	sequence->wrapped_bdb_sequence,
+																											&( sequence_settings_controller->number_of_cached_elements ) );
+		}	
 	}
 
 	return sequence_settings_controller->number_of_cached_elements;
@@ -225,7 +225,7 @@ int Rbdb_DatabaseSequenceSettingsController_cacheSize( Rbdb_DatabaseSequenceSett
 
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/seq_set_cachesize.html
 void Rbdb_DatabaseSequenceSettingsController_setCacheSize(	Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller,
- 															uint32_t										number_of_cached_elements	)	{
+																														uint32_t										number_of_cached_elements	)	{
 	
 	//	If we have a local settings controller we can set the cachesize; otherwise we are setting a default
 	if ( sequence_settings_controller->parent_sequence != NULL )	{		
@@ -258,15 +258,15 @@ db_seq_t Rbdb_DatabaseSequenceSettingsController_initialValue( Rbdb_DatabaseSequ
 //	The DB_SEQUENCE->initial_value method may not be called after the DB_SEQUENCE->open method is called.
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/seq_initial_value.html
 void Rbdb_DatabaseSequenceSettingsController_setInitialValue(	Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller,
- 												db_seq_t									initial_value )	{
+																															db_seq_t																	initial_value )	{
 
 	//	We can only set an initial value on an instance - otherwise we are setting a default
 	if ( sequence_settings_controller->parent_sequence != NULL )	{		
 
-		DB_SEQUENCE*	bdb_sequence = sequence_settings_controller->parent_sequence->wrapped_bdb_sequence;
+		Rbdb_DatabaseSequence*	sequence	=	sequence_settings_controller->parent_sequence;
 
-		bdb_sequence->initial_value(	bdb_sequence,
-										initial_value );
+		sequence->wrapped_bdb_sequence->initial_value(	sequence->wrapped_bdb_sequence,
+																										initial_value );
 	}
 
 	sequence_settings_controller->initial_value = initial_value;
@@ -286,7 +286,7 @@ int32_t Rbdb_DatabaseSequenceSettingsController_defaultStepValue( Rbdb_DatabaseS
 ************************/
 
 void Rbdb_DatabaseSequenceSettingsController_setDefaultStepValue(	Rbdb_DatabaseSequenceSettingsController*	sequence_settings_controller,
- 													int32_t										default_step_value	)	{
+																																	int32_t										default_step_value	)	{
 
 	sequence_settings_controller->default_step_value = default_step_value;
 }
@@ -308,12 +308,12 @@ void Rbdb_DatabaseSequenceSettingsController_internal_getFlags( Rbdb_DatabaseSeq
 	//	We can only get from an actual sequence
 	if ( sequence_settings_controller->parent_sequence != NULL )	{
 		
-		DB_SEQUENCE*	db_sequence	=	sequence_settings_controller->parent_sequence->wrapped_bdb_sequence;
+		Rbdb_DatabaseSequence*	sequence	=	sequence_settings_controller->parent_sequence;
 		
 		uint32_t		flags;
 		
-		db_sequence->get_flags(	db_sequence,
-								& flags );
+		sequence->wrapped_bdb_sequence->get_flags(	sequence->wrapped_bdb_sequence,
+																								& flags );
 		
 		//	Are we wrapping?
 		if (	flags - DB_SEQ_WRAP == DB_SEQ_DEC
@@ -358,7 +358,7 @@ void Rbdb_DatabaseSequenceSettingsController_internal_getFlags( Rbdb_DatabaseSeq
 int Rbdb_DatabaseSequenceSettingsController_internal_closeFlags( Rbdb_DatabaseSequenceSettingsController* sequence_settings_controller __attribute__((unused)) )	{
 
 	//	Currently unused; returns 0
-	return Rbdb_NO_FLAGS;
+	return RBDB_NO_FLAGS;
 }
 
 /******************
@@ -367,9 +367,11 @@ int Rbdb_DatabaseSequenceSettingsController_internal_closeFlags( Rbdb_DatabaseSe
 
 int Rbdb_DatabaseSequenceSettingsController_internal_stepByFlags( Rbdb_DatabaseSequenceSettingsController* sequence_settings_controller )	{
 
-	return Rbdb_TransactionSettingsController_prohibitSyncOnCommit( 
-				Rbdb_SettingsController_transactionSettingsController( 
-					Rbdb_Environment_settingsController( sequence_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ) ) );
+	Rbdb_Environment*										parent_environment							=	sequence_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment;
+	Rbdb_SettingsController*						settings_controller							=	Rbdb_Environment_settingsController( parent_environment );
+	Rbdb_TransactionSettingsController*	transaction_settings_controller	=	Rbdb_SettingsController_transactionSettingsController( settings_controller );
+
+	return Rbdb_TransactionSettingsController_prohibitSyncOnCommit( transaction_settings_controller );
 
 }
 
@@ -379,19 +381,21 @@ int Rbdb_DatabaseSequenceSettingsController_internal_stepByFlags( Rbdb_DatabaseS
 
 int Rbdb_DatabaseSequenceSettingsController_internal_deleteFlags( Rbdb_DatabaseSequenceSettingsController* sequence_settings_controller )	{
 
-	return Rbdb_TransactionSettingsController_prohibitSyncOnCommit( 
-				Rbdb_SettingsController_transactionSettingsController( 
-					Rbdb_Environment_settingsController( sequence_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ) ) );
+	Rbdb_Environment*										parent_environment							=	sequence_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment;
+	Rbdb_SettingsController*						settings_controller							=	Rbdb_Environment_settingsController( parent_environment );
+	Rbdb_TransactionSettingsController*	transaction_settings_controller	=	Rbdb_SettingsController_transactionSettingsController( settings_controller );
+
+	return Rbdb_TransactionSettingsController_prohibitSyncOnCommit( transaction_settings_controller );
 }
 
 /*************************
 *  createSequenceFlags  *
 *************************/
 
-int Rbdb_DatabaseSequenceSettingsController_internal_createSequenceFlags( Rbdb_DatabaseSequenceController* database_sequence_controller __attribute__((unused)) )	{
+int Rbdb_DatabaseSequenceSettingsController_internal_createSequenceFlags( Rbdb_DatabaseSequenceSettingsController* sequence_settings_controller __attribute__((unused)) )	{
 
 	//	Currently unused - returns 0
-	return Rbdb_NO_FLAGS;
+	return RBDB_NO_FLAGS;
 }
 
 /*************************

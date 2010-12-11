@@ -4,8 +4,8 @@
  *
  */
  
-#ifndef Rbdb_FILE_SETTINGS_CONTROLLER
-	#define Rbdb_FILE_SETTINGS_CONTROLLER
+#ifndef RBDB_FILE_SETTINGS_CONTROLLER
+	#define RBDB_FILE_SETTINGS_CONTROLLER
 
 	#include "Rbdb_BaseStandardInclude.h"
 

@@ -265,7 +265,7 @@ int Rbdb_ReplicationSettingsController_useMasterLeases( Rbdb_ReplicationSettings
 										(int*) &( replication_settings_controller->use_master_leases ) );
 	}
 
-	return ( replication_settings_controller->use_master_leases ? Rbdb_UNITIALIZED : FALSE );
+	return ( replication_settings_controller->use_master_leases ? RBDB_UNITIALIZED : FALSE );
 }
 
 /*****************************
@@ -1016,7 +1016,7 @@ int Rbdb_ReplicationSettingsController_internal_localSiteFlags( Rbdb_Replication
 int Rbdb_ReplicationSettingsController_internal_syncFlags( Rbdb_ReplicationSettingsController* replication_settings_controller __attribute__((unused)) )	{
 
 	//	Flags currently unused - returns 0
-	return Rbdb_NO_FLAGS;
+	return RBDB_NO_FLAGS;
 }
 
 /*************************
@@ -1027,7 +1027,7 @@ int Rbdb_ReplicationSettingsController_internal_syncFlags( Rbdb_ReplicationSetti
 int Rbdb_ReplicationSettingsController_internal_callElectionFlags( Rbdb_ReplicationSettingsController* replication_settings_controller __attribute__((unused)) )	{
 
 	//	Flags currently unused - returns 0
-	return Rbdb_NO_FLAGS;
+	return RBDB_NO_FLAGS;
 }
 
 /*************************

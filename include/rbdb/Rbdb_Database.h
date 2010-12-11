@@ -4,8 +4,8 @@
  *
  */
 
-#ifndef Rbdb_DATABASE
-	#define Rbdb_DATABASE
+#ifndef RBDB_DATABASE
+	#define RBDB_DATABASE
 
 	#include "Rbdb_BaseStandardInclude.h"
 

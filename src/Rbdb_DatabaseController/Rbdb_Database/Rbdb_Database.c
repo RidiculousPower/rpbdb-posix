@@ -151,13 +151,13 @@ Rbdb_Database* Rbdb_Database_new(	Rbdb_DatabaseController*	parent_database_contr
 	*  Error Output  *
 	*---------------*/
 
-	#ifdef Rbdb_DEFAULT_DATABASE_LOG
-		#if Rbdb_DEFAULT_DATABASE_LOG == TRUE
+	#ifdef RBDB_DEFAULT_DATABASE_LOG
+		#if RBDB_DEFAULT_DATABASE_LOG == TRUE
 			if ( parent_database_controller->runtime_storage_database != NULL )	{
 				Rbdb_DatabaseSettingsController*	database_settings_controller	=	Rbdb_Database_settingsController( new_database );
 				Rbdb_DatabaseErrorSettingsController*	database_error_settings_controller	=	Rbdb_DatabaseSettingsController_errorSettingsController( database_settings_controller );
 				
-				if ( Rbdb_DEFAULT_DATABASE_LOG_TO_FILE )	{
+				if ( RBDB_DEFAULT_DATABASE_LOG_TO_FILE )	{
 					
 					char*	log_file_path	=	Rbdb_Database_internal_errorfilePathForDatabase( new_database );
 					
@@ -469,7 +469,7 @@ uint32_t Rbdb_Database_empty( Rbdb_Database* database )	{
 		if ( ( connection_error = database->wrapped_bdb_database->truncate(	database->wrapped_bdb_database,
 																																				( current_transaction ? current_transaction->wrapped_bdb_transaction : NULL ),
 																																				& number_of_records_emptied,
-																																				Rbdb_FUNCTION_HAS_NO_FLAGS ) ) )	{
+																																				RBDB_FUNCTION_HAS_NO_FLAGS ) ) )	{
 		
 				Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( environment ),
 																											connection_error, 
@@ -488,7 +488,7 @@ void Rbdb_Database_sync( Rbdb_Database* database )	{
 
 	int	connection_error	=	RP_NO_ERROR;
 	if ( ( connection_error = database->wrapped_bdb_database->sync(	database->wrapped_bdb_database,
-																																	Rbdb_FUNCTION_HAS_NO_FLAGS ) ) )	{
+																																	RBDB_FUNCTION_HAS_NO_FLAGS ) ) )	{
 	
 			Rbdb_Environment*	environment	=	database->parent_database_controller->parent_environment;
 			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( environment ),
@@ -1154,7 +1154,7 @@ BOOL Rbdb_Database_keyExists(	Rbdb_Database*		database,
 				break;
 				
 			case DB_KEYEMPTY:
-				return Rbdb_EMPTY_KEY_EXISTS;
+				return RBDB_EMPTY_KEY_EXISTS;
 				break;
 			
 			default:				
@@ -1198,7 +1198,7 @@ Rbdb_Record* Rbdb_Database_retrieveRecord(	Rbdb_Database*		database,
 																						Rbdb_Record*			record )	{
 	
 	return Rbdb_Database_internal_retrieveRecord(	database, 
-																								Rbdb_NO_FLAGS, 
+																								RBDB_NO_FLAGS, 
 																								record );
 }
 
@@ -1217,7 +1217,7 @@ Rbdb_Record* Rbdb_Database_retrieveKey(	Rbdb_Database*		database,
 											key_data );
 	
 	return Rbdb_Database_internal_retrieveRecord(	database, 
-																								Rbdb_NO_FLAGS, 
+																								RBDB_NO_FLAGS, 
 																								record );
 }
 
@@ -1232,7 +1232,7 @@ Rbdb_Record* Rbdb_Database_retrieveRawKey(	Rbdb_Database*		database,
 																						uint32_t					key_size )	{
 
 	return Rbdb_Database_internal_retrieveRawKeyDataPair(	database, 
-																												Rbdb_NO_FLAGS, 
+																												RBDB_NO_FLAGS, 
 																												key_raw,
 																												key_size, 
 																												NULL,
@@ -1990,20 +1990,20 @@ int Rbdb_Database_internal_secondaryKeyCreationCallbackMethod(	DB*						bdb_seco
 	switch ( callback_method_return )	{
 
 		//	If the function was unable to create secondary keys it can optionally return this (no secondary keys will be created)
-		case Rbdb_SECONDARY_KEY_CREATION_FAILED_DO_NOT_INDEX:
+		case RBDB_SECONDARY_KEY_CREATION_FAILED_DO_NOT_INDEX:
 			return DB_DONOTINDEX;
 			break;
 			
 		//	If the application allocated memory for the record							
-		case Rbdb_RECORD_ALLOCATED_BY_APPLICATION:
+		case RBDB_RECORD_ALLOCATED_BY_APPLICATION:
 			secondary_keys->wrapped_bdb_dbt->flags	|= DB_DBT_APPMALLOC;
 			break;
 			
-		case Rbdb_RECORD_CONTAINS_MULTIPLE_SECONDARY_KEYS:
+		case RBDB_RECORD_CONTAINS_MULTIPLE_SECONDARY_KEYS:
 			secondary_keys->wrapped_bdb_dbt->flags	|=	DB_DBT_MULTIPLE;
 			break;
 
-		case Rbdb_RECORD_ALLOCATED_BY_APPLICATION_FOR_MULTIPLE_SECONDARY_KEYS:
+		case RBDB_RECORD_ALLOCATED_BY_APPLICATION_FOR_MULTIPLE_SECONDARY_KEYS:
 			secondary_keys->wrapped_bdb_dbt->flags	|=	DB_DBT_APPMALLOC
 													|	DB_DBT_MULTIPLE;
 		case FALSE:
@@ -2289,14 +2289,14 @@ char* Rbdb_Database_internal_secondaryDatabaseNameForIndex( char* index_name,
 																														char*	primary_database_name )	{
 	
 	int		secondary_database_name_length	=	( strlen( primary_database_name ) 
-																				+ strlen( Rbdb_SECONDARY_DATABASE_INDEX_DELIMITER ) 
+																				+ strlen( RBDB_SECONDARY_DATABASE_INDEX_DELIMITER ) 
 																				+ strlen( index_name ) );
 																				
 	char*	secondary_database_name	=	calloc( secondary_database_name_length + 1, sizeof( char ) );
 	
 	//	Our new secondary will be named primary_name__idx__index_name
 	sprintf( secondary_database_name, "%s%s%s", primary_database_name, 
-																							Rbdb_SECONDARY_DATABASE_INDEX_DELIMITER, 
+																							RBDB_SECONDARY_DATABASE_INDEX_DELIMITER, 
 																							index_name );
 	return secondary_database_name;
 }
@@ -2349,7 +2349,7 @@ Rbdb_Database* Rbdb_Database_internal_configureDatabaseInstanceForSecondaryIndex
 char* Rbdb_Database_internal_filenameForName( char* database_name )	{
 	
 		//	For some reason this is necessary to avoid trash from the string constant
-	char* extension = strdup( Rbdb_DATABASE_FILENAME_EXTENSION );
+	char* extension = strdup( RBDB_DATABASE_FILENAME_EXTENSION );
 
 	int		filename_length	=			strlen( database_name ) 
 													+		1 
@@ -2470,7 +2470,7 @@ void Rbdb_Database_internal_freeAllStoredRuntimeAddresses(	Rbdb_Database*	runtim
 *  errorfilePathForDatabase  *
 ***************************/
 
-//	environment home directory + Rbdb_DEFAULT_DATABASE_LOG_IN_DIRECTORY + Rbdb_DEFAULT_DATABASE_LOG_FILE_SUFFIX
+//	environment home directory + RBDB_DEFAULT_DATABASE_LOG_IN_DIRECTORY + RBDB_DEFAULT_DATABASE_LOG_FILE_SUFFIX
 //	or
 //	environment home directory + database filename + .err.log
 char* Rbdb_Database_internal_errorfilePathForDatabase( Rbdb_Database* database )	{
@@ -2481,32 +2481,32 @@ char* Rbdb_Database_internal_errorfilePathForDatabase( Rbdb_Database* database )
 
 	char*	path_to_return	=	NULL;
 	
-	if ( Rbdb_DEFAULT_DATABASE_LOG_IN_PLACE )	{
+	if ( RBDB_DEFAULT_DATABASE_LOG_IN_PLACE )	{
 	
 		int	return_path_length	=	environment_directory_length
 														+	strlen( database->filename )
-														+ strlen( Rbdb_DEFAULT_DATABASE_LOG_FILE_SUFFIX );
+														+ strlen( RBDB_DEFAULT_DATABASE_LOG_FILE_SUFFIX );
 		
 		path_to_return	=	calloc( return_path_length + 1, sizeof( char ) );
 		
 		sprintf( path_to_return, "%s%s%s",	environment_home_directory,
 																				database->filename,
-																				Rbdb_DEFAULT_DATABASE_LOG_FILE_SUFFIX );		
+																				RBDB_DEFAULT_DATABASE_LOG_FILE_SUFFIX );		
 	}
 	else {
 
-		int		log_directory_length	=	strlen( Rbdb_DEFAULT_DATABASE_LOG_IN_DIRECTORY );
+		int		log_directory_length	=	strlen( RBDB_DEFAULT_DATABASE_LOG_IN_DIRECTORY );
 
 		BOOL	logfile_needs_slash	=	FALSE;
 		if (		log_directory_length
-				&&	Rbdb_DEFAULT_DATABASE_LOG_IN_DIRECTORY[ log_directory_length - 1 ] != '/' )	{
+				&&	RBDB_DEFAULT_DATABASE_LOG_IN_DIRECTORY[ log_directory_length - 1 ] != '/' )	{
 
 			logfile_needs_slash	=	TRUE;
 		}
 
-		int	directory_length	=	strlen( Rbdb_DEFAULT_DATABASE_LOG_IN_DIRECTORY );
+		int	directory_length	=	strlen( RBDB_DEFAULT_DATABASE_LOG_IN_DIRECTORY );
 		int	filename_length		=	strlen( database->filename );
-		int	suffix_length			=	strlen( Rbdb_DEFAULT_DATABASE_LOG_FILE_SUFFIX );
+		int	suffix_length			=	strlen( RBDB_DEFAULT_DATABASE_LOG_FILE_SUFFIX );
 		int	return_path_length	=	environment_directory_length
 														+	directory_length
 														+ (int) logfile_needs_slash
@@ -2516,10 +2516,10 @@ char* Rbdb_Database_internal_errorfilePathForDatabase( Rbdb_Database* database )
 		path_to_return	=	calloc( return_path_length + 1, sizeof( char ) );
 		
 		sprintf( path_to_return, "%s%s%s%s%s",	environment_home_directory,
-																						Rbdb_DEFAULT_DATABASE_LOG_IN_DIRECTORY,
+																						RBDB_DEFAULT_DATABASE_LOG_IN_DIRECTORY,
 																						( logfile_needs_slash ? "/" : "" ),
 																						database->filename,
-																						Rbdb_DEFAULT_DATABASE_LOG_FILE_SUFFIX );		
+																						RBDB_DEFAULT_DATABASE_LOG_FILE_SUFFIX );		
 	}
 
 	return path_to_return;

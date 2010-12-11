@@ -45,7 +45,7 @@ Rbdb_LogCursorController* Rbdb_LogCursorController_new( Rbdb_LogController* pare
 
 	log_cursor_controller->parent_log_controller	=	parent_log_controller;
 
-	Rbdb_RUNTIME_STORAGE( log_cursor_controller,	"log_cursor_controller" );
+	RBDB_RUNTIME_STORAGE( log_cursor_controller,	"log_cursor_controller" );
 
 	return log_cursor_controller;
 }

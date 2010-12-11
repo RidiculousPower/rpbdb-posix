@@ -4,8 +4,8 @@
  *
  */
  
-#ifndef Rbdb_MEMORY_POOL_FILE
-	#define Rbdb_MEMORY_POOL_FILE
+#ifndef RBDB_MEMORY_POOL_FILE
+	#define RBDB_MEMORY_POOL_FILE
 
 	#include "Rbdb_BaseStandardInclude.h"
 

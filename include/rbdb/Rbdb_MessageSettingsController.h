@@ -4,8 +4,8 @@
  *
  */
 
-#ifndef Rbdb_MESSAGE_SETTINGS_CONTROLLER
-	#define Rbdb_MESSAGE_SETTINGS_CONTROLLER
+#ifndef RBDB_MESSAGE_SETTINGS_CONTROLLER
+	#define RBDB_MESSAGE_SETTINGS_CONTROLLER
 
 	#include "Rbdb_BaseStandardInclude.h"
 

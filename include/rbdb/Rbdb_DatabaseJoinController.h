@@ -4,8 +4,8 @@
  *
  */
 
-#ifndef Rbdb_JOINCONTROLLER
-	#define Rbdb_JOINCONTROLLER
+#ifndef RBDB_JOINCONTROLLER
+	#define RBDB_JOINCONTROLLER
 
 	#include "Rbdb_BaseStandardInclude.h"
 	

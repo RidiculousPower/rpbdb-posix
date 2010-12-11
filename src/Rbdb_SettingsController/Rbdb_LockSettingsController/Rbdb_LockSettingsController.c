@@ -506,7 +506,7 @@ int Rbdb_LockSettingsController_internal_openFlags( Rbdb_LockSettingsController*
 int Rbdb_LockSettingsController_internal_clearDeadlocksFlags( Rbdb_LockSettingsController*	lock_settings_controller __attribute__((unused)) )	{
 	
 	// Currently unused - returns 0
-	return Rbdb_NO_FLAGS;
+	return RBDB_NO_FLAGS;
 }
 
 /*****************************

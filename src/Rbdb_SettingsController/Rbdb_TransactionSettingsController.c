@@ -785,7 +785,7 @@ int Rbdb_TransactionSettingsController_internal_beginFlags( Rbdb_TransactionSett
 int Rbdb_TransactionSettingsController_internal_discardFlags( Rbdb_TransactionSettingsController* transaction_settings_controller __attribute__((unused)) )	{
 	
 	//	Currently unused
-	return Rbdb_NO_FLAGS;
+	return RBDB_NO_FLAGS;
 }
 
 /************************
@@ -811,7 +811,7 @@ int Rbdb_TransactionSettingsController_internal_commitCheckpointFlags( Rbdb_Tran
 	
 	//	We have one flag - DB_FORCE - which has its own function
 	//	Otherwise, we have no flags; this function is here only in the case future support of other flags becomes relevant. 
-	return Rbdb_NO_FLAGS;
+	return RBDB_NO_FLAGS;
 }
 
 /************************

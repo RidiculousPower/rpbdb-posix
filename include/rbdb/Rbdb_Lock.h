@@ -4,8 +4,8 @@
  *		Reference - http://www.oracle.com/technology/documentation/berkeley-db/db/ref/lock/am_conv.html
  */
 
-#ifndef Rbdb_LOCK
-	#define Rbdb_LOCK
+#ifndef RBDB_LOCK
+	#define RBDB_LOCK
 
 	#include "Rbdb_BaseStandardInclude.h"
 

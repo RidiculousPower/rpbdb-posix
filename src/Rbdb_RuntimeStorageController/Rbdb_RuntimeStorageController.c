@@ -136,9 +136,9 @@ Rbdb_Environment* Rbdb_RuntimeStorageController_requireDefaultEnvironment(	Rbdb_
 	else {
 		
 		Rbdb_ErrorController_throwError(	Rbdb_Environment_errorController( NULL ),
-																			Rbdb_ERROR_DEFAULT_ENVIRONMENT_NOT_FOUND, 
+																			RBDB_ERROR_DEFAULT_ENVIRONMENT_NOT_FOUND, 
 																			"Rbdb_RuntimeStorageController_requireDefaultEnvironment",
-																			Rbdb_ERROR_MESSAGE_TRANSACTION_OPEN );
+																			RBDB_ERROR_MESSAGE_TRANSACTION_OPEN );
 		
 	}
 	return NULL;
@@ -174,8 +174,8 @@ Rbdb_RuntimeStorageController* Rbdb_RuntimeStorageController_internal_initRuntim
 	*  Runtime Environment  *
 	*----------------------*/
 	
-	//	Initialize our runtime environment (Rbdb_IN_MEMORY == NULL for in-memory)
-	runtime_storage_controller->runtime_environment		=	Rbdb_Environment_new(	Rbdb_IN_MEMORY );
+	//	Initialize our runtime environment (RBDB_IN_MEMORY == NULL for in-memory)
+	runtime_storage_controller->runtime_environment		=	Rbdb_Environment_new(	RBDB_IN_MEMORY );
 	
 	//	Init settings for our runtime environment (create the DB_ENV instance)
 	Rbdb_Environment_internal_initWrappedEnvironment(	runtime_storage_controller->runtime_environment,
@@ -225,7 +225,7 @@ Rbdb_RuntimeStorageController* Rbdb_RuntimeStorageController_internal_initRuntim
 	Rbdb_EnvironmentCacheSettingsController*	environment_cache_settings_controller	=	Rbdb_SettingsController_cacheSettingsController( settings_controller );
 
 	Rbdb_EnvironmentCacheSettingsController_setSizeInMBytes(	environment_cache_settings_controller,
-																														Rbdb_RUNTIME_STORAGE_CACHE_SIZE_IN_MB	);
+																														RBDB_RUNTIME_STORAGE_CACHE_SIZE_IN_MB	);
 	
 	/*------------*
 	*  Page Size  *
@@ -235,7 +235,7 @@ Rbdb_RuntimeStorageController* Rbdb_RuntimeStorageController_internal_initRuntim
 	Rbdb_MemoryPoolFileSettingsController*	memory_pool_file_settings_controller	=	Rbdb_MemoryPoolSettingsController_fileSettingsController( memory_pool_settings_controller );
 
 	Rbdb_MemoryPoolFileSettingsController_setPageSizeInKBytes(	memory_pool_file_settings_controller,
-																															Rbdb_RUNTIME_STORAGE_PAGE_SIZE_IN_K );
+																															RBDB_RUNTIME_STORAGE_PAGE_SIZE_IN_K );
 	
 	/*-------------------*
 	*  Open Environment  *
@@ -337,13 +337,13 @@ void Rbdb_RuntimeStorageController_internal_storeEnvironmentForBDBEnvironment(	R
 	uintptr_t	bdb_environment_address	=	(uintptr_t) environment->wrapped_bdb_environment;
 	bdb_key.data		=	& bdb_environment_address;
 	bdb_key.size		=	sizeof( uintptr_t );
-	bdb_key.flags		=	Rbdb_NO_FLAGS;
+	bdb_key.flags		=	RBDB_NO_FLAGS;
 	
 	//	get rbdb environment address and store as data
 	uintptr_t environment_address	=	(uintptr_t) environment;
 	bdb_data.data		=	& environment_address;
 	bdb_data.size		=	sizeof( uintptr_t );
-	bdb_data.flags	=	Rbdb_NO_FLAGS;
+	bdb_data.flags	=	RBDB_NO_FLAGS;
 
 	//	store in runtime storage environments reference database
 	Rbdb_Database*	environment_reference_database	=	runtime_storage_controller->environment_reference_database;
@@ -352,7 +352,7 @@ void Rbdb_RuntimeStorageController_internal_storeEnvironmentForBDBEnvironment(	R
 																																												NULL,
 																																												& bdb_key,
 																																												& bdb_data,
-																																												Rbdb_NO_FLAGS ) ) )	{
+																																												RBDB_NO_FLAGS ) ) )	{
 		
 		Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( runtime_storage_controller->runtime_environment ),
 																									connection_error, 
@@ -377,14 +377,14 @@ void Rbdb_RuntimeStorageController_internal_removeStoredEnvironment(	Rbdb_Runtim
 	uintptr_t	bdb_environment_address	=	(uintptr_t) environment->wrapped_bdb_environment;
 	bdb_key.data	=	(void*) & bdb_environment_address;
 	bdb_key.size	=	sizeof( uintptr_t );
-	bdb_key.flags	=	Rbdb_NO_FLAGS;
+	bdb_key.flags	=	RBDB_NO_FLAGS;
 	
 	Rbdb_Database*	environments_database	=	runtime_storage_controller->environment_reference_database;
 	int	connection_error = RP_NO_ERROR;	
 	if ( ( connection_error = environments_database->wrapped_bdb_database->del(	environments_database->wrapped_bdb_database,
 																																							NULL,
 																																							& bdb_key,
-																																							Rbdb_NO_FLAGS ) ) )	{
+																																							RBDB_NO_FLAGS ) ) )	{
 		
 		Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( runtime_storage_controller->runtime_environment ),
 																									connection_error, 
@@ -409,13 +409,13 @@ void Rbdb_RuntimeStorageController_internal_storeDatabaseForBDBDatabase(	Rbdb_Ru
 	uintptr_t	bdb_database_address	=	(uintptr_t) database->wrapped_bdb_database;
 	bdb_key.data	=	& bdb_database_address;
 	bdb_key.size	=	sizeof( uintptr_t );
-	bdb_key.flags	=	Rbdb_NO_FLAGS;
+	bdb_key.flags	=	RBDB_NO_FLAGS;
 	
 	//	get rbdb database address for data
 	uintptr_t database_address	=	(uintptr_t) database;	
 	bdb_data.data	=	& database_address;
 	bdb_data.size	=	sizeof( uintptr_t );
-	bdb_data.flags	=	Rbdb_NO_FLAGS;
+	bdb_data.flags	=	RBDB_NO_FLAGS;
 
 	Rbdb_Database*	database_reference_database	=	runtime_storage_controller->database_reference_database;
 	int connection_error = RP_NO_ERROR;
@@ -423,7 +423,7 @@ void Rbdb_RuntimeStorageController_internal_storeDatabaseForBDBDatabase(	Rbdb_Ru
 																																										NULL,
 																																										& bdb_key,
 																																										& bdb_data,
-																																										Rbdb_NO_FLAGS ) ) )	{
+																																										RBDB_NO_FLAGS ) ) )	{
 		
 		Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( runtime_storage_controller->runtime_environment ),
 																									connection_error, 
@@ -446,7 +446,7 @@ void Rbdb_RuntimeStorageController_internal_removeDatabaseStoredForBDBDatabase(	
 	uintptr_t	bdb_database_address	=	(uintptr_t) database->wrapped_bdb_database;
 	bdb_key.data	=	& bdb_database_address;
 	bdb_key.size	=	sizeof( uintptr_t );
-	bdb_key.flags	=	Rbdb_NO_FLAGS;
+	bdb_key.flags	=	RBDB_NO_FLAGS;
 	
 	Rbdb_Database*	database_reference_database	=	runtime_storage_controller->database_reference_database;
 	int	connection_error = RP_NO_ERROR;	
@@ -456,7 +456,7 @@ void Rbdb_RuntimeStorageController_internal_removeDatabaseStoredForBDBDatabase(	
 		if ( ( connection_error = database_reference_database->wrapped_bdb_database->del(	database_reference_database->wrapped_bdb_database,
 																																											NULL,
 																																											& bdb_key,
-																																											Rbdb_NO_FLAGS ) ) )	{
+																																											RBDB_NO_FLAGS ) ) )	{
 			
 			Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( runtime_storage_controller->runtime_environment ),
 																										connection_error, 
@@ -494,7 +494,7 @@ Rbdb_Environment* Rbdb_RuntimeStorageController_internal_environmentForBDBEnviro
 																																	NULL,
 																																	& bdb_key,
 																																	& bdb_data,
-																																	Rbdb_NO_FLAGS ) ) )	{
+																																	RBDB_NO_FLAGS ) ) )	{
 	
 		Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( runtime_storage_controller->runtime_environment ),
 																									connection_error, 
@@ -531,7 +531,7 @@ Rbdb_Database* Rbdb_RuntimeStorageController_internal_databaseForBDBDatabase(	Rb
 	uintptr_t		address_of_bdb_database	=	(uintptr_t) bdb_database;
 	bdb_key.data	=	& address_of_bdb_database;
 	bdb_key.size	=	sizeof( uintptr_t );
-	bdb_key.flags	=	Rbdb_NO_FLAGS;
+	bdb_key.flags	=	RBDB_NO_FLAGS;
 	
 	Rbdb_Database*		database_reference_database	=	runtime_storage_controller->database_reference_database;
 	int	connection_error	=	RP_NO_ERROR;				
@@ -539,7 +539,7 @@ Rbdb_Database* Rbdb_RuntimeStorageController_internal_databaseForBDBDatabase(	Rb
 																					NULL,
 																					& bdb_key,
 																					& bdb_data,
-																					Rbdb_NO_FLAGS ) ) )	{
+																					RBDB_NO_FLAGS ) ) )	{
 		
 		Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( runtime_storage_controller->runtime_environment ),
 																									connection_error, 

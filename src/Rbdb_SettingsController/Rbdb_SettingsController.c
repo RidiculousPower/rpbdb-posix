@@ -451,7 +451,7 @@ int Rbdb_SettingsController_internal_openFlags( Rbdb_SettingsController* setting
 int Rbdb_SettingsController_internal_closeFlags( Rbdb_SettingsController* settings_controller __attribute__((unused)) )	{
 
 	//	currently unused- set to 0
-	return Rbdb_NO_FLAGS;
+	return RBDB_NO_FLAGS;
 }
 
 /****************

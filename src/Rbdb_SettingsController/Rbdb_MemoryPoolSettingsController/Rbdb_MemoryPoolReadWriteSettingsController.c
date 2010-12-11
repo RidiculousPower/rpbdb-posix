@@ -66,7 +66,7 @@ int Rbdb_MemoryPoolReadWriteSettingsController_maxOpenFiles( Rbdb_MemoryPoolRead
 
 	Rbdb_Environment*	environment = memory_pool_read_write_settings_controller->parent_memory_pool_settings_controller->parent_settings_controller->parent_environment;
 	
-	if (	memory_pool_read_write_settings_controller->max_open_files == Rbdb_UNITIALIZED
+	if (	memory_pool_read_write_settings_controller->max_open_files == RBDB_UNITIALIZED
 		&&	environment->wrapped_bdb_environment != NULL )	{
 
 		environment->wrapped_bdb_environment->get_mp_max_openfd(	environment->wrapped_bdb_environment, 
@@ -103,7 +103,7 @@ int Rbdb_MemoryPoolReadWriteSettingsController_maxSequentialWrites( Rbdb_MemoryP
 	
 	Rbdb_Environment*		environment = memory_pool_read_write_settings_controller->parent_memory_pool_settings_controller->parent_settings_controller->parent_environment;
 		
-	if (	memory_pool_read_write_settings_controller->max_sequential_writes == Rbdb_UNITIALIZED
+	if (	memory_pool_read_write_settings_controller->max_sequential_writes == RBDB_UNITIALIZED
 		&&	environment->wrapped_bdb_environment != NULL )	{
 
 		environment->wrapped_bdb_environment->get_mp_max_write(	environment->wrapped_bdb_environment, 

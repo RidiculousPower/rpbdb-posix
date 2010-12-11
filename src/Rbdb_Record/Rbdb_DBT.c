@@ -1,5 +1,5 @@
 /*
- *		Rbdb::Rbdb_DatabaseController::Rbdb_Database::(Rbdb_DatabaseCursorController::Rbdb_DatabaseCursor::)Rbdb_Record::Rbdb_DBT
+ *		Rbdb::Rbdb_DatabaseController::Rbdb_Database::(Rbdb_DatabaseCursorController::Rbdb_DatabaseCursor::)Rbdb_Record::RBDB_DBT
  *
  *
  */
@@ -10,8 +10,8 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "Rbdb_DBT.h"
-#include "Rbdb_DBT_internal.h"
+#include "RBDB_DBT.h"
+#include "RBDB_DBT_internal.h"
 
 #include "Rbdb_Record.h"
 
@@ -31,9 +31,9 @@
 *  new  *
 *************/
 
-Rbdb_DBT* Rbdb_DBT_new( Rbdb_Record* parent_record )	{
+RBDB_DBT* RBDB_DBT_new( Rbdb_Record* parent_record )	{
 	
-	Rbdb_DBT*	dbt	=	calloc( 1, sizeof( Rbdb_DBT ) );
+	RBDB_DBT*	dbt	=	calloc( 1, sizeof( RBDB_DBT ) );
 	
 	//	Make call to instantiate local settings controller (assuming we have a parent record to copy settings from)
 	//	If we don't have a parent record, settings_controller will be intantiated upon call with default settings
@@ -58,7 +58,7 @@ Rbdb_DBT* Rbdb_DBT_new( Rbdb_Record* parent_record )	{
 /***************************
 *  free  *
 ***************************/
-void Rbdb_DBT_free(	Rbdb_DBT** dbt )	{
+void RBDB_DBT_free(	RBDB_DBT** dbt )	{
 
 	if ( ( *dbt )->wrapped_bdb_dbt != NULL )	{
 		free( ( *dbt )->wrapped_bdb_dbt );
@@ -71,28 +71,28 @@ void Rbdb_DBT_free(	Rbdb_DBT** dbt )	{
 /***************************
 *  settingsController  *
 ***************************/
-Rbdb_DatabaseRecordSettingsController* Rbdb_DBT_settingsController(	Rbdb_DBT* dbt )	{
+Rbdb_DatabaseRecordSettingsController* RBDB_DBT_settingsController(	RBDB_DBT* dbt )	{
 	return dbt->settings_controller;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-Rbdb_Environment* Rbdb_DBT_parentEnvironment(	Rbdb_DBT* dbt )	{
+Rbdb_Environment* RBDB_DBT_parentEnvironment(	RBDB_DBT* dbt )	{
 	return dbt->parent_record->parent_database->parent_database_controller->parent_environment;
 }
 
 /***************************************
 *  parentDatabase  *
 ***************************************/
-Rbdb_Database* Rbdb_DBT_parentDatabase(	Rbdb_DBT* dbt )	{
+Rbdb_Database* RBDB_DBT_parentDatabase(	RBDB_DBT* dbt )	{
 	return dbt->parent_record->parent_database;
 }
 
 /***************************************
 *  parentRecord  *
 ***************************************/
-Rbdb_Record* Rbdb_DBT_parentRecord(	Rbdb_DBT* dbt )	{
+Rbdb_Record* RBDB_DBT_parentRecord(	RBDB_DBT* dbt )	{
 	return dbt->parent_record;
 }
 
@@ -104,7 +104,7 @@ Rbdb_Record* Rbdb_DBT_parentRecord(	Rbdb_DBT* dbt )	{
 *  data  *
 *************/
 
-void* Rbdb_DBT_data( Rbdb_DBT* dbt )	{
+void* RBDB_DBT_data( RBDB_DBT* dbt )	{
 
 	return dbt->wrapped_bdb_dbt->data;
 }
@@ -114,7 +114,7 @@ void* Rbdb_DBT_data( Rbdb_DBT* dbt )	{
 *****************/
 
 //	Set data to point to a byte string
-void Rbdb_DBT_setData(	Rbdb_DBT*	dbt, 
+void RBDB_DBT_setData(	RBDB_DBT*	dbt, 
 						void*		data_raw,
 						uint32_t	data_size )	{
 
@@ -128,7 +128,7 @@ void Rbdb_DBT_setData(	Rbdb_DBT*	dbt,
 
 //	Note that applications can determine the length of a record by setting the ulen field 
 //	(Rbdb_DatabaseRecordSettingsController_dataBufferSize) to 0 and checking the return value in the size field.
-uint32_t Rbdb_DBT_size( Rbdb_DBT* dbt )	{
+uint32_t RBDB_DBT_size( RBDB_DBT* dbt )	{
 
 	return dbt->wrapped_bdb_dbt->size;
 }	

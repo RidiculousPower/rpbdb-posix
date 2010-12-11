@@ -421,7 +421,7 @@ BOOL Rbdb_DatabaseRecordReadWriteSettingsController_unsortedDuplicates( Rbdb_Dat
 				||	database_type == DB_HASH ) )	{
 			
 			Rbdb_ErrorController_throwError(	Rbdb_ErrorController_new( database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ),
-																				Rbdb_ERROR_DUPLICATES_NOT_SUPPORTED,
+																				RBDB_ERROR_DUPLICATES_NOT_SUPPORTED,
 																				"Rbdb_DatabaseRecordReadWriteSettingsController_turnUnsortedDuplicatesOn",
 																				"Duplicate records are only supported by Btree and Hash database types." );
 		}
@@ -444,7 +444,7 @@ BOOL Rbdb_DatabaseRecordReadWriteSettingsController_unsortedDuplicates( Rbdb_Dat
 				||	database_type == DB_HASH ) )	{
 			
 			Rbdb_ErrorController_throwError(	Rbdb_ErrorController_new( database_read_write_settings_controller->parent_database_record_settings_controller->parent_database_settings_controller->parent_database->parent_database_controller->parent_environment ),
-																				 Rbdb_ERROR_DUPLICATES_NOT_SUPPORTED,
+																				 RBDB_ERROR_DUPLICATES_NOT_SUPPORTED,
 																				 "Rbdb_DatabaseRecordReadWriteSettingsController_turnUnsortedDuplicatesOff",
 																				 "Duplicate records are only supported by Btree and Hash database types." );
 		}
@@ -499,7 +499,7 @@ BOOL Rbdb_DatabaseRecordReadWriteSettingsController_sortedDuplicates( Rbdb_Datab
 						||	database_type == DB_HASH ) )	{
 				environment	=	database_settings_controller->parent_database->parent_database_controller->parent_environment;				
 				Rbdb_ErrorController_throwError(	Rbdb_ErrorController_new(  environment ),
-																					Rbdb_ERROR_DUPLICATES_NOT_SUPPORTED,
+																					RBDB_ERROR_DUPLICATES_NOT_SUPPORTED,
 																					"Rbdb_DatabaseRecordReadWriteSettingsController_turnSortedDuplicatesOn",
 																					"Duplicate records are only supported by Btree and Hash database types." );
 			}
@@ -536,7 +536,7 @@ BOOL Rbdb_DatabaseRecordReadWriteSettingsController_sortedDuplicates( Rbdb_Datab
 
 				environment	=	database_settings_controller->parent_database->parent_database_controller->parent_environment;
 				Rbdb_ErrorController_throwError(	Rbdb_ErrorController_new(		environment ),
-																																			Rbdb_ERROR_DUPLICATES_NOT_SUPPORTED,
+																																			RBDB_ERROR_DUPLICATES_NOT_SUPPORTED,
 																																			"Rbdb_DatabaseRecordReadWriteSettingsController_turnSortedDuplicatesOff",
 																																			"Duplicate records are only supported by Btree and Hash database types." );
 			}
@@ -969,7 +969,7 @@ int Rbdb_DatabaseRecordReadWriteSettingsController_internal_writeFlags( Rbdb_Dat
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_del.html
 int Rbdb_DatabaseRecordReadWriteSettingsController_internal_deleteFlags( Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller __attribute__((unused)) )	{
 
-	return Rbdb_NO_FLAGS;
+	return RBDB_NO_FLAGS;
 }
 
 /*********************

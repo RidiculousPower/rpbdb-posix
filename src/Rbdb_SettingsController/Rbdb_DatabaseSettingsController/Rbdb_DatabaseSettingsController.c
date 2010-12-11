@@ -704,7 +704,7 @@ int Rbdb_DatabaseSettingsController_internal_associateFlags( Rbdb_DatabaseSettin
 //	Flags is currently unused (0) - this could change. Who knows what the future may hold! :o
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_key_range.html
 int Rbdb_DatabaseSettingsController_internal_keyRangeFlags( Rbdb_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
-	return Rbdb_NO_FLAGS;
+	return RBDB_NO_FLAGS;
 }
 
 /**************************
@@ -726,7 +726,7 @@ DB_COMPACT* Rbdb_DatabaseSettingsController_internal_compactParameters( Rbdb_Dat
 //	Flags is currently unused (0) - this could change. Who knows what the future may hold! :o
 //	http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_compact.html
 int Rbdb_DatabaseSettingsController_internal_compactFlags( Rbdb_DatabaseSettingsController* database_settings_controller __attribute__((unused)) )	{
-	return Rbdb_NO_FLAGS;
+	return RBDB_NO_FLAGS;
 }
 
 /**********************************************

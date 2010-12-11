@@ -4,8 +4,8 @@
  *
  */
 
-#ifndef Rbdb_RECORD
-	#define Rbdb_RECORD
+#ifndef RBDB_RECORD
+	#define RBDB_RECORD
 
 	#include "Rbdb_BaseStandardInclude.h"
 
@@ -20,7 +20,7 @@
 	Rbdb_Environment*			Rbdb_Record_parentEnvironment(	Rbdb_Record* record );
 	Rbdb_Database* Rbdb_Record_parentDatabase(	Rbdb_Record* record );
 
-	Rbdb_DBT*							Rbdb_Record_key(					Rbdb_Record*		record );
+	RBDB_DBT*							Rbdb_Record_key(					Rbdb_Record*		record );
 	void								Rbdb_Record_setKey(				Rbdb_Record*		record,
 																			Rbdb_Key*			key );
 	void Rbdb_Record_setKeyFromRawKey(	Rbdb_Record*		record,

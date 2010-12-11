@@ -1,5 +1,5 @@
-#ifndef Rbdb_REPLICATION_ELECTION_SETTINGS_CONTROLLER_INTERNAL
-	#define Rbdb_REPLICATION_ELECTION_SETTINGS_CONTROLLER_INTERNAL
+#ifndef RBDB_REPLICATION_ELECTION_SETTINGS_CONTROLLER_INTERNAL
+	#define RBDB_REPLICATION_ELECTION_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************

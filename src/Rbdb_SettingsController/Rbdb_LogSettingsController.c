@@ -386,7 +386,7 @@ int Rbdb_LogSettingsController_mode( Rbdb_LogSettingsController* log_settings_co
 
 	environment = log_settings_controller->parent_settings_controller->parent_environment;
 
-	if (	log_settings_controller->mode == Rbdb_UNITIALIZED
+	if (	log_settings_controller->mode == RBDB_UNITIALIZED
 		&&	environment->wrapped_bdb_environment != NULL )	{
 
 		environment->wrapped_bdb_environment->get_lg_filemode(	environment->wrapped_bdb_environment, 
@@ -539,7 +539,7 @@ void Rbdb_LogSettingsController_internal_setConfig(	Rbdb_LogSettingsController* 
 int Rbdb_LogSettingsController_internal_openFlags( Rbdb_LogSettingsController* log_settings_controller __attribute__((unused)) )	{
 
 	//	Currently unused - returns 0
-	return Rbdb_NO_FLAGS;
+	return RBDB_NO_FLAGS;
 }
 
 /*****************
@@ -549,7 +549,7 @@ int Rbdb_LogSettingsController_internal_openFlags( Rbdb_LogSettingsController* l
 int Rbdb_LogSettingsController_internal_closeFlags( Rbdb_LogSettingsController* log_settings_controller __attribute__((unused)) )	{
 
 	//	Currently unused - returns 0
-	return Rbdb_NO_FLAGS;
+	return RBDB_NO_FLAGS;
 }
 
 /*************************

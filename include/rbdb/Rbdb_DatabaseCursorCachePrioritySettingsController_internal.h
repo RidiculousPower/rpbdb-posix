@@ -1,5 +1,5 @@
-#ifndef Rbdb_DATABASE_CURSOR_CACHE_PRIORITY_SETTINGS_CONTROLLER_INTERNAL
-	#define Rbdb_DATABASE_CURSOR_CACHE_PRIORITY_SETTINGS_CONTROLLER_INTERNAL
+#ifndef RBDB_DATABASE_CURSOR_CACHE_PRIORITY_SETTINGS_CONTROLLER_INTERNAL
+	#define RBDB_DATABASE_CURSOR_CACHE_PRIORITY_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************

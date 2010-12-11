@@ -1,5 +1,5 @@
-#ifndef Rbdb_DIRECTORY_SETTINGS_CONTROLLER_INTERNAL
-	#define Rbdb_DIRECTORY_SETTINGS_CONTROLLER_INTERNAL
+#ifndef RBDB_DIRECTORY_SETTINGS_CONTROLLER_INTERNAL
+	#define RBDB_DIRECTORY_SETTINGS_CONTROLLER_INTERNAL
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************

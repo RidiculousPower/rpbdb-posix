@@ -4,8 +4,8 @@
  *
  */
 
-#ifndef Rbdb_THREAD_SETTINGS_CONTROLLER
-	#define Rbdb_THREAD_SETTINGS_CONTROLLER
+#ifndef RBDB_THREAD_SETTINGS_CONTROLLER
+	#define RBDB_THREAD_SETTINGS_CONTROLLER
 
 	#include "Rbdb_BaseStandardInclude.h"
 

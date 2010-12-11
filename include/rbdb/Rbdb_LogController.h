@@ -9,8 +9,8 @@
  *	
  */
 
-#ifndef Rbdb_LOG_CONTROLLER
-	#define Rbdb_LOG_CONTROLLER
+#ifndef RBDB_LOG_CONTROLLER
+	#define RBDB_LOG_CONTROLLER
 
 	#include "Rbdb_BaseStandardInclude.h"
 
