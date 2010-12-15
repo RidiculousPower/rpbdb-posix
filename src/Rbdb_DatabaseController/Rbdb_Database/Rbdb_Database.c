@@ -623,7 +623,11 @@ BOOL Rbdb_Database_associateSecondaryDatabase(	Rbdb_Database*		primary_database,
 		
 		return FALSE;
 	}
-		
+
+	//	store primary in secondary
+	secondary_database->is_secondary		=	TRUE;	
+	secondary_database->primary_database	=	primary_database;
+			
 	int			(*associate_callback)(	DB*, const DBT*, const DBT*, DBT*)	=	NULL;	
 
 	//	If we have a callback method set, we will associate it with the secondary => primary relationship
@@ -661,10 +665,6 @@ BOOL Rbdb_Database_associateSecondaryDatabase(	Rbdb_Database*		primary_database,
 																									connection_error, 
 																									"Rbdb_Database_associateSecondaryDatabase" );
 	}
-	
-	//	store primary in secondary
-	secondary_database->is_secondary		=	TRUE;	
-	secondary_database->primary_database	=	primary_database;
 	
 	//	and secondary in primary
 	//	we're currently storing secondary databases for the primary in a linked list
@@ -709,6 +709,15 @@ BOOL Rbdb_Database_isPrimary( Rbdb_Database*	database )	{
 BOOL Rbdb_Database_isSecondary( Rbdb_Database*	database )	{
 	
 	return database->is_secondary;
+}
+
+/***********************
+*  secondaryIndexName  *
+***********************/
+
+char* Rbdb_Database_secondaryIndexName( Rbdb_Database*	database )	{
+	
+	return database->index_name;
 }
 
 /********************

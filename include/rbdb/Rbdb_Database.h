@@ -57,6 +57,7 @@ Rbdb_DatabaseSequenceController* Rbdb_Database_sequenceController( Rbdb_Database
 	BOOL Rbdb_Database_isPrimary(	Rbdb_Database*	database );
 	BOOL																								Rbdb_Database_isSecondary(								Rbdb_Database*			database );
 	Rbdb_Database* Rbdb_Database_primaryDatabase( Rbdb_Database*	secondary_database );
+	char* Rbdb_Database_secondaryIndexName( Rbdb_Database*	database );
 	
 	void Rbdb_Database_setSecondaryKeyCreationCallbackMethod(	Rbdb_Database*						secondary_database,
 																Rbdb_SecondaryKeyCallbackMethod	secondary_key_creation_callback_method);
