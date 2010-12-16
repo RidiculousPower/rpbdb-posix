@@ -244,6 +244,32 @@ uint32_t Rbdb_Record_dataSize( Rbdb_Record* record )	{
 	return 0;
 }
 
+/******************
+*  rawPrimaryKey  *
+******************/
+
+void* Rbdb_Record_rawPrimaryKey( Rbdb_Record* record )	{		
+	
+	if ( record != NULL )	{	
+		return record->primary_key->wrapped_bdb_dbt->data;
+	}
+	return NULL;
+}
+
+/*******************
+*  primaryKeySize  *
+*******************/
+
+uint32_t Rbdb_Record_primaryKeySize( Rbdb_Record* record )	{		
+	
+	
+	if ( record != NULL )	{	
+		return record->primary_key->wrapped_bdb_dbt->size;
+	}
+	return 0;
+}
+
+
 /**************
 *  setObject  *
 **************/

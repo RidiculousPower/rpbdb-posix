@@ -42,6 +42,8 @@ void Rbdb_Record_setRawKey(	Rbdb_Record*	record,
 							u_int32_t		raw_key_size );
 	uint32_t Rbdb_Record_keySize( Rbdb_Record* record );
 	uint32_t Rbdb_Record_dataSize( Rbdb_Record* record );
+	void* Rbdb_Record_rawPrimaryKey( Rbdb_Record* record );
+	uint32_t Rbdb_Record_primaryKeySize( Rbdb_Record* record );
 	Rbdb_Key*							Rbdb_Record_primaryKey(			Rbdb_Record*		record );
 	Rbdb_Key*					Rbdb_Record_retrievalKey(			Rbdb_Record*		record );
 	void Rbdb_Record_setExistsInDatabase(	Rbdb_Record*	record,
