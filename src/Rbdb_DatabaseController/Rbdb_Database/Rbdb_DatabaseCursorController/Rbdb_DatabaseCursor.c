@@ -59,12 +59,16 @@ Rbdb_DatabaseCursor* Rbdb_DatabaseCursor_new( Rbdb_DatabaseCursorController* par
 	
 	database_cursor->parent_database_cursor_controller = parent_database_cursor_controller;
 
+	Rbdb_Database*													parent_database												=	parent_database_cursor_controller->parent_database;
+	Rbdb_DatabaseSettingsController*				database_settings_controller					=	Rbdb_Database_settingsController( parent_database );
+	Rbdb_DatabaseCursorSettingsController*	database_cursor_settings_controller		=	Rbdb_DatabaseSettingsController_cursorSettingsController( database_settings_controller );
+
 	//	Make call to instantiate local settings controller
-	database_cursor->settings_controller	=	Rbdb_DatabaseCursorSettingsController_internal_copyOfSettingsControllerForInstance( Rbdb_DatabaseSettingsController_cursorSettingsController( Rbdb_Database_settingsController( parent_database_cursor_controller->parent_database ) ) );
+	database_cursor->settings_controller	=	Rbdb_DatabaseCursorSettingsController_internal_copyOfSettingsControllerForInstance( database_cursor_settings_controller );
 
 	database_cursor->iteration_started	=	0;
-	database_cursor->is_open			=	FALSE;
-	database_cursor->name				=	NULL;
+	database_cursor->is_open						=	FALSE;
+	database_cursor->name								=	NULL;
 
 	return database_cursor;
 }

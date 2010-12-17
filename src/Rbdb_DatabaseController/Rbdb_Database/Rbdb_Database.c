@@ -2256,12 +2256,6 @@ Rbdb_Record* Rbdb_Database_internal_retrieveRecord(	Rbdb_Database*		database,
 	}
 	//	Otherwise we are retrieving a primary key/data pair
 	else	{
-	
-		//	primary key is our retrieval key, so set both the same
-		if ( record->primary_key != record->key )	{
-			Rbdb_Key_free( & record->primary_key );
-			record->primary_key	=	record->key;
-		}
 			
 		if ( ( connection_error = ( database->wrapped_bdb_database->get(	database->wrapped_bdb_database, 
 																																			transaction_id,
@@ -2286,7 +2280,13 @@ Rbdb_Record* Rbdb_Database_internal_retrieveRecord(	Rbdb_Database*		database,
 			record->result = TRUE;
 		}
 	}
-		
+	
+	//	primary key is our retrieval key, so set both the same
+	if ( record->primary_key != record->key )	{
+		Rbdb_Key_free( & record->primary_key );
+		record->primary_key	=	record->key;
+	}
+				
 	return record;
 }
 
