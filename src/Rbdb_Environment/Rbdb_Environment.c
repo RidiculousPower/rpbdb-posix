@@ -793,8 +793,8 @@ void Rbdb_Environment_internal_initWrappedEnvironment(	Rbdb_Environment*		enviro
 			}
 			
 			if ( thread_settings_controller->is_thread_alive_callback_method )	{
-//				Rbdb_ThreadSettingsController_setIsThreadAliveCallback(	thread_settings_controller,
-//																			thread_settings_controller->is_thread_alive_callback_method	);
+				Rbdb_ThreadSettingsController_setIsThreadAliveCallback(	thread_settings_controller,
+																																thread_settings_controller->is_thread_alive_callback_method	);
 			}
 		}
 		

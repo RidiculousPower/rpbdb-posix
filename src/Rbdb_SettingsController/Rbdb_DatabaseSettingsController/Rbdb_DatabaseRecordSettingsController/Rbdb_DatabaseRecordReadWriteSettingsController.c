@@ -448,11 +448,12 @@ BOOL Rbdb_DatabaseRecordReadWriteSettingsController_unsortedDuplicates( Rbdb_Dat
 																				 "Rbdb_DatabaseRecordReadWriteSettingsController_turnUnsortedDuplicatesOff",
 																				 "Duplicate records are only supported by Btree and Hash database types." );
 		}
-		database_read_write_settings_controller->permit_duplicates = FALSE;
+		database_read_write_settings_controller->sort_duplicates		= FALSE;
+		database_read_write_settings_controller->permit_duplicates	= FALSE;
 	}
 
 /*********************
-*  sortDuplicates  *
+*  sortedDuplicates  *
 *********************/
 
 //	DB_DUPSORT			http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/db_set_flags.html
@@ -545,8 +546,26 @@ BOOL Rbdb_DatabaseRecordReadWriteSettingsController_sortedDuplicates( Rbdb_Datab
 		//	this flag only makes sense with sorted duplicates, so if they're not on it goes off
 		Rbdb_DatabaseRecordReadWriteSettingsController_turnWriteDataOnlyIfNonDuplicateOff( database_read_write_settings_controller );
 		
-		database_read_write_settings_controller->sort_duplicates = FALSE;
+		database_read_write_settings_controller->sort_duplicates		= FALSE;
+		database_read_write_settings_controller->permit_duplicates	= FALSE;
 	}
+
+/***************
+*  duplicates  *
+***************/
+
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_duplicates( Rbdb_DatabaseRecordReadWriteSettingsController* database_read_write_settings_controller )	{
+
+	BOOL	c_has_duplicates	=	FALSE;
+
+	if (		Rbdb_DatabaseRecordReadWriteSettingsController_sortedDuplicates( database_read_write_settings_controller )
+			||	Rbdb_DatabaseRecordReadWriteSettingsController_unsortedDuplicates( database_read_write_settings_controller ) )	{
+	
+		c_has_duplicates	=	TRUE;
+	}
+	
+	return c_has_duplicates;
+}
 
 /*****************************************
 *  databaseAllocatesMemoryUsingMalloc  *
