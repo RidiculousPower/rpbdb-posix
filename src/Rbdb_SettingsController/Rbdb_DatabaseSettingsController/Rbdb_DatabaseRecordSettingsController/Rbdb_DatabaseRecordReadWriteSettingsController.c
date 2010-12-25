@@ -96,7 +96,7 @@ void Rbdb_DatabaseRecordReadWriteSettingsController_setFilename(	Rbdb_DatabaseRe
 }
 
 /*******************************************************************************************************************************************************************************************
-																		Switch Settings
+																													Switch Settings
 *******************************************************************************************************************************************************************************************/
 
 /****************************
@@ -717,16 +717,16 @@ BOOL Rbdb_DatabaseRecordReadWriteSettingsController_partialAccess( Rbdb_Database
 		Rbdb_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
 	}
 
-	/*****************************
+	/*************************
 	*  turnPartialAccessOff  *
-	*****************************/
+	*************************/
 
 	void Rbdb_DatabaseRecordReadWriteSettingsController_turnPartialAccessOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 		database_record_read_write_settings_controller->partial_access = FALSE;
 		Rbdb_DatabaseRecordReadWriteSettingsController_internal_updateFlags( database_record_read_write_settings_controller );
 	}
-	
+
 /*****************************
 *  syncPriorToWriteReturn  *
 *****************************/
@@ -734,10 +734,7 @@ BOOL Rbdb_DatabaseRecordReadWriteSettingsController_partialAccess( Rbdb_Database
 //	DB_DSYNC_DB             http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_set_flags.html
 BOOL Rbdb_DatabaseRecordReadWriteSettingsController_syncPriorToWriteReturn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 
-	if ( database_record_read_write_settings_controller->sync_prior_to_write_return == TRUE )	{
-		return DB_DSYNC_DB;
-	}
-	return FALSE;
+	return database_record_read_write_settings_controller->sync_prior_to_write_return;
 }
 
 	/**************************************
@@ -757,6 +754,121 @@ BOOL Rbdb_DatabaseRecordReadWriteSettingsController_syncPriorToWriteReturn( Rbdb
 
 		database_record_read_write_settings_controller->sync_prior_to_write_return = FALSE;
 	}
+
+/****************
+*  storeTyping  *
+****************/
+
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_storeTyping( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	
+	return database_record_read_write_settings_controller->store_typing;
+}
+
+	/**********************
+	*  turnStoreTypingOn  *
+	**********************/
+
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnStoreTypingOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	
+		database_record_read_write_settings_controller->store_typing = TRUE;
+	}
+
+	/***********************
+	*  turnStoreTypingOff  *
+	***********************/
+
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnStoreTypingOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	
+		database_record_read_write_settings_controller->store_typing = FALSE;
+	}
+
+/*****************
+*  recordTyping  *
+*****************/
+
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	
+	return database_record_read_write_settings_controller->record_typing;
+}
+
+	/***********************
+	*  turnRecordTypingOn  *
+	***********************/
+
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnRecordTypingOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	
+		database_record_read_write_settings_controller->record_typing = TRUE;
+	}
+
+	/************************
+	*  turnRecordTypingOff  *
+	************************/
+
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnRecordTypingOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	
+		database_record_read_write_settings_controller->record_typing = FALSE;
+	}
+
+/******************
+*  creationStamp  *
+******************/
+
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_creationStamp( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	
+	return database_record_read_write_settings_controller->creation_stamp;
+}
+
+	/************************
+	*  turnCreationStampOn  *
+	************************/
+
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnCreationStampOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	
+		database_record_read_write_settings_controller->creation_stamp = TRUE;
+	}
+
+	/*************************
+	*  turnCreationStampOff  *
+	*************************/
+
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnCreationStampOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	
+		database_record_read_write_settings_controller->creation_stamp = FALSE;
+	}
+
+/**********************
+*  modificationStamp  *
+**********************/
+
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_modificationStamp( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	
+	if ( database_record_read_write_settings_controller->modification_stamp == TRUE )	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+	/****************************
+	*  turnModificationStampOn  *
+	****************************/
+
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnModificationStampOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	
+		database_record_read_write_settings_controller->modification_stamp = TRUE;
+	}
+
+	/*****************************
+	*  turnModificationStampOff  *
+	*****************************/
+
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnModificationStampOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	
+		database_record_read_write_settings_controller->modification_stamp = FALSE;
+	}
+	
+/*******************************************************************************************************************************************************************************************
+																													Setter Methods
+*******************************************************************************************************************************************************************************************/
 
 /*********************
 *  dataBufferSize  *
@@ -876,6 +988,10 @@ void Rbdb_DatabaseRecordReadWriteSettingsController_setPartialReadWriteOffset(	R
 //		database_record_read_write_settings_controller->parent_record->wrapped_bdb_dbt->doff = partial_read_write_offset;
 	}
 }
+
+/*******************************************************************************************************************************************************************************************
+																													Callback Methods
+*******************************************************************************************************************************************************************************************/
 
 /*************************************
 *  setWriteFailedCallbackMethod  *

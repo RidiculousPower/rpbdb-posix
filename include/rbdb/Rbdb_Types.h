@@ -826,6 +826,11 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							uint32_t								data_buffer_size;
 							uint32_t								partial_read_write_size;
 							uint32_t								partial_read_write_offset;
+							
+							BOOL										store_typing;
+							BOOL										record_typing;
+							BOOL										creation_stamp;
+							BOOL										modification_stamp;
 
 							Rbdb_SettingsController*								environment_settings_controller;
 	
