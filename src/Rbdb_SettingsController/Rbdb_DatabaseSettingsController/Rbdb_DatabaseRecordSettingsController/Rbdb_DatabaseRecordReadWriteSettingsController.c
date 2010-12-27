@@ -759,7 +759,7 @@ BOOL Rbdb_DatabaseRecordReadWriteSettingsController_syncPriorToWriteReturn( Rbdb
 *  storeTyping  *
 ****************/
 
-BOOL Rbdb_DatabaseRecordReadWriteSettingsController_storeTyping( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+Rbdb_DatabaseRecordStorageType Rbdb_DatabaseRecordReadWriteSettingsController_storeTyping( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 	return database_record_read_write_settings_controller->store_typing;
 }
@@ -768,9 +768,10 @@ BOOL Rbdb_DatabaseRecordReadWriteSettingsController_storeTyping( Rbdb_DatabaseRe
 	*  turnStoreTypingOn  *
 	**********************/
 
-	void Rbdb_DatabaseRecordReadWriteSettingsController_turnStoreTypingOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnStoreTypingOn(	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller,
+																																					Rbdb_DatabaseRecordStorageType										database_record_storage_type	)	{
 	
-		database_record_read_write_settings_controller->store_typing = TRUE;
+		database_record_read_write_settings_controller->store_typing = database_record_storage_type;
 	}
 
 	/***********************

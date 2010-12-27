@@ -1220,7 +1220,7 @@ Rbdb_Record* Rbdb_Database_retrieveRecord(	Rbdb_Database*		database,
 Rbdb_Record* Rbdb_Database_retrieveKey(	Rbdb_Database*		database, 
 																				Rbdb_Key*					key_data )	{
 
-	Rbdb_Record*	record	=	Rbdb_Record_new( NULL );
+	Rbdb_Record*	record	=	Rbdb_Record_new( database );
 	
 	Rbdb_Record_setKey(	record,
 											key_data );
@@ -1326,7 +1326,7 @@ Rbdb_Record* Rbdb_Database_retrieveRecordID(	Rbdb_Database*		database,
 
 	//	We should probably make sure here that record ID is an int
 
-	Rbdb_Record*	record	=	Rbdb_Record_new( NULL );
+	Rbdb_Record*	record	=	Rbdb_Record_new( database );
 	
 	Rbdb_Record_setKey(	record,
 											key_data_record_id );
@@ -1366,7 +1366,7 @@ Rbdb_Record* Rbdb_Database_retrievePartialRawKey(	Rbdb_Database*		database,
 Rbdb_Record* Rbdb_Database_retrievePartialKey(	Rbdb_Database*		database,
  																			Rbdb_Key*						partial_key )	{
 	
-	Rbdb_Record*	record	=	Rbdb_Record_new( NULL );
+	Rbdb_Record*	record	=	Rbdb_Record_new( database );
 	
 	Rbdb_Record_setKey(	record,
 						partial_key );
@@ -1386,7 +1386,7 @@ Rbdb_Record* Rbdb_Database_retrievePartialKey(	Rbdb_Database*		database,
 Rbdb_Record* Rbdb_Database_retrievePartialData(	Rbdb_Database*		database,
  																				Rbdb_Data*						data )	{
 
-	Rbdb_Record*	record	=	Rbdb_Record_new( NULL );
+	Rbdb_Record*	record	=	Rbdb_Record_new( database );
 	
 	Rbdb_Record_setData(	record,
 						 data );

@@ -88,8 +88,9 @@ uint32_t Rbdb_DatabaseRecordReadWriteSettingsController_partialReadWriteOffset( 
 void Rbdb_DatabaseRecordReadWriteSettingsController_setPartialReadWriteOffset(	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller, 
 															uint32_t							partial_read_write_offset );
 
-BOOL Rbdb_DatabaseRecordReadWriteSettingsController_storeTyping( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller );
-	void Rbdb_DatabaseRecordReadWriteSettingsController_turnStoreTypingOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller );
+Rbdb_DatabaseRecordStorageType Rbdb_DatabaseRecordReadWriteSettingsController_storeTyping( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller );
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnStoreTypingOn(	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller,
+																																					Rbdb_DatabaseRecordStorageType										database_record_storage_type	);
 	void Rbdb_DatabaseRecordReadWriteSettingsController_turnStoreTypingOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller );
 BOOL Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller );
 	void Rbdb_DatabaseRecordReadWriteSettingsController_turnRecordTypingOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller );

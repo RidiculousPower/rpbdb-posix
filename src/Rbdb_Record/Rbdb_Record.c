@@ -27,6 +27,8 @@
 #include "Rbdb_DatabaseSettingsController.h"
 #include "Rbdb_DatabaseRecordSettingsController.h"
 #include "Rbdb_DatabaseRecordSettingsController_internal.h"
+
+#include "Rbdb_DatabaseRecordReadWriteSettingsController.h"
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -59,6 +61,10 @@ Rbdb_Record* Rbdb_Record_new( Rbdb_Database* parent_database )	{
 	return record;
 }
 
+/*************
+*  free  *
+*************/
+
 void	Rbdb_Record_free( Rbdb_Record** record )	{
 
 	if ( ( *record )->parent_database->runtime_storage_database != NULL )	{
@@ -67,6 +73,10 @@ void	Rbdb_Record_free( Rbdb_Record** record )	{
 	}
 	Rbdb_Record_internal_freeFromRuntimeStorage( record );
 }
+
+/***************************
+*  freeFromRuntimeStorage  *
+***************************/
 
 void	Rbdb_Record_internal_freeFromRuntimeStorage( Rbdb_Record** record )	{
 
@@ -317,9 +327,123 @@ Rbdb_Key* Rbdb_Record_retrievalKey( Rbdb_Record* record )	{
 	return NULL;
 }
 
+/**********************
+*  type  *
+**********************/
+
+Rbdb_DatabaseRecordStorageType Rbdb_Record_type( Rbdb_Record* record )	{
+		
+	Rbdb_Database*																		parent_database																	=	record->parent_database;
+	Rbdb_DatabaseSettingsController*									database_settings_controller										=	Rbdb_Database_settingsController( parent_database );
+	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
+
+	Rbdb_DatabaseRecordStorageType	type	=	Rbdb_Raw;
+	
+	if ( Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( database_record_read_write_settings_controller ) )	{
+
+		type	=	record->footer->type;
+
+	}
+	else {
+		
+		Rbdb_ErrorController_throwError(	Rbdb_Environment_errorController( record->parent_database->parent_database_controller->parent_environment ),
+																			-1,
+																			"Rbdb_Record_type",
+																			"Cannot return type unless database has record typing enabled." );
+	}
+		
+	return type;
+}
+
+/**********************
+*  setType  *
+**********************/
+
+void Rbdb_Record_setType( Rbdb_Record*										record,
+													Rbdb_DatabaseRecordStorageType	type)	{
+		
+	Rbdb_Database*																		parent_database																	=	record->parent_database;
+	Rbdb_DatabaseSettingsController*									database_settings_controller										=	Rbdb_Database_settingsController( parent_database );
+	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
+
+	if ( Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( database_record_read_write_settings_controller ) )	{
+
+		record->footer->type	=	type;
+
+	}
+	else {
+		
+		Rbdb_ErrorController_throwError(	Rbdb_Environment_errorController( record->parent_database->parent_database_controller->parent_environment ),
+																			-1,
+																			"Rbdb_Record_setType",
+																			"Cannot set type unless database has record typing enabled." );
+	}
+
+}
+
+/**********************
+*  creationStamp  *
+**********************/
+
+struct timeval* Rbdb_Record_creationStamp( Rbdb_Record* record )	{
+	
+	Rbdb_Database*																		parent_database																	=	record->parent_database;
+	Rbdb_DatabaseSettingsController*									database_settings_controller										=	Rbdb_Database_settingsController( parent_database );
+	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
+	
+	struct timeval*	creation_stamp	=	NULL;
+	
+	if ( Rbdb_DatabaseRecordReadWriteSettingsController_creationStamp( database_record_read_write_settings_controller ) )	{
+
+		creation_stamp	=	& record->footer->creation_stamp;
+
+	}
+	else {
+		
+		Rbdb_ErrorController_throwError(	Rbdb_Environment_errorController( record->parent_database->parent_database_controller->parent_environment ),
+																			-1,
+																			"Rbdb_Record_creationStamp",
+																			"Cannot track creation time stamp unless database has creation stamp enabled." );
+	}
+		
+	return creation_stamp;
+}
+
+/**********************
+*  modificationStamp  *
+**********************/
+
+struct timeval* Rbdb_Record_modificationStamp( Rbdb_Record* record )	{
+		
+	Rbdb_Database*																		parent_database																	=	record->parent_database;
+	Rbdb_DatabaseSettingsController*									database_settings_controller										=	Rbdb_Database_settingsController( parent_database );
+	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
+
+	struct timeval*	modification_stamp	=	NULL;
+		
+	if ( Rbdb_DatabaseRecordReadWriteSettingsController_modificationStamp( database_record_read_write_settings_controller ) )	{
+
+		modification_stamp	=	& record->footer->modification_stamp;
+
+	}
+	else {
+		
+		Rbdb_ErrorController_throwError(	Rbdb_Environment_errorController( record->parent_database->parent_database_controller->parent_environment ),
+																			-1,
+																			"Rbdb_Record_modificationStamp",
+																			"Cannot track modification time stamp unless database has modification stamp enabled." );
+	}
+		
+	return modification_stamp;
+}
+
 /*******************************************************************************************************************************************************************************************
 																		Retrieval Status Public Methods
-*******************************************************************************************************************************************************************************************/
+ *******************************************************************************************************************************************************************************************/
 
 //	Functions to watch whether record has been retrieved/inserted from DB
 

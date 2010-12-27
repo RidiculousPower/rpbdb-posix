@@ -174,7 +174,8 @@ Rbdb_Record* Rbdb_DatabaseJoinCursor_retrieveKey(	Rbdb_DatabaseJoinCursor*	join_
 Rbdb_Record* Rbdb_DatabaseJoinCursor_retrievePrimaryKeysForJoinData( Rbdb_DatabaseJoinCursor* join_cursor )	{
 
 	//	We return a record that doesn't belong to any database (but rather to a join database_cursor)
-	Rbdb_Record*	record	=	Rbdb_Record_new( NULL );
+	Rbdb_Database*	parent_database	=	join_cursor->parent_join_controller->parent_database;
+	Rbdb_Record*	record	=	Rbdb_Record_new( parent_database );
 
 	join_cursor->wrapped_bdb_join_cursor->get(	join_cursor->wrapped_bdb_join_cursor,
 												record->key->wrapped_bdb_dbt->data,

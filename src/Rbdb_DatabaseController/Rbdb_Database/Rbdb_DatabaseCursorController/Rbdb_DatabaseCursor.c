@@ -670,7 +670,8 @@ Rbdb_Record* Rbdb_DatabaseCursor_retrieveRecord(	Rbdb_DatabaseCursor*		database_
 Rbdb_Record* Rbdb_DatabaseCursor_retrieveKey(	Rbdb_DatabaseCursor*		database_cursor, 
 																							Rbdb_Key*								key_data )	{
 
-	Rbdb_Record*	record	=	Rbdb_Record_new( NULL );
+	Rbdb_Database*	parent_database	=	database_cursor->parent_database_cursor_controller->parent_database;
+	Rbdb_Record*	record	=	Rbdb_Record_new( parent_database );
 	
 	Rbdb_Record_setKey(	record,
 											key_data );
@@ -710,7 +711,8 @@ Rbdb_Record* Rbdb_DatabaseCursor_retrieveMatchingKeyDataPair(	Rbdb_DatabaseCurso
 																															Rbdb_Key*								key_data,
 																															Rbdb_Data*							data )	{
 
-	Rbdb_Record*	record	=	Rbdb_Record_new( NULL );
+	Rbdb_Database*	parent_database	=	database_cursor->parent_database_cursor_controller->parent_database;
+	Rbdb_Record*	record	=	Rbdb_Record_new( parent_database );
 	
 	Rbdb_Record_setKey(	record,
 											key_data );
@@ -772,7 +774,8 @@ Rbdb_Record* Rbdb_DatabaseCursor_retrieveRecordWithNumberAsKey(	Rbdb_DatabaseCur
 
 	//	We should probably make sure here that record ID is an int
 
-	Rbdb_Record*	record	=	Rbdb_Record_new( NULL );
+	Rbdb_Database*	parent_database	=	database_cursor->parent_database_cursor_controller->parent_database;
+	Rbdb_Record*	record	=	Rbdb_Record_new( parent_database );
 	
 	Rbdb_Record_setKey(	record,
 											key_with_record_number );

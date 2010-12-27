@@ -98,6 +98,9 @@ typedef struct Rbdb_CompactStatus											Rbdb_CompactStatus;
 typedef struct Rbdb_Directory												Rbdb_Directory;
 typedef struct Rbdb_DatabaseOpenedDuringTransaction						Rbdb_DatabaseOpenedDuringTransaction;
 
+typedef struct Rbdb_DatabaseRecordFooter												Rbdb_DatabaseRecordFooter;
+typedef	enum   Rbdb_DatabaseRecordStorageType										Rbdb_DatabaseRecordStorageType;
+
 typedef		RBDB_SECONDARY_KEY_CREATION_RETURN	(*Rbdb_SecondaryKeyCallbackMethod)(	Rbdb_Database*			secondary_database,
 																																									Rbdb_Record*			primary_record,
 																																									Rbdb_SecondaryKeys*	secondary_keys_to_return );
@@ -788,6 +791,43 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 	
 							Rbdb_SettingsController*								environment_settings_controller;
 	
+						};
+
+						/****************************
+						 *	Record Storage Type	*
+						 ****************************/
+
+						enum Rbdb_DatabaseRecordStorageType	{
+							
+							Rbdb_Raw,
+							Rbdb_Integer,
+							Rbdb_Float,
+							Rbdb_Complex,
+							Rbdb_Rational,
+							Rbdb_String,
+							Rbdb_Symbol,
+							Rbdb_Regexp,
+							Rbdb_Match,
+							Rbdb_File,
+							Rbdb_TrueFalse
+							
+						};
+
+						/****************************
+						 *	Record Footer	*
+						 ****************************/
+
+						struct Rbdb_DatabaseRecordFooter	{
+							
+							Rbdb_Record*											parent_record;
+							
+							int																version;
+							
+							struct timeval										creation_stamp;
+							struct timeval										modification_stamp;
+							
+							Rbdb_DatabaseRecordStorageType		type;
+							
 						};
 
 						/****************************
@@ -1855,9 +1895,11 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 	
 						BOOL																result;
 	
-						BOOL										exists_in_database;
-						BOOL										requires_update_to_database;
+						BOOL																exists_in_database;
+						BOOL																requires_update_to_database;
 	
+						Rbdb_DatabaseRecordFooter*					footer;
+						
 						Rbdb_DatabaseRecordSettingsController*				settings_controller;
 					};
 
