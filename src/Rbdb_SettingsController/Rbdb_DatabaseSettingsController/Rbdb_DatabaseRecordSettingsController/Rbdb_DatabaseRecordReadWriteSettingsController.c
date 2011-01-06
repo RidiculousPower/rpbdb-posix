@@ -755,32 +755,60 @@ BOOL Rbdb_DatabaseRecordReadWriteSettingsController_syncPriorToWriteReturn( Rbdb
 		database_record_read_write_settings_controller->sync_prior_to_write_return = FALSE;
 	}
 
-/****************
-*  storeTyping  *
-****************/
+/*******************
+*  storeKeyTyping  *
+*******************/
 
-Rbdb_DatabaseRecordStorageType Rbdb_DatabaseRecordReadWriteSettingsController_storeTyping( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+Rbdb_DatabaseRecordStorageType Rbdb_DatabaseRecordReadWriteSettingsController_storeKeyTyping( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
-	return database_record_read_write_settings_controller->store_typing;
+	return database_record_read_write_settings_controller->store_key_typing;
 }
 
-	/**********************
-	*  turnStoreTypingOn  *
-	**********************/
+	/*************************
+	*  turnStoreKeyTypingOn  *
+	*************************/
 
-	void Rbdb_DatabaseRecordReadWriteSettingsController_turnStoreTypingOn(	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller,
-																																					Rbdb_DatabaseRecordStorageType										database_record_storage_type	)	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnStoreKeyTypingOn(	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller,
+																																						Rbdb_DatabaseRecordStorageType										database_record_storage_type	)	{
 	
-		database_record_read_write_settings_controller->store_typing = database_record_storage_type;
+		database_record_read_write_settings_controller->store_key_typing = database_record_storage_type;
 	}
 
-	/***********************
-	*  turnStoreTypingOff  *
-	***********************/
+	/**************************
+	*  turnStoreKeyTypingOff  *
+	**************************/
 
-	void Rbdb_DatabaseRecordReadWriteSettingsController_turnStoreTypingOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnStoreKeyTypingOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
-		database_record_read_write_settings_controller->store_typing = FALSE;
+		database_record_read_write_settings_controller->store_key_typing = FALSE;
+	}
+
+/********************
+*  storeDataTyping  *
+********************/
+
+Rbdb_DatabaseRecordStorageType Rbdb_DatabaseRecordReadWriteSettingsController_storeDataTyping( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	
+	return database_record_read_write_settings_controller->store_data_typing;
+}
+
+	/**************************
+	*  turnStoreDataTypingOn  *
+	**************************/
+
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnStoreDataTypingOn(	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller,
+																																							Rbdb_DatabaseRecordStorageType										database_record_storage_type	)	{
+	
+		database_record_read_write_settings_controller->store_data_typing = database_record_storage_type;
+	}
+
+	/***************************
+	*  turnStoreDataTypingOff  *
+	***************************/
+
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnStoreDataTypingOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	
+		database_record_read_write_settings_controller->store_data_typing = FALSE;
 	}
 
 /*****************

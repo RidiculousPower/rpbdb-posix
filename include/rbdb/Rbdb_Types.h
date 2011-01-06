@@ -809,7 +809,8 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							RbdbType_Regexp,
 							RbdbType_Match,
 							RbdbType_File,
-							RbdbType_TrueFalse
+							RbdbType_TrueFalse,
+							RbdbType_ClassName
 							
 						};
 
@@ -870,7 +871,8 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							uint32_t								partial_read_write_size;
 							uint32_t								partial_read_write_offset;
 							
-							BOOL										store_typing;
+							BOOL										store_key_typing;
+							BOOL										store_data_typing;
 							BOOL										record_typing;
 							BOOL										creation_stamp;
 							BOOL										modification_stamp;

@@ -700,7 +700,7 @@ Rbdb_DataFooterTypeForVersion( Rbdb_DataFooterCurrentVersion )* Rbdb_Record_inte
 **********************************/
 
 //	add a footer to a record that currently exists in the database but does not currently have one
-void Rbdb_Record_internal_addDataFooterToExistingRecord( Rbdb_Record* record )	{
+void Rbdb_Record_internal_addDataFooterToExistingRecord( Rbdb_Record* record __attribute__ ((unused)) )	{
 
 	//	partial write
 	//	* from end of current data
