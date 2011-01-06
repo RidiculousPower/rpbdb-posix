@@ -13,9 +13,8 @@
 #include "Rbdb_SecondaryKeys.h"
 
 #include "Rbdb_Key.h"
-#include "Rbdb_Key_internal.h"
 #include "Rbdb_Data.h"
-#include "Rbdb_Data_internal.h"
+#include "Rbdb_DBT_internal.h"
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -94,7 +93,7 @@ void Rbdb_SecondaryKeys_addSecondaryKey(	Rbdb_SecondaryKeys*	keys,
 Rbdb_Key* Rbdb_SecondaryKeys_secondaryKeyForIndex(	Rbdb_SecondaryKeys*	keys,
 														int						index )	{
 
-	return (Rbdb_Key*) Rbdb_Data_internal_newrb_Rbdb_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT( NULL, & ( (DBT*) keys->wrapped_bdb_dbt->data )[ index ] );
+	return (Rbdb_Key*) (Rbdb_Data*) Rbdb_DBT_internal_newFromBDBDBT( NULL, & ( (DBT*) keys->wrapped_bdb_dbt->data )[ index ] );
 }
 
 

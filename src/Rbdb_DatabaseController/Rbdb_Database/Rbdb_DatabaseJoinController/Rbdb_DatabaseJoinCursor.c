@@ -149,7 +149,7 @@ Rbdb_Record* Rbdb_DatabaseJoinCursor_retrieveKey(	Rbdb_DatabaseJoinCursor*	join_
 
 	Rbdb_Record*		record	=	Rbdb_Record_new( join_cursor->primary_database );
 
-	//	Free the empty RBDB_DBT* we allocated
+	//	Free the empty Rbdb_DBT* we allocated
 	Rbdb_Key_free( & ( record->key ) );
 
 	//	point to the new key

@@ -21,11 +21,14 @@ Rbdb_Environment*		Rbdb_Data_parentEnvironment(	Rbdb_Data* data );
 Rbdb_Database* Rbdb_Data_parentDatabase(	Rbdb_Data* data );
 Rbdb_Record* Rbdb_Data_parentRecord(	Rbdb_DatabaseRecordSettingsController* data );
 
-void*			Rbdb_Data_rawData(		Rbdb_Data*		data );
+void* Rbdb_Data_rawData( Rbdb_Data* data );
 void Rbdb_Data_setRawData(	Rbdb_Data*	data,
-							void*		data_raw,
-							uint32_t	data_size );
+														void*		data_raw,
+														uint32_t	data_size );
 uint32_t Rbdb_Data_size( Rbdb_Data* data );
+Rbdb_DatabaseRecordStorageType Rbdb_Data_type( Rbdb_Data* data );
+void Rbdb_Data_setType(	Rbdb_Data*											data,
+												Rbdb_DatabaseRecordStorageType	type );
 
 #endif
 

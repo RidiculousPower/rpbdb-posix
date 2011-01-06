@@ -11,9 +11,9 @@
 *******************************************************************************************************************************************************************************************/
 
 #include "Rbdb_Data.h"
-#include "Rbdb_Data_internal.h"
+#include "Rbdb_DBT_internal.h"
 
-#include "RBDB_DBT.h"
+#include "Rbdb_DBT.h"
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -27,7 +27,7 @@
 
 Rbdb_Data* Rbdb_Data_new( Rbdb_Record* parent_record )	{
 
-	return (Rbdb_Data*) RBDB_DBT_new( parent_record );
+	return (Rbdb_Data*) Rbdb_DBT_new( parent_record );
 }
 
 /***************************
@@ -35,7 +35,7 @@ Rbdb_Data* Rbdb_Data_new( Rbdb_Record* parent_record )	{
 ***************************/
 void Rbdb_Data_free(	Rbdb_Data** data )	{
 
-	RBDB_DBT_free( (RBDB_DBT**) data );
+	Rbdb_DBT_free( (Rbdb_DBT**) data );
 }
 
 /***************************
@@ -72,7 +72,7 @@ Rbdb_Record* Rbdb_Data_parentRecord(	Rbdb_DatabaseRecordSettingsController* data
 
 void* Rbdb_Data_rawData( Rbdb_Data* data )	{
 
-	return RBDB_DBT_data( (RBDB_DBT*) data );
+	return Rbdb_DBT_data( (Rbdb_DBT*) data );
 }
 
 /******************
@@ -80,12 +80,32 @@ void* Rbdb_Data_rawData( Rbdb_Data* data )	{
 ******************/
 
 void Rbdb_Data_setRawData(	Rbdb_Data*	data,
-							void*		data_raw,
-							uint32_t	data_size )	{
+														void*		data_raw,
+														uint32_t	data_size )	{
 
-	RBDB_DBT_setData(	(RBDB_DBT*) data,
-						data_raw,
-						data_size );
+	Rbdb_DBT_setData(	(Rbdb_DBT*) data,
+										data_raw,
+										data_size );
+}
+
+/*****************
+*  type  *
+*****************/
+
+Rbdb_DatabaseRecordStorageType Rbdb_Data_type( Rbdb_Data* data )	{
+
+	return Rbdb_DBT_type( (Rbdb_DBT*) data );
+}
+
+/******************
+*  setType  *
+******************/
+
+void Rbdb_Data_setType(	Rbdb_Data*											data,
+												Rbdb_DatabaseRecordStorageType	type )	{
+
+	Rbdb_DBT_setType(	(Rbdb_DBT*) data,
+										type );
 }
 
 /*************
@@ -96,7 +116,7 @@ void Rbdb_Data_setRawData(	Rbdb_Data*	data,
 //	(Rbdb_DatabaseRecordSettingsController_dataBufferSize) to 0 and checking the return value in the size field.
 uint32_t Rbdb_Data_size( Rbdb_Data* data )	{
 
-	return RBDB_DBT_size(	(RBDB_DBT*) data  );
+	return Rbdb_DBT_size(	(Rbdb_DBT*) data  );
 }	
 
 /*******************************************************************************************************************************************************************************************
@@ -105,15 +125,3 @@ uint32_t Rbdb_Data_size( Rbdb_Data* data )	{
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-Rbdb_Data* Rbdb_Data_internal_newrb_Rbdb_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT(	Rbdb_Record*	parent_record, 
-																																																					DBT*			bdb_dbt )	{
-	
-	Rbdb_Data*	data	=	Rbdb_Data_new( parent_record );
-	
-	//	Free our existing DBT
-	free( data->wrapped_bdb_dbt );
-	
-	data->wrapped_bdb_dbt = bdb_dbt;
-	
-	return data;
-}

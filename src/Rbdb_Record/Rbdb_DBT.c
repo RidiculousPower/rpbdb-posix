@@ -10,16 +10,20 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
-#include "RBDB_DBT.h"
-#include "RBDB_DBT_internal.h"
+#include "Rbdb_DBT.h"
+#include "Rbdb_DBT_internal.h"
 
 #include "Rbdb_Record.h"
 
 #include "Rbdb_Environment.h"
 
+#include "Rbdb_Database.h"
+
 #include "Rbdb_SettingsController.h"
+#include "Rbdb_DatabaseSettingsController.h"
 #include "Rbdb_DatabaseRecordSettingsController.h"
 #include "Rbdb_DatabaseRecordSettingsController_internal.h"
+#include "Rbdb_DatabaseRecordReadWriteSettingsController.h"
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -31,9 +35,9 @@
 *  new  *
 *************/
 
-RBDB_DBT* RBDB_DBT_new( Rbdb_Record* parent_record )	{
+Rbdb_DBT* Rbdb_DBT_new( Rbdb_Record* parent_record )	{
 	
-	RBDB_DBT*	dbt	=	calloc( 1, sizeof( RBDB_DBT ) );
+	Rbdb_DBT*	dbt	=	calloc( 1, sizeof( Rbdb_DBT ) );
 	
 	//	Make call to instantiate local settings controller (assuming we have a parent record to copy settings from)
 	//	If we don't have a parent record, settings_controller will be intantiated upon call with default settings
@@ -46,11 +50,11 @@ RBDB_DBT* RBDB_DBT_new( Rbdb_Record* parent_record )	{
 	
 	dbt->wrapped_bdb_dbt = calloc( 1, sizeof( DBT ) );
 	
-	dbt->size					= & ( dbt->wrapped_bdb_dbt->size );
-	dbt->buffer_size			= & ( dbt->wrapped_bdb_dbt->ulen );
+	dbt->size									= & ( dbt->wrapped_bdb_dbt->size );
+	dbt->buffer_size					= & ( dbt->wrapped_bdb_dbt->ulen );
 	dbt->partial_data_size		= & ( dbt->wrapped_bdb_dbt->dlen );
 	dbt->partial_data_offset	= & ( dbt->wrapped_bdb_dbt->doff );
-	dbt->raw_data				= & ( dbt->wrapped_bdb_dbt->data );	
+	dbt->raw_data							= & ( dbt->wrapped_bdb_dbt->data );	
 	
 	return dbt;
 }
@@ -58,7 +62,7 @@ RBDB_DBT* RBDB_DBT_new( Rbdb_Record* parent_record )	{
 /***************************
 *  free  *
 ***************************/
-void RBDB_DBT_free(	RBDB_DBT** dbt )	{
+void Rbdb_DBT_free(	Rbdb_DBT** dbt )	{
 
 	if ( ( *dbt )->wrapped_bdb_dbt != NULL )	{
 		free( ( *dbt )->wrapped_bdb_dbt );
@@ -71,28 +75,28 @@ void RBDB_DBT_free(	RBDB_DBT** dbt )	{
 /***************************
 *  settingsController  *
 ***************************/
-Rbdb_DatabaseRecordSettingsController* RBDB_DBT_settingsController(	RBDB_DBT* dbt )	{
+Rbdb_DatabaseRecordSettingsController* Rbdb_DBT_settingsController(	Rbdb_DBT* dbt )	{
 	return dbt->settings_controller;
 }
 
 /***************************************
 *  parentEnvironment  *
 ***************************************/
-Rbdb_Environment* RBDB_DBT_parentEnvironment(	RBDB_DBT* dbt )	{
+Rbdb_Environment* Rbdb_DBT_parentEnvironment(	Rbdb_DBT* dbt )	{
 	return dbt->parent_record->parent_database->parent_database_controller->parent_environment;
 }
 
 /***************************************
 *  parentDatabase  *
 ***************************************/
-Rbdb_Database* RBDB_DBT_parentDatabase(	RBDB_DBT* dbt )	{
+Rbdb_Database* Rbdb_DBT_parentDatabase(	Rbdb_DBT* dbt )	{
 	return dbt->parent_record->parent_database;
 }
 
 /***************************************
 *  parentRecord  *
 ***************************************/
-Rbdb_Record* RBDB_DBT_parentRecord(	RBDB_DBT* dbt )	{
+Rbdb_Record* Rbdb_DBT_parentRecord(	Rbdb_DBT* dbt )	{
 	return dbt->parent_record;
 }
 
@@ -104,7 +108,7 @@ Rbdb_Record* RBDB_DBT_parentRecord(	RBDB_DBT* dbt )	{
 *  data  *
 *************/
 
-void* RBDB_DBT_data( RBDB_DBT* dbt )	{
+void* Rbdb_DBT_data( Rbdb_DBT* dbt )	{
 
 	return dbt->wrapped_bdb_dbt->data;
 }
@@ -114,7 +118,7 @@ void* RBDB_DBT_data( RBDB_DBT* dbt )	{
 *****************/
 
 //	Set data to point to a byte string
-void RBDB_DBT_setData(	RBDB_DBT*	dbt, 
+void Rbdb_DBT_setData(	Rbdb_DBT*	dbt, 
 						void*		data_raw,
 						uint32_t	data_size )	{
 
@@ -128,13 +132,83 @@ void RBDB_DBT_setData(	RBDB_DBT*	dbt,
 
 //	Note that applications can determine the length of a record by setting the ulen field 
 //	(Rbdb_DatabaseRecordSettingsController_dataBufferSize) to 0 and checking the return value in the size field.
-uint32_t RBDB_DBT_size( RBDB_DBT* dbt )	{
+uint32_t Rbdb_DBT_size( Rbdb_DBT* dbt )	{
 
 	return dbt->wrapped_bdb_dbt->size;
 }	
 
+/**********************
+*  dataType  *
+**********************/
+
+Rbdb_DatabaseRecordStorageType Rbdb_DBT_type( Rbdb_DBT* dbt )	{
+		
+	Rbdb_Database*																		parent_database																	=	dbt->parent_record->parent_database;
+	Rbdb_DatabaseSettingsController*									database_settings_controller										=	Rbdb_Database_settingsController( parent_database );
+	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
+
+	Rbdb_DatabaseRecordStorageType	type	=	RbdbType_Raw;
+	
+	if ( Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( database_record_read_write_settings_controller ) )	{
+
+		type	=	dbt->type;
+
+	}
+	else {
+		
+		Rbdb_ErrorController_throwError(	Rbdb_Environment_errorController( parent_database->parent_database_controller->parent_environment ),
+																			-1,
+																			"Rbdb_DBT_type",
+																			"Cannot return type unless database has record typing enabled." );
+	}
+		
+	return type;
+}
+
+/**********************
+*  setDataType  *
+**********************/
+
+void Rbdb_DBT_setType(	Rbdb_DBT*												dbt,
+												Rbdb_DatabaseRecordStorageType	type)	{
+		
+	Rbdb_Database*																		parent_database																	=	dbt->parent_record->parent_database;
+	Rbdb_DatabaseSettingsController*									database_settings_controller										=	Rbdb_Database_settingsController( parent_database );
+	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
+
+	if ( Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( database_record_read_write_settings_controller ) )	{
+
+		dbt->type	=	type;
+
+	}
+	else {
+		
+		Rbdb_ErrorController_throwError(	Rbdb_Environment_errorController( parent_database->parent_database_controller->parent_environment ),
+																			-1,
+																			"Rbdb_DBT_setType",
+																			"Cannot set type unless database has record typing enabled." );
+	}
+
+}
+
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
-																Internal Methods
+																		Internal Methods
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
+
+Rbdb_DBT* Rbdb_DBT_internal_newFromBDBDBT(	Rbdb_Record*	parent_record, 
+																						DBT*					bdb_dbt )	{
+	
+	Rbdb_DBT*	dbt	=	Rbdb_DBT_new( parent_record );
+	
+	//	Free our existing DBT
+	free( dbt->wrapped_bdb_dbt );
+	
+	dbt->wrapped_bdb_dbt = bdb_dbt;
+	
+	return dbt;
+}
+

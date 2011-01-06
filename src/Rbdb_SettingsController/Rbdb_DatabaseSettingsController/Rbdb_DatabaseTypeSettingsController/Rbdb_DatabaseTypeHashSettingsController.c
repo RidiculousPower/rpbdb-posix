@@ -19,7 +19,7 @@
 #include "Rbdb_Database.h"
 
 #include "Rbdb_Data.h"
-#include "Rbdb_Data_internal.h"
+#include "Rbdb_DBT_internal.h"
 
 #include "Rbdb_Environment.h"
 
@@ -343,8 +343,8 @@ int Rbdb_DatabaseTypeHashSettingsController_internal_duplicateCompareMethod(	DB*
 																								Rbdb_DatabaseSettingsController_databaseTypeSettingsController(
 																									Rbdb_Database_settingsController( database ) ) );
 
-	Rbdb_Data*			data_one	=	Rbdb_Data_internal_newrb_Rbdb_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT(	NULL, data_one );
-	Rbdb_Data*			data_two	=	Rbdb_Data_internal_newrb_Rbdb_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT(	NULL, data_two );
+	Rbdb_Data*			data_one	=	(Rbdb_Data*) Rbdb_DBT_internal_newFromBDBDBT(	NULL, data_one );
+	Rbdb_Data*			data_two	=	(Rbdb_Data*) Rbdb_DBT_internal_newFromBDBDBT(	NULL, data_two );
 
 	return *( database_type_hash_settings_controller->duplicate_compare_method(		database,
 																					data_one,
@@ -365,8 +365,8 @@ int Rbdb_DatabaseTypeHashSettingsController_internal_compareMethod(	DB*				bdb_d
 																								Rbdb_DatabaseSettingsController_databaseTypeSettingsController(
 																									Rbdb_Database_settingsController( database ) ) );
 
-	Rbdb_Data*			data_one	=	Rbdb_Data_internal_newrb_Rbdb_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT(	NULL, data_one );
-	Rbdb_Data*			data_two	=	Rbdb_Data_internal_newrb_Rbdb_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT(	NULL, data_two );
+	Rbdb_Data*			data_one	=	(Rbdb_Data*) Rbdb_DBT_internal_newFromBDBDBT(	NULL, data_one );
+	Rbdb_Data*			data_two	=	(Rbdb_Data*) Rbdb_DBT_internal_newFromBDBDBT(	NULL, data_two );
 
 	return *( database_type_hash_settings_controller->compare_method(	database,
 																		data_one,

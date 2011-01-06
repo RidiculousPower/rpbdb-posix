@@ -1071,9 +1071,9 @@ db_recno_t Rbdb_Database_appendData(	Rbdb_Database*			database,
 	uint32_t	flags	=	Rbdb_DatabaseRecordReadWriteSettingsController_internal_writeFlags( database_record_read_write_settings_controller );
 
 	Rbdb_Key*	write_key	=	Rbdb_Key_new( NULL );
-	Rbdb_Key_setKeyData(	write_key,
-												& database->parent_database_controller->record_number,
-												sizeof( db_recno_t ) );
+	Rbdb_Key_setRawData(	write_key,
+										& database->parent_database_controller->record_number,
+										sizeof( db_recno_t ) );
 
 
 	Rbdb_Database_internal_writeKeyDataPair(	database,
@@ -1185,10 +1185,9 @@ BOOL Rbdb_Database_rawKeyExists(	Rbdb_Database*	database,
 																	uint32_t				key_size )	{
 
 	Rbdb_Key*	key	=	Rbdb_Key_new( NULL );
-	Rbdb_Key_setKeyData(	key,
+	Rbdb_Key_setRawData(	key,
 												key_raw,
 												key_size );
-	key->wrapped_bdb_dbt->size = key_size;
 	return Rbdb_Database_keyExists(	database,
 																	key );
 }
@@ -1640,8 +1639,9 @@ Rbdb_Database* Rbdb_Database_deleteDataForRawKey(	Rbdb_Database* 	database,
 
 	Rbdb_Key*	deletion_key	=	Rbdb_Key_new( NULL );
 	
-	deletion_key->wrapped_bdb_dbt->data	=	raw_deletion_key;
-	deletion_key->wrapped_bdb_dbt->size	=	key_size;
+	Rbdb_Key_setRawData(	deletion_key,
+												raw_deletion_key,
+												key_size );
 
 	return Rbdb_Database_deleteDataForKey(	database,
 																					deletion_key );
@@ -2085,11 +2085,13 @@ Rbdb_Record* Rbdb_Database_internal_writeRawKeyDataPair(	Rbdb_Database*		databas
 
 	Rbdb_Record*			record			= Rbdb_Record_new( database );
 	
-	record->key->wrapped_bdb_dbt->data = primary_key;
-	record->key->wrapped_bdb_dbt->size = key_size;
+	Rbdb_Key_setRawData(	record->key,
+										primary_key,
+										key_size );
 
-	record->data->wrapped_bdb_dbt->data = data;
-	record->data->wrapped_bdb_dbt->size = data_size;
+	Rbdb_Data_setRawData(	record->data,
+											data,
+											data_size );
 	
 	return Rbdb_Database_internal_writeRecord(	database,
 																							flags,
@@ -2135,6 +2137,13 @@ Rbdb_Record* Rbdb_Database_internal_writeRecord(	Rbdb_Database*		database,
 	DB_TXN*	transaction_id	=	NULL;
 	if ( database->opened_in_transaction )	{
 		transaction_id	=	Rbdb_TransactionController_internal_currentTransactionID( environment->transaction_controller );
+	}
+	
+	//	create or update footers in key and data if necessary
+	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_Record_settingsController( record );
+	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
+	if ( Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( database_record_read_write_settings_controller ) )	{
+		Rbdb_Record_internal_createOrUpdateDataFooter( record );
 	}
 	
 	int		connection_error	= RP_NO_ERROR;
@@ -2185,14 +2194,16 @@ Rbdb_Record* Rbdb_Database_internal_retrieveRawKeyDataPair(	Rbdb_Database*			dat
 	//	If we have data we're using to retrieve, load it into the DBT
 	if ( data != NULL )	{
 		
-		record->data->wrapped_bdb_dbt->data = data;
-		record->data->wrapped_bdb_dbt->size = data_size;
+		Rbdb_Data_setRawData(	record->data,
+												data,
+												data_size );
 	}
 
 	if ( key != NULL )	{
 
-		record->key->wrapped_bdb_dbt->data = key;
-		record->key->wrapped_bdb_dbt->size = key_size;
+		Rbdb_Key_setRawData(	record->key,
+											key,
+											key_size );
 
 	}
 
@@ -2253,6 +2264,13 @@ Rbdb_Record* Rbdb_Database_internal_retrieveRecord(	Rbdb_Database*		database,
 		else {
 			record->result = TRUE;
 		}
+
+		//	primary key is our retrieval key, so set both the same
+		if ( record->primary_key == record->key )	{
+			Rbdb_Key_free( & record->primary_key );
+			record->primary_key	=	record->key;
+		}
+
 	}
 	//	Otherwise we are retrieving a primary key/data pair
 	else	{
@@ -2279,14 +2297,13 @@ Rbdb_Record* Rbdb_Database_internal_retrieveRecord(	Rbdb_Database*		database,
 		else {
 			record->result = TRUE;
 		}
-	}
-	
-	//	primary key is our retrieval key, so set both the same
-	if ( record->primary_key != record->key )	{
+
+		//	primary key is our retrieval key, so set both the same
 		Rbdb_Key_free( & record->primary_key );
 		record->primary_key	=	record->key;
+
 	}
-				
+	
 	return record;
 }
 

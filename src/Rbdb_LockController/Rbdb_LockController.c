@@ -228,7 +228,7 @@ void Rbdb_LockController_releaseAllLocks(	Rbdb_LockController*	lock_controller	)
 *********************************/
 
 void Rbdb_LockController_releaseAllLocksOnObject(	Rbdb_LockController*	lock_controller,
-													Rbdb_Record*				record	)	{
+																									Rbdb_Record*					record	)	{
 
 	DB_LOCKREQ		release_all_locks[ 1 ];
 	
@@ -239,11 +239,11 @@ void Rbdb_LockController_releaseAllLocksOnObject(	Rbdb_LockController*	lock_cont
 	release_all_locks[ 0 ].timeout	=	0;
 
 	lock_controller->parent_environment->wrapped_bdb_environment->lock_vec(	lock_controller->parent_environment->wrapped_bdb_environment,
-							Rbdb_LockController_lockerID( lock_controller ),
-						   Rbdb_LockSettingsController_internal_obtainAndReleaseFlags( Rbdb_SettingsController_lockSettingsController( Rbdb_Environment_settingsController( lock_controller->parent_environment ) ) ),
-							release_all_locks,
-							1,
-							NULL );
+																																					Rbdb_LockController_lockerID( lock_controller ),
+																																					Rbdb_LockSettingsController_internal_obtainAndReleaseFlags( Rbdb_SettingsController_lockSettingsController( Rbdb_Environment_settingsController( lock_controller->parent_environment ) ) ),
+																																					release_all_locks,
+																																					1,
+																																					NULL );
 }
 
 /*************************

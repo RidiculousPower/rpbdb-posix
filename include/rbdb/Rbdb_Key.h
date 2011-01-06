@@ -21,11 +21,15 @@
 	Rbdb_Database* Rbdb_Key_parentDatabase(	Rbdb_Key* dbt );
 	Rbdb_Record* Rbdb_Key_parentRecord(	Rbdb_DatabaseRecordSettingsController* key );
 
-	void*							Rbdb_Key_keyData(		Rbdb_Key*		key );
-	void Rbdb_Key_setKeyData(	Rbdb_Key*	key,
+	void*							Rbdb_Key_rawData(		Rbdb_Key*		key );
+	void Rbdb_Key_setRawData(	Rbdb_Key*	key,
 								void*		key_raw,
 								uint32_t	key_size );
 	uint32_t Rbdb_Key_size( Rbdb_Key* data );
+
+Rbdb_DatabaseRecordStorageType Rbdb_Key_type( Rbdb_Key* key );
+void Rbdb_Key_setType(	Rbdb_Key*												key,
+												Rbdb_DatabaseRecordStorageType	type );
 
 #endif
 

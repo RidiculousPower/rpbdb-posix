@@ -124,5 +124,14 @@
 																																		runtime_database_identifier );																										\
 		runtime_storage_database	=	Rbdb_Database_internal_initForRuntimeStorage(	runtime_storage_database );																							\
 		parent->runtime_storage_database	=	runtime_storage_database;
+
+
+	#define Rbdb_DataFooterCurrentVersion																1
+
+	//	we need two macros so the version macro is resolved before being concatenated
+	#define Rbdb_DataFooterTypeForVersion( version )										Rbdb_DataFooterTypeForVersion_concat( version )
+	#define Rbdb_DataFooterTypeForVersion_concat( version )							Rbdb_DataFooter ## version
+
+	#define Rbdb_Record_endOfFooter(record)															record->data->wrapped_bdb_dbt->data + record->data->wrapped_bdb_dbt->size
 			
 #endif

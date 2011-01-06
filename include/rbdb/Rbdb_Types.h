@@ -25,10 +25,10 @@ typedef struct Rbdb_LogCursorController									Rbdb_LogCursorController;
 typedef struct Rbdb_LogCursor												Rbdb_LogCursor;
 typedef struct Rbdb_LogSequenceNumber										Rbdb_LogSequenceNumber;
 typedef struct Rbdb_Record													Rbdb_Record;
-typedef struct RBDB_DBT													RBDB_DBT;
-typedef RBDB_DBT 															Rbdb_Key;
+typedef struct Rbdb_DBT													Rbdb_DBT;
+typedef Rbdb_DBT 															Rbdb_Key;
 typedef struct Rbdb_SecondaryKeys											Rbdb_SecondaryKeys;
-typedef RBDB_DBT 															Rbdb_Data;
+typedef Rbdb_DBT 															Rbdb_Data;
 typedef struct Rbdb_MemoryPoolFilePageController							Rbdb_MemoryPoolFilePageController;
 typedef struct Rbdb_MemoryPoolFilePage										Rbdb_MemoryPoolFilePage;
 typedef struct Rbdb_MemoryPoolFileController								Rbdb_MemoryPoolFileController;
@@ -98,7 +98,7 @@ typedef struct Rbdb_CompactStatus											Rbdb_CompactStatus;
 typedef struct Rbdb_Directory												Rbdb_Directory;
 typedef struct Rbdb_DatabaseOpenedDuringTransaction						Rbdb_DatabaseOpenedDuringTransaction;
 
-typedef struct Rbdb_DatabaseRecordFooter												Rbdb_DatabaseRecordFooter;
+typedef struct Rbdb_DataFooter1												Rbdb_DataFooter1;
 typedef	enum   Rbdb_DatabaseRecordStorageType										Rbdb_DatabaseRecordStorageType;
 
 typedef		RBDB_SECONDARY_KEY_CREATION_RETURN	(*Rbdb_SecondaryKeyCallbackMethod)(	Rbdb_Database*			secondary_database,
@@ -799,34 +799,37 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 
 						enum Rbdb_DatabaseRecordStorageType	{
 							
-							Rbdb_Raw,
-							Rbdb_Integer,
-							Rbdb_Float,
-							Rbdb_Complex,
-							Rbdb_Rational,
-							Rbdb_String,
-							Rbdb_Symbol,
-							Rbdb_Regexp,
-							Rbdb_Match,
-							Rbdb_File,
-							Rbdb_TrueFalse
+							RbdbType_Raw,
+							RbdbType_Integer,
+							RbdbType_Float,
+							RbdbType_Complex,
+							RbdbType_Rational,
+							RbdbType_String,
+							RbdbType_Symbol,
+							RbdbType_Regexp,
+							RbdbType_Match,
+							RbdbType_File,
+							RbdbType_TrueFalse
 							
 						};
 
 						/****************************
-						 *	Record Footer	*
+						 *	Data Footer	*
 						 ****************************/
-
-						struct Rbdb_DatabaseRecordFooter	{
-							
-							Rbdb_Record*											parent_record;
-							
-							int																version;
+						
+						#define	RBDB_DATABASE_DATA_FOOTER_VERSION	1
+						struct Rbdb_DataFooter1	{
 							
 							struct timeval										creation_stamp;
 							struct timeval										modification_stamp;
+
+							//	we keep key type in the data footer so that info is all in the same place
+							//	every time a key is written, key_type is updated in data
+							Rbdb_DatabaseRecordStorageType		key_type;
+							Rbdb_DatabaseRecordStorageType		data_type;
 							
-							Rbdb_DatabaseRecordStorageType		type;
+							//	version needs to be last so we can look from the end to check
+							int																version;
 							
 						};
 
@@ -1843,21 +1846,26 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						*	Data Type Definitions	*
 						****************************/
 
-						struct RBDB_DBT	{
+						struct Rbdb_DBT	{
 
 							//	Parent
-							Rbdb_Record*											parent_record;
+							Rbdb_Record*																	parent_record;
 
-							uint32_t*												size;
-							uint32_t*												buffer_size;
-							uint32_t*												partial_data_size;
-							uint32_t*												partial_data_offset;
-							void*													raw_data;
+							Rbdb_DatabaseRecordStorageType								type;
+
+							uint32_t*																			size;
+							uint32_t*																			buffer_size;
+							uint32_t*																			partial_data_size;
+							uint32_t*																			partial_data_offset;
+							void*																					raw_data;
+
+							struct timeval																creation_stamp;
+							struct timeval																modification_stamp;
 
 							//	Wrapped BDB DBT
-							DBT*													wrapped_bdb_dbt;
+							DBT*																					wrapped_bdb_dbt;
 
-							Rbdb_SettingsController*							environment_settings_controller;
+							Rbdb_SettingsController*											environment_settings_controller;
 							Rbdb_DatabaseRecordSettingsController*				settings_controller;
 							Rbdb_DatabaseRecordSettingsController*				environment_level_settings_controller;
 						};
@@ -1898,7 +1906,7 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						BOOL																exists_in_database;
 						BOOL																requires_update_to_database;
 	
-						Rbdb_DatabaseRecordFooter*					footer;
+						BOOL																has_footer;
 						
 						Rbdb_DatabaseRecordSettingsController*				settings_controller;
 					};

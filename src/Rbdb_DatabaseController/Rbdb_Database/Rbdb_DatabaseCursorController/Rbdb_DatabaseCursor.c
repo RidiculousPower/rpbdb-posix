@@ -23,6 +23,7 @@
 #include "Rbdb_Record.h"
 #include "Rbdb_Record_internal.h"
 #include "Rbdb_Key.h"
+#include "Rbdb_Data.h"
 
 #include "Rbdb_TransactionController.h"
 #include "Rbdb_TransactionController_internal.h"
@@ -32,6 +33,7 @@
 #include "Rbdb_DatabaseSettingsController.h"
 #include "Rbdb_DatabaseTypeSettingsController.h"
 #include "Rbdb_DatabaseTypeBtreeSettingsController.h"
+#include "Rbdb_DatabaseRecordSettingsController.h"
 #include "Rbdb_DatabaseRecordReadWriteSettingsController.h"
 
 #include "Rbdb_DatabaseCursorSettingsController_internal.h"
@@ -644,8 +646,9 @@ BOOL Rbdb_DatabaseCursor_rawKeyExists(	Rbdb_DatabaseCursor*		database_cursor,
 
 	Rbdb_Key*	key	=	Rbdb_Key_new( NULL );
 	
-	key->wrapped_bdb_dbt->data	= key_raw;
-	key->wrapped_bdb_dbt->size	= key_size;
+	Rbdb_Key_setRawData(	key,
+										key_raw,
+										key_size );
 
 	return Rbdb_DatabaseCursor_keyExists(	database_cursor,
 																				key );
@@ -1452,7 +1455,7 @@ Rbdb_DatabaseCursor* Rbdb_DatabaseCursor_deleteRawKey(	Rbdb_DatabaseCursor*	data
 																												void*									key_raw,
 																												uint32_t							key_size )	{
 	Rbdb_Key*	key	=	Rbdb_Key_new( NULL );
-	Rbdb_Key_setKeyData(	key,
+	Rbdb_Key_setRawData(	key,
 												key_raw,
 												key_size );
 							
@@ -1565,6 +1568,13 @@ Rbdb_Record* Rbdb_DatabaseCursor_internal_writeRecord(	Rbdb_DatabaseCursor*	data
 
 	int	connection_error	= 0;
 
+	//	create or update footers in key and data if necessary
+	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_Record_settingsController( record );
+	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
+	if ( Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( database_record_read_write_settings_controller ) )	{
+		Rbdb_Record_internal_createOrUpdateDataFooter( record );
+	}
+
 	if ( ( connection_error = database_cursor->wrapped_bdb_cursor->put(	database_cursor->wrapped_bdb_cursor, 
 																																			record->key->wrapped_bdb_dbt, 
 																																			record->data->wrapped_bdb_dbt, 
@@ -1617,10 +1627,12 @@ Rbdb_Record* Rbdb_DatabaseCursor_internal_writeRawKeyDataPair(	Rbdb_DatabaseCurs
 
 	Rbdb_Record*				record			= Rbdb_Record_new( database_cursor->parent_database_cursor_controller->parent_database );
 	
-	record->key->wrapped_bdb_dbt->data	= key;
-	record->key->wrapped_bdb_dbt->size	= key_size;
-	record->data->wrapped_bdb_dbt->data			= data;
-	record->data->wrapped_bdb_dbt->size			= data_size;
+	Rbdb_Key_setRawData(	record->key,
+												key,
+												key_size );
+	Rbdb_Data_setRawData(	record->data,
+												data,
+												data_size );
 	
 	return 	Rbdb_DatabaseCursor_internal_writeRecord(	database_cursor,
 																										flags,
@@ -1651,15 +1663,17 @@ Rbdb_Record* Rbdb_DatabaseCursor_internal_retrieveRawKeyDataPair(	Rbdb_DatabaseC
 	Rbdb_Record*				record				= Rbdb_Record_new( database_cursor->parent_database_cursor_controller->parent_database );
 
 	if ( key != NULL )	{
-		record->key->wrapped_bdb_dbt->data = key;
-		record->key->wrapped_bdb_dbt->size = key_size;
+		Rbdb_Key_setRawData(	record->key,
+											key,
+											key_size );
 	}
 		
 	//	If we have data we're using to retrieve, load it into the DBT
 	if ( data != NULL )	{
 		
-		record->data->wrapped_bdb_dbt->data = data;
-		record->data->wrapped_bdb_dbt->size = data_size;
+		Rbdb_Data_setRawData(	record->data,
+												data,
+												data_size );
 		
 	}
 

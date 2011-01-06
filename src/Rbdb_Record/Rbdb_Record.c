@@ -17,7 +17,7 @@
 
 #include "Rbdb_Key.h"
 #include "Rbdb_Data.h"
-#include "RBDB_DBT.h"
+#include "Rbdb_DBT.h"
 #include "Rbdb_SecondaryKeys.h"
 
 #include "Rbdb_Environment.h"
@@ -29,6 +29,8 @@
 #include "Rbdb_DatabaseRecordSettingsController_internal.h"
 
 #include "Rbdb_DatabaseRecordReadWriteSettingsController.h"
+
+#include <sys/time.h>
 	
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -162,7 +164,7 @@ void Rbdb_Record_setKeyFromRawKey(	Rbdb_Record*		record,
 										void*				key_raw,
 										uint32_t			key_size )	{
 
-	RBDB_DBT_setData(	(RBDB_DBT*) record->key, 
+	Rbdb_DBT_setData(	(Rbdb_DBT*) record->key, 
 						key_raw,
 						key_size );
 }
@@ -212,8 +214,9 @@ void Rbdb_Record_setRawKey(	Rbdb_Record*	record,
 								void*			raw_key,
 								u_int32_t		raw_key_size )	{		
 	
-	record->key->wrapped_bdb_dbt->data	=	raw_key;
-	record->key->wrapped_bdb_dbt->size	=	raw_key_size;
+	Rbdb_Key_setRawData(	record->key,
+										raw_key,
+										raw_key_size );
 }
 
 /**************
@@ -298,7 +301,7 @@ void Rbdb_Record_setDataFromRawData(	Rbdb_Record*		record,
 																			void*				data_raw,
 																			uint32_t			data_size )	{
 
-	RBDB_DBT_setData(	(RBDB_DBT*) record->data, 
+	Rbdb_DBT_setData(	(Rbdb_DBT*) record->data, 
 						data_raw,
 						data_size );
 }
@@ -328,62 +331,6 @@ Rbdb_Key* Rbdb_Record_retrievalKey( Rbdb_Record* record )	{
 }
 
 /**********************
-*  type  *
-**********************/
-
-Rbdb_DatabaseRecordStorageType Rbdb_Record_type( Rbdb_Record* record )	{
-		
-	Rbdb_Database*																		parent_database																	=	record->parent_database;
-	Rbdb_DatabaseSettingsController*									database_settings_controller										=	Rbdb_Database_settingsController( parent_database );
-	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
-	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
-
-	Rbdb_DatabaseRecordStorageType	type	=	Rbdb_Raw;
-	
-	if ( Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( database_record_read_write_settings_controller ) )	{
-
-		type	=	record->footer->type;
-
-	}
-	else {
-		
-		Rbdb_ErrorController_throwError(	Rbdb_Environment_errorController( record->parent_database->parent_database_controller->parent_environment ),
-																			-1,
-																			"Rbdb_Record_type",
-																			"Cannot return type unless database has record typing enabled." );
-	}
-		
-	return type;
-}
-
-/**********************
-*  setType  *
-**********************/
-
-void Rbdb_Record_setType( Rbdb_Record*										record,
-													Rbdb_DatabaseRecordStorageType	type)	{
-		
-	Rbdb_Database*																		parent_database																	=	record->parent_database;
-	Rbdb_DatabaseSettingsController*									database_settings_controller										=	Rbdb_Database_settingsController( parent_database );
-	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
-	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
-
-	if ( Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( database_record_read_write_settings_controller ) )	{
-
-		record->footer->type	=	type;
-
-	}
-	else {
-		
-		Rbdb_ErrorController_throwError(	Rbdb_Environment_errorController( record->parent_database->parent_database_controller->parent_environment ),
-																			-1,
-																			"Rbdb_Record_setType",
-																			"Cannot set type unless database has record typing enabled." );
-	}
-
-}
-
-/**********************
 *  creationStamp  *
 **********************/
 
@@ -398,7 +345,7 @@ struct timeval* Rbdb_Record_creationStamp( Rbdb_Record* record )	{
 	
 	if ( Rbdb_DatabaseRecordReadWriteSettingsController_creationStamp( database_record_read_write_settings_controller ) )	{
 
-		creation_stamp	=	& record->footer->creation_stamp;
+		creation_stamp	=	& record->data->creation_stamp;
 
 	}
 	else {
@@ -427,7 +374,7 @@ struct timeval* Rbdb_Record_modificationStamp( Rbdb_Record* record )	{
 		
 	if ( Rbdb_DatabaseRecordReadWriteSettingsController_modificationStamp( database_record_read_write_settings_controller ) )	{
 
-		modification_stamp	=	& record->footer->modification_stamp;
+		modification_stamp	=	& record->data->modification_stamp;
 
 	}
 	else {
@@ -518,8 +465,8 @@ Rbdb_Record* Rbdb_Record_internal_newWithoutDBT(	Rbdb_Database* parent_database	
 *****************************/
 
 Rbdb_Record* Rbdb_Record_internal_newFromKeyDBTDataDBT(	Rbdb_Database* parent_database,
-														DBT*	dbt_key,
-														DBT*	dbt_data	)	{
+																												DBT*	dbt_key,
+																												DBT*	dbt_data	)	{
 	
 	Rbdb_Record*	record = Rbdb_Record_new( parent_database );
 		
@@ -527,7 +474,7 @@ Rbdb_Record* Rbdb_Record_internal_newFromKeyDBTDataDBT(	Rbdb_Database* parent_da
 	free( record->data->wrapped_bdb_dbt );
 
 	record->key->wrapped_bdb_dbt	= dbt_key;
-	record->data->wrapped_bdb_dbt			= dbt_data;
+	record->data->wrapped_bdb_dbt	= dbt_data;
 
 	return record;	
 }
@@ -536,9 +483,9 @@ Rbdb_Record* Rbdb_Record_internal_newFromKeyDBTDataDBT(	Rbdb_Database* parent_da
 *  newFromKeyData  *
 *****************************/
 
-Rbdb_Record* Rbdb_Record_internal_newFromKeyData(	Rbdb_Database* parent_database,
-													Rbdb_Key*	dbt_key,
-													Rbdb_Data*	dbt_data	)	{
+Rbdb_Record* Rbdb_Record_internal_newFromKeyData(	Rbdb_Database*	parent_database,
+																									Rbdb_Key*				dbt_key,
+																									Rbdb_Data*			dbt_data	)	{
 	
 	Rbdb_Record*	record = Rbdb_Record_internal_newWithoutDBT( parent_database );
 	
@@ -559,3 +506,211 @@ Rbdb_Record* Rbdb_Record_internal_newFromKeyData(	Rbdb_Database* parent_database
 	
 	return record;	
 }
+
+/*****************************
+*  createOrUpdateDataFooter  *
+*****************************/
+
+//	a database defines whether it uses record typing
+//	if a database is changed to record typing, an expensive conversion is done (all records get a data footer)
+//	so we know that when we write data for the first time we do not have a footer yet
+//	and we know when we load data we can note we have a footer, 
+//	so we can tell whether we have new data based on whether we have a has_footer flag set true
+//	we add a footer when we write the first time, we update the footer when we write every time after that
+//	if database is converted out of record typing, an expensive conversion is done (all record data footers are removed)
+void Rbdb_Record_internal_createOrUpdateDataFooter( Rbdb_Record* record )	{
+	
+	//	if we don't already have a footer, we need to create one and append it
+	if ( ! record->has_footer )	{
+	
+		Rbdb_Record_internal_createDataFooter( record );
+
+	}
+	//	otherwise we need to update modification stamp
+	else {
+	
+		Rbdb_Record_internal_updateDataFooter( record );
+		
+	}
+
+}
+
+/*********************
+*  createDataFooter  *
+*********************/
+
+void Rbdb_Record_internal_createDataFooter( Rbdb_Record* record )	{
+
+	//	create a new memory space that holds our data plus our footer
+	int		new_size	=	record->data->wrapped_bdb_dbt->size + sizeof( Rbdb_DataFooterCurrentVersion );
+	void*	new_data	=	calloc( 1, new_size );
+
+	//	copy data to new memory space
+	memcpy(	new_data,
+					record->data->wrapped_bdb_dbt->data,
+					record->data->wrapped_bdb_dbt->size );
+	
+	//	allocate footer
+	Rbdb_DataFooterTypeForVersion( Rbdb_DataFooterCurrentVersion )	footer;
+	
+	//	assign footer values:
+	//	* key_type
+	footer.key_type		=	record->key->type;
+	//	* data_type
+	footer.data_type	=	record->data->type;
+	//	* creation stamp
+	gettimeofday(	& footer.creation_stamp, NULL );
+	//	* modification stamp (should be the same, so we copy the values)
+	footer.modification_stamp.tv_sec	=	footer.creation_stamp.tv_sec;
+	footer.modification_stamp.tv_usec	=	footer.creation_stamp.tv_usec;
+	
+	//	copy footer after data in new memory space
+	memcpy(	new_data + record->data->wrapped_bdb_dbt->size,
+					& footer,
+					sizeof( Rbdb_DataFooterCurrentVersion ) );
+	
+	//	set data to new memory space and add footer size to data size
+	record->data->wrapped_bdb_dbt->data	=	new_data;	
+	record->data->wrapped_bdb_dbt->size	=	new_size;
+	
+	//	note in our DBT that we have a footer
+	record->has_footer = TRUE;
+
+}
+
+/*********************
+*  updateDataFooter  *
+*********************/
+
+void Rbdb_Record_internal_updateDataFooter( Rbdb_Record* record )	{
+
+	//	get pointer to the footer in our data
+	Rbdb_DataFooterTypeForVersion( Rbdb_DataFooterCurrentVersion )*	footer	=	Rbdb_Record_internal_dataFooter( record );
+
+	//	get a new modification stamp
+	gettimeofday(	& footer->modification_stamp, NULL );
+	
+	//	update type in case it has changed (same cost to change as to check)
+	footer->key_type	=	record->key->type;
+	footer->data_type	=	record->data->type;
+	
+}
+
+/***************
+*  dataFooter  *
+***************/
+
+//	return footer from a record that currently has a footer, regardless whether it has been written to database
+Rbdb_DataFooterTypeForVersion( Rbdb_DataFooterCurrentVersion )* Rbdb_Record_internal_dataFooter( Rbdb_Record* record )	{
+
+	int	existing_footer_version				=	*(int*)( Rbdb_Record_endOfFooter( record ) - sizeof( int ) );
+
+	//	if our current footer is an old version, update the footer with a new footer
+	Rbdb_DataFooterTypeForVersion( Rbdb_DataFooterCurrentVersion )*	footer	=	NULL;
+	if ( existing_footer_version != Rbdb_DataFooterCurrentVersion )	{
+		
+		footer		=	Rbdb_Record_internal_upgradeFooter( record );
+		
+	}
+	else {
+		
+		footer		=	Rbdb_Record_endOfFooter( record ) - sizeof( Rbdb_DataFooterTypeForVersion( Rbdb_DataFooterCurrentVersion ) );		
+	}
+
+	return footer;
+}
+
+/******************
+*  upgradeFooter  *
+******************/
+
+//	return footer from a record that currently has a footer, regardless whether it has been written to database
+Rbdb_DataFooterTypeForVersion( Rbdb_DataFooterCurrentVersion )* Rbdb_Record_internal_upgradeFooter( Rbdb_Record*		record )	{
+
+	Rbdb_DataFooterTypeForVersion( Rbdb_DataFooterCurrentVersion )*	footer	=	NULL;
+	
+	int	existing_footer_version;
+	//	loop until record is current version
+	//	each loop is responsible for updating version by 1
+	while ( ( existing_footer_version	=	*(int*)( Rbdb_Record_endOfFooter( record ) - sizeof( int ) ) ) < Rbdb_DataFooterCurrentVersion )	{
+	
+		switch ( existing_footer_version )	{
+			
+			case Rbdb_DataFooterCurrentVersion:
+				// current - nothing to do
+				break;
+			
+		}
+
+	}
+
+	return footer;
+
+	/*
+
+	code can be adapted when upgrade is necessary - not currently functional, but also not currently needed
+	current code incorrectly assumes preprocessor macros will function as needed (they don't)
+	
+	//	get the old footer
+	Rbdb_DataFooterTypeForVersion( existing_footer_version )*	existing_footer	=	Rbdb_Record_endOfFooter( record ) - sizeof( Rbdb_DataFooterTypeForVersion( existing_footer_version ) );
+	
+	//	copy contents to the new footer
+	footer	=	Rbdb_DataFooterCurrentVersionForOldFooter(	existing_footer,
+																												existing_footer_version );
+																											
+	//	replace old footer with new footer:		
+	//	if new footer is smaller, we can truncate
+	if ( Rbdb_DataFooterCurrentVersion > sizeof( Rbdb_DataFooterTypeForVersion( existing_footer_version ) ) )	{
+
+		//	allocate new data structure that can hold data and new footer
+		int			existing_data_size				=	record->data->wrapped_bdb_dbt->size - sizeof( Rbdb_DataFooterTypeForVersion( existing_footer_version ) );
+		int			new_data_and_footer_size	= existing_data_size + sizeof( Rbdb_DataFooterTypeForVersion( Rbdb_DataFooterCurrentVersion ) );
+		void*		new_data	=	calloc( 1, new_data_and_footer_size );
+		
+		//	copy data
+		memcpy(	new_data,
+						record->data->wrapped_bdb_dbt->data,
+						existing_data_size );
+
+		//	set existing_footer to point to the new location of the footer so we can copy over it
+		existing_footer	=	new_data + existing_data_size;
+		
+		//	and point to new data instead of old data
+		record->data->wrapped_bdb_dbt->data	=	new_data;
+	}
+	
+	//	now we have to copy our new footer over to the new data structure
+	//	even if we allocated a new structure existing_footer still (now) points to the proper place
+	memcpy(	existing_footer,
+					footer,
+					sizeof( Rbdb_DataFooterTypeForVersion( Rbdb_DataFooterCurrentVersion ) ) );
+
+	//	adjust new data size
+	record->data->wrapped_bdb_dbt->size -= (	sizeof( Rbdb_DataFooterTypeForVersion( existing_footer_version ) ) 
+																					- sizeof( Rbdb_DataFooterTypeForVersion( Rbdb_DataFooterCurrentVersion ) ) );
+	
+	//	update version
+	footer->version	=	Rbdb_DataFooterCurrentVersion;
+	*/
+}
+
+
+/**********************************
+*  addDataFooterToExistingRecord  *
+**********************************/
+
+//	add a footer to a record that currently exists in the database but does not currently have one
+void Rbdb_Record_internal_addDataFooterToExistingRecord( Rbdb_Record* record )	{
+
+	//	partial write
+	//	* from end of current data
+	//	* footer data
+	//	* size of footer
+	/*
+	Rbdb_Database_writePartial(	record,
+															footer_data,
+															sizeof( Rbdb_DataFooter ) )
+
+	*/
+}
+

@@ -21,7 +21,7 @@
 
 #include "Rbdb_DatabaseTypeBtreeSettingsController_internal.h"
 #include "Rbdb_RuntimeStorageController_internal.h"
-#include "Rbdb_Data_internal.h"
+#include "Rbdb_DBT_internal.h"
 
 #include "Rbdb_DatabaseRecordSettingsController.h"
 #include "Rbdb_DatabaseRecordReadWriteSettingsController.h"
@@ -331,8 +331,8 @@ size_t Rbdb_DatabaseTypeBtreeSettingsController_internal_prefixCompareMethod(	DB
 																								Rbdb_DatabaseSettingsController_databaseTypeSettingsController(
 																									Rbdb_Database_settingsController( database ) ) );
 	
-	Rbdb_Data*			data_one	=	Rbdb_Data_internal_newrb_Rbdb_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT(	NULL, data_one );
-	Rbdb_Data*			data_two	=	Rbdb_Data_internal_newrb_Rbdb_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT(	NULL, data_two );
+	Rbdb_Data*			data_one	=	(Rbdb_Data*) Rbdb_DBT_internal_newFromBDBDBT(	NULL, data_one );
+	Rbdb_Data*			data_two	=	(Rbdb_Data*) Rbdb_DBT_internal_newFromBDBDBT(	NULL, data_two );
 	
 	return *( database_type_btree_settings_controller->prefix_compare_method(	database,
 																				data_one,
@@ -353,8 +353,8 @@ int Rbdb_DatabaseTypeBtreeSettingsController_internal_duplicateCompareMethod(	DB
 																								Rbdb_DatabaseSettingsController_databaseTypeSettingsController(
 																									Rbdb_Database_settingsController( database ) ) );
 
-	Rbdb_Data*			data_one	=	Rbdb_Data_internal_newrb_Rbdb_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT(	NULL, data_one );
-	Rbdb_Data*			data_two	=	Rbdb_Data_internal_newrb_Rbdb_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT(	NULL, data_two );
+	Rbdb_Data*			data_one	=	(Rbdb_Data*) Rbdb_DBT_internal_newFromBDBDBT(	NULL, data_one );
+	Rbdb_Data*			data_two	=	(Rbdb_Data*) Rbdb_DBT_internal_newFromBDBDBT(	NULL, data_two );
 
 	return *( database_type_btree_settings_controller->duplicate_compare_method(	database,
 																					data_one,
@@ -375,8 +375,8 @@ int Rbdb_DatabaseTypeBtreeSettingsController_internal_compareMethod(	DB*				bdb_
 																								Rbdb_DatabaseSettingsController_databaseTypeSettingsController(
 																									Rbdb_Database_settingsController( database ) ) );
 
-	Rbdb_Data*			data_one	=	Rbdb_Data_internal_newrb_Rbdb_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT(	NULL, data_one );
-	Rbdb_Data*			data_two	=	Rbdb_Data_internal_newrb_Rbdb_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT(	NULL, data_two );
+	Rbdb_Data*			data_one	=	(Rbdb_Data*) Rbdb_DBT_internal_newFromBDBDBT(	NULL, data_one );
+	Rbdb_Data*			data_two	=	(Rbdb_Data*) Rbdb_DBT_internal_newFromBDBDBT(	NULL, data_two );
 
 	return *( database_type_btree_settings_controller->compare_method(	database,
 																		data_one,

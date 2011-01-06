@@ -19,7 +19,7 @@
 #include "Rbdb_Environment.h"
 
 #include "Rbdb_Data.h"
-#include "Rbdb_Data_internal.h"
+#include "Rbdb_DBT_internal.h"
 
 #include "Rbdb_SettingsController.h"
 #include "Rbdb_MemoryPoolSettingsController.h"
@@ -228,7 +228,7 @@ int Rbdb_MemoryPoolFileController_internal_pageInMethod(	DB_ENV*		bdb_environmen
 	Rbdb_MemoryPoolFileController*		memory_pool_file_controller		=	Rbdb_MemoryPoolController_fileController( Rbdb_Environment_memoryPoolController() );
 	
 	//	Wrap DBT in Rbdb_Data
-	Rbdb_Data*							page_cookie						=	Rbdb_Data_internal_newrb_Rbdb_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT( NULL, bdb_page_cookie );
+	Rbdb_Data*							page_cookie						=	(Rbdb_Data*) Rbdb_DBT_internal_newFromBDBDBT( NULL, bdb_page_cookie );
 	
 	//	Call user-specified method
 	return	*( memory_pool_file_controller->page_in_method )(	memory_pool_file_controller,
@@ -252,7 +252,7 @@ int Rbdb_MemoryPoolFileController_internal_pageInMethod(	DB_ENV*		environment,
 	Rbdb_MemoryPoolFileController*		memory_pool_file_controller		=	Rbdb_MemoryPoolController_fileController( Rbdb_Environment_memoryPoolController() );
 	
 	//	Wrap DBT in Rbdb_Data
-	Rbdb_Data*							page_cookie						=	Rbdb_Data_internal_newrb_Rbdb_DatabaseObject_internal_retrieveMultipleFromParameterDataArrayT( NULL, bdb_page_cookie );
+	Rbdb_Data*							page_cookie						=	(Rbdb_Data*) Rbdb_DBT_internal_newFromBDBDBT( NULL, bdb_page_cookie );
 	
 	//	Call user-specified method
 	return	*( memory_pool_file_controller->page_out_method )(	memory_pool_file_controller,
