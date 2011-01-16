@@ -28,6 +28,10 @@ Rbdb_Record*	Rbdb_Database_internal_writeKeyDataPair(	Rbdb_Database*	database,
 																			uint32_t						flags,
 																			Rbdb_Key*						primary_key,
 																			Rbdb_Data*					write_data );	
+
+void Rbdb_Database_internal_prepareRecordForWriteRetrieveDelete(	Rbdb_Database*		database, 
+																																	Rbdb_Record*			record,
+																																	BOOL							prepare_footer_for_data );
 																			
 Rbdb_Record* Rbdb_Database_internal_retrieveRawKeyDataPair(	Rbdb_Database*			database, 
 																			   uint32_t								flag, 

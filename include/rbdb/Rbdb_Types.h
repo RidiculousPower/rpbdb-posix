@@ -101,6 +101,20 @@ typedef struct Rbdb_DatabaseOpenedDuringTransaction						Rbdb_DatabaseOpenedDuri
 typedef struct Rbdb_DataFooter1												Rbdb_DataFooter1;
 typedef	enum   Rbdb_DatabaseRecordStorageType										Rbdb_DatabaseRecordStorageType;
 
+//	Storage type formats
+typedef struct RbdbStorage_Raw 					RbdbStorage_Raw;
+typedef struct RbdbStorage_Integer 			RbdbStorage_Integer;
+typedef struct RbdbStorage_Float 				RbdbStorage_Float;
+typedef struct RbdbStorage_Complex 			RbdbStorage_Complex;
+typedef struct RbdbStorage_Rational	 		RbdbStorage_Rational;
+typedef struct RbdbStorage_String 			RbdbStorage_String;
+typedef struct RbdbStorage_Symbol 			RbdbStorage_Symbol;
+typedef struct RbdbStorage_Regexp 			RbdbStorage_Regexp;
+typedef struct RbdbStorage_FilePath 		RbdbStorage_FilePath;
+typedef struct RbdbStorage_File 				RbdbStorage_File;
+typedef struct RbdbStorage_TrueFalse		RbdbStorage_TrueFalse;
+typedef struct RbdbStorage_ClassName		RbdbStorage_ClassName;
+
 typedef		RBDB_SECONDARY_KEY_CREATION_RETURN	(*Rbdb_SecondaryKeyCallbackMethod)(	Rbdb_Database*			secondary_database,
 																																									Rbdb_Record*			primary_record,
 																																									Rbdb_SecondaryKeys*	secondary_keys_to_return );
@@ -807,11 +821,85 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							RbdbType_String,
 							RbdbType_Symbol,
 							RbdbType_Regexp,
-							RbdbType_Match,
+							RbdbType_FilePath,
 							RbdbType_File,
 							RbdbType_TrueFalse,
 							RbdbType_ClassName
 							
+						};
+						
+						struct RbdbStorage_Raw	{
+						
+							void*				raw;
+						
+						};
+
+						struct RbdbStorage_Integer	{
+						
+							long		integer_value;
+							
+						};
+
+						struct RbdbStorage_Float	{
+						
+							double	float_value;
+						
+						};
+
+						struct RbdbStorage_Complex	{
+						
+							double	real;
+							double	imaginary;
+						
+						};
+
+						struct RbdbStorage_Rational	{
+						
+							double	numerator;
+							double	denomenator;
+						
+						};
+
+						struct RbdbStorage_String	{
+							
+							char*				string;
+						
+						};
+
+						struct RbdbStorage_Symbol	{
+
+							char*				string;
+						
+						};
+
+						struct RbdbStorage_Regexp	{
+
+							char*				string;
+						
+						};
+
+						struct RbdbStorage_FilePath	{
+						
+							char*				filepath;
+						
+						};
+
+						struct RbdbStorage_File	{
+						
+							FILE*				file;
+						
+						};
+
+						struct RbdbStorage_TrueFalse	{
+						
+							BOOL				truefalse;
+							
+						};
+
+						struct RbdbStorage_ClassName	{
+						
+							char*				string;
+						
 						};
 
 						/****************************
@@ -858,6 +946,7 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							BOOL													write_locks_instead_of_read_locks;
 							BOOL													permit_duplicates;
 							BOOL													sort_duplicates;
+							BOOL													store_file_not_path;
 
 							uint32_t								update_flags;
 
@@ -876,6 +965,7 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							BOOL										record_typing;
 							BOOL										creation_stamp;
 							BOOL										modification_stamp;
+							BOOL										has_footer;
 
 							Rbdb_SettingsController*								environment_settings_controller;
 	
@@ -1859,10 +1949,10 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							uint32_t*																			buffer_size;
 							uint32_t*																			partial_data_size;
 							uint32_t*																			partial_data_offset;
-							void*																					raw_data;
+							void**																				raw_data;
 
-							struct timeval																creation_stamp;
-							struct timeval																modification_stamp;
+							BOOL																					has_footer;
+							BOOL																					has_type;
 
 							//	Wrapped BDB DBT
 							DBT*																					wrapped_bdb_dbt;

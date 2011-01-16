@@ -119,8 +119,8 @@ void* Rbdb_DBT_data( Rbdb_DBT* dbt )	{
 
 //	Set data to point to a byte string
 void Rbdb_DBT_setData(	Rbdb_DBT*	dbt, 
-						void*		data_raw,
-						uint32_t	data_size )	{
+												void*		data_raw,
+												uint32_t	data_size )	{
 
 	dbt->wrapped_bdb_dbt->data = data_raw;
 	dbt->wrapped_bdb_dbt->size = data_size;
@@ -134,7 +134,18 @@ void Rbdb_DBT_setData(	Rbdb_DBT*	dbt,
 //	(Rbdb_DatabaseRecordSettingsController_dataBufferSize) to 0 and checking the return value in the size field.
 uint32_t Rbdb_DBT_size( Rbdb_DBT* dbt )	{
 
-	return dbt->wrapped_bdb_dbt->size;
+	uint32_t	size;
+	
+	size	=	dbt->wrapped_bdb_dbt->size;
+	
+	if ( dbt->has_footer )	{
+		size	-= sizeof( Rbdb_DataFooterTypeForVersion( Rbdb_DataFooterCurrentVersion ) );
+	}
+	else if ( dbt->has_type )	{
+		size	-= sizeof( Rbdb_DatabaseRecordStorageType );	
+	}
+
+	return size;
 }	
 
 /**********************
@@ -199,6 +210,10 @@ void Rbdb_DBT_setType(	Rbdb_DBT*												dbt,
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
+/******************
+*  newFromBDBDBT  *
+******************/
+
 Rbdb_DBT* Rbdb_DBT_internal_newFromBDBDBT(	Rbdb_Record*	parent_record, 
 																						DBT*					bdb_dbt )	{
 	
@@ -211,4 +226,23 @@ Rbdb_DBT* Rbdb_DBT_internal_newFromBDBDBT(	Rbdb_Record*	parent_record,
 	
 	return dbt;
 }
+
+/************************
+*  verifyKeyDataTyping  *
+************************/
+
+void Rbdb_DBT_internal_verifyKeyDataTyping(	Rbdb_DBT*												dbt,
+																						Rbdb_DatabaseRecordStorageType	type	)	{
+	
+	if ( dbt->type != type )	{
+
+		Rbdb_ErrorController_throwError(	Rbdb_Environment_errorController( dbt->parent_record->parent_database->parent_database_controller->parent_environment ),
+																			-1,
+																			"Rbdb_DBT_internal_verifyKeyDataTyping",
+																			"Key/Data type did not match required type." );
+		
+	}
+
+}
+
 

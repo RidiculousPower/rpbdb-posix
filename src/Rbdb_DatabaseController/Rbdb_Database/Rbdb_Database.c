@@ -34,6 +34,8 @@
 #include "Rbdb_Key.h"
 #include "Rbdb_SecondaryKeys.h"
 
+#include "Rbdb_DBT_internal.h"
+
 #include "Rbdb_TransactionController.h"
 #include "Rbdb_TransactionController_internal.h"
 #include "Rbdb_Transaction.h"
@@ -1561,17 +1563,19 @@ Rbdb_Database* Rbdb_Database_deleteRecord(	Rbdb_Database* 	database,
 	
 	Rbdb_Database_internal_ensureOpen( database );
 
+	Rbdb_Database_internal_prepareRecordForWriteRetrieveDelete(	database,
+																															record,
+																															FALSE );
+
 	Rbdb_Environment*	environment	=	database->parent_database_controller->parent_environment;
 
 	DB_TXN*	transaction_id	=	NULL;
 	if ( database->opened_in_transaction )	{
 		transaction_id	=	Rbdb_TransactionController_internal_currentTransactionID( environment->transaction_controller );
 	}
-	
-	Rbdb_DatabaseSettingsController*						database_settings_controller						=	Rbdb_Database_settingsController( database );
-	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller			=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
-	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
-	
+
+	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_Record_settingsController( record );
+	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );		
 	uint32_t	delete_flags	=	Rbdb_DatabaseRecordReadWriteSettingsController_internal_deleteFlags( database_record_read_write_settings_controller );
 	
 	int				connection_error	= RP_NO_ERROR;
@@ -2132,20 +2136,17 @@ Rbdb_Record* Rbdb_Database_internal_writeRecord(	Rbdb_Database*		database,
 	
 	Rbdb_Database_internal_ensureOpen( database );
 
+	Rbdb_Database_internal_prepareRecordForWriteRetrieveDelete(	database,
+																															record,
+																															TRUE );
+
 	Rbdb_Environment*	environment	=	database->parent_database_controller->parent_environment;
 
 	DB_TXN*	transaction_id	=	NULL;
 	if ( database->opened_in_transaction )	{
 		transaction_id	=	Rbdb_TransactionController_internal_currentTransactionID( environment->transaction_controller );
 	}
-	
-	//	create or update footers in key and data if necessary
-	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_Record_settingsController( record );
-	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
-	if ( Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( database_record_read_write_settings_controller ) )	{
-		Rbdb_Record_internal_createOrUpdateDataFooter( record );
-	}
-	
+
 	int		connection_error	= RP_NO_ERROR;
 	if ( ( connection_error = database->wrapped_bdb_database->put(	database->wrapped_bdb_database,
 																																	transaction_id,
@@ -2168,6 +2169,40 @@ Rbdb_Record* Rbdb_Database_internal_writeRecord(	Rbdb_Database*		database,
 	return record;
 }
 
+/****************************************
+*  prepareRecordForWriteRetrieveDelete  *
+****************************************/
+
+void Rbdb_Database_internal_prepareRecordForWriteRetrieveDelete(	Rbdb_Database*		database __attribute__ ((unused)), 
+																																	Rbdb_Record*			record,
+																																	BOOL							prepare_footer_for_data )	{
+
+	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_Record_settingsController( record );
+	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
+	
+	//	check and see if we are supposed to have key-type/data-footer
+	//	if so, create/update as appropriate
+	if ( Rbdb_DatabaseRecordReadWriteSettingsController_internal_hasFooter( database_record_read_write_settings_controller ) )	{
+		Rbdb_Record_internal_createOrUpdateKeyTypeAndDataFooter(	record,
+																															prepare_footer_for_data );
+	}
+	
+	//	check and see if we have store key typing
+	//	if so, verify key type
+	Rbdb_DatabaseRecordStorageType	key_type;
+	if ( ( key_type = Rbdb_DatabaseRecordReadWriteSettingsController_storeKeyTyping( database_record_read_write_settings_controller ) ) )	{
+		Rbdb_DBT_internal_verifyKeyDataTyping(	(Rbdb_DBT*) record->key,
+																						key_type );
+	}
+	//	check and see if we have store data typing
+	//	if so, verify data type
+	Rbdb_DatabaseRecordStorageType	data_type;
+	if ( ( data_type = Rbdb_DatabaseRecordReadWriteSettingsController_storeDataTyping( database_record_read_write_settings_controller ) ) )	{
+		Rbdb_DBT_internal_verifyKeyDataTyping(	(Rbdb_DBT*) record->data,
+																						data_type );
+	}
+	
+}
 
 /*******************************************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************************************
@@ -2228,6 +2263,10 @@ Rbdb_Record* Rbdb_Database_internal_retrieveRecord(	Rbdb_Database*		database,
 
 	Rbdb_Database_internal_ensureOpen( database );
 
+	Rbdb_Database_internal_prepareRecordForWriteRetrieveDelete(	database,
+																															record,
+																															( flag == DB_GET_BOTH ? TRUE : FALSE ) );
+
 	Rbdb_Environment*				environment			= database->parent_database_controller->parent_environment;
 	
 	int	connection_error	= 0;
@@ -2236,7 +2275,7 @@ Rbdb_Record* Rbdb_Database_internal_retrieveRecord(	Rbdb_Database*		database,
 	if ( database->opened_in_transaction )	{
 		transaction_id	=	Rbdb_TransactionController_internal_currentTransactionID( environment->transaction_controller );
 	}
-	
+
 	//	If we have a secondary database we are using a secondary key and retrieving a primary key/data pair
 	if ( Rbdb_Database_isSecondary( database ) )	{
 
@@ -2307,9 +2346,9 @@ Rbdb_Record* Rbdb_Database_internal_retrieveRecord(	Rbdb_Database*		database,
 	return record;
 }
 
-/**************************
+/**********************************
 *  secondaryDatabaseNameForIndex  *
-**************************/
+**********************************/
 
 char* Rbdb_Database_internal_secondaryDatabaseNameForIndex( char* index_name,
 																														char*	primary_database_name )	{
@@ -2327,9 +2366,9 @@ char* Rbdb_Database_internal_secondaryDatabaseNameForIndex( char* index_name,
 	return secondary_database_name;
 }
 
-/**************************
+/*************************************************************
 *  createDatabaseInstanceForSecondaryIndexOnPrimaryDatabase  *
-**************************/
+*************************************************************/
 
 Rbdb_Database* Rbdb_Database_internal_configureDatabaseInstanceForSecondaryIndexOnPrimaryDatabase(	Rbdb_Database*		primary_database,
 																																																		Rbdb_Database*		secondary_database,
@@ -2346,8 +2385,8 @@ Rbdb_Database* Rbdb_Database_internal_configureDatabaseInstanceForSecondaryIndex
 	secondary_database->primary_database	=	primary_database;
 
 	if ( enable_duplicates == TRUE )	{
-		Rbdb_DatabaseSettingsController*						database_settings_controller						=	Rbdb_Database_settingsController( secondary_database );
-		Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller			=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+		Rbdb_DatabaseSettingsController*									database_settings_controller										=	Rbdb_Database_settingsController( secondary_database );
+		Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
 		Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
 		
 		if ( enable_sorted_duplicates == TRUE )	{
@@ -2368,9 +2407,9 @@ Rbdb_Database* Rbdb_Database_internal_configureDatabaseInstanceForSecondaryIndex
 	return secondary_database;
 }
 
-/**************************
+/********************
 *  filenameForName  *
-**************************/
+********************/
 
 char* Rbdb_Database_internal_filenameForName( char* database_name )	{
 	

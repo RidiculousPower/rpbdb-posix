@@ -827,6 +827,7 @@ BOOL Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( Rbdb_DatabaseR
 	void Rbdb_DatabaseRecordReadWriteSettingsController_turnRecordTypingOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 		database_record_read_write_settings_controller->record_typing = TRUE;
+		database_record_read_write_settings_controller->has_footer	=	TRUE;
 	}
 
 	/************************
@@ -836,6 +837,7 @@ BOOL Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( Rbdb_DatabaseR
 	void Rbdb_DatabaseRecordReadWriteSettingsController_turnRecordTypingOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 		database_record_read_write_settings_controller->record_typing = FALSE;
+		Rbdb_DatabaseRecordReadWriteSettingsController_internal_determineIfHasFooter( database_record_read_write_settings_controller );
 	}
 
 /******************
@@ -854,6 +856,7 @@ BOOL Rbdb_DatabaseRecordReadWriteSettingsController_creationStamp( Rbdb_Database
 	void Rbdb_DatabaseRecordReadWriteSettingsController_turnCreationStampOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 		database_record_read_write_settings_controller->creation_stamp = TRUE;
+		database_record_read_write_settings_controller->has_footer	=	TRUE;
 	}
 
 	/*************************
@@ -863,6 +866,7 @@ BOOL Rbdb_DatabaseRecordReadWriteSettingsController_creationStamp( Rbdb_Database
 	void Rbdb_DatabaseRecordReadWriteSettingsController_turnCreationStampOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 		database_record_read_write_settings_controller->creation_stamp = FALSE;
+		Rbdb_DatabaseRecordReadWriteSettingsController_internal_determineIfHasFooter( database_record_read_write_settings_controller );
 	}
 
 /**********************
@@ -884,6 +888,7 @@ BOOL Rbdb_DatabaseRecordReadWriteSettingsController_modificationStamp( Rbdb_Data
 	void Rbdb_DatabaseRecordReadWriteSettingsController_turnModificationStampOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 		database_record_read_write_settings_controller->modification_stamp = TRUE;
+		database_record_read_write_settings_controller->has_footer	=	TRUE;
 	}
 
 	/*****************************
@@ -893,6 +898,37 @@ BOOL Rbdb_DatabaseRecordReadWriteSettingsController_modificationStamp( Rbdb_Data
 	void Rbdb_DatabaseRecordReadWriteSettingsController_turnModificationStampOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 		database_record_read_write_settings_controller->modification_stamp = FALSE;
+		Rbdb_DatabaseRecordReadWriteSettingsController_internal_determineIfHasFooter( database_record_read_write_settings_controller );
+	}
+
+/*********************
+*  storeFileNotPath  *
+*********************/
+
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_storeFileNotPath( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	
+	if ( database_record_read_write_settings_controller->store_file_not_path == TRUE )	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+	/***************************
+	*  turnStoreFileNotPathOn  *
+	***************************/
+
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnStoreFileNotPathOn( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	
+		database_record_read_write_settings_controller->store_file_not_path = TRUE;
+	}
+
+	/****************************
+	*  turnStoreFileNotPathOff  *
+	****************************/
+
+	void Rbdb_DatabaseRecordReadWriteSettingsController_turnStoreFileNotPathOff( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+	
+		database_record_read_write_settings_controller->store_file_not_path = FALSE;
 	}
 	
 /*******************************************************************************************************************************************************************************************
@@ -1145,6 +1181,36 @@ int Rbdb_DatabaseRecordReadWriteSettingsController_internal_deleteFlags( Rbdb_Da
 int Rbdb_DatabaseRecordReadWriteSettingsController_internal_existsFlags( Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller )	{
 
 	return Rbdb_DatabaseRecordReadWriteSettingsController_writeLocksInsteadOfReadLocks(	database_record_read_write_settings_controller );
+}
+
+/**************
+*  hasFooter  *
+**************/
+
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_internal_hasFooter( Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller )	{
+
+	return database_record_read_write_settings_controller->has_footer;
+}
+
+/*************************
+*  determineIfHasFooter  *
+*************************/
+
+void Rbdb_DatabaseRecordReadWriteSettingsController_internal_determineIfHasFooter( Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller )	{
+	
+	if (		database_record_read_write_settings_controller->record_typing
+			||	database_record_read_write_settings_controller->creation_stamp
+			||	database_record_read_write_settings_controller->modification_stamp )	{
+		
+		database_record_read_write_settings_controller->has_footer = TRUE;	
+
+	}
+	else {
+
+		database_record_read_write_settings_controller->has_footer = FALSE;
+		
+	}
+
 }
 
 /*******************************************

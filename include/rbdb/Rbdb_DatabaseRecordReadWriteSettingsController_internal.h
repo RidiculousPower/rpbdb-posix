@@ -12,6 +12,8 @@ int												Rbdb_DatabaseRecordReadWriteSettingsController_internal_writeFlag
 int												Rbdb_DatabaseRecordReadWriteSettingsController_internal_deleteFlags(							Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller );
 int												Rbdb_DatabaseRecordReadWriteSettingsController_internal_existsFlags(							Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller );
 void Rbdb_DatabaseRecordReadWriteSettingsController_internal_updateFlags( Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller );
+BOOL Rbdb_DatabaseRecordReadWriteSettingsController_internal_hasFooter( Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller );
+void Rbdb_DatabaseRecordReadWriteSettingsController_internal_determineIfHasFooter( Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller );
 
 
 #endif

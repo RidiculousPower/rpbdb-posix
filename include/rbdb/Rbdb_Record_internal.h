@@ -19,7 +19,13 @@
 		
 	void	Rbdb_Record_internal_freeFromRuntimeStorage( Rbdb_Record** record );
 
-	void Rbdb_Record_internal_createOrUpdateDataFooter( Rbdb_Record* record );
+void Rbdb_Record_internal_createOrUpdateKeyTypeAndDataFooter( Rbdb_Record*	record,
+																															BOOL					prepare_footer_for_data );
+
+	void Rbdb_Record_internal_appendKeyType( Rbdb_Record* record );
+	Rbdb_DatabaseRecordStorageType Rbdb_Record_internal_keyType( Rbdb_Record* record );
+	void Rbdb_Record_internal_addKeyTypeToExistingRecord( Rbdb_Record* record );
+
 	void Rbdb_Record_internal_createDataFooter( Rbdb_Record* record );
 	void Rbdb_Record_internal_updateDataFooter( Rbdb_Record* record );
 	Rbdb_DataFooterTypeForVersion( Rbdb_DataFooterCurrentVersion )* Rbdb_Record_internal_dataFooter( Rbdb_Record* record );

@@ -1511,7 +1511,7 @@ Rbdb_DatabaseCursor* Rbdb_DatabaseCursor_deleteRawKeyDataPair(	Rbdb_DatabaseCurs
 ******************************/
 
 Rbdb_DatabaseCursor* Rbdb_DatabaseCursor_deleteRecordNumber(	Rbdb_DatabaseCursor*	database_cursor,
-																															db_recno_t*				record_number	)	{
+																															db_recno_t*						record_number	)	{
 	
 	//	Set current record to record number
 	Rbdb_DatabaseCursor_retrieveRawKey( database_cursor ,
@@ -1527,8 +1527,12 @@ Rbdb_DatabaseCursor* Rbdb_DatabaseCursor_deleteRecordNumber(	Rbdb_DatabaseCursor
 ********************/
 
 Rbdb_DatabaseCursor* Rbdb_DatabaseCursor_deleteRecord(	Rbdb_DatabaseCursor*	database_cursor,
- 															Rbdb_Record*			record	)	{
+																												Rbdb_Record*					record	)	{
 	
+	Rbdb_Database_internal_prepareRecordForWriteRetrieveDelete(	database_cursor->parent_database_cursor_controller->parent_database,
+																															record,
+																															FALSE );
+
 	//	Set current record to data
 	Rbdb_DatabaseCursor_retrieveRecord( database_cursor ,
 																			record );
@@ -1566,14 +1570,11 @@ Rbdb_Record* Rbdb_DatabaseCursor_internal_writeRecord(	Rbdb_DatabaseCursor*	data
 
 	Rbdb_DatabaseCursor_internal_ensureOpen( database_cursor );
 
-	int	connection_error	= 0;
+	Rbdb_Database_internal_prepareRecordForWriteRetrieveDelete(	database_cursor->parent_database_cursor_controller->parent_database,
+																															record,
+																															TRUE );
 
-	//	create or update footers in key and data if necessary
-	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_Record_settingsController( record );
-	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
-	if ( Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( database_record_read_write_settings_controller ) )	{
-		Rbdb_Record_internal_createOrUpdateDataFooter( record );
-	}
+	int	connection_error	= 0;
 
 	if ( ( connection_error = database_cursor->wrapped_bdb_cursor->put(	database_cursor->wrapped_bdb_cursor, 
 																																			record->key->wrapped_bdb_dbt, 
@@ -1709,6 +1710,10 @@ Rbdb_Record* Rbdb_DatabaseCursor_internal_retrieveRecord(	Rbdb_DatabaseCursor*		
 																													Rbdb_Record*						record)	{
 
 	Rbdb_DatabaseCursor_internal_ensureOpen( database_cursor );
+
+	Rbdb_Database_internal_prepareRecordForWriteRetrieveDelete(	database_cursor->parent_database_cursor_controller->parent_database,
+																															record,
+																															( flags == DB_GET_BOTH ? TRUE : FALSE ) );
 
 	Rbdb_Environment*	environment	= database_cursor->parent_database_cursor_controller->parent_database->parent_database_controller->parent_environment;
 	
