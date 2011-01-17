@@ -856,7 +856,7 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						struct RbdbStorage_Rational	{
 						
 							double	numerator;
-							double	denomenator;
+							double	denominator;
 						
 						};
 
@@ -912,10 +912,7 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							struct timeval										creation_stamp;
 							struct timeval										modification_stamp;
 
-							//	we keep key type in the data footer so that info is all in the same place
-							//	every time a key is written, key_type is updated in data
-							Rbdb_DatabaseRecordStorageType		key_type;
-							Rbdb_DatabaseRecordStorageType		data_type;
+							Rbdb_DatabaseRecordStorageType		type;
 							
 							//	version needs to be last so we can look from the end to check
 							int																version;
@@ -1997,9 +1994,7 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 	
 						BOOL																exists_in_database;
 						BOOL																requires_update_to_database;
-	
-						BOOL																has_footer;
-						
+							
 						Rbdb_DatabaseRecordSettingsController*				settings_controller;
 					};
 

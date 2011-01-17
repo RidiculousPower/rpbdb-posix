@@ -30,5 +30,8 @@ Rbdb_DatabaseRecordStorageType Rbdb_Data_type( Rbdb_Data* data );
 void Rbdb_Data_setType(	Rbdb_Data*											data,
 												Rbdb_DatabaseRecordStorageType	type );
 
+struct timeval* Rbdb_Data_creationStamp( Rbdb_Data* data );
+struct timeval* Rbdb_Data_modificationStamp( Rbdb_Data* data );
+
 #endif
 

@@ -2164,7 +2164,6 @@ Rbdb_Record* Rbdb_Database_internal_writeRecord(	Rbdb_Database*		database,
 	else {
 		record->result = TRUE;
 	}
-
 	
 	return record;
 }
@@ -2341,6 +2340,14 @@ Rbdb_Record* Rbdb_Database_internal_retrieveRecord(	Rbdb_Database*		database,
 		Rbdb_Key_free( & record->primary_key );
 		record->primary_key	=	record->key;
 
+	}
+
+	//	if we have record typing, our records have a footer, so we need to note
+	Rbdb_DatabaseSettingsController*									database_settings_controller										=	Rbdb_Database_settingsController( database );
+	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
+	if ( Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( database_record_read_write_settings_controller ) )	{
+		record->data->has_footer = TRUE;
 	}
 	
 	return record;

@@ -132,6 +132,6 @@
 	#define Rbdb_DataFooterTypeForVersion( version )										Rbdb_DataFooterTypeForVersion_concat( version )
 	#define Rbdb_DataFooterTypeForVersion_concat( version )							Rbdb_DataFooter ## version
 
-	#define Rbdb_Record_endOfFooter(record)															record->data->wrapped_bdb_dbt->data + record->data->wrapped_bdb_dbt->size
+	#define Rbdb_Data_endOfFooter(data)															data->wrapped_bdb_dbt->data + data->wrapped_bdb_dbt->size
 			
 #endif

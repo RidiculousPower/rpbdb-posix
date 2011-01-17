@@ -11,6 +11,7 @@
 *******************************************************************************************************************************************************************************************/
 
 #include "Rbdb_Key.h"
+#include "Rbdb_Key_internal.h"
 
 #include "Rbdb_DBT.h"
 
@@ -229,4 +230,58 @@ uint32_t Rbdb_Key_size( Rbdb_Key* data )	{
 
 	return size;
 }	
+
+/*******************************************************************************************************************************************************************************************
+********************************************************************************************************************************************************************************************
+																		Internal Methods
+********************************************************************************************************************************************************************************************
+*******************************************************************************************************************************************************************************************/
+
+/******************
+*  appendKeyType  *
+******************/
+
+void Rbdb_Key_internal_appendType( Rbdb_Key* key )	{
+
+	//	create a new memory space that will hold key and type
+	int		new_size	=	key->wrapped_bdb_dbt->size + sizeof( Rbdb_DatabaseRecordStorageType );
+	void*	new_data	=	calloc( 1, new_size );
+	
+	//	copy key to new memory space
+	memcpy(	new_data,
+					key->wrapped_bdb_dbt->data,
+					key->wrapped_bdb_dbt->size );
+	
+	//	append type by copying
+	memcpy(	new_data + key->wrapped_bdb_dbt->size,
+					& key->type,
+					sizeof( Rbdb_DatabaseRecordStorageType ) );
+	
+	//	set data to new data
+	key->wrapped_bdb_dbt->data	=	new_data;	
+	key->wrapped_bdb_dbt->size	=	new_size;	
+}
+
+/***************
+*  keyType  *
+***************/
+
+//	return footer from a record that currently has a footer, regardless whether it has been written to database
+Rbdb_DatabaseRecordStorageType Rbdb_Key_internal_keyType( Rbdb_Key* key )	{
+
+	Rbdb_DatabaseRecordStorageType*	type	=	key->wrapped_bdb_dbt->data + key->wrapped_bdb_dbt->size - sizeof( Rbdb_DatabaseRecordStorageType );
+
+	return *type;
+}
+
+/*******************************
+*  addKeyTypeToExistingRecord  *
+*******************************/
+
+//	add a footer to a record that currently exists in the database but does not currently have one
+void Rbdb_Key_internal_addKeyTypeToExistingRecord( Rbdb_Key* key __attribute__ ((unused)) )	{
+
+	
+}
+
 

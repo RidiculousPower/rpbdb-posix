@@ -63,10 +63,6 @@ Rbdb_DBT* Rbdb_DBT_new( Rbdb_Record* parent_record )	{
 *  free  *
 ***************************/
 void Rbdb_DBT_free(	Rbdb_DBT** dbt )	{
-
-	if ( ( *dbt )->wrapped_bdb_dbt != NULL )	{
-		free( ( *dbt )->wrapped_bdb_dbt );
-	}
 	
 	free( *dbt );
 	*dbt	=	NULL;
@@ -134,18 +130,7 @@ void Rbdb_DBT_setData(	Rbdb_DBT*	dbt,
 //	(Rbdb_DatabaseRecordSettingsController_dataBufferSize) to 0 and checking the return value in the size field.
 uint32_t Rbdb_DBT_size( Rbdb_DBT* dbt )	{
 
-	uint32_t	size;
-	
-	size	=	dbt->wrapped_bdb_dbt->size;
-	
-	if ( dbt->has_footer )	{
-		size	-= sizeof( Rbdb_DataFooterTypeForVersion( Rbdb_DataFooterCurrentVersion ) );
-	}
-	else if ( dbt->has_type )	{
-		size	-= sizeof( Rbdb_DatabaseRecordStorageType );	
-	}
-
-	return size;
+	return dbt->wrapped_bdb_dbt->size;
 }	
 
 /**********************

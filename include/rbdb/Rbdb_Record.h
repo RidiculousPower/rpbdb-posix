@@ -51,8 +51,6 @@ void Rbdb_Record_setRawKey(	Rbdb_Record*	record,
 Rbdb_DatabaseRecordStorageType Rbdb_Record_type( Rbdb_Record* record );
 void Rbdb_Record_setType( Rbdb_Record*										record,
 													Rbdb_DatabaseRecordStorageType	type);
-struct timeval* Rbdb_Record_creationStamp( Rbdb_Record* record );
-struct timeval* Rbdb_Record_modificationStamp( Rbdb_Record* record );
 
 	void Rbdb_Record_setExistsInDatabase(	Rbdb_Record*	record,
 											BOOL			data_status	);
