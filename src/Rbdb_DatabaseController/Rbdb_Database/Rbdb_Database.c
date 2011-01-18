@@ -2303,12 +2303,6 @@ Rbdb_Record* Rbdb_Database_internal_retrieveRecord(	Rbdb_Database*		database,
 			record->result = TRUE;
 		}
 
-		//	primary key is our retrieval key, so set both the same
-		if ( record->primary_key == record->key )	{
-			Rbdb_Key_free( & record->primary_key );
-			record->primary_key	=	record->key;
-		}
-
 	}
 	//	Otherwise we are retrieving a primary key/data pair
 	else	{
@@ -2337,9 +2331,12 @@ Rbdb_Record* Rbdb_Database_internal_retrieveRecord(	Rbdb_Database*		database,
 		}
 
 		//	primary key is our retrieval key, so set both the same
-		Rbdb_Key_free( & record->primary_key );
-		record->primary_key	=	record->key;
-
+		//	but if both are already the same, we've alredy done this - don't do it twice!
+		if ( record->primary_key != record->key )	{
+			Rbdb_Key_free( & record->primary_key );
+			record->primary_key	=	record->key;
+		}
+		
 	}
 
 	//	if we have record typing, our records have a footer, so we need to note
