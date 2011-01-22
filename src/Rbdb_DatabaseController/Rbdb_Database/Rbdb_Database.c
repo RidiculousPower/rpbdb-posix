@@ -32,6 +32,7 @@
 #include "Rbdb_Record_internal.h"
 #include "Rbdb_Data.h"
 #include "Rbdb_Key.h"
+#include "Rbdb_DBT.h"
 #include "Rbdb_SecondaryKeys.h"
 
 #include "Rbdb_DBT_internal.h"
@@ -2007,7 +2008,7 @@ int Rbdb_Database_internal_secondaryKeyCreationCallbackMethod(	DB*						bdb_seco
 																																						(DBT*) bdb_data	);
 
 	//	This needs to be made to correspond to bdb_return_data
-	Rbdb_SecondaryKeys*		secondary_keys			= Rbdb_SecondaryKeys_new( NULL );
+	Rbdb_SecondaryKeys*		secondary_keys			= (Rbdb_SecondaryKeys*) Rbdb_DBT_new( record );
 
 	free( secondary_keys->wrapped_bdb_dbt );
 	secondary_keys->wrapped_bdb_dbt	=	bdb_return_data;

@@ -26,9 +26,9 @@
 *  new  *
 *************/
 
-Rbdb_SecondaryKeys* Rbdb_SecondaryKeys_new( Rbdb_Record* parent_record )	{
+Rbdb_SecondaryKeysUnused* Rbdb_SecondaryKeys_new( Rbdb_Record* parent_record )	{
 
-	Rbdb_SecondaryKeys*	secondary_keys	=	calloc( 1, sizeof( Rbdb_SecondaryKeys ) );
+	Rbdb_SecondaryKeysUnused*	secondary_keys	=	calloc( 1, sizeof( Rbdb_SecondaryKeysUnused ) );
 	
 	secondary_keys->parent_record	=	parent_record;
 	
@@ -41,7 +41,7 @@ Rbdb_SecondaryKeys* Rbdb_SecondaryKeys_new( Rbdb_Record* parent_record )	{
 /***************************
 *  free  *
 ***************************/
-void Rbdb_SecondaryKeys_free(	Rbdb_SecondaryKeys** keys )	{
+void Rbdb_SecondaryKeys_free(	Rbdb_SecondaryKeysUnused** keys )	{
 
 	free( *keys );
 	*keys	=	NULL;
@@ -58,8 +58,8 @@ Rbdb_Record* Rbdb_SecondaryKeys_parentRecord(	Rbdb_DatabaseRecordSettingsControl
 *  keyData  *
 *****************/
 
-void Rbdb_SecondaryKeys_addSecondaryKey(	Rbdb_SecondaryKeys*	keys,
- 											Rbdb_Key*				key )	{
+void Rbdb_SecondaryKeys_addSecondaryKey(	Rbdb_SecondaryKeysUnused*	keys,
+																					Rbdb_Key*				key )	{
 
 	//	allocate a new pointer of count *  wrapped_bdb_dbt  * size (DBT**)
 	Rbdb_Key**	key_pointers_array	=	calloc( keys->key_count + 1, sizeof( Rbdb_Key* ) );
@@ -90,7 +90,7 @@ void Rbdb_SecondaryKeys_addSecondaryKey(	Rbdb_SecondaryKeys*	keys,
 *  setKeyData  *
 ******************/
 
-Rbdb_Key* Rbdb_SecondaryKeys_secondaryKeyForIndex(	Rbdb_SecondaryKeys*	keys,
+Rbdb_Key* Rbdb_SecondaryKeys_secondaryKeyForIndex(	Rbdb_SecondaryKeysUnused*	keys,
 														int						index )	{
 
 	return (Rbdb_Key*) (Rbdb_Data*) Rbdb_DBT_internal_newFromBDBDBT( NULL, & ( (DBT*) keys->wrapped_bdb_dbt->data )[ index ] );
@@ -101,7 +101,7 @@ Rbdb_Key* Rbdb_SecondaryKeys_secondaryKeyForIndex(	Rbdb_SecondaryKeys*	keys,
 *  keyData  *
 *****************/
 
-void Rbdb_SecondaryKeys_addRawSecondaryKey(	Rbdb_SecondaryKeys*	keys,
+void Rbdb_SecondaryKeys_addRawSecondaryKey(	Rbdb_SecondaryKeysUnused*	keys,
  												void*					raw_key,
  												uint32_t				key_size )	{
 
@@ -138,7 +138,7 @@ void Rbdb_SecondaryKeys_addRawSecondaryKey(	Rbdb_SecondaryKeys*	keys,
 *  setKeyData  *
 ******************/
 
-void* Rbdb_SecondaryKeys_rawSecondaryKeyForIndex(	Rbdb_SecondaryKeys*	keys,
+void* Rbdb_SecondaryKeys_rawSecondaryKeyForIndex(	Rbdb_SecondaryKeysUnused*	keys,
 													int						index )	{
 
 	return ( (DBT*)( keys->wrapped_bdb_dbt->data ) )[ index ].data;

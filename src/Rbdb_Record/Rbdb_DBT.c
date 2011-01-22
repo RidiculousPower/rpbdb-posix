@@ -130,7 +130,7 @@ void Rbdb_DBT_setData(	Rbdb_DBT*	dbt,
 //	(Rbdb_DatabaseRecordSettingsController_dataBufferSize) to 0 and checking the return value in the size field.
 uint32_t Rbdb_DBT_size( Rbdb_DBT* dbt )	{
 
-	return dbt->wrapped_bdb_dbt->size;
+	return ( dbt->wrapped_bdb_dbt != NULL ? dbt->wrapped_bdb_dbt->size : 0 );
 }	
 
 /**********************
