@@ -220,11 +220,15 @@ void Rbdb_Key_setType(	Rbdb_Key*												key,
 
 //	Note that applications can determine the length of a record by setting the ulen field 
 //	(Rbdb_DatabaseRecordSettingsController_dataBufferSize) to 0 and checking the return value in the size field.
-uint32_t Rbdb_Key_size( Rbdb_Key* data )	{
+uint32_t Rbdb_Key_size( Rbdb_Key* key )	{
 
-	uint32_t	size	=	Rbdb_DBT_size( (Rbdb_DBT*) data );
+	uint32_t	size	=	Rbdb_DBT_size( (Rbdb_DBT*) key );
 
-	if ( data->has_type )	{
+	Rbdb_Database*																		parent_database																	=	key->parent_record->parent_database;
+	Rbdb_DatabaseSettingsController*									database_settings_controller										=	Rbdb_Database_settingsController( parent_database );
+	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
+	if ( Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( database_record_read_write_settings_controller ) )	{
 		size -= sizeof( Rbdb_DatabaseRecordStorageType );
 	}
 

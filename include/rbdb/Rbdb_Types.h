@@ -2027,6 +2027,8 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					BOOL											verification_file_is_open;
 					FILE*											verification_file;
 					char*											verification_file_path;
+
+					db_recno_t											record_number;
 					
 					//	Controllers
 					Rbdb_DatabaseCursorController*					cursor_controller;
@@ -2054,8 +2056,6 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 				//	Parent
 				Rbdb_Environment*								parent_environment;
 	
-				db_recno_t											record_number;
-
 				Rbdb_Database*	runtime_storage_database;
 	
 				Rbdb_SettingsController*						environment_settings_controller;

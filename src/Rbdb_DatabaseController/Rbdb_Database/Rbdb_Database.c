@@ -96,6 +96,8 @@ Rbdb_Database* Rbdb_Database_new(	Rbdb_DatabaseController*	parent_database_contr
 
 	Rbdb_Database*			new_database	= calloc( 1, sizeof( Rbdb_Database ) );
 
+	new_database->record_number	=	1;
+
 	/*------------------*
 	*  Parent Database  *
 	*------------------*/
@@ -128,7 +130,8 @@ Rbdb_Database* Rbdb_Database_new(	Rbdb_DatabaseController*	parent_database_contr
 	*-------*/
 	
 	//	Set a pointer to the database's type
-	new_database->type	=	Rbdb_DatabaseTypeSettingsController_databaseType( Rbdb_DatabaseSettingsController_typeSettingsController( Rbdb_Database_settingsController( new_database ) ) );
+	Rbdb_DatabaseTypeSettingsController*	database_type_settings_controller	=	Rbdb_DatabaseSettingsController_typeSettingsController( new_database->settings_controller );
+	new_database->type	=	Rbdb_DatabaseTypeSettingsController_databaseType( database_type_settings_controller );
 	
 	/*---------*
 	*  Name  *
@@ -227,6 +230,11 @@ void Rbdb_Database_internal_freeFromRuntimeStorage( Rbdb_Database** database )	{
 	//	close cursor controller and cursors
 	if ( ( *database )->cursor_controller != NULL )	{
 		Rbdb_DatabaseCursorController_free( & ( ( *database )->cursor_controller ) );
+	}
+
+	//	close sequence controller and cursors
+	if ( ( *database )->sequence_controller != NULL )	{
+		Rbdb_DatabaseSequenceController_free( & ( ( *database )->sequence_controller ) );
 	}
 	
 	//	if open, close
@@ -417,11 +425,17 @@ void Rbdb_Database_close( Rbdb_Database* database )	{
 			//	Tell self's cursor controller to shut everything down
 			Rbdb_DatabaseCursorController_closeAllCursors( database->cursor_controller );
 		}
+
+		if ( database->sequence_controller != NULL )	{
+			//	Tell self's cursor controller to shut everything down
+			Rbdb_DatabaseSequenceController_closeAllSequences( database->sequence_controller );
+		}
 		
 		//	first, if this database is primary, close its secondary databases before closing self
 		if ( Rbdb_Database_isPrimary( database ) )	{
 			
 			Rbdb_Database_closeAllSecondaryDatabases( database );
+			Rbdb_Database_freeAllSecondaryDatabases( database );
 		}
 		
 		Rbdb_Environment*	environment	=	database->parent_database_controller->parent_environment;
@@ -430,7 +444,7 @@ void Rbdb_Database_close( Rbdb_Database* database )	{
 		
 		uint32_t	close_flags	=	Rbdb_DatabaseSettingsController_internal_closeFlags( database_settings_controller );
 		
-		if ( ( connection_error	=	database->wrapped_bdb_database->close(	database->wrapped_bdb_database, 
+		if ( ( connection_error	=	database->wrapped_bdb_database->close(	database->wrapped_bdb_database,
 																																			close_flags ) ) )	{
 			
 			
@@ -563,7 +577,8 @@ void Rbdb_Database_freeAllSecondaryDatabases( Rbdb_Database* database )	{
 		do	{
 						
 			//	if secondary_database->secondary_database is set, save it
-			if ( ( *current_secondary_database )->secondary_database != NULL )	{
+			if (		*current_secondary_database
+					&&	( *current_secondary_database )->secondary_database != NULL )	{
 				next_secondary_database	=	&( ( *current_secondary_database )->secondary_database );
 			}
 			
@@ -573,7 +588,8 @@ void Rbdb_Database_freeAllSecondaryDatabases( Rbdb_Database* database )	{
 			//	set secondary_database to saved secondary_database->secondary_database and repeat
 			current_secondary_database = next_secondary_database;
 			
-		} while( current_secondary_database != NULL );
+		} while(		current_secondary_database != NULL
+						&&	*current_secondary_database != NULL );
 	}
 }
 
@@ -1047,16 +1063,14 @@ db_recno_t Rbdb_Database_appendRawData(	Rbdb_Database*			database,
 	
 	Rbdb_Record*	record	=		Rbdb_Database_internal_writeRawKeyDataPair(	database,
 																																				flags | DB_APPEND,
-																																				& database->parent_database_controller->record_number,
+																																				& database->record_number,
 																																				sizeof( db_recno_t ),
 																																				write_data,
 																																				data_size );
 	
 	Rbdb_Record_free( & record );
 	
-	database->parent_database_controller->record_number++;
-	
-	return database->parent_database_controller->record_number;
+	return database->record_number++;
 }
 
 /***************************
@@ -1074,25 +1088,26 @@ db_recno_t Rbdb_Database_appendData(	Rbdb_Database*			database,
 
 	Rbdb_Key*	write_key	=	Rbdb_Key_new( NULL );
 	Rbdb_Key_setRawData(	write_key,
-										& database->parent_database_controller->record_number,
+										& database->record_number,
 										sizeof( db_recno_t ) );
-
 
 	Rbdb_Database_internal_writeKeyDataPair(	database,
 																						flags | DB_APPEND,
 																						write_key,
 																						write_data );
 
-	return database->parent_database_controller->record_number;
+	Rbdb_Key_free( & write_key );
+
+	return database->record_number++;
 }
 
 /***************************
 *  appendKeyDataPair  *
 ***************************/
 
-void Rbdb_Database_appendKeyDataPair(	Rbdb_Database*			database, 
-																			Rbdb_Key*						primary_key,
-																			Rbdb_Data*					write_data )	{
+db_recno_t Rbdb_Database_appendKeyDataPair(	Rbdb_Database*			database, 
+																						Rbdb_Key*						primary_key,
+																						Rbdb_Data*					write_data )	{
 	
 	Rbdb_DatabaseSettingsController*						database_settings_controller						=	Rbdb_Database_settingsController(	database );
 	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller			=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
@@ -1104,14 +1119,15 @@ void Rbdb_Database_appendKeyDataPair(	Rbdb_Database*			database,
 																						flags | DB_APPEND,
 																						primary_key,
 																						write_data );
+	return database->record_number++;
 }
 
 /***************************
 *  appendRecord  *
 ***************************/
 
-void Rbdb_Database_appendRecord(	Rbdb_Database*			database, 
-																	Rbdb_Record*				record )	{
+db_recno_t Rbdb_Database_appendRecord(	Rbdb_Database*			database, 
+																				Rbdb_Record*				record )	{
 	
 	Rbdb_DatabaseSettingsController*						database_settings_controller						=	Rbdb_Database_settingsController(	database );
 	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller			=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
@@ -1122,6 +1138,7 @@ void Rbdb_Database_appendRecord(	Rbdb_Database*			database,
 	Rbdb_Database_internal_writeRecord(	database,
 																			flags | DB_APPEND,
 																			record );
+	return database->record_number++;
 }
 
 /*******************************************************************************************************************************************************************************************
@@ -2041,7 +2058,7 @@ void Rbdb_Database_internal_openWithoutRuntimeStorage( Rbdb_Database* database )
 		database->opened_in_transaction	=	TRUE;
 	}
 	
-	Rbdb_SettingsController*	settings_controller	=	Rbdb_Environment_settingsController( environment );
+	Rbdb_SettingsController*			settings_controller				=	Rbdb_Environment_settingsController( environment );
 	Rbdb_FileSettingsController*	file_settings_controller	=	Rbdb_SettingsController_fileSettingsController( settings_controller );
 	
 	uint32_t	file_creation_mode	=	Rbdb_FileSettingsController_fileCreationMode( file_settings_controller );
@@ -2501,7 +2518,7 @@ void Rbdb_Database_internal_freeStoredRuntimeAddress(	Rbdb_Database*	runtime_dat
 
 void Rbdb_Database_internal_closeAllStoredRuntimeAddresses(	Rbdb_Database*	runtime_database,
 																														void *close_function( void* )	)	{
-
+	//	something is happening causing us to iterate our cursor database and close it along with the databases included in it
 	Rbdb_DatabaseCursorController*	cursor_controller	=	Rbdb_DatabaseCursorController_internal_newWithoutRuntimeStorage( runtime_database );
 	Rbdb_DatabaseCursor*						cursor						=	Rbdb_DatabaseCursor_new( cursor_controller );
 	

@@ -45,8 +45,6 @@ Rbdb_DatabaseController* Rbdb_DatabaseController_new( Rbdb_Environment* parent_e
 
 	RBDB_RUNTIME_STORAGE( database_controller, "database_controller" );
 
-	database_controller->record_number	=	1;
-
 	return database_controller;
 }
 

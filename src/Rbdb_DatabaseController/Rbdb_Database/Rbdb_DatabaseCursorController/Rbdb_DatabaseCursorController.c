@@ -63,13 +63,9 @@ void Rbdb_DatabaseCursorController_free( Rbdb_DatabaseCursorController** databas
 	//	if we don't have a runtime storage, we are a runtime storage and the cursor is freed manually
 	if ( ( *database_cursor_controller )->runtime_storage_database != NULL )	{
 		Rbdb_DatabaseCursorController_freeAllCursors( *database_cursor_controller );
-	}
-	
-	//	free runtime storage
-	if ( ( *database_cursor_controller )->runtime_storage_database != NULL )	{
 		Rbdb_Database_free( & ( ( *database_cursor_controller )->runtime_storage_database ) );
 	}
-
+	
 	//	free self
 	free( *database_cursor_controller );
 	*database_cursor_controller		=	NULL;

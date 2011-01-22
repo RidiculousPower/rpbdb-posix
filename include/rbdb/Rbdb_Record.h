@@ -23,14 +23,8 @@
 	Rbdb_DBT*						Rbdb_Record_key(					Rbdb_Record*		record );
 	void								Rbdb_Record_setKey(				Rbdb_Record*		record,
 																								Rbdb_Key*			key );
-	void Rbdb_Record_setKeyFromRawKey(	Rbdb_Record*		record,
-											void*				key_raw,
-											uint32_t			key_size );
 	void								Rbdb_Record_setData(				Rbdb_Record*			record,
 										   					   				Rbdb_Data*				object );
-	void Rbdb_Record_setDataFromRawData(	Rbdb_Record*		record,
-											void*				data_raw,
-											uint32_t			data_size );
 	Rbdb_Data*							Rbdb_Record_data(				Rbdb_Record*		record );		
 void* Rbdb_Record_rawData( Rbdb_Record* record );	
 void Rbdb_Record_setRawData(	Rbdb_Record*	record,

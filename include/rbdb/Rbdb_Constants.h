@@ -118,7 +118,7 @@
 	#define RBDB_RUNTIME_STORAGE( parent, runtime_storage_name )																																																\
 		Rbdb_RuntimeStorageController*	runtime_storage_controller	=	Rbdb_RuntimeStorageController_sharedInstance();																			\
 		Rbdb_DatabaseController*	runtime_database_controller	=	Rbdb_Environment_databaseController(	runtime_storage_controller->runtime_environment );	\
-		char*		runtime_database_identifier		=	calloc( strlen( runtime_storage_name ) + 1, sizeof( char ) );																							\
+		char*		runtime_database_identifier		=	calloc( strlen( runtime_storage_name ) + 12, sizeof( char ) );																							\
 		sprintf(	runtime_database_identifier, "%s-%p", runtime_storage_name, parent );																											\
 		Rbdb_Database*	runtime_storage_database	=	Rbdb_Database_new(	runtime_database_controller,																											\
 																																		runtime_database_identifier );																										\

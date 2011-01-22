@@ -156,20 +156,6 @@ void Rbdb_Record_setKey(	Rbdb_Record*			record,
 	record->key = primary_key;
 }
 
-/******************
-*  setKeyData  *
-******************/
-
-void Rbdb_Record_setKeyFromRawKey(	Rbdb_Record*		record,
-										void*				key_raw,
-										uint32_t			key_size )	{
-
-	Rbdb_DBT_setData(	(Rbdb_DBT*) record->key, 
-						key_raw,
-						key_size );
-}
-
-
 /**************
 *  rawData  *
 **************/
@@ -187,11 +173,12 @@ void* Rbdb_Record_rawData( Rbdb_Record* record )	{
 *****************/
 
 void Rbdb_Record_setRawData(	Rbdb_Record*	record,
-															void*			raw_data,
-															u_int32_t		raw_data_size )	{		
+															void*					raw_data,
+															u_int32_t			raw_data_size )	{		
 	
-	record->data->wrapped_bdb_dbt->data	=	raw_data;
-	record->data->wrapped_bdb_dbt->size	=	raw_data_size;
+	Rbdb_Data_setRawData(	record->key,
+												raw_data,
+												raw_data_size );
 }
 
 /**************
@@ -215,8 +202,8 @@ void Rbdb_Record_setRawKey(	Rbdb_Record*	record,
 								u_int32_t		raw_key_size )	{		
 	
 	Rbdb_Key_setRawData(	record->key,
-										raw_key,
-										raw_key_size );
+												raw_key,
+												raw_key_size );
 }
 
 /**************
@@ -276,7 +263,7 @@ uint32_t Rbdb_Record_primaryKeySize( Rbdb_Record* record )	{
 	
 	
 	if ( record != NULL )	{	
-		return record->primary_key->wrapped_bdb_dbt->size;
+		return Rbdb_Key_size( record->primary_key );
 	}
 	return 0;
 }
@@ -287,22 +274,9 @@ uint32_t Rbdb_Record_primaryKeySize( Rbdb_Record* record )	{
 **************/
 
 void Rbdb_Record_setData(	Rbdb_Record*			record,
-							Rbdb_Data*			primary_object )	{
+													Rbdb_Data*			primary_object )	{
 
 	record->data = primary_object;
-}
-
-/******************
-*  setObjectData  *
-******************/
-
-void Rbdb_Record_setDataFromRawData(	Rbdb_Record*		record,
-																			void*				data_raw,
-																			uint32_t			data_size )	{
-
-	Rbdb_DBT_setData(	(Rbdb_DBT*) record->data, 
-						data_raw,
-						data_size );
 }
 
 /******************

@@ -210,7 +210,11 @@ uint32_t Rbdb_Data_size( Rbdb_Data* data )	{
 	uint32_t	size	=	Rbdb_DBT_size(	(Rbdb_DBT*) data  );
 	
 	//	if we have a footer, subtract the footer from the size
-	if ( data->has_footer )	{
+	Rbdb_Database*																		parent_database																	=	data->parent_record->parent_database;
+	Rbdb_DatabaseSettingsController*									database_settings_controller										=	Rbdb_Database_settingsController( parent_database );
+	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
+	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
+	if ( Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( database_record_read_write_settings_controller ) )	{
 		size -= sizeof( Rbdb_DataFooterTypeForVersion( Rbdb_DataFooterCurrentVersion ) );
 	}
 
@@ -290,20 +294,17 @@ Rbdb_DataFooterTypeForVersion( Rbdb_DataFooterCurrentVersion )* Rbdb_Data_intern
 
 	Rbdb_DataFooterTypeForVersion( Rbdb_DataFooterCurrentVersion )*	footer	=	NULL;
 	
-	if ( data->has_footer )	{
-		
-		int	existing_footer_version				=	*(int*)( Rbdb_Data_endOfFooter( data ) - sizeof( int ) );
+	int*	existing_footer_version				=	(int*)( Rbdb_Data_endOfFooter( data ) - sizeof( int ) );
 
-		//	if our current footer is an old version, update the footer with a new footer
-		if ( existing_footer_version != Rbdb_DataFooterCurrentVersion )	{
-			
-			footer		=	Rbdb_Data_internal_upgradeFooter( data );
-			
-		}
-		else {
-			
-			footer		=	Rbdb_Data_endOfFooter( data ) - sizeof( Rbdb_DataFooterTypeForVersion( Rbdb_DataFooterCurrentVersion ) );		
-		}
+	//	if our current footer is an old version, update the footer with a new footer
+	if ( *existing_footer_version != Rbdb_DataFooterCurrentVersion )	{
+		
+		footer		=	Rbdb_Data_internal_upgradeFooter( data );
+		
+	}
+	else {
+		
+		footer		=	Rbdb_Data_endOfFooter( data ) - sizeof( Rbdb_DataFooterTypeForVersion( Rbdb_DataFooterCurrentVersion ) );		
 	}
 
 	return footer;

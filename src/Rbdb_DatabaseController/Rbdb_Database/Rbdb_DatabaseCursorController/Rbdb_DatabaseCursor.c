@@ -906,9 +906,9 @@ Rbdb_Record* Rbdb_DatabaseCursor_retrieveDuplicateMatchingPartialDataInRecord(	R
 																													record  );
 	
 	if ( Rbdb_Record_dataSize( record ) == partial_data_size )	{
-		Rbdb_Record_setDataFromRawData( record,
-																		NULL,
-																		0 );
+		Rbdb_Record_setRawData( record,
+														NULL,
+														0 );
 	}
 	
 	return record;
@@ -1494,12 +1494,12 @@ Rbdb_DatabaseCursor* Rbdb_DatabaseCursor_deleteRawKeyDataPair(	Rbdb_DatabaseCurs
 																																uint32_t							data_size	)	{
 
 	Rbdb_Record*	record	=	Rbdb_Record_new( database_cursor->parent_database_cursor_controller->parent_database );
-	Rbdb_Record_setKeyFromRawKey(	record,
-																key_raw,
-																key_size );
-	Rbdb_Record_setDataFromRawData(	record,
-																	data_raw,
-																	data_size );
+	Rbdb_Record_setRawKey(	record,
+													key_raw,
+													key_size );
+	Rbdb_Record_setRawData(	record,
+													data_raw,
+													data_size );
 	Rbdb_DatabaseCursor_deleteKeyDataPair(	database_cursor,
 																					record->key,
 																					record->data );

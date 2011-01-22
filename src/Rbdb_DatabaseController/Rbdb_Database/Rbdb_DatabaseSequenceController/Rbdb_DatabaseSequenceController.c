@@ -12,6 +12,9 @@
 
 #include "Rbdb_DatabaseSequenceController.h"
 
+#include "Rbdb_Environment.h"
+#include "Rbdb_RuntimeStorageController.h"
+
 #include "Rbdb_Database.h"
 #include "Rbdb_Database_internal.h"
 #include "Rbdb_DatabaseSequence.h"
@@ -37,6 +40,8 @@ Rbdb_DatabaseSequenceController* Rbdb_DatabaseSequenceController_new( Rbdb_Datab
 	
 	Rbdb_DatabaseSequenceController* database_sequence_controller = calloc( 1, sizeof( Rbdb_DatabaseSequenceController ) );
 
+	RBDB_RUNTIME_STORAGE( database_sequence_controller, "database_sequence_controller" );
+
 	database_sequence_controller->parent_database	= parent_database;
 
 	int		sequence_storage_database_name_length	=	strlen( parent_database->name ) + strlen( "__sequences" ) + 1;
@@ -48,8 +53,6 @@ Rbdb_DatabaseSequenceController* Rbdb_DatabaseSequenceController_new( Rbdb_Datab
 
 	free( sequence_storage_database_name );
 	
-	Rbdb_Database_open( database_sequence_controller->sequence_storage_database );
-	
 	return database_sequence_controller;
 }
 
@@ -60,7 +63,6 @@ void Rbdb_DatabaseSequenceController_free(	Rbdb_DatabaseSequenceController** dat
 
 	Rbdb_DatabaseSequenceController_freeAllSequences( *database_sequence_controller );
 
-	Rbdb_Database_close( ( *database_sequence_controller )->sequence_storage_database );
 	Rbdb_Database_free( & ( *database_sequence_controller )->sequence_storage_database );
 
 	//	free runtime storage
@@ -68,8 +70,8 @@ void Rbdb_DatabaseSequenceController_free(	Rbdb_DatabaseSequenceController** dat
 		Rbdb_Database_free( & ( ( *database_sequence_controller )->runtime_storage_database ) );
 	}
 
-	free( database_sequence_controller );
-	database_sequence_controller = NULL;
+	free( *database_sequence_controller );
+	*database_sequence_controller = NULL;
 }
 
 /***************************
@@ -101,6 +103,7 @@ void Rbdb_DatabaseSequenceController_closeAllSequences( Rbdb_DatabaseSequenceCon
 
 	Rbdb_Database_internal_closeAllStoredRuntimeAddresses(	database_sequence_controller->runtime_storage_database,
 																													(void *(*)(void*)) & Rbdb_DatabaseSequence_closeSequence );
+	Rbdb_Database_close( database_sequence_controller->sequence_storage_database );
 }
 
 /*********************
@@ -123,6 +126,8 @@ void Rbdb_DatabaseSequenceController_freeAllSequences( Rbdb_DatabaseSequenceCont
 Rbdb_DatabaseSequence* Rbdb_DatabaseSequenceController_sequence(	Rbdb_DatabaseSequenceController*	database_sequence_controller,
 																																	char*															storage_key )	{
 	
+	Rbdb_Database_internal_ensureOpen( database_sequence_controller->sequence_storage_database );	
+	
 	Rbdb_DatabaseSequence*	new_sequence	=	Rbdb_DatabaseSequence_new(	database_sequence_controller,
 																																			database_sequence_controller->sequence_storage_database,
 																																			storage_key );
@@ -137,6 +142,8 @@ Rbdb_DatabaseSequence* Rbdb_DatabaseSequenceController_sequence(	Rbdb_DatabaseSe
 Rbdb_DatabaseSequence* Rbdb_DatabaseSequenceController_deleteSequence(	Rbdb_DatabaseSequenceController*	database_sequence_controller,
 																																				char*															storage_key )	{
 	
+	Rbdb_Database_internal_ensureOpen( database_sequence_controller->sequence_storage_database );	
+
 	Rbdb_DatabaseSequence*	database_sequence	=	Rbdb_DatabaseSequenceController_sequence(	database_sequence_controller,
 																																												storage_key );
 
@@ -153,6 +160,8 @@ Rbdb_DatabaseSequence* Rbdb_DatabaseSequenceController_renameSequence(	Rbdb_Data
 																																				char*															storage_key,
 																																				char*															new_storage_key )	{
 	
+	Rbdb_Database_internal_ensureOpen( database_sequence_controller->sequence_storage_database );	
+
 	Rbdb_DatabaseSequence*	database_sequence	=	Rbdb_DatabaseSequenceController_sequence(	database_sequence_controller,
 																																												storage_key );
 

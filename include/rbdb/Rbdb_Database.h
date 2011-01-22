@@ -144,10 +144,10 @@ db_recno_t Rbdb_Database_appendRawData(	Rbdb_Database*			database,
 																				uint32_t						data_size );
 db_recno_t Rbdb_Database_appendData(	Rbdb_Database*			database, 
 																			Rbdb_Data*					write_data );
-void Rbdb_Database_appendKeyDataPair(	Rbdb_Database*			database, 
+db_recno_t Rbdb_Database_appendKeyDataPair(	Rbdb_Database*			database, 
 																			Rbdb_Key*						primary_key,
 																			Rbdb_Data*					write_data );
-void Rbdb_Database_appendRecord(	Rbdb_Database*			database, 
+db_recno_t Rbdb_Database_appendRecord(	Rbdb_Database*			database, 
 																	Rbdb_Record*				record );
 
 	//	Rbdb_DatabaseRecordReadWriteSettingsController*	Rbdb_Database_settingsController(	Rbdb_Database* 		database );

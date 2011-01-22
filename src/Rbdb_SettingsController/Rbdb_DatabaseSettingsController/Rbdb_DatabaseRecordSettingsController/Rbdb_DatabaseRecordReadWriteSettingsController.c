@@ -1221,32 +1221,39 @@ Rbdb_DatabaseRecordReadWriteSettingsController* Rbdb_DatabaseRecordReadWriteSett
 	Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller_copy	=	Rbdb_DatabaseRecordReadWriteSettingsController_new( database_record_read_write_settings_controller->parent_database_record_settings_controller );
 
 	//	Instances and Pointers
-	database_record_read_write_settings_controller_copy->write_locks_instead_of_read_locks	=	database_record_read_write_settings_controller->write_locks_instead_of_read_locks;
-	database_record_read_write_settings_controller_copy->prohibit_overwrite				=	database_record_read_write_settings_controller->prohibit_overwrite;
-	database_record_read_write_settings_controller_copy->return_multiple					=	database_record_read_write_settings_controller->return_multiple;
-	database_record_read_write_settings_controller_copy->prohibit_page_compaction			=	database_record_read_write_settings_controller->prohibit_page_compaction;
-	database_record_read_write_settings_controller_copy->return_pages_to_filesystem		=	database_record_read_write_settings_controller->return_pages_to_filesystem;
-	database_record_read_write_settings_controller_copy->partial_access					=	database_record_read_write_settings_controller->partial_access;
-	database_record_read_write_settings_controller_copy->append_data						=	database_record_read_write_settings_controller->append_data;
-	database_record_read_write_settings_controller_copy->ignore_lease						=	database_record_read_write_settings_controller->ignore_lease;
-	database_record_read_write_settings_controller_copy->filename							=	database_record_read_write_settings_controller->filename;
-	database_record_read_write_settings_controller_copy->truncate							=	database_record_read_write_settings_controller->truncate;
-	database_record_read_write_settings_controller_copy->multiple_targets					=	database_record_read_write_settings_controller->multiple_targets;
-	database_record_read_write_settings_controller_copy->write_data_only_if_non_duplicate			=	database_record_read_write_settings_controller->write_data_only_if_non_duplicate;
-	database_record_read_write_settings_controller_copy->prohibit_sync_on_close			=	database_record_read_write_settings_controller->prohibit_sync_on_close;
-	database_record_read_write_settings_controller_copy->permit_duplicates					=	database_record_read_write_settings_controller->permit_duplicates;
-	database_record_read_write_settings_controller_copy->sort_duplicates					=	database_record_read_write_settings_controller->sort_duplicates;
+	database_record_read_write_settings_controller_copy->write_locks_instead_of_read_locks				=	database_record_read_write_settings_controller->write_locks_instead_of_read_locks;
+	database_record_read_write_settings_controller_copy->prohibit_overwrite												=	database_record_read_write_settings_controller->prohibit_overwrite;
+	database_record_read_write_settings_controller_copy->return_multiple													=	database_record_read_write_settings_controller->return_multiple;
+	database_record_read_write_settings_controller_copy->prohibit_page_compaction									=	database_record_read_write_settings_controller->prohibit_page_compaction;
+	database_record_read_write_settings_controller_copy->return_pages_to_filesystem								=	database_record_read_write_settings_controller->return_pages_to_filesystem;
+	database_record_read_write_settings_controller_copy->partial_access														=	database_record_read_write_settings_controller->partial_access;
+	database_record_read_write_settings_controller_copy->append_data															=	database_record_read_write_settings_controller->append_data;
+	database_record_read_write_settings_controller_copy->ignore_lease															=	database_record_read_write_settings_controller->ignore_lease;
+	database_record_read_write_settings_controller_copy->filename																	=	database_record_read_write_settings_controller->filename;
+	database_record_read_write_settings_controller_copy->truncate																	=	database_record_read_write_settings_controller->truncate;
+	database_record_read_write_settings_controller_copy->multiple_targets													=	database_record_read_write_settings_controller->multiple_targets;
+	database_record_read_write_settings_controller_copy->write_data_only_if_non_duplicate					=	database_record_read_write_settings_controller->write_data_only_if_non_duplicate;
+	database_record_read_write_settings_controller_copy->prohibit_sync_on_close										=	database_record_read_write_settings_controller->prohibit_sync_on_close;
+	database_record_read_write_settings_controller_copy->permit_duplicates												=	database_record_read_write_settings_controller->permit_duplicates;
+	database_record_read_write_settings_controller_copy->sort_duplicates													=	database_record_read_write_settings_controller->sort_duplicates;
 
-	database_record_read_write_settings_controller_copy->update_flags	=	database_record_read_write_settings_controller->update_flags;
-	database_record_read_write_settings_controller_copy->database_allocates_memory_using_malloc	=	database_record_read_write_settings_controller->database_allocates_memory_using_malloc;
-	database_record_read_write_settings_controller_copy->data_buffer_size	=	database_record_read_write_settings_controller->data_buffer_size;
+	database_record_read_write_settings_controller_copy->update_flags															=	database_record_read_write_settings_controller->update_flags;
+	database_record_read_write_settings_controller_copy->database_allocates_memory_using_malloc		=	database_record_read_write_settings_controller->database_allocates_memory_using_malloc;
+	database_record_read_write_settings_controller_copy->data_buffer_size													=	database_record_read_write_settings_controller->data_buffer_size;
 	database_record_read_write_settings_controller_copy->database_allocates_memory_using_realloc	=	database_record_read_write_settings_controller->database_allocates_memory_using_realloc;
-	database_record_read_write_settings_controller_copy->partial_read_write_size	=	database_record_read_write_settings_controller->partial_read_write_size;
-	database_record_read_write_settings_controller_copy->partial_access	=	database_record_read_write_settings_controller->partial_access;
-	database_record_read_write_settings_controller_copy->sync_prior_to_write_return	=	database_record_read_write_settings_controller->sync_prior_to_write_return;
-	database_record_read_write_settings_controller_copy->database_free_memory	=	database_record_read_write_settings_controller->database_free_memory;
-	database_record_read_write_settings_controller_copy->application_allocates_memory	=	database_record_read_write_settings_controller->application_allocates_memory;
-	database_record_read_write_settings_controller_copy->partial_read_write_offset	=	database_record_read_write_settings_controller->partial_read_write_offset;
+	database_record_read_write_settings_controller_copy->partial_read_write_size									=	database_record_read_write_settings_controller->partial_read_write_size;
+	database_record_read_write_settings_controller_copy->partial_access														=	database_record_read_write_settings_controller->partial_access;
+	database_record_read_write_settings_controller_copy->sync_prior_to_write_return								=	database_record_read_write_settings_controller->sync_prior_to_write_return;
+	database_record_read_write_settings_controller_copy->database_free_memory											=	database_record_read_write_settings_controller->database_free_memory;
+	database_record_read_write_settings_controller_copy->application_allocates_memory							=	database_record_read_write_settings_controller->application_allocates_memory;
+	database_record_read_write_settings_controller_copy->partial_read_write_offset								=	database_record_read_write_settings_controller->partial_read_write_offset;
+
+	database_record_read_write_settings_controller_copy->store_key_typing													=	database_record_read_write_settings_controller->store_key_typing;
+	database_record_read_write_settings_controller_copy->store_data_typing												=	database_record_read_write_settings_controller->store_data_typing;
+	database_record_read_write_settings_controller_copy->record_typing														=	database_record_read_write_settings_controller->record_typing;
+	database_record_read_write_settings_controller_copy->creation_stamp														=	database_record_read_write_settings_controller->creation_stamp;
+	database_record_read_write_settings_controller_copy->modification_stamp												=	database_record_read_write_settings_controller->modification_stamp;
+	database_record_read_write_settings_controller_copy->has_footer																=	database_record_read_write_settings_controller->has_footer;
 
 	return database_record_read_write_settings_controller_copy;
 }
