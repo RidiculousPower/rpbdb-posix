@@ -825,7 +825,8 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							RbdbType_FilePath,
 							RbdbType_File,
 							RbdbType_TrueFalse,
-							RbdbType_ClassName
+							RbdbType_ClassName,
+							RbdbType_RecordLocation
 							
 						};
 						
@@ -901,6 +902,14 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						
 							char*				string;
 						
+						};
+
+						struct RbdbStorage_RecordLocation	{
+						
+							char*				index_name;
+							uint32_t		raw_data_size;
+							void*				raw_data;
+							
 						};
 
 						/****************************

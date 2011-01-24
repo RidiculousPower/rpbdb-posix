@@ -627,21 +627,20 @@ void Rbdb_Database_freeAllSecondaryDatabases( Rbdb_Database* database )	{
 BOOL Rbdb_Database_associateSecondaryDatabase(	Rbdb_Database*		primary_database, 
 																								Rbdb_Database*		secondary_database )	{
 
-	Rbdb_Database_internal_ensureOpen( primary_database );
-	Rbdb_Database_internal_ensureOpen( secondary_database );
-
 	//	we track database association (which must be done at each open) in database->has_associated
 	//	when associate is called we check to see if the database has already associated with its primary
 	//	when a database is closed that has secondaries, they are closed
 	//	if the same db is re-opened, they are re-opened and re-associated automatically
-	
-	Rbdb_Environment*	environment	=	primary_database->parent_database_controller->parent_environment;
-
 	//	we can't associate twice
 	if ( secondary_database->has_associated == TRUE )	{
 		
 		return FALSE;
 	}
+
+	Rbdb_Database_internal_ensureOpen( primary_database );
+	Rbdb_Database_internal_ensureOpen( secondary_database );
+
+	Rbdb_Environment*	environment	=	primary_database->parent_database_controller->parent_environment;
 
 	//	store primary in secondary
 	secondary_database->is_secondary		=	TRUE;	
@@ -889,9 +888,6 @@ void Rbdb_Database_createSecondaryIndexWithDatabase(	Rbdb_Database*										pri
 	//	Set so that association with index automatically creates index for all existing records
 	Rbdb_DatabaseAssociationSettingsController_turnSecondaryAssociationCreatesIndexOn( Rbdb_DatabaseSettingsController_associationSettingsController( secondary_database->settings_controller ) );
 	
-	Rbdb_Database_open( primary_database );
-	Rbdb_Database_open( secondary_database );
-
 	//	Actually associate secondary database and update index of records for all existing records in primary
 	Rbdb_Database_associateSecondaryDatabase(	primary_database,
 																						secondary_database );
