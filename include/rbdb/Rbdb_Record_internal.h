@@ -20,7 +20,7 @@
 	void	Rbdb_Record_internal_freeFromRuntimeStorage( Rbdb_Record** record );
 
 void Rbdb_Record_internal_createOrUpdateKeyTypeAndDataFooter( Rbdb_Record*	record,
-																															BOOL					prepare_footer_for_data );
+																															BOOL					prepare_data_in_record );
 
 
 #endif

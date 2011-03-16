@@ -47,8 +47,11 @@ Rbdb_DatabaseJoinController* Rbdb_DatabaseJoinController_new( Rbdb_Database* par
 
 	Rbdb_DatabaseJoinController*	database_join_controller = calloc( 1, sizeof( Rbdb_DatabaseJoinController ) );
 
-	database_join_controller->parent_database	=	parent_database;
-
+  if ( parent_database )  {
+    database_join_controller->parent_database	=	parent_database;
+    parent_database->join_controller = database_join_controller;
+  }
+  
 	RBDB_RUNTIME_STORAGE( database_join_controller, "database_join_controller" );
 
 	return database_join_controller;
@@ -131,7 +134,7 @@ Rbdb_Environment* Rbdb_DatabaseJoinController_parentEnvironment(	Rbdb_DatabaseJo
 //
 //	Join cursors have the same name as the Database database_cursor that was used to initalize them
 Rbdb_DatabaseJoinCursor* Rbdb_DatabaseJoinController_join(	Rbdb_DatabaseJoinController*		join_cursor_controller,
-																Rbdb_DatabaseCursor**				cursor_list	)	{
+                                                            Rbdb_DatabaseCursor**           cursor_list	)	{
 	//	Make sure we're joining something
 	if ( cursor_list[ 0 ] == NULL )	{
 		
@@ -144,8 +147,10 @@ Rbdb_DatabaseJoinCursor* Rbdb_DatabaseJoinController_join(	Rbdb_DatabaseJoinCont
 	int		number_of_cursors	=	0;
 	while( cursor_list[ ++number_of_cursors ] != NULL );
 
+  //  init NULL-terminated list
 	DBC**	bdb_cursor_list	=	(DBC**) calloc( number_of_cursors + 1, sizeof( DBC* ) );
-	
+	bdb_cursor_list[ number_of_cursors ] = NULL;
+  
 	//	Now we can actually construct our array
 	int	which_cursor = 0;
 	while( cursor_list[ which_cursor ] != NULL )	{
@@ -154,22 +159,21 @@ Rbdb_DatabaseJoinCursor* Rbdb_DatabaseJoinController_join(	Rbdb_DatabaseJoinCont
 		
 		which_cursor++;
 	}
-	//	Terminate the array with NULL
-	bdb_cursor_list[ which_cursor ] = NULL;
 
 	Rbdb_DatabaseJoinCursor*	join_cursor			=	Rbdb_DatabaseJoinCursor_new(	join_cursor_controller	);
 
 	//	Store a reference cursor_list for this join database_cursor
 	join_cursor->cursor_list							=	cursor_list;
 	join_cursor->wrapped_bdb_cursor_list	=	bdb_cursor_list;
-	
-	join_cursor->primary_database			=	join_cursor_controller->parent_database;
+	join_cursor->number_of_cursors        = number_of_cursors;
+  
+	join_cursor->primary_database         =	join_cursor_controller->parent_database;
 
 	join_cursor->primary_database->wrapped_bdb_database->join(	//	Get our primary database reference from the first database_cursor in our list
-																join_cursor->primary_database->wrapped_bdb_database,
-																bdb_cursor_list,
-																&( join_cursor->wrapped_bdb_join_cursor ),
-																Rbdb_DatabaseJoinSettingsController_internal_joinFlags( Rbdb_DatabaseSettingsController_joinSettingsController( Rbdb_Database_settingsController( join_cursor->primary_database ) ) ) );
+                                                              join_cursor->primary_database->wrapped_bdb_database,
+                                                              bdb_cursor_list,
+                                                              &( join_cursor->wrapped_bdb_join_cursor ),
+                                                              Rbdb_DatabaseJoinSettingsController_internal_joinFlags( Rbdb_DatabaseSettingsController_joinSettingsController( Rbdb_Database_settingsController( join_cursor->primary_database ) ) ) );
 	
 	join_cursor->is_open	=	TRUE;
 	

@@ -68,6 +68,15 @@ void Rbdb_DatabaseJoinCursor_free(	Rbdb_DatabaseJoinCursor** join_cursor )	{
 		Rbdb_Database_internal_freeStoredRuntimeAddress(	( *join_cursor )->parent_join_controller->runtime_storage_database,
 																											( *join_cursor )->runtime_identifier );
 	}
+  //  free all cursors
+  if ( ( *join_cursor )->cursor_list ) {
+    int which_cursor  = 0;
+    for ( which_cursor = 0 ; which_cursor < ( *join_cursor )->number_of_cursors ; which_cursor++ )  {
+      Rbdb_DatabaseCursor*  this_cursor = ( *join_cursor )->cursor_list[ which_cursor ];
+      
+      Rbdb_DatabaseCursor_free( & this_cursor );
+    }
+  }
 	Rbdb_DatabaseJoinCursor_internal_freeFromRuntimeStorage( join_cursor );
 }
 
@@ -135,9 +144,24 @@ BOOL Rbdb_DatabaseJoinCursor_isOpen( Rbdb_DatabaseJoinCursor* join_cursor )	{
 void Rbdb_DatabaseJoinCursor_close( Rbdb_DatabaseJoinCursor* join_cursor )	{
 	
 	if ( Rbdb_DatabaseJoinCursor_isOpen( join_cursor ) )	{
+    
 		join_cursor->wrapped_bdb_join_cursor->close( join_cursor->wrapped_bdb_join_cursor );
 		join_cursor->is_open	=	FALSE;
 	}
+
+  //  close all associated database cursors
+  if ( join_cursor->cursor_list ) {
+    int which_cursor  = 0;
+    for ( which_cursor = 0 ; which_cursor < join_cursor->number_of_cursors ; which_cursor++ )  {
+      Rbdb_DatabaseCursor*  this_cursor = join_cursor->cursor_list[ which_cursor ];
+      
+      //  BDB already closed and freed its cursor instance when we closed the join cursor
+      //  we set now to NULL so we don't re-close/free it (we likely still need to close Rbdb resources)
+      this_cursor->wrapped_bdb_cursor = NULL;
+      
+      Rbdb_DatabaseCursor_close( this_cursor );
+    }
+  }
 }
 
 /******************

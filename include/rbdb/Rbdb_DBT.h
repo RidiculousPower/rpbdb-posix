@@ -27,9 +27,9 @@
 							uint32_t	data_size );
 	uint32_t	Rbdb_DBT_size(		Rbdb_DBT*		dbt );	
 
-Rbdb_DatabaseRecordStorageType Rbdb_DBT_type( Rbdb_DBT* dbt );
+CerializeType Rbdb_DBT_type( Rbdb_DBT* dbt );
 void Rbdb_DBT_setType(	Rbdb_DBT*												dbt,
-												Rbdb_DatabaseRecordStorageType	type);
+												CerializeType	type);
 
 #endif
 

@@ -7,6 +7,8 @@
 #ifndef RBDB_KEY
 	#define RBDB_KEY
 
+	#include <cerialize.h>
+
 	#include "Rbdb_BaseStandardInclude.h"
 
 	/****************
@@ -27,9 +29,9 @@
 								uint32_t	key_size );
 	uint32_t Rbdb_Key_size( Rbdb_Key* data );
 
-Rbdb_DatabaseRecordStorageType Rbdb_Key_type( Rbdb_Key* key );
+CerializeType Rbdb_Key_type( Rbdb_Key* key );
 void Rbdb_Key_setType(	Rbdb_Key*												key,
-												Rbdb_DatabaseRecordStorageType	type );
+												CerializeType	type );
 
 #endif
 

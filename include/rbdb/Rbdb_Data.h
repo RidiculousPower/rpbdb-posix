@@ -7,6 +7,8 @@
 #ifndef RBDB_DATA
 	#define RBDB_DATA
 
+	#include <cerialize.h>
+
 	#include "Rbdb_BaseStandardInclude.h"
 
 /****************
@@ -26,9 +28,9 @@ void Rbdb_Data_setRawData(	Rbdb_Data*	data,
 														void*		data_raw,
 														uint32_t	data_size );
 uint32_t Rbdb_Data_size( Rbdb_Data* data );
-Rbdb_DatabaseRecordStorageType Rbdb_Data_type( Rbdb_Data* data );
+CerializeType Rbdb_Data_type( Rbdb_Data* data );
 void Rbdb_Data_setType(	Rbdb_Data*											data,
-												Rbdb_DatabaseRecordStorageType	type );
+												CerializeType	type );
 
 struct timeval* Rbdb_Data_creationStamp( Rbdb_Data* data );
 struct timeval* Rbdb_Data_modificationStamp( Rbdb_Data* data );

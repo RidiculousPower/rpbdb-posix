@@ -90,7 +90,7 @@ void Rbdb_DatabaseCursor_free(	Rbdb_DatabaseCursor** database_cursor )	{
 }
 
 /***************************
-*  free  *
+*  freeFromRuntimeStorage  *
 ***************************/
 
 void Rbdb_DatabaseCursor_internal_freeFromRuntimeStorage(	Rbdb_DatabaseCursor** database_cursor )	{
@@ -203,9 +203,12 @@ Rbdb_DatabaseCursor* Rbdb_DatabaseCursor_close( Rbdb_DatabaseCursor* database_cu
 	int					connection_error	= 0;
 	
 	if (	Rbdb_DatabaseCursor_isOpen( database_cursor )
+    &&  database_cursor->wrapped_bdb_cursor
 		&&	( connection_error = database_cursor->wrapped_bdb_cursor->close( database_cursor->wrapped_bdb_cursor ) ) ) {
 
-		Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( database_cursor->parent_database_cursor_controller->parent_database->parent_database_controller->parent_environment ), 
+    Rbdb_Environment* environment = database_cursor->parent_database_cursor_controller->parent_database->parent_database_controller->parent_environment;
+
+		Rbdb_ErrorController_internal_throwBDBError(	Rbdb_Environment_errorController( environment ), 
 																									connection_error, 
 																									"Rbdb_DatabaseCursor_close" );
 		return NULL;

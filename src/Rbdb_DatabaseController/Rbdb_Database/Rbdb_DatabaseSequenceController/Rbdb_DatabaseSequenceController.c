@@ -44,8 +44,12 @@ Rbdb_DatabaseSequenceController* Rbdb_DatabaseSequenceController_new( Rbdb_Datab
 
 	database_sequence_controller->parent_database	= parent_database;
 
+  //  create new name var for database and copy contents into new var
 	int		sequence_storage_database_name_length	=	strlen( parent_database->name ) + strlen( "__sequences" ) + 1;
 	char*	sequence_storage_database_name	=	calloc( sequence_storage_database_name_length, sizeof( char ) );
+  strcpy( sequence_storage_database_name, parent_database->name );
+  char* end_of_parent_db_name_ptr = (void*) sequence_storage_database_name + strlen( parent_database->name );
+  strcpy( end_of_parent_db_name_ptr, "__sequences" );
 
 	Rbdb_DatabaseController*	database_controller	=	Rbdb_Database_parentDatabaseController( parent_database );
 	database_sequence_controller->sequence_storage_database	=	Rbdb_Database_new(	database_controller,

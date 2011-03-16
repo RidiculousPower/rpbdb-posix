@@ -10,6 +10,8 @@
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
 
+#include <cerialize.h>
+
 #include "Rbdb_DBT.h"
 #include "Rbdb_DBT_internal.h"
 
@@ -137,14 +139,14 @@ uint32_t Rbdb_DBT_size( Rbdb_DBT* dbt )	{
 *  dataType  *
 **********************/
 
-Rbdb_DatabaseRecordStorageType Rbdb_DBT_type( Rbdb_DBT* dbt )	{
+CerializeType Rbdb_DBT_type( Rbdb_DBT* dbt )	{
 		
 	Rbdb_Database*																		parent_database																	=	dbt->parent_record->parent_database;
 	Rbdb_DatabaseSettingsController*									database_settings_controller										=	Rbdb_Database_settingsController( parent_database );
 	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
 	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
 
-	Rbdb_DatabaseRecordStorageType	type	=	RbdbType_Raw;
+	CerializeType	type	=	CerializeType_Raw;
 	
 	if ( Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( database_record_read_write_settings_controller ) )	{
 
@@ -167,7 +169,7 @@ Rbdb_DatabaseRecordStorageType Rbdb_DBT_type( Rbdb_DBT* dbt )	{
 **********************/
 
 void Rbdb_DBT_setType(	Rbdb_DBT*												dbt,
-												Rbdb_DatabaseRecordStorageType	type)	{
+												CerializeType	type)	{
 		
 	Rbdb_Database*																		parent_database																	=	dbt->parent_record->parent_database;
 	Rbdb_DatabaseSettingsController*									database_settings_controller										=	Rbdb_Database_settingsController( parent_database );
@@ -217,9 +219,13 @@ Rbdb_DBT* Rbdb_DBT_internal_newFromBDBDBT(	Rbdb_Record*	parent_record,
 ************************/
 
 void Rbdb_DBT_internal_verifyKeyDataTyping(	Rbdb_DBT*												dbt,
-																						Rbdb_DatabaseRecordStorageType	type	)	{
+																						CerializeType	type	)	{
 	
-	if ( dbt->type != type )	{
+	CerializedData*	cerialized_data	=	CerializedData_new(	& dbt->wrapped_bdb_dbt->data,
+																												dbt->wrapped_bdb_dbt->size );
+	
+	
+	if ( CerializedData_type( cerialized_data ) != type )	{
 
 		Rbdb_ErrorController_throwError(	Rbdb_Environment_errorController( dbt->parent_record->parent_database->parent_database_controller->parent_environment ),
 																			-1,

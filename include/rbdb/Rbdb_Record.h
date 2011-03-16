@@ -41,11 +41,6 @@ void Rbdb_Record_setRawKey(	Rbdb_Record*	record,
 	Rbdb_Key*							Rbdb_Record_primaryKey(			Rbdb_Record*		record );
 	Rbdb_Key*					Rbdb_Record_retrievalKey(			Rbdb_Record*		record );
 
-
-Rbdb_DatabaseRecordStorageType Rbdb_Record_type( Rbdb_Record* record );
-void Rbdb_Record_setType( Rbdb_Record*										record,
-													Rbdb_DatabaseRecordStorageType	type);
-
 	void Rbdb_Record_setExistsInDatabase(	Rbdb_Record*	record,
 											BOOL			data_status	);
 	int Rbdb_Record_existsInDatabase( Rbdb_Record* record );

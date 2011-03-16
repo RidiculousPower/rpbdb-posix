@@ -103,7 +103,7 @@ Rbdb_Database* Rbdb_Database_new(	Rbdb_DatabaseController*	parent_database_contr
 	*  Parent Database  *
 	*------------------*/
 
-	new_database->parent_database_controller = parent_database_controller;
+  new_database->parent_database_controller = parent_database_controller;
 
 	/*----------------------------*
 	*  Local Settings Controller  *
@@ -246,12 +246,17 @@ void Rbdb_Database_internal_freeFromRuntimeStorage( Rbdb_Database** database )	{
 	if ( ( *database )->settings_controller != NULL )	{
 		Rbdb_DatabaseSettingsController_free( & ( ( *database )->settings_controller ) );
 	}
-	
+
 	if ( ( *database )->index_name != NULL )	{
 		free( ( *database )->index_name );
 		( *database )->index_name	=	NULL;
 	}
 
+	if ( ( *database )->name != NULL )	{
+		free( ( *database )->name );
+		( *database )->name	=	NULL;
+	}
+	
 	free( *database );
 	*database	=	NULL;
 }
@@ -830,6 +835,17 @@ Rbdb_Database* Rbdb_Database_databaseForSecondaryIndex(	Rbdb_Database*		primary_
 *  createSecondaryIndex  *
 *************************/
 
+// FIX:
+// when a database is opened the first time, secondary indexes have to be declared
+// every time the database is opened after this we need to make sure the same indexes are declared
+// the first time we open the database we store the secondary indexes in the database
+// so all we have to do to ensure this is the case for the same database instance is to open secondary databases when a primary is re-opened
+// but we also have the case of other instances of the same database being opened
+// in that case, the new instance will not have secondary databases set already, so if it opens it will be opened out of sync
+// we want to prevent this so that the secondary databases only have to be defined once (although this won't prevent them from being defined in multiple places)
+// so the first time that a secondary database is defined its configuration should be added to a central storage location
+// when an instance of this secondary database is created it should be duplicated from the first instance of the same database in the thread
+// when an instance of the primary database is created it should automatically grab instances of the secondary databases kept in central storage
 Rbdb_Database* Rbdb_Database_createSecondaryIndexWithDuplicates(	Rbdb_Database*										primary_database,
 																																	char*															index_name,
 																																	Rbdb_SecondaryKeyCallbackMethod		secondary_key_creation_callback_method)	{
@@ -2188,7 +2204,7 @@ Rbdb_Record* Rbdb_Database_internal_writeRecord(	Rbdb_Database*		database,
 
 void Rbdb_Database_internal_prepareRecordForWriteRetrieveDelete(	Rbdb_Database*		database __attribute__ ((unused)), 
 																																	Rbdb_Record*			record,
-																																	BOOL							prepare_footer_for_data )	{
+																																	BOOL							prepare_data_in_record )	{
 
 	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_Record_settingsController( record );
 	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
@@ -2197,19 +2213,19 @@ void Rbdb_Database_internal_prepareRecordForWriteRetrieveDelete(	Rbdb_Database*	
 	//	if so, create/update as appropriate
 	if ( Rbdb_DatabaseRecordReadWriteSettingsController_internal_hasFooter( database_record_read_write_settings_controller ) )	{
 		Rbdb_Record_internal_createOrUpdateKeyTypeAndDataFooter(	record,
-																															prepare_footer_for_data );
+																															prepare_data_in_record );
 	}
 	
 	//	check and see if we have store key typing
 	//	if so, verify key type
-	Rbdb_DatabaseRecordStorageType	key_type;
+	CerializeType	key_type;
 	if ( ( key_type = Rbdb_DatabaseRecordReadWriteSettingsController_storeKeyTyping( database_record_read_write_settings_controller ) ) )	{
 		Rbdb_DBT_internal_verifyKeyDataTyping(	(Rbdb_DBT*) record->key,
 																						key_type );
 	}
 	//	check and see if we have store data typing
 	//	if so, verify data type
-	Rbdb_DatabaseRecordStorageType	data_type;
+	CerializeType	data_type;
 	if ( ( data_type = Rbdb_DatabaseRecordReadWriteSettingsController_storeDataTyping( database_record_read_write_settings_controller ) ) )	{
 		Rbdb_DBT_internal_verifyKeyDataTyping(	(Rbdb_DBT*) record->data,
 																						data_type );

@@ -89,7 +89,7 @@ void* Rbdb_Key_rawData( Rbdb_Key* key )	{
 	void*	raw_data	=	NULL;
 	
 	if (		! key->has_type
-			||	Rbdb_DBT_size( (Rbdb_DBT*) key ) != sizeof( Rbdb_DatabaseRecordStorageType )	)	{
+			||	Rbdb_DBT_size( (Rbdb_DBT*) key ) != sizeof( CerializeType )	)	{
 
 		raw_data	=	Rbdb_DBT_data( (Rbdb_DBT*) key );
 	}
@@ -106,11 +106,11 @@ void Rbdb_Key_setRawData(	Rbdb_Key*		key,
 													uint32_t		key_size )	{
 
 	//	if we have key typing, we need to append the key to the data we are setting
-	if ( Rbdb_DBT_size( (Rbdb_DBT*) key ) == sizeof( Rbdb_DatabaseRecordStorageType ) )	{
+	if ( Rbdb_DBT_size( (Rbdb_DBT*) key ) == sizeof( CerializeType ) )	{
 		
 		//	allocate new structure
 		uint32_t	new_size	=	key_size
-												+	sizeof( Rbdb_DatabaseRecordStorageType );
+												+	sizeof( CerializeType );
 		void*			new_data	=	calloc( 1, new_size );
 		
 		//	copy data and footer to new structure
@@ -119,7 +119,7 @@ void Rbdb_Key_setRawData(	Rbdb_Key*		key,
 						key_size );
 		memcpy(	new_data + key_size,
 						key->wrapped_bdb_dbt->data,
-						sizeof( Rbdb_DatabaseRecordStorageType ) );
+						sizeof( CerializeType ) );
 		
 		//	assign new data to data
 		key_raw		=	new_data;
@@ -135,37 +135,9 @@ void Rbdb_Key_setRawData(	Rbdb_Key*		key,
 *  type  *
 *********/
 
-Rbdb_DatabaseRecordStorageType Rbdb_Key_type( Rbdb_Key* key )	{
+CerializeType Rbdb_Key_type( Rbdb_Key* key )	{
 
-	Rbdb_Database*																		parent_database																	=	key->parent_record->parent_database;
-	Rbdb_DatabaseSettingsController*									database_settings_controller										=	Rbdb_Database_settingsController( parent_database );
-	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
-	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
-
-	Rbdb_DatabaseRecordStorageType*	type;
-
-	//	if we have a type, get from end of data
-	if ( Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( database_record_read_write_settings_controller ) )	{
-		
-		//	if we don't have any data stored yet we don't have a type set yet
-		if ( key->wrapped_bdb_dbt->size )	{
-			//	get pointer to type, stored at end of key
-			type	=	key->wrapped_bdb_dbt->data + key->wrapped_bdb_dbt->size - sizeof( Rbdb_DatabaseRecordStorageType );
-		}
-		
-	}
-	//	if we don't have a store type specified either, throw error
-	else if ( ! ( *type = Rbdb_DatabaseRecordReadWriteSettingsController_storeKeyTyping( database_record_read_write_settings_controller ) ) )	{
-
-		Rbdb_ErrorController_throwError(	Rbdb_Environment_errorController( parent_database->parent_database_controller->parent_environment ),
-																			-1,
-																			"Rbdb_Key_type",
-																			"Cannot return type unless database has record typing or store key typing enabled." );
-		
-	}
-
-
-	return ( ( type != NULL ) ? *type : RbdbType_Raw );
+	return Rbdb_DBT_type(	(Rbdb_DBT*) key );
 }
 
 /************
@@ -173,44 +145,10 @@ Rbdb_DatabaseRecordStorageType Rbdb_Key_type( Rbdb_Key* key )	{
 ************/
 
 void Rbdb_Key_setType(	Rbdb_Key*												key,
-												Rbdb_DatabaseRecordStorageType	type )	{
+												CerializeType	type )	{
 
-	Rbdb_Database*																		parent_database																	=	key->parent_record->parent_database;
-	Rbdb_DatabaseSettingsController*									database_settings_controller										=	Rbdb_Database_settingsController( parent_database );
-	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
-	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
-	if ( Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( database_record_read_write_settings_controller ) )	{
-
-		//	if we have data already then we need to reallocate and append the type
-		if ( key->wrapped_bdb_dbt->size )	{
-		
-			uint32_t	new_size	=	key->wrapped_bdb_dbt->size + sizeof( Rbdb_DatabaseRecordStorageType );
-			void*			new_data	=	calloc( 1, new_size );
-			
-			memcpy(	new_data,
-							key->wrapped_bdb_dbt->data,
-							key->wrapped_bdb_dbt->size );
-			memcpy(	new_data + key->wrapped_bdb_dbt->size,
-							& type,
-							sizeof( Rbdb_DatabaseRecordStorageType ) );
-			
-			key->wrapped_bdb_dbt->data	=	new_data;
-			key->wrapped_bdb_dbt->size	=	new_size;
-		}
-		key->has_type = TRUE;
-		
 		Rbdb_DBT_setType(	(Rbdb_DBT*) key,
 											type );
-	
-	}
-	else	{
-
-		Rbdb_ErrorController_throwError(	Rbdb_Environment_errorController( parent_database->parent_database_controller->parent_environment ),
-																			-1,
-																			"Rbdb_Key_setType",
-																			"Cannot return type unless database has record typing or store key typing enabled." );
-		
-	}
 	
 }
 
@@ -222,17 +160,7 @@ void Rbdb_Key_setType(	Rbdb_Key*												key,
 //	(Rbdb_DatabaseRecordSettingsController_dataBufferSize) to 0 and checking the return value in the size field.
 uint32_t Rbdb_Key_size( Rbdb_Key* key )	{
 
-	uint32_t	size	=	Rbdb_DBT_size( (Rbdb_DBT*) key );
-
-	Rbdb_Database*																		parent_database																	=	key->parent_record->parent_database;
-	Rbdb_DatabaseSettingsController*									database_settings_controller										=	Rbdb_Database_settingsController( parent_database );
-	Rbdb_DatabaseRecordSettingsController*						database_record_settings_controller							=	Rbdb_DatabaseSettingsController_recordSettingsController( database_settings_controller );
-	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller	=	Rbdb_DatabaseRecordSettingsController_readWriteSettingsController( database_record_settings_controller );
-	if ( Rbdb_DatabaseRecordReadWriteSettingsController_recordTyping( database_record_read_write_settings_controller ) )	{
-		size -= sizeof( Rbdb_DatabaseRecordStorageType );
-	}
-
-	return size;
+	return Rbdb_DBT_size( (Rbdb_DBT*) key );
 }	
 
 /*******************************************************************************************************************************************************************************************
@@ -240,52 +168,3 @@ uint32_t Rbdb_Key_size( Rbdb_Key* key )	{
 																		Internal Methods
 ********************************************************************************************************************************************************************************************
 *******************************************************************************************************************************************************************************************/
-
-/******************
-*  appendKeyType  *
-******************/
-
-void Rbdb_Key_internal_appendType( Rbdb_Key* key )	{
-
-	//	create a new memory space that will hold key and type
-	int		new_size	=	key->wrapped_bdb_dbt->size + sizeof( Rbdb_DatabaseRecordStorageType );
-	void*	new_data	=	calloc( 1, new_size );
-	
-	//	copy key to new memory space
-	memcpy(	new_data,
-					key->wrapped_bdb_dbt->data,
-					key->wrapped_bdb_dbt->size );
-	
-	//	append type by copying
-	memcpy(	new_data + key->wrapped_bdb_dbt->size,
-					& key->type,
-					sizeof( Rbdb_DatabaseRecordStorageType ) );
-	
-	//	set data to new data
-	key->wrapped_bdb_dbt->data	=	new_data;	
-	key->wrapped_bdb_dbt->size	=	new_size;	
-}
-
-/***************
-*  keyType  *
-***************/
-
-//	return footer from a record that currently has a footer, regardless whether it has been written to database
-Rbdb_DatabaseRecordStorageType Rbdb_Key_internal_keyType( Rbdb_Key* key )	{
-
-	Rbdb_DatabaseRecordStorageType*	type	=	key->wrapped_bdb_dbt->data + key->wrapped_bdb_dbt->size - sizeof( Rbdb_DatabaseRecordStorageType );
-
-	return *type;
-}
-
-/*******************************
-*  addKeyTypeToExistingRecord  *
-*******************************/
-
-//	add a footer to a record that currently exists in the database but does not currently have one
-void Rbdb_Key_internal_addKeyTypeToExistingRecord( Rbdb_Key* key __attribute__ ((unused)) )	{
-
-	
-}
-
-

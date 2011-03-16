@@ -2,6 +2,9 @@
 	#define RBDB_TYPES
 
 	#include <db.h>
+	
+	#include <cerialize.h>
+	
 	#include "Rbdb_Constants.h"
 
 	//	File is listed in inverse order of type hierarchy - hierarchy goes bottom to top
@@ -98,23 +101,6 @@ typedef struct Rbdb_DatabaseAssociationSettingsController					Rbdb_DatabaseAssoc
 typedef struct Rbdb_CompactStatus											Rbdb_CompactStatus;
 typedef struct Rbdb_Directory												Rbdb_Directory;
 typedef struct Rbdb_DatabaseOpenedDuringTransaction						Rbdb_DatabaseOpenedDuringTransaction;
-
-typedef struct Rbdb_DataFooter1												Rbdb_DataFooter1;
-typedef	enum   Rbdb_DatabaseRecordStorageType										Rbdb_DatabaseRecordStorageType;
-
-//	Storage type formats
-typedef struct RbdbStorage_Raw 					RbdbStorage_Raw;
-typedef struct RbdbStorage_Integer 			RbdbStorage_Integer;
-typedef struct RbdbStorage_Float 				RbdbStorage_Float;
-typedef struct RbdbStorage_Complex 			RbdbStorage_Complex;
-typedef struct RbdbStorage_Rational	 		RbdbStorage_Rational;
-typedef struct RbdbStorage_String 			RbdbStorage_String;
-typedef struct RbdbStorage_Symbol 			RbdbStorage_Symbol;
-typedef struct RbdbStorage_Regexp 			RbdbStorage_Regexp;
-typedef struct RbdbStorage_FilePath 		RbdbStorage_FilePath;
-typedef struct RbdbStorage_File 				RbdbStorage_File;
-typedef struct RbdbStorage_TrueFalse		RbdbStorage_TrueFalse;
-typedef struct RbdbStorage_ClassName		RbdbStorage_ClassName;
 
 typedef		RBDB_SECONDARY_KEY_CREATION_RETURN	(*Rbdb_SecondaryKeyCallbackMethod)(	Rbdb_Database*			secondary_database,
 																																									Rbdb_Record*			primary_record,
@@ -795,14 +781,14 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 	
 							Rbdb_DatabaseSequence*									parent_sequence;
 	
-							BOOL													increasing;
-							BOOL													decreasing;
-							BOOL													wrapping;
-							db_seq_t												range_minimum;
-							db_seq_t												range_maximum;
-							int32_t													number_of_cached_elements;
-							db_seq_t												initial_value;
-							int32_t													default_step_value;
+							BOOL																		increasing;
+							BOOL																		decreasing;
+							BOOL																		wrapping;
+							db_seq_t																range_minimum;
+							db_seq_t																range_maximum;
+							int32_t																	number_of_cached_elements;
+							db_seq_t																initial_value;
+							int32_t																	default_step_value;
 	
 							Rbdb_SettingsController*								environment_settings_controller;
 	
@@ -812,122 +798,6 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 						 *	Record Storage Type	*
 						 ****************************/
 
-						enum Rbdb_DatabaseRecordStorageType	{
-							
-							RbdbType_Raw,
-							RbdbType_Integer,
-							RbdbType_Float,
-							RbdbType_Complex,
-							RbdbType_Rational,
-							RbdbType_String,
-							RbdbType_Symbol,
-							RbdbType_Regexp,
-							RbdbType_FilePath,
-							RbdbType_File,
-							RbdbType_TrueFalse,
-							RbdbType_ClassName,
-							RbdbType_RecordLocation
-							
-						};
-						
-						struct RbdbStorage_Raw	{
-						
-							void*				raw;
-						
-						};
-
-						struct RbdbStorage_Integer	{
-						
-							long		integer_value;
-							
-						};
-
-						struct RbdbStorage_Float	{
-						
-							double	float_value;
-						
-						};
-
-						struct RbdbStorage_Complex	{
-						
-							double	real;
-							double	imaginary;
-						
-						};
-
-						struct RbdbStorage_Rational	{
-						
-							double	numerator;
-							double	denominator;
-						
-						};
-
-						struct RbdbStorage_String	{
-							
-							char*				string;
-						
-						};
-
-						struct RbdbStorage_Symbol	{
-
-							char*				string;
-						
-						};
-
-						struct RbdbStorage_Regexp	{
-
-							char*				string;
-						
-						};
-
-						struct RbdbStorage_FilePath	{
-						
-							char*				filepath;
-						
-						};
-
-						struct RbdbStorage_File	{
-						
-							FILE*				file;
-						
-						};
-
-						struct RbdbStorage_TrueFalse	{
-						
-							BOOL				truefalse;
-							
-						};
-
-						struct RbdbStorage_ClassName	{
-						
-							char*				string;
-						
-						};
-
-						struct RbdbStorage_RecordLocation	{
-						
-							char*				index_name;
-							uint32_t		raw_data_size;
-							void*				raw_data;
-							
-						};
-
-						/****************************
-						 *	Data Footer	*
-						 ****************************/
-						
-						#define	RBDB_DATABASE_DATA_FOOTER_VERSION	1
-						struct Rbdb_DataFooter1	{
-							
-							struct timeval										creation_stamp;
-							struct timeval										modification_stamp;
-
-							Rbdb_DatabaseRecordStorageType		type;
-							
-							//	version needs to be last so we can look from the end to check
-							int																version;
-							
-						};
 
 						/****************************
 						 *	Data Type Definitions	*
@@ -1824,6 +1694,7 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 					Rbdb_Database*								primary_database;
 
 					Rbdb_DatabaseCursor**						cursor_list;
+          int                             number_of_cursors;
 					
 					BOOL										is_open;
 					
@@ -1950,7 +1821,7 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							//	Parent
 							Rbdb_Record*																	parent_record;
 
-							Rbdb_DatabaseRecordStorageType								type;
+							CerializeType								type;
 
 							uint32_t*																			size;
 							uint32_t*																			buffer_size;

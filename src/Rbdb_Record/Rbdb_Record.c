@@ -13,6 +13,8 @@
 #include "Rbdb_Record.h"
 #include "Rbdb_Record_internal.h"
 
+#include <cerialize.h>
+
 #include "Rbdb_Database_internal.h"
 
 #include "Rbdb_Key.h"
@@ -434,31 +436,58 @@ Rbdb_Record* Rbdb_Record_internal_newFromKeyData(	Rbdb_Database*	parent_database
 //	we add a footer when we write the first time, we update the footer when we write every time after that
 //	if database is converted out of record typing, an expensive conversion is done (all record data footers are removed)
 void Rbdb_Record_internal_createOrUpdateKeyTypeAndDataFooter( Rbdb_Record*	record,
-																															BOOL					prepare_footer_for_data )	{
+																															BOOL					prepare_data_in_record )	{
 
-	//	if we don't already have a footer, we need to create one and append it
-	if ( ! record->data->has_footer )	{
+  //  we are always handling at least a key and possibly a data
+  
+  //  first, our key
+	CerializedData*	cerialized_key	=	CerializedData_new( & record->key->wrapped_bdb_dbt->data,
+                                                        record->key->wrapped_bdb_dbt->size );	
 	
-		//	if we have record typing enabled we keep track of key and data types
-		//	this means we need to keep a key footer
-		//	the key footer must be statically producible without database information
-		//	this means that version-managing the key footer is more difficult, as we don't know how to retrieve old versions
-		//	as such, we simply use a type instead of a full footer (since the type is the information we actually need)
-		Rbdb_Key_internal_appendType( record->key );
-		//	we only want to prepare footer data if we are:
-		//	* writing data
-		//	* retrieving key/data pair (DB_GET_BOTH)
-		//	* deleting key/data pair
-		if ( prepare_footer_for_data )	{
-			Rbdb_Data_internal_createFooter( record->data );
-		}
+  //  if our key doesn't already have a type footer, create it
+	if ( ! CerializedData_internal_hasTypeFooter( cerialized_key ) )	{
+		CerializedData_internal_createTypeFooter( cerialized_key );
 	}
-	//	otherwise we need to update modification stamp
-	else {
+
+  //  set key type - we permit type changes, so we write every time
+	CerializedData_setType( cerialized_key, record->key->type );
+  
+  //  update size in our record since we added a type footer
+	record->key->wrapped_bdb_dbt->size = cerialized_key->size;
 	
-		Rbdb_Data_internal_updateFooter( record->data );
+  //  it is possible we need to prepare our data for either a type footer or data footer
+  //  a data footer adds time created/modified stamps to type specification
+	if ( prepare_data_in_record )	{
+
+    //  our data
+    CerializedData*	cerialized_data	=	CerializedData_new( & record->data->wrapped_bdb_dbt->data,
+                                                          record->data->wrapped_bdb_dbt->size );	
+
+    //  if data is set for footer, prepare data footer
+    if ( record->data->has_footer ) {
+
+      if ( CerializedData_internal_hasDataFooter( cerialized_data ) )	{
+        CerializedData_internal_updateDataFooter( cerialized_data );
+      }
+      else {
+        CerializedData_internal_createDataFooter( cerialized_data );
+      }
+    
+    }
+    //  otherwise, prepare type footer
+    else if ( ! CerializedData_internal_hasTypeFooter( cerialized_data ) )	{
+
+      CerializedData_internal_createTypeFooter( cerialized_data );
+
+    }
+
+    //  set data type - we permit type changes, so we write every time
+		CerializedData_setType( cerialized_data, record->data->type );
+
+    //  update size in our record since we added a type or data footer
+		record->data->wrapped_bdb_dbt->size = cerialized_data->size;
 		
 	}
-
+	
 }
 

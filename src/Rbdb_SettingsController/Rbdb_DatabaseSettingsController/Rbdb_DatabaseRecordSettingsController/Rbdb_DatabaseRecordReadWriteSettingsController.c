@@ -759,7 +759,7 @@ BOOL Rbdb_DatabaseRecordReadWriteSettingsController_syncPriorToWriteReturn( Rbdb
 *  storeKeyTyping  *
 *******************/
 
-Rbdb_DatabaseRecordStorageType Rbdb_DatabaseRecordReadWriteSettingsController_storeKeyTyping( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+CerializeType Rbdb_DatabaseRecordReadWriteSettingsController_storeKeyTyping( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 	return database_record_read_write_settings_controller->store_key_typing;
 }
@@ -769,7 +769,7 @@ Rbdb_DatabaseRecordStorageType Rbdb_DatabaseRecordReadWriteSettingsController_st
 	*************************/
 
 	void Rbdb_DatabaseRecordReadWriteSettingsController_turnStoreKeyTypingOn(	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller,
-																																						Rbdb_DatabaseRecordStorageType										database_record_storage_type	)	{
+																																						CerializeType										database_record_storage_type	)	{
 	
 		database_record_read_write_settings_controller->store_key_typing = database_record_storage_type;
 	}
@@ -787,7 +787,7 @@ Rbdb_DatabaseRecordStorageType Rbdb_DatabaseRecordReadWriteSettingsController_st
 *  storeDataTyping  *
 ********************/
 
-Rbdb_DatabaseRecordStorageType Rbdb_DatabaseRecordReadWriteSettingsController_storeDataTyping( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
+CerializeType Rbdb_DatabaseRecordReadWriteSettingsController_storeDataTyping( Rbdb_DatabaseRecordReadWriteSettingsController* database_record_read_write_settings_controller )	{
 	
 	return database_record_read_write_settings_controller->store_data_typing;
 }
@@ -797,7 +797,7 @@ Rbdb_DatabaseRecordStorageType Rbdb_DatabaseRecordReadWriteSettingsController_st
 	**************************/
 
 	void Rbdb_DatabaseRecordReadWriteSettingsController_turnStoreDataTypingOn(	Rbdb_DatabaseRecordReadWriteSettingsController*		database_record_read_write_settings_controller,
-																																							Rbdb_DatabaseRecordStorageType										database_record_storage_type	)	{
+																																							CerializeType										database_record_storage_type	)	{
 	
 		database_record_read_write_settings_controller->store_data_typing = database_record_storage_type;
 	}

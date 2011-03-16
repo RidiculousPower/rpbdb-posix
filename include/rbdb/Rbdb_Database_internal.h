@@ -31,7 +31,7 @@ Rbdb_Record*	Rbdb_Database_internal_writeKeyDataPair(	Rbdb_Database*	database,
 
 void Rbdb_Database_internal_prepareRecordForWriteRetrieveDelete(	Rbdb_Database*		database, 
 																																	Rbdb_Record*			record,
-																																	BOOL							prepare_footer_for_data );
+																																	BOOL							prepare_data_in_record );
 																			
 Rbdb_Record* Rbdb_Database_internal_retrieveRawKeyDataPair(	Rbdb_Database*			database, 
 																			   uint32_t								flag, 

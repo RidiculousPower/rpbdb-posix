@@ -126,12 +126,6 @@
 		parent->runtime_storage_database	=	runtime_storage_database;
 
 
-	#define Rbdb_DataFooterCurrentVersion																1
-
-	//	we need two macros so the version macro is resolved before being concatenated
-	#define Rbdb_DataFooterTypeForVersion( version )										Rbdb_DataFooterTypeForVersion_concat( version )
-	#define Rbdb_DataFooterTypeForVersion_concat( version )							Rbdb_DataFooter ## version
-
 	#define Rbdb_Data_endOfFooter(data)															data->wrapped_bdb_dbt->data + data->wrapped_bdb_dbt->size
 			
 #endif

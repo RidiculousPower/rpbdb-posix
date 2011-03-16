@@ -6,13 +6,14 @@ include( RecursivelyIncludeSource )
 
 #	make sure we have libdb
 find_package( BerkeleyDB REQUIRED )
+find_package( Cerialize REQUIRED )
 
 get_directory_property( cmake_current_include_dir INCLUDE_DIRECTORIES )
 
 recursively_include_src( ${cmake_current_include_dir} "headers" )
 recursively_include_src( ${CMAKE_CURRENT_SOURCE_DIR} "source" )
 
-set( rbdb_include_dirs ${DB_INCLUDE_DIRS} ${cmake_current_include_dir} ${rbdb_directories})
+set( rbdb_include_dirs ${DB_INCLUDE_DIRS} ${cmake_current_include_dir} ${rbdb_directories} ${CERIALIZE_INCLUDE_DIRS})
 include_directories( ${rbdb_include_dirs} )
 LINK_DIRECTORIES( "/usr/local/lib" )
 
@@ -21,6 +22,7 @@ message( STATUS "include dirs: ${rbdb_include_dirs}")
 #	define shared library with sources
 add_library( rbdb SHARED ${rbdb_src} )
 target_link_libraries( rbdb db )
+target_link_libraries( rbdb cerialize )
 
 #add_library( rbdb_static STATIC ${rbdb_src} )
 #target_link_libraries( rbdb_static ${LIBS} )
