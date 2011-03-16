@@ -219,7 +219,7 @@ Rbdb_Record* Rbdb_DatabaseJoinCursor_retrievePrimaryKeysForJoinData( Rbdb_Databa
 //	each call to iterate returns a record from the join cursor
 Rbdb_Record* Rbdb_DatabaseJoinCursor_iterate(	Rbdb_DatabaseJoinCursor*	database_join_cursor )	{
 	
-	Rbdb_Record*	record	=	Rbdb_Record_new( database_join_cursor->primary_database );//Rbdb_DatabaseCursor_retrieveCurrent( database_join_cursor->cursor_list[ 0 ] );
+	Rbdb_Record*	record	=	Rbdb_Record_new( database_join_cursor->primary_database );
 
 	int	error	=	0;
 	if ( ( error  = database_join_cursor->wrapped_bdb_join_cursor->get(	database_join_cursor->wrapped_bdb_join_cursor,
@@ -237,7 +237,12 @@ Rbdb_Record* Rbdb_DatabaseJoinCursor_iterate(	Rbdb_DatabaseJoinCursor*	database_
 																										error, 
 																										"Rbdb_DatabaseJoinCursor_iterate" );		
 		}
+
 	}
+  else  {
+  
+    record->result = TRUE;
+  }
 
 	return record;
 }

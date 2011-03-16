@@ -440,8 +440,10 @@ void Rbdb_Database_close( Rbdb_Database* database )	{
 		//	first, if this database is primary, close its secondary databases before closing self
 		if ( Rbdb_Database_isPrimary( database ) )	{
 			
-			Rbdb_Database_closeAllSecondaryDatabases( database );
-			Rbdb_Database_freeAllSecondaryDatabases( database );
+      if ( database->secondary_database ) {
+        Rbdb_Database_closeAllSecondaryDatabases( database );
+        Rbdb_Database_freeAllSecondaryDatabases( database );
+      }
 		}
 		
 		Rbdb_Environment*	environment	=	database->parent_database_controller->parent_environment;
