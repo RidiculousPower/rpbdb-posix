@@ -227,10 +227,10 @@ void Rbdb_Database_internal_freeFromRuntimeStorage( Rbdb_Database** database )	{
 	if ( ( *database )->join_controller != NULL )	{
 		Rbdb_DatabaseJoinController_free( & ( ( *database )->join_controller ) );
 	}
-	
+
 	//	close cursor controller and cursors
 	if ( ( *database )->cursor_controller != NULL )	{
-		Rbdb_DatabaseCursorController_free( & ( ( *database )->cursor_controller ) );
+//		Rbdb_DatabaseCursorController_free( & ( ( *database )->cursor_controller ) );
 	}
 
 	//	close sequence controller and cursors
@@ -575,7 +575,7 @@ void Rbdb_Database_closeAllSecondaryDatabases( Rbdb_Database* database )	{
 void Rbdb_Database_freeAllSecondaryDatabases( Rbdb_Database* database )	{
 	
 	Rbdb_Database**	current_secondary_database	=	NULL;
-	Rbdb_Database**	next_secondary_database		=	NULL;
+	Rbdb_Database**	next_secondary_database     =	NULL;
 	
 	if ( database->secondary_database != NULL )	{
 	
@@ -583,16 +583,17 @@ void Rbdb_Database_freeAllSecondaryDatabases( Rbdb_Database* database )	{
 		
 		//	for each database->secondary_database 
 		do	{
-						
+      
 			//	if secondary_database->secondary_database is set, save it
 			if (		*current_secondary_database
 					&&	( *current_secondary_database )->secondary_database != NULL )	{
 				next_secondary_database	=	&( ( *current_secondary_database )->secondary_database );
+			
 			}
-			
-			//	free secondary_database
-			Rbdb_Database_free( current_secondary_database );
-			
+
+      //	free secondary_database
+      Rbdb_Database_free( current_secondary_database );
+      
 			//	set secondary_database to saved secondary_database->secondary_database and repeat
 			current_secondary_database = next_secondary_database;
 			

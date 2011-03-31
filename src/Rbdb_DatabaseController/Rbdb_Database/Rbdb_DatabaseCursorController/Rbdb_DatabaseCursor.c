@@ -71,6 +71,7 @@ Rbdb_DatabaseCursor* Rbdb_DatabaseCursor_new( Rbdb_DatabaseCursorController* par
 	database_cursor->iteration_started	=	0;
 	database_cursor->is_open						=	FALSE;
 	database_cursor->name								=	NULL;
+	database_cursor->retrieved_record   =	FALSE;
 
 	return database_cursor;
 }
@@ -629,14 +630,11 @@ BOOL Rbdb_DatabaseCursor_keyExists(	Rbdb_DatabaseCursor*		database_cursor,
 																													DB_SET, 
 																													record );
 	
-	BOOL	exists_in_database	=	record->data->wrapped_bdb_dbt->size ? TRUE : FALSE;
+	BOOL	exists_in_database	=	( record->result == TRUE );
 	
 	Rbdb_Record_free( & record );
 	
-	if ( exists_in_database )	{
-		return TRUE;
-	}
-	return FALSE;
+	return exists_in_database;
 }
 
 /*****************************
@@ -1178,8 +1176,14 @@ Rbdb_Record* Rbdb_DatabaseCursor_iterate(	Rbdb_DatabaseCursor*	database_cursor,
 	//	1 arg: if true - force iterate all 
 
 	if ( database_cursor->iteration_started == FALSE )	{
-		Rbdb_DatabaseCursor_internal_retrieveCurrent(	database_cursor,
-																									record );
+    if ( database_cursor->retrieved_record == FALSE ) {
+      Rbdb_DatabaseCursor_internal_retrieveFirst(	database_cursor,
+                                                  record );
+    }
+    else  {
+      Rbdb_DatabaseCursor_internal_retrieveCurrent(	database_cursor,
+                                                    record );
+    }
 		database_cursor->iteration_started = TRUE;
 	}
 	else {
@@ -1756,6 +1760,8 @@ Rbdb_Record* Rbdb_DatabaseCursor_internal_retrieveRecord(	Rbdb_DatabaseCursor*		
 		}
 		else {
 			record->result = TRUE;
+      //  also note that this cursor now has a record set
+      database_cursor->retrieved_record = TRUE;
 		}
 
 	}
@@ -1785,7 +1791,9 @@ Rbdb_Record* Rbdb_DatabaseCursor_internal_retrieveRecord(	Rbdb_DatabaseCursor*		
 			}
 		}
 		else {
-			record->result = TRUE;
+			record->result                    = TRUE;
+      //  also note that this cursor now has a record set
+      database_cursor->retrieved_record = TRUE;
 		}
 	}
 	
@@ -1811,6 +1819,15 @@ Rbdb_Record* Rbdb_DatabaseCursor_internal_retrieveFirst(	Rbdb_DatabaseCursor*	cu
 Rbdb_Record* Rbdb_DatabaseCursor_internal_retrieveCurrent(	Rbdb_DatabaseCursor*	cursor,
 																														Rbdb_Record*					record )	{
 	
+  if ( cursor->retrieved_record == FALSE )  {
+  
+    Rbdb_Environment*	environment	= cursor->parent_database_cursor_controller->parent_database->parent_database_controller->parent_environment;
+    Rbdb_ErrorController_throwError(	Rbdb_Environment_errorController( environment ), 
+                                      -1, 
+                                      "Rbdb_DatabaseCursor_internal_retrieveCurrent",
+                                      "Cannot retrieve 'current' record until 'current' has been set." );
+  }
+  
 	return Rbdb_DatabaseCursor_internal_retrieveRecord(	cursor,
 																											DB_CURRENT,
 																											record );

@@ -420,6 +420,8 @@ Rbdb_Record* Rbdb_Record_internal_newFromKeyData(	Rbdb_Database*	parent_database
 	dbt_key->parent_record	= record;
 	record->data			= dbt_data;
 	dbt_data->parent_record	= record;
+  
+  record->primary_key = Rbdb_Key_new( record );
 	
 	return record;	
 }

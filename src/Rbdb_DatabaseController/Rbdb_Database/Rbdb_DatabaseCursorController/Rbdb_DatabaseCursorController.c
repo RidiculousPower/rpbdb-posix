@@ -65,7 +65,7 @@ void Rbdb_DatabaseCursorController_free( Rbdb_DatabaseCursorController** databas
 		Rbdb_DatabaseCursorController_freeAllCursors( *database_cursor_controller );
 		Rbdb_Database_free( & ( ( *database_cursor_controller )->runtime_storage_database ) );
 	}
-	
+
 	//	free self
 	free( *database_cursor_controller );
 	*database_cursor_controller		=	NULL;

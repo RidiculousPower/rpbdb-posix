@@ -1744,6 +1744,8 @@ typedef		char* (*Rbdb_FormatThreadAndProcessIdentifierForDisplayCallbackMethod)(
 							
 							BOOL										is_open;
 							
+              BOOL                    retrieved_record;
+              
 							BOOL										iteration_started;
 							int											duplicate_iteration_started;
 							
